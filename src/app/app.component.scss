@@ -1,0 +1,27 @@
+.body {
+  background-color: black;
+}
+/* Fija el header en la parte superior */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+/* Espacio debajo del header */
+app-banner {
+  margin-top: 60px; /* Ajusta este valor según la altura de tu header */
+}
+
+/* Estilo inicial del header */
+.fixed-header {
+  background-color: transparent; /* Sin fondo inicialmente */
+}
+
+/* Estilo del header al hacer scroll */
+.fixed-header.scrolled {
+  background-color: rgb(255, 255, 255); /* Cambia el fondo al hacer scroll */
+}
