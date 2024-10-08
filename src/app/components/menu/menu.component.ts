@@ -1,5 +1,9 @@
-import { Component, HostListener } from '@angular/core';
-import { MatDrawerMode } from '@angular/material/sidenav';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { LanguageService } from '../shared/language.service';
+import { translations, SupportedLanguages  } from './menu.component.conf';
+
+
+type Language = 'en' | 'es';
 
 @Component({
   selector: 'app-menu',
@@ -7,7 +11,8 @@ import { MatDrawerMode } from '@angular/material/sidenav';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
-
+  currentLanguage: Language = 'en';
+  navItems: Array<{ name: string; route: string }> = [];
   scrolled = '';
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -19,22 +24,32 @@ export class MenuComponent {
     }
   }
 
-  navItems = [
-    {
-      name: 'Home',
-      submenu: [
-        { name: 'App Landing', route: '/app-landing' },
-        { name: 'Software Landing', route: '/software-landing' },
-        { name: 'Creative Agency', route: '/creative-agency' },
-        // Otros submenús
-      ]
-    },
-    { name: 'Expertise', route: '/#expertise' },
-    { name: 'Portfolio', route: '/#portfolio' },
-    { name: 'About', route: '/#about' },
-    { name: 'Blog', route: '/#blog' },
-    { name: 'Contact', route: '/#contact' }
-  ];
+  constructor( private languageService: LanguageService) {
+    this.updateNavItems();
+
+  }
+
+
+  changeLanguage(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.languageService.changeLanguage(target.value);
+    this.updateNavItems();
+  }
+
+
+  updateNavItems() {
+    const lang = localStorage.getItem('language');
+    this.currentLanguage = (lang === 'en' || lang === 'es') ? lang : 'en'
+    const menuItems = translations[this.currentLanguage];
+    this.navItems = [
+      { name: menuItems.home, route: '' },
+      { name: menuItems.expertise, route: '/#expertise' },
+      { name: menuItems.portfolio, route: '/#portfolio' },
+      { name: menuItems.about, route: '/about' },
+      { name: menuItems.blog, route: '/#blog' },
+      { name: menuItems.contact, route: '/#contact' },
+    ];
+  }
 
   isMenuOpen = false;
 

@@ -1,0 +1,36 @@
+{
+  "startTittle":"Custom Software Development",
+  "startDescription":"At Appland, we specialize in creating custom technology solutions tailored to meet the unique needs of your business. With over 12 years in the industry and a solid reputation, we are your strategic partner in digital transformation. Whether you need a mobile app, a web platform, or a large-scale enterprise solution, we have the team and experience to bring your ideas to life.",
+  "ourService":"Our Services",
+  "ourServiceDescription":{
+    "mobile": {
+      "title": "Mobile Applications:",
+      "description": "We develop intuitive and functional apps for iOS and Android."
+    },
+    "web":{
+      "title": "Custom Web Systems:",
+      "description": "We build web platforms designed to meet your business needs."
+    },
+    "consulting":{
+      "title": "Digital Consulting:",
+      "description": "We guide you through every step of your company's digital transformation."
+    }
+  },
+  "whyAppland":"Why Choose Appland",
+  "whyApplandDescription":{
+    "experience": {
+      "title": "Proven Experience:",
+      "description": "Over a decade of experience in software development."
+    },
+    "solutions":{
+      "title": "Scalable Solutions:",
+      "description": "We ensure our solutions grow alongside your business."
+    },
+    "attention":{
+      "title": "Personalized Attention:",
+      "description": "Every client is unique, and we focus on delivering tailor-made solutions."
+    }
+  },
+  "contact": "Contact Us",
+  "contactDescription": "Let us help you transform your business with innovative technology solutions. Let's talk about how we can work together!"
+}

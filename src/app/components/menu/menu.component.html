@@ -3,7 +3,7 @@
     <mat-icon class="icon">menu</mat-icon>
   </button>
   <div class="logo {{scrolled}}">
-    <img src="assets/images/logo-appland.png" alt="Appku Logo" />
+    <img src="assets/images/logo-appland.png" alt="appland Logo" />
     <h1>APPLAND</h1>
   </div>
   <ul>
@@ -11,6 +11,12 @@
       <a [routerLink]="item.route" class="{{scrolled}}">{{ item.name }}</a>
     </li>
   </ul>
+  <div>
+    <select (change)="changeLanguage($event)" [value]="currentLanguage">
+      <option value="en">En</option>
+      <option value="es">Es</option>
+    </select>
+  </div>
   <button class="info-button" (click)="toggleInfo()">
     <mat-icon class="icon {{scrolled}}">card_travel</mat-icon>
   </button>

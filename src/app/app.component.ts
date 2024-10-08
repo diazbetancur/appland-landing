@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { LanguageService } from './components/shared/language.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component, HostListener } from '@angular/core';
 })
 export class AppComponent {
   title = 'appland';
+
+  constructor( private languageService: LanguageService) {
+  }
+
+  changeLanguage(lang: string) {
+    this.languageService.changeLanguage(lang);
+  }
 }
