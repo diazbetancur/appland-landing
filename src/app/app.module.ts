@@ -16,6 +16,7 @@ import { HttpClientModule, HttpClient  } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { WhyComponent } from './components/why/why.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -27,7 +28,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BannerComponent,
     ServiceComponent,
     AboutComponent,
-    WhyComponent
+    WhyComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
