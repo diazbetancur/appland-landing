@@ -1,20 +1,29 @@
 .banner{
   width: 100%;
-  height: calc(100% - 80px);
+  height: calc(100% + 40px);
   background-position: center center !important;
   background-size: cover !important;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
-
-.banner img {
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0;
+.container-banner{
+  width: 98vw;
+  flex-direction: row;
+  display: flex;
+  position: absolute;
 }
+
+.img {
+  padding: 2%;
+  img{
+    width: 100%;
+  }
+}
+
 
 .container {
   width: 100%;
@@ -29,10 +38,34 @@
 
 .title-info{
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 8%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .description {
   color: white;
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+
+.text {
+  width: 100%;
+  padding: 110px;
+  text-align: left;
+}
+
+.text-title{
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  text-align: right;
+  max-width: 67%;
+  word-break: break-word;
+  white-space: normal;
 }
