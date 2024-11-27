@@ -2,26 +2,77 @@
   background-color: black;
 }
 /* Fija el header en la parte superior */
-.fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
-}
+// .fixed-header {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   z-index: 1000;
+//   transition: background-color 0.3s ease;
+// }
 
 /* Espacio debajo del header */
-app-banner {
-  margin-top: 60px; /* Ajusta este valor según la altura de tu header */
-}
+// app-banner {
+//   margin-top: 60px; /* Ajusta este valor según la altura de tu header */
+// }
 
 /* Estilo inicial del header */
-.fixed-header {
-  background-color: transparent; /* Sin fondo inicialmente */
+// .fixed-header {
+//   background-color: transparent; /* Sin fondo inicialmente */
+// }
+
+// /* Estilo del header al hacer scroll */
+// .fixed-header.scrolled {
+//   background-color: rgb(255, 255, 255); /* Cambia el fondo al hacer scroll */
+// }
+
+div {
+  position: relative; /* Necesario para que la posición absoluta de .social funcione */
 }
 
-/* Estilo del header al hacer scroll */
-.fixed-header.scrolled {
-  background-color: rgb(255, 255, 255); /* Cambia el fondo al hacer scroll */
+.img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.social {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.social-icons a img {
+  width:6%;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .social h1 {
+    font-size: 1.2rem;
+  }
+
+  .social-icons a img {
+    width:17%;
+  }
 }
