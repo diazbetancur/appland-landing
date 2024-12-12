@@ -2,43 +2,39 @@
   <div class="title-info">
     <h2>{{ 'ourService' | translate}}</h2>
   </div>
-  <div class="services">
-    <div class="service-card">
-      <div>
-        <img src="assets/images/appmobile.jpg" alt />
-        <div class="service">
-          <div class="title-card">
-            <h5>{{ 'ourServiceDescription.mobile.title' | translate}}</h5>
-          </div>
-          <div class="description">
-            <p>{{ 'ourServiceDescription.mobile.description' | translate}}</p>
-          </div>
+  <div class="services" *ngIf="!isMobile">
+    <div class="service-card" *ngFor="let service of services">
+      <img src="assets/images/{{ service.image }}" alt />
+      <div class="service">
+        <div class="title-card">
+          <h5>{{ service.title | translate }}</h5>
+        </div>
+        <div class="description">
+          <p>{{ service.description | translate }}</p>
         </div>
       </div>
     </div>
-    <div class="service-card">
-      <div>
-        <img src="assets/images/web.jpg" alt />
-      </div>
+  </div>
+  <div
+    class="services-carousel"
+    *ngIf="isMobile"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd($event)"
+  >
+    <div
+      class="service-card"
+      *ngFor="let service of services; let i = index"
+      [@slideAnimation]="i === currentIndex ? 'active' : 'inactive'"
+      [class.active]="i === currentIndex"
+    >
+      <img src="assets/images/{{ service.image }}" alt />
       <div class="service">
         <div class="title-card">
-          <h5>{{ 'ourServiceDescription.web.title' | translate}}</h5>
+          <h5>{{ service.title | translate }}</h5>
         </div>
         <div class="description">
-          <p>{{ 'ourServiceDescription.web.description' | translate}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="service-card">
-      <div>
-        <img src="assets/images/consulting.jpg" alt />
-      </div>
-      <div class="service">
-        <div class="title-card">
-          <h5>{{ 'ourServiceDescription.consulting.title' | translate}}</h5>
-        </div>
-        <div class="description">
-          <p>{{ 'ourServiceDescription.consulting.description' | translate}}</p>
+          <p>{{ service.description | translate }}</p>
         </div>
       </div>
     </div>

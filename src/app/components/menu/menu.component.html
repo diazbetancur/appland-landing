@@ -1,16 +1,16 @@
 <mat-toolbar class="toolbar {{scrolled}}">
-  <button class="menu-button" (click)="toggleMenu()">
+  <button class="menu-button" (click)="toggleMenu()" style="display: none;">
     <mat-icon class="icon">menu</mat-icon>
   </button>
   <div class="logo {{scrolled}}">
     <img src="assets/images/logo-appland.png" alt="appland Logo" />
     <h1>APPLAND</h1>
   </div>
-  <ul>
+  <!-- <ul>
     <li *ngFor="let item of navItems">
       <a [routerLink]="item.route" class="{{scrolled}}">{{ item.name }}</a>
     </li>
-  </ul>
+  </ul> -->
   <div>
     <select (change)="changeLanguage($event)" [value]="currentLanguage">
       <option value="en">En</option>
@@ -23,7 +23,7 @@
 </mat-toolbar>
 
 <!-- Sidebar Menu -->
-<div class="sidebar" [ngClass]="{'open': isMenuOpen}">
+<div class="sidebar" [ngClass]="{'open': isMenuOpen}" *ngIf="false">
   <div class="title-menu">
     <div class="logo-sidebar">
       <img src="assets/images/logo-appland.png" alt="Appku Logo" />
@@ -46,7 +46,7 @@
 <div class="sidebar-info" [ngClass]="{'open': isInfoOpen}">
   <div class="title-info">
     <div class="logo-sidebar-info">
-      <img src="assets/images/logo-appland.png" alt="Appku Logo" />
+      <img src="assets/images/logo-appland.png" alt />
       <h1>APPLAND</h1>
     </div>
     <button class="close-button" (click)="toggleInfo()">
@@ -70,20 +70,23 @@
         <strong>+343 34343 3434</strong>
       </div>
     </div>
-    <div class="social-media">
-      <button class="close-button">
-        <mat-icon class="icon-info-close">close</mat-icon>
-      </button>
-      <button class="close-button" >
-        <mat-icon class="icon-info-close">close</mat-icon>
-      </button>
-      <button class="close-button" >
-        <mat-icon class="icon-info-close">close</mat-icon>
-      </button>
+    <div class="social">
+      <p><strong>Social Media</strong></p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/applandhn" target="_blank">
+          <img src="assets/images/facebook.png" alt="Facebook" />
+        </a>
+        <a href="https://www.instagram.com/appland.inc/" target="_blank">
+          <img src="assets/images/instagram.png" alt="Instagram" />
+        </a>
+        <a href="https://www.linkedin.com/company/appland-inc/" target="_blank">
+          <img src="assets/images/linkedin.png" alt="LinkedIn" />
+        </a>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- Overlay -->
-<div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()"></div>
-<div class="overlay" [ngClass]="{'active': isInfoOpen}" (click)="toggleInfo()"></div>
+<div class="overlay" [ngClass]="{'active': isMenuOpen}" (click)="toggleMenu()" onkeydown=""></div>
+<div class="overlay" [ngClass]="{'active': isInfoOpen}" (click)="toggleInfo()" onkeydown=""></div>
