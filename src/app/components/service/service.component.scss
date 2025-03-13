@@ -9,39 +9,10 @@
   padding: 20px;
 }
 
-.title-info{
+.title-info {
   color: white;
-  margin-bottom: 10px;
-}
-
-.title-card{
-  color: black;
-  margin-bottom: 10px;
-}
-
-.description {
-  color: black;
-  margin-bottom: 10px;
-  font-size: 1rem;
-}
-
-.services {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.services > div {
-  flex: 1;
   text-align: center;
-}
-
-.services img {
   width: 100%;
-  max-width: 300px;
-  height: auto;
-  margin-bottom: 5px;
 }
 
 .service-card {
@@ -54,6 +25,103 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
-  width: 300px;
-  margin: 20px;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto; // Centered horizontally
+}
+
+.service-card img {
+  width: 100%;
+  max-width: 250px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.service {
+  width: 100%;
+}
+
+.title-card {
+  color: black;
+  margin-bottom: 10px;
+}
+
+.title-card h5 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.description {
+  color: black;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.services {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.services-carousel {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center; // Center carousel content
+  align-items: center;
+  overflow: hidden;
+}
+
+.services-carousel .service-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 40px);
+  max-width: 300px;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.services-carousel .service-card.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .services {
+    display: none;
+  }
+  .services-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 550px;
+  }
+
+  .service-card {
+    width: calc(100% - 40px);
+    max-width: 300px;
+    margin: 20px auto;
+  }
+
+  .service-card img {
+    max-width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .title-card h5 {
+    font-size: 1.1rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
 }

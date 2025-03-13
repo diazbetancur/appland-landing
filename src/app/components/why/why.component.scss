@@ -9,7 +9,7 @@
   padding: 20px;
 }
 
-.title-info{
+.title-info {
   color: white;
   margin-bottom: 10px;
 }
@@ -44,7 +44,7 @@
   justify-content: center;
 }
 
-.title-why img{
+.title-why img {
   width: 7%;
   height: auto;
   margin-right: 2%;
@@ -55,7 +55,8 @@
   font-size: 1.2em;
   color: white;
 }
-.description-why{
+
+.description-why {
   margin-bottom: 10%;
 }
 
@@ -63,4 +64,24 @@
   font-size: 0.7em;
   color: white;
   margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .why {
+    flex-direction: column;
+  }
+
+  .why-item {
+    max-width: 100%;
+    padding: 5%;
+  }
+
+  .why-image {
+    max-width: 100%;
+    margin-top: 20px;
+  }
+
+  .why-image img {
+    width: 90%;
+  }
 }

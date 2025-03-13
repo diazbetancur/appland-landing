@@ -170,11 +170,12 @@ a:hover {
 .sidebar-info {
   position: fixed;
   top: 0;
-  right: -80%;
+  right: -100%;
   width: 400px;
-  height: 100%;
+  width: 100%;
+  max-width: 400px;
   background-color: white;
-  z-index: 1000;
+  z-index: 1100;
   padding: 20px 0;
   transition: right 0.3s ease;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
@@ -187,7 +188,7 @@ a:hover {
 
 .title-info {
   margin-top: 40px;
-  background-color: #040836;
+  background-color: black;
   display: inline-flex;
   width: 100%;
   justify-content: space-around;
@@ -228,7 +229,7 @@ a:hover {
   text-transform: uppercase;
   font-weight: 900;
   margin-bottom: 0;
-  color: #040836;
+  color: black;
 }
 
 .contact-info strong{
@@ -245,6 +246,20 @@ p {
 }
 
 @media screen and (max-width: 768px) {
+
+  .sidebar-info {
+    width: 100%;
+    right: -100%;
+  }
+
+  .sidebar-info.open {
+    right: 0;
+  }
+
+  .title-info {
+    padding: 20px 10px;
+  }
+
   ul {
     display: none;
   }
@@ -278,4 +293,28 @@ p {
     padding-bottom: 10px;
     border-bottom: solid 1px #e0e0e0;
   }
+}
+
+.social {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.social p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  background-color: black;
+}
+
+.social-icons img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
 }
