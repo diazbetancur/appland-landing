@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { LanguageService } from '../shared/language.service';
-import { translations, SupportedLanguages  } from './menu.component.conf';
-
+import { translations, SupportedLanguages } from './menu.component.conf';
 
 type Language = 'en' | 'es';
 
@@ -24,11 +23,9 @@ export class MenuComponent {
     }
   }
 
-  constructor( private languageService: LanguageService) {
+  constructor(private languageService: LanguageService) {
     this.updateNavItems();
-
   }
-
 
   changeLanguage(event: Event) {
     const target = event.target as HTMLSelectElement;
@@ -36,10 +33,9 @@ export class MenuComponent {
     this.updateNavItems();
   }
 
-
   updateNavItems() {
     const lang = localStorage.getItem('language');
-    this.currentLanguage = (lang === 'en' || lang === 'es') ? lang : 'en'
+    this.currentLanguage = lang === 'en' || lang === 'es' ? lang : 'en';
     const menuItems = translations[this.currentLanguage];
     this.navItems = [
       { name: menuItems.home, route: '' },
@@ -62,5 +58,6 @@ export class MenuComponent {
   toggleInfo() {
     this.isInfoOpen = !this.isInfoOpen;
   }
-  info = 'Arrived compass prepare an on as. Reasonable particular on my it in sympathize. Size now easy eat hand how. Unwilling he departure elsewhere dejection at. Heart large seems may purse means few blind.'
+  info =
+    '¡Bienvenidos a APPLAND! Con una sólida trayectoria de más de 12 años, somos líderes en el desarrollo de software a medida y soluciones digitales en nuestra zona. No solo creamos código; damos vida y empoderamos tus ideas con soluciones tecnológicas.';
 }
