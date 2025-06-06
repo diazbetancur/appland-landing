@@ -1,0 +1,13 @@
+<div class="title-info">
+  <h2>{{ "ourClients" | translate }}</h2>
+  <section class="logo-carousel">
+    <div class="logo-group">
+      <img
+        *ngFor="let logo of logos.concat(logos)"
+        [src]="'assets/images/clients/' + logo"
+        alt
+        class="logo-img"
+      />
+    </div>
+  </section>
+</div>

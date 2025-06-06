@@ -10,9 +10,29 @@
 }
 
 .title-info {
+  position: relative;
   color: white;
   text-align: center;
   width: 100%;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-block; // Para que el ::after se ajuste al texto
+  padding-bottom: 1rem; // Espacio para que la imagen se vea bien
+  z-index: 1;
+}
+
+.title-info::after {
+  left: 0;
+  bottom: -17px;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: url(../../../assets/images/line-title.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: -1;
+  background-position: left bottom;
+  transform: rotate(5deg);
 }
 
 .service-card {
