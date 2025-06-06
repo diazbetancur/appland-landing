@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.team-coverage {
+  background: #f0f4f7;
+  padding: 4rem 0;
+  text-align: center;
+
+  .flags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+
+    span {
+      font-size: 1.25rem;
+      background: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+  }
+}

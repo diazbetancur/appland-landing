@@ -12,7 +12,7 @@ export class OurClientsComponent {
     'GrupoTerra.png',
     'logo-tengo.png',
     'logo-Toyota.png',
-    'logoDilo.png',
+    'LogoDilo.png',
     'Pepsi-Logo.png',
     'tigo.png',
   ];
