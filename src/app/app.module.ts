@@ -17,6 +17,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { WhyComponent } from './components/why/why.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './feature/pages/home/home.component';
+import { OurClientsComponent } from './components/our-clients/our-clients.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -29,7 +31,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ServiceComponent,
     AboutComponent,
     WhyComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent,
+    OurClientsComponent
   ],
   imports: [
     BrowserModule,

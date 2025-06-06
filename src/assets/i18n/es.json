@@ -1,36 +1,37 @@
 {
-  "startTittle":"Desarrollo de Software a la Medida",
-  "startDescription":"En Appland, nos especializamos en crear soluciones tecnológicas personalizadas para satisfacer las necesidades únicas de tu negocio. Con más de 12 años en la industria y una sólida reputación, somos tu socio estratégico en la transformación digital. Ya sea que necesites una aplicación móvil, una plataforma web, o una solución empresarial a gran escala, contamos con el equipo y la experiencia para llevar tus ideas a la realidad.",
-  "ourService":"Nuestros Servicios",
-  "ourServiceDescription":{
+  "startTittle": "Desarrollo de Software a la Medida",
+  "startDescription": "En Appland, nos especializamos en crear soluciones tecnológicas personalizadas para satisfacer las necesidades únicas de tu negocio. Con más de 12 años en la industria y una sólida reputación, somos tu socio estratégico en la transformación digital. Ya sea que necesites una aplicación móvil, una plataforma web, o una solución empresarial a gran escala, contamos con el equipo y la experiencia para llevar tus ideas a la realidad.",
+  "ourService": "Nuestros Servicios",
+  "ourServiceDescription": {
     "mobile": {
       "title": "Aplicaciones móviles:",
       "description": "Desarrollamos apps intuitivas y funcionales para iOS y Android.."
     },
-    "web":{
+    "web": {
       "title": "Sistemas web personalizados:",
       "description": "Creamos plataformas web adaptadas a las necesidades de tu empresa."
     },
-    "consulting":{
+    "consulting": {
       "title": "Consultoría digital:",
       "description": "Te acompañamos en todo el proceso de digitalización de tu empresa."
     }
   },
-  "whyAppland":"Por qué elegir Appland",
-  "whyApplandDescription":{
+  "whyAppland": "Por qué elegir Appland",
+  "whyApplandDescription": {
     "experience": {
       "title": "Experiencia comprobada:",
       "description": "Más de una década de experiencia en el desarrollo de software."
     },
-    "solutions":{
+    "solutions": {
       "title": "Soluciones escalables:",
       "description": "Nos aseguramos de que nuestras soluciones crezcan junto con tu empresa."
     },
-    "attention":{
+    "attention": {
       "title": "Atención personalizada:",
       "description": "Cada cliente es único y nos enfocamos en ofrecer soluciones hechas a la medida."
     }
   },
   "contact": "Contáctanos",
-  "contactDescription": "Permítenos ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras. ¡Hablemos sobre cómo podemos trabajar juntos!"
+  "contactDescription": "Permítenos ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras. ¡Hablemos sobre cómo podemos trabajar juntos!",
+  "ourClients": "Nuestros Clientes"
 }
