@@ -1,90 +1,136 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-service',
   templateUrl: './service.component.html',
   styleUrls: ['./service.component.scss'],
-  animations: [
-    trigger('slideAnimation', [
-      transition(':increment', [
-        style({ transform: 'translateX(100%)' }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)' }))
-      ]),
-      transition(':decrement', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)' }))
-      ])
-    ])
-  ]
 })
 export class ServiceComponent implements OnInit, OnDestroy {
-  services = [
-    { image: 'appmobile.jpg', title: 'ourServiceDescription.mobile.title', description: 'ourServiceDescription.mobile.description' },
-    { image: 'web.jpg', title: 'ourServiceDescription.web.title', description: 'ourServiceDescription.web.description' },
-    { image: 'consulting.jpg', title: 'ourServiceDescription.consulting.title', description: 'ourServiceDescription.consulting.description' }
-  ];
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+
+  services: any[] = [];
+  allServices: any[] = []; // Servicios duplicados para scroll infinito
 
   isMobile = false;
-  currentIndex = 0;
+  currentTranslateX = 0;
+  cardWidth = 350; // Ancho de cada tarjeta + gap
 
   // Drag-related properties
   startX = 0;
   isDragging = false;
-  dragThreshold = 50; // Minimum drag distance to trigger slide change
+  dragThreshold = 50;
 
   // Auto slide timer
   private autoSlideInterval: any;
+  private autoSlideDelay = 3000; // 3 segundos
+  private isPaused = false;
+  private autoResumeTimer: any;
 
-  constructor() {}
+  constructor(private readonly translate: TranslateService) {}
 
   ngOnInit(): void {
+    this.translate.get('ourServiceDescription').subscribe((data: any[]) => {
+      this.services = data;
+      this.setupInfiniteScroll();
+    });
+
     this.isMobile = window.innerWidth < 768;
 
-    // Start auto-sliding if in mobile view
-    if (this.isMobile) {
+    // Ajustar ancho de tarjeta según el dispositivo
+    this.cardWidth = this.isMobile ? 320 : 350;
+
+    setTimeout(() => {
       this.startAutoSlide();
-    }
+    }, 500);
+  }
+
+  setupInfiniteScroll(): void {
+    // Duplicar servicios para crear efecto infinito
+    this.allServices = [...this.services, ...this.services, ...this.services];
+
+    // Comenzar desde el segundo conjunto para permitir scroll hacia atrás
+    this.currentTranslateX = -this.services.length * this.cardWidth;
   }
 
   ngOnDestroy(): void {
-    // Clear interval when component is destroyed
     if (this.autoSlideInterval) {
       clearInterval(this.autoSlideInterval);
     }
   }
 
-  // Auto slide method
+  updateDisplayedServices(): void {
+    // No necesario para el scroll horizontal
+  }
+
   startAutoSlide(): void {
-    this.autoSlideInterval = setInterval(() => {
-      this.nextSlide();
-    }, 5000); // Change slide every 5 seconds
-  }
-
-  // Pause auto-sliding when user interacts
-  pauseAutoSlide(): void {
     if (this.autoSlideInterval) {
       clearInterval(this.autoSlideInterval);
     }
+
+    this.autoSlideInterval = setInterval(() => {
+      if (!this.isPaused) {
+        this.smoothScrollNext();
+      }
+    }, this.autoSlideDelay);
   }
 
-  // Resume auto-sliding
-  resumeAutoSlide(): void {
-    if (this.isMobile) {
-      this.startAutoSlide();
+  smoothScrollNext(): void {
+    this.currentTranslateX -= this.cardWidth;
+
+    // Verificar si necesitamos resetear para el efecto infinito
+    if (
+      Math.abs(this.currentTranslateX) >=
+      this.services.length * 2 * this.cardWidth
+    ) {
+      setTimeout(() => {
+        this.currentTranslateX = -this.services.length * this.cardWidth;
+      }, 500); // Tiempo de la transición CSS
     }
+  }
+
+  smoothScrollPrev(): void {
+    this.currentTranslateX += this.cardWidth;
+
+    // Verificar si necesitamos resetear hacia adelante
+    if (this.currentTranslateX > 0) {
+      setTimeout(() => {
+        this.currentTranslateX = -this.services.length * this.cardWidth;
+      }, 500);
+    }
+  }
+
+  getTransformStyle(): string {
+    return `translateX(${this.currentTranslateX}px)`;
+  }
+
+  pauseAutoSlide(): void {
+    this.isPaused = true;
+    clearTimeout(this.autoResumeTimer);
+  }
+
+  resumeAutoSlide(delay = 300): void {
+    clearTimeout(this.autoResumeTimer);
+
+    this.autoResumeTimer = setTimeout(() => {
+      this.isPaused = false;
+    }, delay);
   }
 
   onTouchStart(event: TouchEvent) {
     this.startX = event.touches[0].clientX;
     this.isDragging = true;
-    this.pauseAutoSlide(); // Pause auto-sliding when user starts touching
+    this.pauseAutoSlide();
   }
 
   onTouchMove(event: TouchEvent) {
     if (!this.isDragging) return;
-
-    const currentX = event.touches[0].clientX;
     event.preventDefault();
   }
 
@@ -94,32 +140,56 @@ export class ServiceComponent implements OnInit, OnDestroy {
     const currentX = event.changedTouches[0].clientX;
     const diffX = this.startX - currentX;
 
-    // Determine slide direction based on drag distance
     if (Math.abs(diffX) > this.dragThreshold) {
       if (diffX > 0) {
-        // Swiped left, go to next slide
-        this.nextSlide();
+        this.smoothScrollNext();
       } else {
-        // Swiped right, go to previous slide
-        this.prevSlide();
+        this.smoothScrollPrev();
       }
     }
 
     this.isDragging = false;
-    this.resumeAutoSlide(); // Resume auto-sliding
+    this.resumeAutoSlide();
   }
 
   prevSlide(): void {
-    // Circular navigation - go to last slide if at first slide
-    this.currentIndex = this.currentIndex === 0
-      ? this.services.length - 1
-      : this.currentIndex - 1;
+    this.smoothScrollPrev();
   }
 
   nextSlide(): void {
-    // Circular navigation - go to first slide if at last slide
-    this.currentIndex = this.currentIndex === this.services.length - 1
-      ? 0
-      : this.currentIndex + 1;
+    this.smoothScrollNext();
+  }
+
+  onCardMouseEnter(): void {
+    this.pauseAutoSlide();
+  }
+
+  onCardMouseLeave(): void {
+    this.resumeAutoSlide();
+  }
+
+  trackByService(index: number, service: any): any {
+    return service.id || service.title || index;
+  }
+
+  jumpToSlide(index: number): void {
+    this.currentTranslateX = -(this.services.length + index) * this.cardWidth;
+    this.pauseAutoSlide();
+    setTimeout(() => this.resumeAutoSlide(), 200);
+  }
+
+  getCurrentSlideIndex(): number {
+    return (
+      Math.abs(Math.floor(this.currentTranslateX / this.cardWidth)) %
+      this.services.length
+    );
+  }
+
+  onMouseDragStart(): void {
+    this.pauseAutoSlide();
+  }
+
+  onMouseDragEnd(): void {
+    this.resumeAutoSlide();
   }
 }

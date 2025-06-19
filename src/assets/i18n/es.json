@@ -1,21 +1,64 @@
 {
-  "startTittle": "Desarrollo de Software a la Medida",
-  "startDescription": "En Appland, nos especializamos en crear soluciones tecnológicas personalizadas para satisfacer las necesidades únicas de tu negocio. Con más de 12 años en la industria y una sólida reputación, somos tu socio estratégico en la transformación digital. Ya sea que necesites una aplicación móvil, una plataforma web, o una solución empresarial a gran escala, contamos con el equipo y la experiencia para llevar tus ideas a la realidad.",
-  "ourService": "Nuestros Servicios",
-  "ourServiceDescription": {
-    "mobile": {
-      "title": "Aplicaciones móviles:",
-      "description": "Desarrollamos apps intuitivas y funcionales para iOS y Android.."
+  "startTittle": "Empoderando tus ideas",
+  "startDescription": "Con más de 13 años de experiencia, en Appland convertimos desafíos en oportunidades a través del desarrollo de Software, eCommerce, Apps, Sistemas y Plataformas web, e integramos soluciones innovadoras como la Inteligencia Artificial. Nuestro equipo de expertos están al día con lo último y dominan múltiples tecnologías con las que creamos productos de alta calidad, eficientes, seguros y enfocados en resultados. Ya sea que estés lanzando una startup o escalando tu empresa, en Appland somos tu aliado estratégico para construir el futuro digital de tu negocio.",
+  "ourService": "Our Services",
+  "ourServiceDescription": [
+    {
+      "key": "develop",
+      "image": "develop.png",
+      "title": "Desarrollo:",
+      "description": "Creamos soluciones digitales a medida: escalables, seguras y con tecnología de punta. Desde apps hasta sistemas complejos, llevamos tu visión al siguiente nivel."
     },
-    "web": {
-      "title": "Sistemas web personalizados:",
-      "description": "Creamos plataformas web adaptadas a las necesidades de tu empresa."
+    {
+      "key": "UX",
+      "image": "UXUI.png",
+      "title": "Diseño UX/UI:",
+      "description": "Diseños centrados en el usuario que combinan estética y funcionalidad para experiencias digitales memorables."
     },
-    "consulting": {
-      "title": "Consultoría digital:",
-      "description": "Te acompañamos en todo el proceso de digitalización de tu empresa."
+    {
+      "key": "IA",
+      "image": "IA.png",
+      "title": "Inteligencia Artificial:",
+      "description": "Transforma tus procesos con soluciones inteligentes que aprenden, predicen y optimizan resultados."
+    },
+    {
+      "key": "QA",
+      "image": "QA.png",
+      "title": "QA (Control de Calidad):",
+      "description": "Pruebas inteligentes, cero errores. Garantizamos calidad, estabilidad y rendimiento en cada entrega."
+    },
+    {
+      "key": "eCommerce",
+      "image": "ecommerce.png",
+      "title": "eCommerce:",
+      "description": "Impulsa tus ventas online con tiendas virtuales rápidas, intuitivas y pensadas para convertir."
+    },
+
+    {
+      "key": "Dedicated",
+      "image": "dedicated.png",
+      "title": "Dedicated Team:",
+      "description": "Un equipo de expertos a tu medida. Flexibilidad, talento global y enfoque total en tus objetivos."
+    },
+    {
+      "key": "Fintech",
+      "image": "consulting.jpg",
+      "title": "Fintech:",
+      "description": "Desarrollamos soluciones financieras digitales ágiles, seguras y enfocadas en la experiencia del usuario. Llevamos la innovación al mundo de las finanzas."
+    },
+    {
+      "key": "IT",
+      "image": "app.png",
+      "title": "Consultorías IT:",
+      "description": "Te acompañamos con visión estratégica y experiencia tecnológica. Diagnóstico, planificación y ejecución para transformar digitalmente tu negocio."
+    },
+    {
+      "key": "loyality",
+      "image": "loyality.png",
+      "title": "Programa de Lealtad:",
+      "description": "Fideliza, premia y conecta con tus clientes a través de sistemas de lealtad personalizados y efectivos."
     }
-  },
+  ],
   "whyAppland": "Por qué elegir Appland",
   "whyApplandDescription": {
     "experience": {
@@ -33,5 +76,44 @@
   },
   "contact": "Contáctanos",
   "contactDescription": "Permítenos ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras. ¡Hablemos sobre cómo podemos trabajar juntos!",
-  "ourClients": "Nuestros Clientes"
+  "ourClients": "Nuestros Clientes",
+  "IAServices": {
+    "title": "Soluciones con",
+    "title-second": "Inteligencia Artificial",
+    "services": [
+      {
+        "key": "1",
+        "icon": "📟",
+        "title": "Recomendaciones Personalizadas",
+        "description": "Sugerimos productos según compras previas y preferencias."
+      },
+      {
+        "key": "2",
+        "icon": "🤖",
+        "title": "Chatbot de Atención",
+        "description": "Automatiza respuestas frecuentes y mejora la experiencia del cliente."
+      },
+      {
+        "key": "3",
+        "icon": "📈",
+        "title": "Análisis de Sentimientos",
+        "description": "Detectamos emociones en reseñas y comentarios."
+      },
+      {
+        "key": "4",
+        "icon": "📦",
+        "title": "Optimización de Inventario",
+        "description": "IA que prevé demanda y sugiere niveles óptimos de stock."
+      },
+      {
+        "key": "5",
+        "icon": "🌟",
+        "title": "Promociones Personalizadas",
+        "description": "Ofertas inteligentes basadas en comportamiento de usuario."
+      }
+    ]
+  },
+  "globalTeam": "Nuestro Equipo Global",
+  "globalTeamDescription": "desde múltiples países para ofrecer cobertura continua",
+  "operation": "Operamos"
 }
