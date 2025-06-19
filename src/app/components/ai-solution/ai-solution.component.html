@@ -1,0 +1,59 @@
+<div class="creative-container">
+  <!-- Elementos decorativos de fondo -->
+  <div class="floating-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+  </div>
+
+  <!-- Sección izquierda con imagen -->
+  <div class="left-section">
+    <div class="image-container">
+      <div class="image-wrapper">
+        <div class="image-placeholder">
+          <div class="image-overlay"></div>
+          <div class="image-content">
+            <div class="pulse-ring"></div>
+            <div class="image-icon">
+              <img src="assets/images/IAServices.png" alt />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="image-glow"></div>
+    </div>
+  </div>
+
+  <!-- Sección derecha con título y tarjetas -->
+  <div class="right-section">
+    <div class="title-section">
+      <h1 class="main-title">
+        <span class="title-line">{{ "IAServices.title" | translate }}</span>
+        <span class="title-line gradient-text">{{
+          "IAServices.title-second" | translate
+        }}</span>
+      </h1>
+      <div class="title-underline"></div>
+    </div>
+
+    <div class="cards-grid">
+      <div
+        *ngFor="let card of aiSolutions; let i = index"
+        class="card"
+        [style.animation-delay.ms]="i * 200"
+        (mouseenter)="onCardHover(i)"
+        (mouseleave)="onCardLeave(i)"
+      >
+        <div class="card-inner">
+          <span>{{ card.icon }}</span>
+          <h3 class="card-title">{{ card.title }}</h3>
+        </div>
+        <div class="card-content">
+          <p class="card-text">{{ card.description }}</p>
+        </div>
+        <div class="card-hover-effect"></div>
+      </div>
+    </div>
+  </div>
+</div>

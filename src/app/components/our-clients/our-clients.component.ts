@@ -7,13 +7,23 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class OurClientsComponent {
   logos: string[] = [
-    'Avianca-logo.png',
-    'expreso-americano.png',
-    'GrupoTerra.png',
     'logo-tengo.png',
-    'logo-Toyota.png',
-    'logoDilo.png',
+    'Avianca-logo.png',
     'Pepsi-Logo.png',
+    'logo-Toyota.png',
+    'dominos.png',
+    'UE.jpg',
+    'banco_ficohsa.png',
+    'GrupoTerra.png',
+    'darden.png',
+    'espresso_americano.webp',
+    'atlantida.png',
+    'Loto_borde.webp',
+    'emsula.webp',
+    'lacthosa.png',
+    'pronto.png',
+    'LogoDilo.png',
+    'broadcast.png',
     'tigo.png',
   ];
 

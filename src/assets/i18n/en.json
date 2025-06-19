@@ -1,21 +1,63 @@
 {
-  "startTittle": "Custom Software Development",
-  "startDescription": "At Appland, we specialize in creating custom technology solutions tailored to meet the unique needs of your business. With over 12 years in the industry and a solid reputation, we are your strategic partner in digital transformation. Whether you need a mobile app, a web platform, or a large-scale enterprise solution, we have the team and experience to bring your ideas to life.",
+  "startTittle": "Empowering Your Ideas",
+  "startDescription": "With over 13 years of experience, at Appland we turn challenges into opportunities through Software Development, eCommerce, Mobile Apps, Systems, and Web Platforms. We also integrate cutting-edge technologies like Artificial Intelligence. Our team of experts stays ahead of the curve, mastering multiple technologies to build high-quality, efficient, secure, and results-driven products. Whether you're launching a startup or scaling your business, Appland is your strategic partner in building the digital future of your company.",
   "ourService": "Our Services",
-  "ourServiceDescription": {
-    "mobile": {
-      "title": "Mobile Applications:",
-      "description": "We develop intuitive and functional apps for iOS and Android."
+  "ourServiceDescription": [
+    {
+      "key": "develop",
+      "image": "develop.png",
+      "title": "Development:",
+      "description": "We build custom digital solutions that are scalable, secure, and cutting-edge. From mobile apps to complex systems, we take your vision to the next level."
     },
-    "web": {
-      "title": "Custom Web Systems:",
-      "description": "We build web platforms designed to meet your business needs."
+    {
+      "key": "UX",
+      "image": "UXUI.png",
+      "title": "UX/UI Design:",
+      "description": "User-centered designs that combine aesthetics and functionality to deliver memorable digital experiences."
     },
-    "consulting": {
-      "title": "Digital Consulting:",
-      "description": "We guide you through every step of your company's digital transformation."
+    {
+      "key": "IA",
+      "image": "IA.png",
+      "title": "Artificial Intelligence:",
+      "description": "Revolutionize your processes with smart solutions that learn, predict, and optimize outcomes."
+    },
+    {
+      "key": "QA",
+      "image": "QA.png",
+      "title": "QA (Quality Assurance):",
+      "description": "Smart testing, zero bugs. We ensure quality, stability, and performance in every release."
+    },
+    {
+      "key": "eCommerce",
+      "image": "ecommerce.png",
+      "title": "eCommerce:",
+      "description": "Boost your online sales with fast, intuitive eCommerce platforms designed to convert."
+    },
+    {
+      "key": "Dedicated",
+      "image": "dedicated.png",
+      "title": "Dedicated Team:",
+      "description": "A team of experts tailored to your needs. Flexibility, global talent, and full focus on your goals."
+    },
+    {
+      "key": "Fintech",
+      "image": "consulting.jpg",
+      "title": "Fintech:",
+      "description": "We build agile and secure digital financial solutions with a focus on user experience. Driving innovation in the financial sector."
+    },
+    {
+      "key": "IT",
+      "image": "app.png",
+      "title": "IT Consulting:",
+      "description": "Strategic vision and tech expertise to support your transformation. Diagnosis, planning, and execution to digitize your business."
+    },
+    {
+      "key": "loyality",
+      "image": "loyality.png",
+      "title": "Loyalty Programs:",
+      "description": "Engage, reward, and retain your customers through personalized and effective loyalty systems."
     }
-  },
+  ],
   "whyAppland": "Why Choose Appland",
   "whyApplandDescription": {
     "experience": {
@@ -33,5 +75,44 @@
   },
   "contact": "Contact Us",
   "contactDescription": "Let us help you transform your business with innovative technology solutions. Let's talk about how we can work together!",
-  "ourClients": "Our Clients"
+  "ourClients": "Our Clients",
+  "IAServices": {
+    "title": "Solutions with",
+    "title-second": "Artificial Intelligence",
+    "services": [
+      {
+        "key": "1",
+        "icon": "📟",
+        "title": "Personalized Recommendations",
+        "description": "We suggest products based on past purchases and user preferences."
+      },
+      {
+        "key": "2",
+        "icon": "🤖",
+        "title": "Customer Support Chatbot",
+        "description": "Automates frequent inquiries and enhances customer experience."
+      },
+      {
+        "key": "3",
+        "icon": "📈",
+        "title": "Sentiment Analysis",
+        "description": "We identify emotions in reviews and customer feedback."
+      },
+      {
+        "key": "4",
+        "icon": "📦",
+        "title": "Inventory Optimization",
+        "description": "AI forecasts demand and recommends optimal stock levels."
+      },
+      {
+        "key": "5",
+        "icon": "🌟",
+        "title": "Tailored Promotions",
+        "description": "Smart offers driven by user behavior and engagement patterns."
+      }
+    ]
+  },
+  "globalTeam": "Our Global Team",
+  "globalTeamDescription": "from multiple countries to provide continuous coverage",
+  "operation": "We operate"
 }

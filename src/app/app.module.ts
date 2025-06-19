@@ -19,6 +19,10 @@ import { WhyComponent } from './components/why/why.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './feature/pages/home/home.component';
 import { OurClientsComponent } from './components/our-clients/our-clients.component';
+import { OurTeamComponent } from './components/our-team/our-team.component';
+import { AiSolutionComponent } from './components/ai-solution/ai-solution.component';
+import { SuccessStoriesComponent } from './components/success-stories/success-stories.component';
+import { TeamCoverageComponent } from './components/team-coverage/team-coverage.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -33,7 +37,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     WhyComponent,
     FooterComponent,
     HomeComponent,
-    OurClientsComponent
+    OurClientsComponent,
+    OurTeamComponent,
+    AiSolutionComponent,
+    SuccessStoriesComponent,
+    TeamCoverageComponent
   ],
   imports: [
     BrowserModule,

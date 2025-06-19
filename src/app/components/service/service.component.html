@@ -1,42 +1,51 @@
 <div class="container">
   <div class="title-info">
-    <h2>{{ 'ourService' | translate}}</h2>
+    <h2>{{ "ourService" | translate }}</h2>
   </div>
-  <div class="services" *ngIf="!isMobile">
-    <div class="service-card" *ngFor="let service of services">
-      <img src="assets/images/{{ service.image }}" alt />
-      <div class="service">
-        <div class="title-card">
-          <h5>{{ service.title | translate }}</h5>
-        </div>
-        <div class="description">
-          <p>{{ service.description | translate }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="services-carousel"
-    *ngIf="isMobile"
-    (touchstart)="onTouchStart($event)"
-    (touchmove)="onTouchMove($event)"
-    (touchend)="onTouchEnd($event)"
-  >
+
+  <!-- Desktop and Mobile - Horizontal Scroll -->
+  <div class="services-container">
     <div
-      class="service-card"
-      *ngFor="let service of services; let i = index"
-      [@slideAnimation]="i === currentIndex ? 'active' : 'inactive'"
-      [class.active]="i === currentIndex"
+      class="services-track"
+      [style.transform]="getTransformStyle()"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd($event)"
+      (mousedown)="onMouseDragStart()"
+      (mouseup)="onMouseDragEnd()"
     >
-      <img src="assets/images/{{ service.image }}" alt />
-      <div class="service">
-        <div class="title-card">
-          <h5>{{ service.title | translate }}</h5>
-        </div>
-        <div class="description">
-          <p>{{ service.description | translate }}</p>
+      <div
+        class="service-card"
+        *ngFor="
+          let service of allServices;
+          let i = index;
+          trackBy: trackByService
+        "
+        (mouseenter)="onCardMouseEnter()"
+        (mouseleave)="onCardMouseLeave()"
+      >
+        <img [src]="'assets/images/services/' + service.image" alt />
+        <div class="service">
+          <div class="title-card">
+            <h5>{{ service.title | translate }}</h5>
+          </div>
+          <div class="description">
+            <p>{{ service.description | translate }}</p>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Navigation dots for mobile -->
+  <div class="carousel-dots" *ngIf="isMobile">
+    <span
+      *ngFor="let service of services; let i = index"
+      class="dot"
+      [class.active]="i === getCurrentSlideIndex()"
+      (click)="jumpToSlide(i)"
+      onkeypress
+    >
+    </span>
   </div>
 </div>

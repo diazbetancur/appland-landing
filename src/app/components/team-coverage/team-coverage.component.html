@@ -1,0 +1,46 @@
+<div class="global-team-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="animated-globe">
+      <div
+        class="globe-ring"
+        [style.transform]="'rotate(' + globeRotation + 'deg)'"
+      ></div>
+      <div class="globe-core">🌍</div>
+    </div>
+    <h2 class="main-title">
+      <span class="gradient-text">{{ "globalTeam" | translate }} </span>
+    </h2>
+    <p class="subtitle">
+      {{ "operation" | translate }} <span class="highlight">24/7</span>
+      {{ "globalTeamDescription" | translate }}
+    </p>
+  </div>
+  <!-- Country Cards -->
+  <div class="countries-grid">
+    <div
+      *ngFor="let country of countries; let i = index"
+      class="country-card"
+      [style.animation-delay]="i * 0.1 + 's'"
+      (click)="selectCountry(country)"
+      [class.selected]="selectedCountry?.name === country.name"
+      onkeypress
+    >
+      <div class="card-header">
+        <!-- <span class="flag-large">{{ country.flag }}</span> -->
+        <img
+          [src]="'https://flagcdn.com/64x48/' + country.flag + '.png'"
+          alt
+          class="flag-img"
+        />
+        <div class="country-info">
+          <h3>{{ country.name }}</h3>
+          <div class="live-time">
+            <div class="time-indicator"></div>
+            {{ country.currentTime }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
