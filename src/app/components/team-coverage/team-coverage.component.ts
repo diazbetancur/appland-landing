@@ -8,14 +8,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class TeamCoverageComponent implements OnInit, OnDestroy {
   countries: Country[] = [
     {
-      name: 'Colombia',
-      flag: 'co',
-      timezone: 'America/Bogota',
-    },
-    {
       name: 'Honduras',
       flag: 'hn',
       timezone: 'America/Tegucigalpa',
+    },
+    {
+      name: 'Colombia',
+      flag: 'co',
+      timezone: 'America/Bogota',
     },
     {
       name: 'Estados Unidos',
