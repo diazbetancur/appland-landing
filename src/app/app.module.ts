@@ -1,28 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { BannerComponent } from './components/banner/banner.component';
-import { ServiceComponent } from './components/service/service.component';
-import { AboutComponent } from './components/about/about.component';
-import { HttpClientModule, HttpClient  } from '@angular/common/http';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { WhyComponent } from './components/why/why.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AboutComponent } from './components/about/about.component';
+import { AiSolutionComponent } from './components/ai-solution/ai-solution.component';
+import { BannerComponent } from './components/banner/banner.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { HomeComponent } from './feature/pages/home/home.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { OurClientsComponent } from './components/our-clients/our-clients.component';
 import { OurTeamComponent } from './components/our-team/our-team.component';
-import { AiSolutionComponent } from './components/ai-solution/ai-solution.component';
+import { CardTemplateComponent } from './components/service/card-template/card-template';
+import { ServiceComponent } from './components/service/service.component';
 import { SuccessStoriesComponent } from './components/success-stories/success-stories.component';
 import { TeamCoverageComponent } from './components/team-coverage/team-coverage.component';
+import { WhyComponent } from './components/why/why.component';
+import { HomeComponent } from './feature/pages/home/home.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -41,7 +42,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     OurTeamComponent,
     AiSolutionComponent,
     SuccessStoriesComponent,
-    TeamCoverageComponent
+    TeamCoverageComponent,
+    CardTemplateComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,11 +58,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

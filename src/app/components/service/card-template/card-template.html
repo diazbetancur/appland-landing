@@ -1,0 +1,20 @@
+<div class="services-container">
+  <div class="services-grid">
+    <div
+      class="service-card"
+      *ngFor="let service of services"
+      [attr.data-key]="service.key"
+    >
+      <div class="card-content">
+        <div class="service-icon">
+          <img [src]="'assets/images/services/' + service.image" alt />
+        </div>
+        <div class="information">
+          <h3 class="service-title">{{ service.title }}</h3>
+
+          <p class="service-description">{{ service.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

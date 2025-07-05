@@ -29,7 +29,7 @@
 }
 
 .text-title {
-  font-size: 24px;
+  font-size: 3rem;
   font-weight: bold;
   margin-bottom: 10px;
   color: white;
@@ -52,5 +52,9 @@
   }
   .description {
     order: 1;
+  }
+
+  .text-title {
+    font-size: 1.5rem;
   }
 }
