@@ -10,9 +10,11 @@
           <img [src]="'assets/images/services/' + service.image" alt />
         </div>
         <div class="information">
-          <h3 class="service-title">{{ service.title }}</h3>
+          <h3 class="service-title">{{ service.title | translate }}</h3>
 
-          <p class="service-description">{{ service.description }}</p>
+          <p class="service-description">
+            {{ service.description | translate }}
+          </p>
         </div>
       </div>
     </div>

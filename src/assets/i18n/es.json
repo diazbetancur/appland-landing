@@ -1,7 +1,7 @@
 {
   "startTittle": "Empoderando tus ideas",
   "startDescription": "Con más de 13 años de experiencia, en Appland convertimos desafíos en oportunidades a través del desarrollo de Software, eCommerce, Apps, Sistemas y Plataformas web, e integramos soluciones innovadoras como la Inteligencia Artificial. Nuestro equipo de expertos están al día con lo último y dominan múltiples tecnologías con las que creamos productos de alta calidad, eficientes, seguros y enfocados en resultados. Ya sea que estés lanzando una startup o escalando tu empresa, en Appland somos tu aliado estratégico para construir el futuro digital de tu negocio.",
-  "ourService": "Our Services",
+  "ourService": "Nuestros Servicios",
   "ourServiceDescription": [
     {
       "key": "develop",
@@ -76,7 +76,7 @@
   },
   "contact": "Contáctanos",
   "contactDescription": "Permítenos ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras. ¡Hablemos sobre cómo podemos trabajar juntos!",
-  "ourClients": "Nuestros Clientes",
+  "ourClients": "Confian en nosotros",
   "IAServices": {
     "title": "Soluciones con",
     "title-second": "Inteligencia Artificial",
