@@ -48,9 +48,15 @@
 }
 
 .logo-img {
-  height: clamp(80px, 16vw, 160px);
-  width: auto;
+  // height: clamp(80px, 16vw, 160px);
+  // width: auto;
+
+  width: 240px;
+  height: 200px;
   object-fit: contain;
+  object-position: center;
+  padding: 0.5rem;
+  border-radius: 8px;
   transition: all 0.5s ease;
   flex-shrink: 0;
 }

@@ -1,0 +1,29 @@
+<div class="studio-container">
+  <div class="image-section">
+    <img src="/assets/images/robot.png" alt="robot" />
+  </div>
+
+  <div class="stats-section">
+    <div class="stat">
+      <h2 appCountUp [endValue]="13" [suffix]="'+'" [duration]="2000">
+        <span class="visually-hidden">{{ "yearsExperience" | translate }}</span>
+      </h2>
+      <p>{{ "Experience" | translate }}</p>
+    </div>
+
+    <div class="stat">
+      <h2 appCountUp [endValue]="100" [suffix]="'K'" [duration]="2000">
+        <span class="visually-hidden">{{ "projectsCount" | translate }}</span>
+      </h2>
+      <p>{{ "proyects" | translate }}</p>
+    </div>
+    <div class="description-section">
+      <h2>
+        <span class="highlight">{{ "chooseUs" | translate }}</span>
+      </h2>
+      <p>
+        {{ "chooseUsDescription" | translate }}
+      </p>
+    </div>
+  </div>
+</div>

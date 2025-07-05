@@ -9,7 +9,7 @@ export class OurClientsComponent {
   logos: string[] = [
     'logo-tengo.png',
     'Avianca-logo.png',
-    'Pepsi-Logo.png',
+    // 'Pepsi-Logo.png',
     'logo-Toyota.png',
     'dominos.png',
     'UE.jpg',

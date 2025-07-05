@@ -41,7 +41,7 @@
     },
     {
       "key": "Fintech",
-      "image": "consulting.jpg",
+      "image": "develop.jpg",
       "title": "Fintech:",
       "description": "We build agile and secure digital financial solutions with a focus on user experience. Driving innovation in the financial sector."
     },
@@ -114,5 +114,9 @@
   },
   "globalTeam": "Our Global Team",
   "globalTeamDescription": "from multiple countries to provide continuous coverage",
-  "operation": "We operate"
+  "operation": "We operate",
+  "chooseUs": "Why Trust Appland?",
+  "chooseUsDescription": "Because we bring over 13 years of experience backed by a professional, dynamic, and highly creative team that transforms ideas into real solutions. At Appland, we don’t just develop software we craft technological experiences that drive results. Our multicultural team operates from various countries, allowing us to cover multiple time zones and serve clients around the world with agility and precision. Companies across industries and regions already trust us and with good reason: we're more than just a service provider, we're a strategic partner committed to your growth.",
+  "proyects": "Completed Projects",
+  "Experience": "Years of Experience"
 }

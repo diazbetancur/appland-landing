@@ -42,7 +42,7 @@
     },
     {
       "key": "Fintech",
-      "image": "consulting.jpg",
+      "image": "develop.jpg",
       "title": "Fintech:",
       "description": "Desarrollamos soluciones financieras digitales ágiles, seguras y enfocadas en la experiencia del usuario. Llevamos la innovación al mundo de las finanzas."
     },
@@ -115,5 +115,9 @@
   },
   "globalTeam": "Nuestro Equipo Global",
   "globalTeamDescription": "desde múltiples países para ofrecer cobertura continua",
-  "operation": "Operamos"
+  "operation": "Operamos",
+  "chooseUs": "¿Por qué confiar en Appland?",
+  "chooseUsDescription": "Porque combinamos más de 13 años de experiencia con un equipo profesional, dinámico y altamente creativo que convierte ideas en soluciones reales. En Appland no solo desarrollamos software: creamos experiencias tecnológicas que generan resultados. Nuestro equipo multicultural opera desde diferentes países, lo que nos permite cubrir múltiples zonas horarias y atender a nuestros clientes en cualquier parte del mundo con agilidad y precisión. Empresas de distintos sectores y regiones ya confían en nosotros… y con razón: somos más que un proveedor, somos un socio estratégico que se involucra con tu crecimiento.",
+  "proyects": "Proyectos completados",
+  "Experience": "Años de experiencia."
 }

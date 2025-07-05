@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { AiSolutionComponent } from './components/ai-solution/ai-solution.component';
 import { BannerComponent } from './components/banner/banner.component';
+import { ChooseUsComponent } from './components/choose-us/choose-us.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { OurClientsComponent } from './components/our-clients/our-clients.component';
@@ -24,6 +25,7 @@ import { SuccessStoriesComponent } from './components/success-stories/success-st
 import { TeamCoverageComponent } from './components/team-coverage/team-coverage.component';
 import { WhyComponent } from './components/why/why.component';
 import { HomeComponent } from './feature/pages/home/home.component';
+import { CountUpDirective } from './shared/directives/count-up.directive';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -44,6 +46,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SuccessStoriesComponent,
     TeamCoverageComponent,
     CardTemplateComponent,
+    ChooseUsComponent,
+    CountUpDirective,
   ],
   imports: [
     BrowserModule,
