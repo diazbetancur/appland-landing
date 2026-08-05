@@ -3,9 +3,10 @@ import { HeroContent, ResolvedAction } from '../../feature/pages/home/home-conte
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-  selector: 'app-banner',
-  templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
+    selector: 'app-banner',
+    templateUrl: './banner.component.html',
+    styleUrls: ['./banner.component.scss'],
+    standalone: false
 })
 export class BannerComponent implements OnChanges {
   @Input() content!: HeroContent;

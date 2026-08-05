@@ -6,12 +6,11 @@
   </div>
 
   <div class="contact__actions">
-    <ng-container *ngIf="meetingAction.kind === 'router'; else meetingExternal">
+    @if (meetingAction.kind === 'router') {
       <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="meetingAction.fragment">{{ content.meetingAction.label }}</a>
-    </ng-container>
-    <ng-template #meetingExternal>
+    } @else {
       <a class="appland-button appland-button--primary" [href]="meetingAction.href" [target]="meetingAction.target" [rel]="meetingAction.rel">{{ content.meetingAction.label }}</a>
-    </ng-template>
+    }
 
     <a class="appland-button appland-button--secondary" [href]="whatsappAction.href" [target]="whatsappAction.target" [rel]="whatsappAction.rel">{{ content.whatsappAction.label }}</a>
   </div>
@@ -21,7 +20,11 @@
     <a [href]="destinationHref(content.phone)">+504 3394-9211</a>
   </address>
 
-  <nav *ngIf="content.socialLinks.length" class="contact__social" aria-label="Redes sociales">
-    <a *ngFor="let link of content.socialLinks" [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
-  </nav>
+  @if (content.socialLinks.length) {
+    <nav class="contact__social" aria-label="Redes sociales">
+      @for (link of content.socialLinks; track link) {
+        <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+      }
+    </nav>
+  }
 </div>

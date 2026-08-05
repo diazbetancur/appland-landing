@@ -1,7 +1,8 @@
 # UI and Content Contract: APPLAND Home
 
-**Feature**: 001-appland-home-redesign  
-**Contract type**: Internal Angular component, navigation and publication contract  
+**Feature**: 001-appland-home-redesign
+
+**Contract type**: Internal Angular component, navigation and publication contract
 **External API**: None
 
 ## Route and fragment contract

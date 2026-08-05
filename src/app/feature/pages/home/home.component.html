@@ -2,9 +2,11 @@
   <app-banner [content]="content.hero"></app-banner>
 </section>
 
-<section *ngIf="visibleClients.length" id="clientes" class="home-region" aria-labelledby="clientes-title" appHomeSection="clientes" appRevealOnScroll>
-  <app-our-clients [clients]="visibleClients"></app-our-clients>
-</section>
+@if (visibleClients.length) {
+  <section id="clientes" class="home-region" aria-labelledby="clientes-title" appHomeSection="clientes" appRevealOnScroll>
+    <app-our-clients [clients]="visibleClients"></app-our-clients>
+  </section>
+}
 
 <section id="desafios" class="home-region appland-section" aria-labelledby="desafios-title" appHomeSection="desafios" appRevealOnScroll>
   <app-home-challenges [challenges]="content.challenges"></app-home-challenges>
@@ -22,9 +24,11 @@
   <app-ai-solution [applications]="content.aiApplications" [contactAction]="content.contact.meetingAction"></app-ai-solution>
 </section>
 
-<section *ngIf="visibleProducts.length" id="productos" class="home-region appland-section" aria-labelledby="productos-title" appHomeSection="productos" appRevealOnScroll>
-  <app-home-products [products]="visibleProducts"></app-home-products>
-</section>
+@if (visibleProducts.length) {
+  <section id="productos" class="home-region appland-section" aria-labelledby="productos-title" appHomeSection="productos" appRevealOnScroll>
+    <app-home-products [products]="visibleProducts"></app-home-products>
+  </section>
+}
 
 <section id="por-que-appland" class="home-region appland-section" aria-labelledby="por-que-appland-title" appHomeSection="por-que-appland" appRevealOnScroll>
   <app-why [benefits]="content.benefits"></app-why>

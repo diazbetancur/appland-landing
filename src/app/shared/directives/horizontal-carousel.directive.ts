@@ -10,8 +10,9 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[appHorizontalCarousel]',
-  exportAs: 'appHorizontalCarousel',
+    selector: '[appHorizontalCarousel]',
+    exportAs: 'appHorizontalCarousel',
+    standalone: false
 })
 export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   @Input() itemCount = 0;

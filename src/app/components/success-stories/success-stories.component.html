@@ -19,14 +19,20 @@
     aria-labelledby="casos-title"
     aria-roledescription="carrusel"
     tabindex="0"
-  >
-    <article *ngFor="let item of cases; let index = index" class="case-card">
-      <img *ngIf="item.media" [src]="item.media.src" [alt]="item.media.alt" [width]="item.media.width" [height]="item.media.height" loading="lazy">
-      <p class="case-card__number">0{{ index + 1 }}</p>
-      <h3>{{ item.name }}</h3>
-      <p>{{ item.summary }}</p>
-      <a *ngIf="destinationHref(item.destination) as href" [href]="href" target="_blank" rel="noopener noreferrer">Ver caso</a>
-    </article>
+    >
+    @for (item of cases; track item; let index = $index) {
+      <article class="case-card">
+        @if (item.media) {
+          <img [src]="item.media.src" [alt]="item.media.alt" [width]="item.media.width" [height]="item.media.height" loading="lazy">
+        }
+        <p class="case-card__number">0{{ index + 1 }}</p>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.summary }}</p>
+        @if (destinationHref(item.destination); as href) {
+          <a [href]="href" target="_blank" rel="noopener noreferrer">Ver caso</a>
+        }
+      </article>
+    }
   </div>
   <p class="cases__position" aria-live="polite">{{ carousel.positionLabel }}</p>
 </div>

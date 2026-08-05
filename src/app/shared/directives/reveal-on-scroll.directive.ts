@@ -1,6 +1,9 @@
 import { AfterViewInit, Directive, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 
-@Directive({ selector: '[appRevealOnScroll]' })
+@Directive({
+    selector: '[appRevealOnScroll]',
+    standalone: false
+})
 export class RevealOnScrollDirective implements AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
 

@@ -8,6 +8,8 @@
 
 **Organization**: The nine requested delivery phases are preserved. Functional tasks carry a user-story label so every increment remains traceable and independently verifiable.
 
+> **Historical baseline note (2026-08-05):** Task descriptions that mention Angular 16 or Node 18 retain the exact implementation baseline and must not be reinterpreted as current environment instructions. The repository now uses Angular 21.2 and Node 24.16; see [README.md](../../README.md).
+
 ## Format
 
 - [P] means the task can run in parallel with other ready tasks because it uses different files and has no dependency on their unfinished changes.

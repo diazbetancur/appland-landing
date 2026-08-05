@@ -6,32 +6,32 @@
     </a>
 
     <div class="menu__desktop-links">
-      <a
-        *ngFor="let item of items"
-        class="menu__link"
-        [class.menu__link--active]="!isMenuOpen && isActive(item.fragment)"
-        [attr.aria-current]="!isMenuOpen && isActive(item.fragment) ? 'location' : null"
-        [routerLink]="['/']"
-        [fragment]="item.fragment"
-      >{{ item.label }}</a>
+      @for (item of items; track item) {
+        <a
+          class="menu__link"
+          [class.menu__link--active]="!isMenuOpen && isActive(item.fragment)"
+          [attr.aria-current]="!isMenuOpen && isActive(item.fragment) ? 'location' : null"
+          [routerLink]="['/']"
+          [fragment]="item.fragment"
+        >{{ item.label }}</a>
+      }
     </div>
 
-    <ng-container *ngIf="meetingDestination.kind === 'router'; else externalDesktopMeeting">
+    @if (meetingDestination.kind === 'router') {
       <a class="appland-button appland-button--primary menu__meeting menu__meeting--desktop" [routerLink]="['/']" [fragment]="meetingDestination.fragment">
         {{ meetingAction.label }}
       </a>
       <a class="appland-button appland-button--primary menu__meeting menu__meeting--compact" [routerLink]="['/']" [fragment]="meetingDestination.fragment">
         Agendar
       </a>
-    </ng-container>
-    <ng-template #externalDesktopMeeting>
+    } @else {
       <a class="appland-button appland-button--primary menu__meeting menu__meeting--desktop" [href]="meetingDestination.href" [target]="meetingDestination.target" [rel]="meetingDestination.rel">
         {{ meetingAction.label }}
       </a>
       <a class="appland-button appland-button--primary menu__meeting menu__meeting--compact" [href]="meetingDestination.href" [target]="meetingDestination.target" [rel]="meetingDestination.rel">
         Agendar
       </a>
-    </ng-template>
+    }
 
     <button
       #menuToggle
@@ -41,46 +41,46 @@
       aria-controls="menu-compacto"
       [attr.aria-expanded]="isMenuOpen"
       (click)="toggleMenu()"
-    >
+      >
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<div
-  *ngIf="isMenuOpen"
-  id="menu-compacto"
-  class="compact-menu"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Menú de navegación"
-  cdkTrapFocus
-  [cdkTrapFocusAutoCapture]="true"
->
-  <div class="compact-menu__top appland-container">
-    <span class="menu__brand"><span class="menu__brand-mark" aria-hidden="true"></span>APPLAND</span>
-    <button class="compact-menu__close" type="button" aria-label="Cerrar menú" (click)="closeMenu()">×</button>
+@if (isMenuOpen) {
+  <div
+    id="menu-compacto"
+    class="compact-menu"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menú de navegación"
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+    >
+    <div class="compact-menu__top appland-container">
+      <span class="menu__brand"><span class="menu__brand-mark" aria-hidden="true"></span>APPLAND</span>
+      <button class="compact-menu__close" type="button" aria-label="Cerrar menú" (click)="closeMenu()">×</button>
+    </div>
+    <div class="compact-menu__body appland-container">
+      @for (item of items; track item) {
+        <a
+          class="compact-menu__link"
+          [class.compact-menu__link--active]="isActive(item.fragment)"
+          [attr.aria-current]="isActive(item.fragment) ? 'location' : null"
+          [routerLink]="['/']"
+          [fragment]="item.fragment"
+          (click)="navigate()"
+        >{{ item.label }}</a>
+      }
+      @if (meetingDestination.kind === 'router') {
+        <a class="appland-button appland-button--primary compact-menu__cta" [routerLink]="['/']" [fragment]="meetingDestination.fragment" (click)="navigate()">
+          {{ meetingAction.label }}
+        </a>
+      } @else {
+        <a class="appland-button appland-button--primary compact-menu__cta" [href]="meetingDestination.href" [target]="meetingDestination.target" [rel]="meetingDestination.rel" (click)="navigate()">
+          {{ meetingAction.label }}
+        </a>
+      }
+    </div>
   </div>
-  <div class="compact-menu__body appland-container">
-    <a
-      *ngFor="let item of items"
-      class="compact-menu__link"
-      [class.compact-menu__link--active]="isActive(item.fragment)"
-      [attr.aria-current]="isActive(item.fragment) ? 'location' : null"
-      [routerLink]="['/']"
-      [fragment]="item.fragment"
-      (click)="navigate()"
-    >{{ item.label }}</a>
-
-    <ng-container *ngIf="meetingDestination.kind === 'router'; else externalCompactMeeting">
-      <a class="appland-button appland-button--primary compact-menu__cta" [routerLink]="['/']" [fragment]="meetingDestination.fragment" (click)="navigate()">
-        {{ meetingAction.label }}
-      </a>
-    </ng-container>
-    <ng-template #externalCompactMeeting>
-      <a class="appland-button appland-button--primary compact-menu__cta" [href]="meetingDestination.href" [target]="meetingDestination.target" [rel]="meetingDestination.rel" (click)="navigate()">
-        {{ meetingAction.label }}
-      </a>
-    </ng-template>
-  </div>
-</div>
+}

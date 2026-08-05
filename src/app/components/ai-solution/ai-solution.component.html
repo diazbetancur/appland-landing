@@ -2,19 +2,20 @@
   <div class="ai__intro">
     <p class="appland-eyebrow">Inteligencia Artificial</p>
     <h2 id="ia-title" class="appland-heading">Inteligencia Artificial aplicada a negocios</h2>
-    <ng-container *ngIf="resolvedContactAction.kind === 'router'; else aiExternalAction">
+    @if (resolvedContactAction.kind === 'router') {
       <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="resolvedContactAction.fragment">Conversemos sobre IA</a>
-    </ng-container>
-    <ng-template #aiExternalAction>
+    } @else {
       <a class="appland-button appland-button--primary" [href]="resolvedContactAction.href" [target]="resolvedContactAction.target" [rel]="resolvedContactAction.rel">Conversemos sobre IA</a>
-    </ng-template>
+    }
     <div class="ai__orb" aria-hidden="true"></div>
   </div>
 
   <div class="ai__grid">
-    <article *ngFor="let application of applications; let index = index" class="ai-card">
-      <span aria-hidden="true">0{{ index + 1 }}</span>
-      <h3>{{ application.label }}</h3>
-    </article>
+    @for (application of applications; track application; let index = $index) {
+      <article class="ai-card">
+        <span aria-hidden="true">0{{ index + 1 }}</span>
+        <h3>{{ application.label }}</h3>
+      </article>
+    }
   </div>
 </div>

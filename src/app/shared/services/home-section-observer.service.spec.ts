@@ -8,7 +8,10 @@ import {
   mapObservedRegionToNavigationFragment,
 } from './home-section-observer.service';
 
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: false
+})
 class RouteStubComponent {}
 
 describe('HomeSectionObserverService', () => {

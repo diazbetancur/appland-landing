@@ -5,29 +5,39 @@
         <span aria-hidden="true"></span>APPLAND
       </a>
       <p>{{ content.brandSummary }}</p>
-      <div class="footer__social" *ngIf="content.socialLinks.length">
-        <a *ngFor="let link of content.socialLinks" [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
-      </div>
+      @if (content.socialLinks.length) {
+        <div class="footer__social">
+          @for (link of content.socialLinks; track link) {
+            <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+          }
+        </div>
+      }
     </div>
 
     <div>
       <h2>Navegación</h2>
       <ul>
-        <li *ngFor="let item of content.navigation"><a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a></li>
+        @for (item of content.navigation; track item) {
+          <li><a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a></li>
+        }
       </ul>
     </div>
 
     <div>
       <h2>Servicios</h2>
       <ul>
-        <li *ngFor="let item of content.services"><a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a></li>
+        @for (item of content.services; track item) {
+          <li><a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a></li>
+        }
       </ul>
     </div>
 
     <div>
       <h2>Casos de éxito</h2>
       <ul>
-        <li *ngFor="let item of content.cases"><a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a></li>
+        @for (item of content.cases; track item) {
+          <li><a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a></li>
+        }
       </ul>
     </div>
 
@@ -43,8 +53,12 @@
 
   <div class="footer__bottom">
     <p>© {{ currentYear }} {{ content.copyrightOwner }}. Todos los derechos reservados.</p>
-    <div *ngIf="content.legalLinks.length">
-      <a *ngFor="let link of content.legalLinks" [href]="destinationHref(link)">{{ link.label }}</a>
-    </div>
+    @if (content.legalLinks.length) {
+      <div>
+        @for (link of content.legalLinks; track link) {
+          <a [href]="destinationHref(link)">{{ link.label }}</a>
+        }
+      </div>
+    }
   </div>
 </div>

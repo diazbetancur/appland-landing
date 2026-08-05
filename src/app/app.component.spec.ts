@@ -2,7 +2,6 @@ import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import {
   ConversionAction,
   FooterContent,
@@ -11,18 +10,27 @@ import {
 } from './feature/pages/home/home-content.models';
 import { AppComponent } from './app.component';
 
-@Component({ selector: 'app-menu', template: '' })
+@Component({
+    selector: 'app-menu', template: '',
+    standalone: false
+})
 class MenuStubComponent {
   @Input() items: readonly NavigationItem[] = [];
   @Input() meetingAction!: ConversionAction;
 }
 
-@Component({ selector: 'app-footer', template: '' })
+@Component({
+    selector: 'app-footer', template: '',
+    standalone: false
+})
 class FooterStubComponent {
   @Input() content!: FooterContent;
 }
 
-@Directive({ selector: '[appHomeSection]' })
+@Directive({
+    selector: '[appHomeSection]',
+    standalone: false
+})
 class HomeSectionStubDirective {
   @Input('appHomeSection') regionId!: ObservedRegionId;
 }
@@ -32,7 +40,7 @@ describe('AppComponent shell', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule],
       declarations: [AppComponent, MenuStubComponent, FooterStubComponent, HomeSectionStubDirective],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);

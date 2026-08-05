@@ -8,7 +8,10 @@ import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { HomeSectionObserverService } from '../../shared/services/home-section-observer.service';
 import { MenuComponent } from './menu.component';
 
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: false
+})
 class MenuRouteStubComponent {}
 
 describe('MenuComponent navigation', () => {

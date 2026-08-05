@@ -2,7 +2,10 @@ import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular
 import { ObservedRegionId } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService } from '../services/home-section-observer.service';
 
-@Directive({ selector: '[appHomeSection]' })
+@Directive({
+    selector: '[appHomeSection]',
+    standalone: false
+})
 export class HomeSectionDirective implements AfterViewInit, OnDestroy {
   @Input('appHomeSection') regionId!: ObservedRegionId;
 

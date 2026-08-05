@@ -6,7 +6,10 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { MenuComponent } from './menu.component';
 
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: false
+})
 class AccessibilityRouteStubComponent {}
 
 describe('MenuComponent accessibility', () => {

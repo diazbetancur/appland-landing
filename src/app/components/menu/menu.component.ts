@@ -19,9 +19,10 @@ import { HomeSectionObserverService } from '../../shared/services/home-section-o
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    standalone: false
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @Input() items: readonly NavigationItem[] = [];

@@ -4,18 +4,24 @@
     <h1 id="hero-title">{{ content.title }}</h1>
     <p class="hero__subtitle">{{ content.subtitle }}</p>
     <div class="hero__actions">
-      <a *ngIf="primaryAction.kind === 'router'" class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="primaryAction.fragment">
-        {{ content.primaryAction.label }}
-      </a>
-      <a *ngIf="primaryAction.kind === 'href'" class="appland-button appland-button--primary" [href]="primaryAction.href" [target]="primaryAction.target" [rel]="primaryAction.rel">
-        {{ content.primaryAction.label }}
-      </a>
+      @if (primaryAction.kind === 'router') {
+        <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="primaryAction.fragment">
+          {{ content.primaryAction.label }}
+        </a>
+      }
+      @if (primaryAction.kind === 'href') {
+        <a class="appland-button appland-button--primary" [href]="primaryAction.href" [target]="primaryAction.target" [rel]="primaryAction.rel">
+          {{ content.primaryAction.label }}
+        </a>
+      }
       <a class="appland-button appland-button--secondary" [routerLink]="['/']" [fragment]="servicesAction.fragment">
         {{ content.servicesAction.label }}
       </a>
-      <a *ngIf="content.whatsappAction && whatsappAction" class="hero__whatsapp" [href]="whatsappAction.href" [target]="whatsappAction.target" [rel]="whatsappAction.rel">
-        {{ content.whatsappAction.label }}
-      </a>
+      @if (content.whatsappAction && whatsappAction) {
+        <a class="hero__whatsapp" [href]="whatsappAction.href" [target]="whatsappAction.target" [rel]="whatsappAction.rel">
+          {{ content.whatsappAction.label }}
+        </a>
+      }
     </div>
     <ul class="hero__tags" aria-label="Áreas de especialidad">
       <li>Desarrollo de software</li>

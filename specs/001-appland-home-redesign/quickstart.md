@@ -1,17 +1,17 @@
 # Quickstart: Implement and Verify APPLAND Home
 
-**Feature**: 001-appland-home-redesign  
+**Feature**: 001-appland-home-redesign
 **Purpose**: Repeatable setup, implementation record and validation guide for the active feature.
+
+> **Platform update (2026-08-05):** The application now uses Angular 21.2 with Node 24.16 and remains NgModule-based. Historical Angular 16 evidence later in this document is retained as the original feature baseline.
 
 ## 1. Prerequisites
 
 - Windows/PowerShell or an equivalent shell.
-- A project-approved Node 18.x runtime at or above 18.10, selected through the team's version manager.
+- Node 24.16.0 selected through NVM for Windows (`nvm use 24.16.0`).
 - npm capable of honoring the existing package-lock.json.
 - Current Chrome available to Karma and manual validation.
 - No globally installed Angular CLI is required; use the local package scripts.
-
-Do not use the current Node 24 shell as the release baseline for this Angular 16 feature.
 
 Confirm versions:
 
@@ -19,13 +19,13 @@ Confirm versions:
     npm --version
     npm exec ng version
 
-Expected Angular result: Angular 16.2.x, CLI 16.2.15 and TypeScript 5.1.6.
+Expected result: Node 24.16.0, Angular 21.2.x, CLI 21.2.x and TypeScript 5.9.x.
 
 Install exactly the locked dependencies:
 
     npm ci
 
-No package addition is expected for this feature.
+The lockfile includes the approved Angular 21 dependency migration and compatible security overrides.
 
 ## 2. Confirm source authority before coding
 
@@ -360,7 +360,7 @@ Static checks found no Home production reference to support.js, React, flagcdn, 
 
 ### Performance and remaining release gates
 
-The required Lighthouse CLI is not installed and adding it would violate the no-new-dependencies constraint, so no Lighthouse score or compliant three-run Lighthouse median is claimed. A separate Chrome diagnostic using the planned 390 × 844, DPR 3, Fast-4G approximation and 4× CPU profile produced three LCP values of 3,100 ms, 3,112 ms and 2,996 ms; CLS was 0 in all runs; approximate TBT values were 440 ms, 566 ms and 454 ms. This diagnostic is not a Lighthouse substitute and does not satisfy T088; its median LCP/TBT also indicates that performance work remains within the preserved global-dependency constraint.
+The required Lighthouse CLI is not installed and adding it would violate the no-new-dependencies constraint, so no Lighthouse score or compliant three-run Lighthouse median is claimed. The latest release-readiness repetition ran the separate Chrome diagnostic using the planned 390 × 844, DPR 3, Fast-4G approximation and 4× CPU profile. It produced LCP values of 2,624 ms, 2,620 ms and 2,684 ms; CLS was 0 in all runs; approximate TBT values were 213 ms, 189 ms and 249 ms. This diagnostic is not a Lighthouse substitute and does not satisfy T088; its median LCP of 2,624 ms and approximate median TBT of 213 ms remain above the documented targets and preserve the performance risk.
 
 The following mandatory evidence remains unavailable and must stay open:
 
@@ -371,3 +371,138 @@ The following mandatory evidence remains unavailable and must stay open:
 - Final evidence normalization and full FR-001–FR-046 / SC-001–SC-014 release audit after those gates (T101–T102).
 
 The feature implementation is buildable and technically exercised, but it is not release-complete while these mandatory tasks remain open.
+
+## 15. Final release-readiness review — 2026-08-05
+
+No application code or dependency file was changed during this review. The only correction was removal of trailing whitespace from four feature documents after the effective diff check exposed it.
+
+### Repeated technical gates
+
+- `npm test -- --watch=false --browsers=ChromeHeadless`: 64 of 64 tests passed in Chrome Headless 150.
+- `npm run build -- --configuration production`: passed with 899.42 kB raw initial bundle and 177.98 kB estimated transfer. The inherited 500 kB warning and two inherited Bootstrap selector notices remain; the unchanged 1 MB error gate passes.
+- `git diff --check` and `git diff HEAD --check`: passed after the documentation-only whitespace correction.
+- `git diff --exit-code HEAD -- package.json package-lock.json`: passed; neither dependency manifest changed.
+- Task inventory: 102 unique IDs, 91 complete and 11 open. The open set is T004, T041, T055, T087, T088, T089, T098, T099, T100, T101 and T102.
+- Traceability inventory: all 46 functional requirement IDs and all 14 success-criterion IDs are represented in `tasks.md`. Evidence-based release closure remains incomplete while T100–T102 and their prerequisites are open.
+- Production CDP matrix: 1440, 1280, 1024, 768, 560, 559, 390 and 360 CSS pixels passed without document-level horizontal overflow. One `h1`, the applicable section order, conditional client/product omission and the 559/560 header CTA boundary were preserved.
+- Internal routes: `/about` and `/service` retained their route component plus global header/footer, had no horizontal overflow and exposed zero fragment-derived `aria-current`. Navigation from Home to `/about` cleared the previous Home state; `/service` also had no inherited fragment state.
+- Browser console/network: the Home introduced no console error or failed resource. The only message was the already documented `/service` 404 for `assets/images/services/develop.jpg`; it is inherited and was not changed.
+- Visual capture review: representative desktop, tablet/mobile Hero, 559/560 boundary, compact menu, services, final CTA and `/service` captures showed contained content and preserved hierarchy. This does not replace the required real-device, zoom, focus/hover or assistive-technology checkpoints.
+
+### Open-task evidence assessment
+
+| Task | Expected criterion | Evidence available | Evidence still missing | Can close without code? |
+|---|---|---|---|---|
+| T004 | Comparable pre-change `/`, `/about` and `/service` baseline at every requested width, including overflow and console | Baseline Karma/build plus one pre-change 1440 Home capture and inherited-resource notes | The complete pre-change route/width matrix was never captured and must not be recreated from post-change output | No. Keep the explicit historical deviation open unless formally accepted |
+| T041 | Initial-increment layouts at 1440/1024/768/560/559/390/360, active-state/Menu specs, focus/zoom, CTA and overflow checkpoint | Final production width matrix, Menu/active-state tests, one `aria-current` contract, 559/560 CTA evidence and no overflow | Contemporaneous initial-increment checkpoint and complete manual focus/zoom validation | No code defect is identified; manual evidence or formal acceptance is required |
+| T055 | Service/case/IA specs, full Karma/build and independent mouse, touch and keyboard checkpoints | Component tests plus 64/64 full Karma, passing build, manual controls rendered, click/keyboard behavior covered by specs | Independent real touch-device checkpoint | No code change is indicated; real touch evidence is required |
+| T087 | Final mobile why/team/CTA/footer group at 560/559/390/360 and 200% zoom | All four widths pass overflow/containment and representative final CTA captures were inspected | Manual 200% zoom workflow | No; external/manual validation is required |
+| T088 | Passing build/budgets, three Lighthouse mobile runs and Chrome Network/Performance inspection | Build passes its unchanged error gate; three non-Lighthouse Chrome diagnostic runs and Network/Performance evidence exist | Lighthouse is unavailable locally; no valid three-run Lighthouse median or approved performance deviation exists | No. Chrome diagnostics cannot close a Lighthouse-specific task |
+| T089 | Full reference comparison at all eight widths plus typography, active/focus/hover, language and runtime review | Captures at all widths, representative visual inspection, typography fallback, active-state tests, no language UI and no Home runtime errors | T088 dependency and complete human focus/hover/all-width comparison | No code defect is confirmed; dependency and manual evidence remain |
+| T098 | Complete keyboard, 200% zoom, reduced-motion and real screen-reader checklist | Automated keyboard, ARIA, focus-transfer and reduced-motion coverage | Manual 200% zoom and real screen-reader validation | No; both are required external checks |
+| T099 | Final all-width visual/touch matrix plus DOM, console and network inspection | All-width DOM/capture matrix, no overflow, forbidden-runtime absence, Home-clean console/network and internal-route regression | Real touch-device execution and complete human visual interaction sign-off | No code defect is confirmed; touch/manual evidence remains |
+| T100 | Representative first-visit/contact exercise for SC-001 and SC-002 | The target flows and acceptance method are documented | Real participants, anonymized counts, comprehension time and decision count | No; participant evidence cannot be simulated |
+| T101 | Normalize the quickstart with actual final outcomes and approved deviations after T100 | Commands, build, browser diagnostics, publication decisions and current deviations are documented | T100 outcomes and any resulting approved deviations; dependency is not satisfied | No; keep open despite this incremental evidence update |
+| T102 | Final evidence audit for all 46 FR and 14 SC with no blocker | All IDs exist and are mapped in the traceability table; automated coverage is recorded | Evidence-based closure after T101, including Lighthouse/manual/participant gates or formal approved deferrals | No; inventory coverage is not acceptance completion |
+
+No task was marked complete during this review. The implementation remains technically buildable, but the recommended state is **Acceptance Pending**, not Ready for Release.
+
+## 16. Controlled acceptance closure — 2026-08-05
+
+No task was closed in this pass. The checks below extend the evidence, but automated browser inspection is not represented as manual zoom, a real touch device or a screen-reader session.
+
+### Available environment and external-capability inventory
+
+- Host: Windows, 1920 × 1080, Intel Iris Xe Graphics.
+- Browser: Chrome 150.0.7871.187.
+- Real touch: no present touch-screen/digitizer was detected by Windows PnP; `adb` is unavailable, so no connected Android device can be exercised.
+- Screen reader: NVDA is not installed. Windows Narrator exists as an OS component, but this execution environment has no channel to operate it while observing and recording its spoken output; no screen-reader result is claimed.
+- Lighthouse: no global command or project-local executable exists. No dependency was downloaded or added, and no Chrome diagnostic is treated as Lighthouse.
+- Local supplemental evidence: `tmp/validation/acceptance/report.json` and its PNG captures. These temporary files are not production inputs.
+
+### Automated real-Chrome supplemental checks
+
+Chrome ran against the production build. The following results are repeatable and machine-observed:
+
+- Sixteen sequential desktop tab stops were visible and matched `:focus-visible`, starting with the skip link and continuing through the header, conversion actions, service tab, case controls and case track.
+- At 390 CSS pixels, keyboard Tab reached the compact-menu toggle with visible focus. Enter opened the dialog, focus moved to “Cerrar menú”, twelve subsequent Tab steps stayed inside the intentional focus trap, and Escape closed the dialog and restored visible focus to the toggle.
+- Service tabs responded to End, Home and ArrowRight. End selected “Consultoría Tecnológica”; Home followed by ArrowRight selected “Inteligencia Artificial”, with selected and focused tabs aligned.
+- The case carousel advanced from `1 de 5` to `2 de 5` with ArrowRight and to `3 de 5` by focusing “Caso siguiente” and pressing Enter. The product region is not published, so no product control or swipe result is claimed.
+- The primary CTA received a visible 3 px focus outline without clipped text. Hovering the “Servicios” header link activated its non-color hover treatment; keyboard navigation independently exposed visible focus.
+- Exactly one `aria-current="location"` existed on Home (“Inicio”). `/about` and `/service` each exposed zero fragment-derived current links.
+- With reduced motion configured before page initialization, the media query matched, zero visible reveal elements remained at opacity zero and every applicable Home region remained available.
+- The Chrome accessibility tree exposed one banner, one navigation, one main, one contentinfo, one `h1`, five tabs and one tabpanel. The published case carousel remained a labelled, focusable region. The Home rendered no `img` element in the current approved-resource state; decorative visuals were hidden from accessibility APIs.
+- A supplemental 200% geometry approximation used Chrome at an effective 960 × 540 CSS viewport with DPR 2 on the 1920 × 1080 host. Home, `/about` and `/service` rendered their route components, a visible navigation mode, actions and headings with no document-level horizontal overflow or detected clipped text. This is automated geometry evidence only and does not close the required manual 200% browser-zoom check.
+
+### T004 pre-change baseline deviation — approval pending
+
+| Field | Record |
+|---|---|
+| Evidence that should exist | Pre-change `/`, `/about` and `/service` structure, overflow, console and shell evidence at 1440, 1280, 1024, 768, 390 and 360 CSS pixels |
+| Why it is unavailable | The complete matrix was not captured before implementation. The current application cannot reproduce historical output without inventing or rebuilding evidence |
+| Post-change evidence available | Baseline Karma/build results, one inherited Home capture at 1440 px, final production captures at eight widths, automated overflow checks and `/about`/`/service` regression coverage |
+| Residual risk | A width-by-width visual delta against the exact prior implementation cannot be proven; current behavior can be verified only as post-change output |
+| Acceptance owner | Pending explicit designation and approval by the Product Owner or Release Owner |
+| Acceptance date | Pending human approval; no date recorded |
+| Closure condition | Named owner records explicit acceptance and date, acknowledging that the historical baseline cannot be recovered |
+
+T004 remains open. This record is a deviation request, not an approved deferral.
+
+### T100 participant protocol for SC-001 and SC-002
+
+**Expected participant profile**
+
+- Spanish-speaking decision makers or project influencers from organizations that could need custom software, artificial intelligence or automation.
+- First-time visitors who did not implement the feature and have not been briefed on the page structure.
+- A mix of technical and non-technical profiles and, where practical, both desktop and mobile users.
+
+**Minimum sample**
+
+- Ten valid participants. This makes the approved 90% threshold directly observable as at least nine successful participants.
+
+**Procedure and tasks**
+
+1. Start a fresh browser session on `/` without explaining APPLAND's offer.
+2. Expose the initial Home for up to ten seconds, then hide or pause interaction and ask the comprehension questions.
+3. Ask the participant to find how to schedule a meeting; record every decision or navigation choice until the meeting destination or approved contact fallback is reached.
+4. In a separate fresh attempt, ask the participant to find WhatsApp; record decisions until the official action is reached.
+5. Provide no navigation hints. Record abandonment, hesitation, accidental activation and any inaccessible or dead destination.
+
+**Measured indicators and questions**
+
+- Time to first accurate statement of APPLAND's offer and primary action.
+- Accurate answer to: “¿Qué hace APPLAND?”, “¿Para quién parece estar dirigida esta oferta?” and “¿Cuál es la acción principal que puedes realizar?”.
+- Decision count to meeting and WhatsApp, selected path, completion and assistance required.
+- Device/input mode and any observed confusion.
+
+**Approval criteria**
+
+- SC-001: at least 9 of 10 participants accurately identify the offer and primary CTA within ten seconds.
+- SC-002: at least 9 of 10 reach the requested meeting or WhatsApp action in no more than two decisions, without assistance.
+- Any dead destination or systematic accessibility blocker fails the corresponding exercise and requires triage before acceptance.
+
+**Result record**
+
+| Anonymous ID | Profile | Device/input | Offer understood | Time (s) | CTA identified | Meeting decisions/result | WhatsApp decisions/result | Assistance | Notes |
+|---|---|---|---|---:|---|---|---|---|---|
+| Pending | Pending | Pending | Pending | — | Pending | Pending | Pending | Pending | No participant executed yet |
+
+T100 remains open until real results satisfy the criteria or an explicitly named human owner approves a formal deferral.
+
+### Unexecuted-gate deviation requests — none approved
+
+| Task | Reason not completed | Risk and impact | Acceptance owner | Target date | Closure condition |
+|---|---|---|---|---|---|
+| T004 | Historical baseline was not captured | Exact pre/post visual comparison cannot be proven | Product Owner or Release Owner, pending explicit designation | Pending human definition | Explicit named acceptance and date for the baseline deviation |
+| T041 | Complete manual focus and 200% zoom checkpoint cannot be operated/observed here | Possible zoom clipping or focus issue could escape automation | Accessibility/QA owner, pending designation | Pending human definition | Manual browser matrix recorded with browser, resolution, route and evidence |
+| T055 | No real touch device and no independent human input session are available | Gesture, touch-target or scroll-interference issue could remain | Mobile QA owner, pending designation | Pending human definition | Real-device mouse/touch/keyboard checkpoint passes and is recorded |
+| T087 | Manual 200% zoom is unavailable | Final CTA/footer content could behave differently under real browser zoom | Accessibility/QA owner, pending designation | Pending human definition | Home final-group zoom checklist passes at required widths |
+| T088 | No callable Lighthouse installation is available without adding/downloading a dependency | Official performance/accessibility/best-practices/SEO scores and median remain unknown; Chrome diagnostic remains above planned LCP/TBT targets | Performance or Release Owner, pending designation | Pending human definition | Three independent mobile Lighthouse reports pass, or a named owner explicitly accepts a documented deviation |
+| T089 | Depends on T088 and lacks complete human all-width focus/hover comparison | A visual or interaction mismatch may remain | Design QA and Release Owner, pending designation | Pending human definition | T088 closes and the full reference comparison is signed off |
+| T098 | No observable screen-reader session or manual 200% zoom | Announcements, reading order or zoom usability may differ from DOM/AX-tree evidence | Accessibility owner, pending designation | Pending human definition | NVDA/Chrome, NVDA/Edge or VoiceOver/Safari checklist plus manual zoom passes |
+| T099 | No real touch device or complete human visual-interaction sign-off | Mobile gestures and touch targets remain unverified on hardware | Mobile QA owner, pending designation | Pending human definition | Real-device touch matrix and final browser inspection pass |
+| T100 | No representative participants are available | SC-001 and SC-002 business outcomes remain unmeasured | Product Owner/UX Research owner, pending designation | Pending human definition | Protocol executes with at least ten participants and meets both 90% gates, or an explicit formal deferral is approved |
+| T101 | Depends on actual T100 outcomes | Final verification record cannot contain unavailable outcomes | Release Owner, pending designation | After T100 | Quickstart is normalized with actual participant results or an approved deferral |
+| T102 | Depends on T101 and all evidence gates | Requirement mapping exists, but release acceptance remains incomplete | Release Owner, pending designation | After T101 | Evidence audit confirms all 46 FR and 14 SC or records explicit approved deviations |
+
+No acceptance owner, target date or deferral approval is inferred from a role label. Each remains pending explicit human confirmation.

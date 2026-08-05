@@ -1,7 +1,8 @@
 # Data Model: APPLAND Home Redesign
 
-**Feature**: 001-appland-home-redesign  
-**Date**: 2026-08-04  
+**Feature**: 001-appland-home-redesign
+
+**Date**: 2026-08-04
 **Persistence**: None. This is immutable, build-time Home configuration plus transient UI state.
 
 ## Design principles

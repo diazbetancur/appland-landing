@@ -1,8 +1,11 @@
 # Research: APPLAND Home Redesign
 
-**Feature**: 001-appland-home-redesign  
-**Date**: 2026-08-04  
+**Feature**: 001-appland-home-redesign
+
+**Date**: 2026-08-04
 **Status**: Complete
+
+> **Post-implementation platform update (2026-08-05):** The technical baseline below records the state used to design and implement the Home. The current repository has since moved to Angular 21.2, TypeScript 5.9 and Node 24.16 without migrating away from NgModule. Current setup instructions live in [README.md](../../README.md).
 
 ## Sources and authority
 

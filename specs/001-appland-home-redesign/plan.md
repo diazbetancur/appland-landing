@@ -4,6 +4,8 @@
 
 **Input**: Feature specification from specs/001-appland-home-redesign/spec.md
 
+> **Post-implementation platform update (2026-08-05):** The repository now runs Angular 21.2 on Node 24.16 while preserving its NgModule architecture. Angular 16 and Node 18 references below document the approved baseline used to implement this feature; they are historical constraints, not current setup instructions. Use [README.md](../../README.md) for the current environment.
+
 ## Summary
 
 Implement the approved Spanish APPLAND Home inside the existing Angular 16 NgModule application. HomeComponent remains the ordered orchestrator; existing section components are refactored where their responsibility matches, while only the missing challenges, Home-specific services, conditional products and final CTA components are added.

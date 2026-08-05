@@ -5,9 +5,11 @@
   </header>
 
   <ul class="why__grid">
-    <li *ngFor="let benefit of benefits; let index = index">
-      <span class="why__number" aria-hidden="true">0{{ index + 1 }}</span>
-      <p>{{ benefit.statement }}</p>
-    </li>
+    @for (benefit of benefits; track benefit; let index = $index) {
+      <li>
+        <span class="why__number" aria-hidden="true">0{{ index + 1 }}</span>
+        <p>{{ benefit.statement }}</p>
+      </li>
+    }
   </ul>
 </div>

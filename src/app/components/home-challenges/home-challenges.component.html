@@ -4,10 +4,12 @@
     <h2 id="desafios-title" class="appland-heading">¿Qué desafíos podemos ayudarte a resolver?</h2>
   </header>
   <div class="challenges__grid">
-    <article *ngFor="let challenge of challenges; let index = index" class="challenge">
-      <span class="challenge__number" aria-hidden="true">0{{ index + 1 }}</span>
-      <h3>{{ challenge.problem }}</h3>
-      <p>{{ challenge.response }}</p>
-    </article>
+    @for (challenge of challenges; track challenge; let index = $index) {
+      <article class="challenge">
+        <span class="challenge__number" aria-hidden="true">0{{ index + 1 }}</span>
+        <h3>{{ challenge.problem }}</h3>
+        <p>{{ challenge.response }}</p>
+      </article>
+    }
   </div>
 </div>
