@@ -1,30 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Component, Input, OnChanges } from '@angular/core';
+import { AiApplication, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
+import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-  selector: 'app-ai-solution',
-  templateUrl: './ai-solution.component.html',
-  styleUrls: ['./ai-solution.component.scss'],
+    selector: 'app-ai-solution',
+    templateUrl: './ai-solution.component.html',
+    styleUrls: ['./ai-solution.component.scss'],
+    standalone: false
 })
-export class AiSolutionComponent implements OnInit, OnDestroy {
-  public aiSolutions: any[] = [];
-  private sub!: Subscription;
+export class AiSolutionComponent implements OnChanges {
+  @Input() applications: readonly AiApplication[] = [];
+  @Input() contactAction!: ConversionAction;
+  resolvedContactAction!: ResolvedAction;
 
-  constructor(private readonly translate: TranslateService) {}
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
+  ngOnChanges(): void {
+    this.resolvedContactAction = resolveConversionAction(this.contactAction);
   }
-
-  ngOnInit(): void {
-    this.sub = this.translate
-      .get('IAServices.services')
-      .subscribe((data: any[]) => {
-        this.aiSolutions = data;
-      });
-  }
-
-  onCardHover(index: number) {}
-
-  onCardLeave(index: number) {}
 }

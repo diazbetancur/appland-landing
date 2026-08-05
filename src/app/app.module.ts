@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { A11yModule } from '@angular/cdk/a11y';
+import { provideTranslateService, TranslatePipe } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
@@ -26,10 +22,14 @@ import { TeamCoverageComponent } from './components/team-coverage/team-coverage.
 import { WhyComponent } from './components/why/why.component';
 import { HomeComponent } from './feature/pages/home/home.component';
 import { CountUpDirective } from './shared/directives/count-up.directive';
+import { HomeSectionDirective } from './shared/directives/home-section.directive';
+import { HomeChallengesComponent } from './components/home-challenges/home-challenges.component';
+import { HomeServicesComponent } from './components/home-services/home-services.component';
+import { HorizontalCarouselDirective } from './shared/directives/horizontal-carousel.directive';
+import { HomeProductsComponent } from './components/home-products/home-products.component';
+import { HomeCtaComponent } from './components/home-cta/home-cta.component';
+import { RevealOnScrollDirective } from './shared/directives/reveal-on-scroll.directive';
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,25 +48,28 @@ export function HttpLoaderFactory(http: HttpClient) {
     CardTemplateComponent,
     ChooseUsComponent,
     CountUpDirective,
+    HomeSectionDirective,
+    HomeChallengesComponent,
+    HomeServicesComponent,
+    HorizontalCarouselDirective,
+    HomeProductsComponent,
+    HomeCtaComponent,
+    RevealOnScrollDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
+    A11yModule,
+    TranslatePipe,
+  ],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    provideTranslateService({
+      fallbackLang: 'es',
+      lang: 'es',
+      loader: provideTranslateHttpLoader(),
     }),
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

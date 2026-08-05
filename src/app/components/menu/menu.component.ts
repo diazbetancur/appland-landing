@@ -1,63 +1,105 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { LanguageService } from '../shared/language.service';
-import { translations, SupportedLanguages } from './menu.component.conf';
-
-type Language = 'en' | 'es';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import {
+  ConversionAction,
+  HomeSectionId,
+  NavigationItem,
+  ResolvedAction,
+} from '../../feature/pages/home/home-content.models';
+import { HomeSectionObserverService } from '../../shared/services/home-section-observer.service';
+import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    standalone: false
 })
-export class MenuComponent {
-  currentLanguage: Language = 'en';
-  navItems: Array<{ name: string; route: string }> = [];
-  scrolled = '';
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const header = document.querySelector('.fixed-header') as HTMLElement;
-    if (window.pageYOffset > 1) {
-      this.scrolled = 'scrolled';
-    } else {
-      this.scrolled = '';
+export class MenuComponent implements OnInit, OnDestroy {
+  @Input() items: readonly NavigationItem[] = [];
+  @Input() meetingAction!: ConversionAction;
+  @ViewChild('menuToggle') menuToggle?: ElementRef<HTMLButtonElement>;
+
+  activeFragment: HomeSectionId | null = null;
+  isMenuOpen = false;
+  isScrolled = false;
+  meetingDestination!: ResolvedAction;
+  private readonly subscriptions = new Subscription();
+
+  constructor(
+    private readonly sectionObserver: HomeSectionObserverService,
+    private readonly router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.meetingDestination = resolveConversionAction(this.meetingAction);
+    this.subscriptions.add(
+      this.sectionObserver.activeNavigationFragment.subscribe((fragment) => {
+        this.activeFragment = fragment;
+      })
+    );
+    this.subscriptions.add(
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.closeMenu(false);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen ? this.closeMenu() : this.openMenu();
+  }
+
+  openMenu(): void {
+    this.isMenuOpen = true;
+  }
+
+  closeMenu(restoreFocus = true): void {
+    if (!this.isMenuOpen) {
+      return;
+    }
+    this.isMenuOpen = false;
+    if (restoreFocus) {
+      queueMicrotask(() => this.menuToggle?.nativeElement.focus());
     }
   }
 
-  constructor(private languageService: LanguageService) {
-    this.updateNavItems();
+  navigate(): void {
+    this.closeMenu(false);
   }
 
-  changeLanguage(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    this.languageService.changeLanguage(target.value);
-    this.updateNavItems();
+  isActive(fragment: HomeSectionId): boolean {
+    return this.activeFragment === fragment;
   }
 
-  updateNavItems() {
-    const lang = localStorage.getItem('language');
-    this.currentLanguage = lang === 'en' || lang === 'es' ? lang : 'en';
-    const menuItems = translations[this.currentLanguage];
-    this.navItems = [
-      { name: menuItems.home, route: '' },
-      { name: menuItems.expertise, route: '/#expertise' },
-      { name: menuItems.portfolio, route: '/#portfolio' },
-      { name: menuItems.about, route: '/about' },
-      { name: menuItems.blog, route: '/#blog' },
-      { name: menuItems.contact, route: '/#contact' },
-    ];
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.isScrolled = window.scrollY > 16;
   }
 
-  isMenuOpen = false;
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    if (window.innerWidth >= 1024) {
+      this.closeMenu(false);
+    }
   }
 
-  isInfoOpen = false;
-
-  toggleInfo() {
-    this.isInfoOpen = !this.isInfoOpen;
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeMenu();
   }
-  info =
-    '¡Bienvenidos a APPLAND! Con una sólida trayectoria de más de 12 años, somos líderes en el desarrollo de software a medida y soluciones digitales en nuestra zona. No solo creamos código; damos vida y empoderamos tus ideas con soluciones tecnológicas.';
 }

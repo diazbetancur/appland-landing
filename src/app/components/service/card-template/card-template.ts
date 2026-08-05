@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-card-template',
-  templateUrl: './card-template.html',
-  styleUrls: ['./card-template.scss'],
+    selector: 'app-card-template',
+    templateUrl: './card-template.html',
+    styleUrls: ['./card-template.scss'],
+    standalone: false
 })
 export class CardTemplateComponent {
   @Input() services: ServiceDescription[] = [];

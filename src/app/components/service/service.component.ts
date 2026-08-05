@@ -3,9 +3,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-service',
-  templateUrl: './service.component.html',
-  styleUrls: ['./service.component.scss'],
+    selector: 'app-service',
+    templateUrl: './service.component.html',
+    styleUrls: ['./service.component.scss'],
+    standalone: false
 })
 export class ServiceComponent implements OnInit, OnDestroy {
   services: any[] = [];
@@ -15,7 +16,7 @@ export class ServiceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.trans.stream('ourServiceDescription').subscribe((res) => {
-      this.services = res;
+      this.services = Array.isArray(res) ? res : [];
     });
   }
 

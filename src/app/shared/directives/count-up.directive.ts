@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appCountUp]',
+    selector: '[appCountUp]',
+    standalone: false
 })
 export class CountUpDirective implements OnInit {
   @Input() endValue: number = 0;

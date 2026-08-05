@@ -1,0 +1,104 @@
+:host {
+  display: block;
+  background: var(--appland-bg);
+}
+
+.services__header {
+  margin-bottom: 2.5rem;
+}
+
+.services__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+}
+
+.services__tab {
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--appland-line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--appland-muted);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.services__tab--active {
+  border-color: var(--appland-orange);
+  background: var(--appland-orange);
+  color: #080c11;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.services__panel {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: 390px;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border: 1px solid var(--appland-line);
+  border-radius: var(--appland-radius-xl);
+  background: linear-gradient(160deg, #141b25, #090d12);
+}
+
+.services__visual {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 46% 54% 60% 40%;
+  background: conic-gradient(from 210deg, var(--appland-orange), #682308, var(--appland-cyan), var(--appland-orange));
+  box-shadow: inset 0 0 0 28px var(--appland-bg), var(--appland-shadow);
+  transform: rotate(-12deg);
+}
+
+.services__visual span {
+  position: absolute;
+  width: 18%;
+  aspect-ratio: 1;
+  border: 1px solid var(--appland-line-strong);
+  border-radius: 50%;
+  background: var(--appland-panel-2);
+}
+
+.services__visual span:nth-child(1) { top: 16%; left: 25%; }
+.services__visual span:nth-child(2) { right: 12%; top: 46%; }
+.services__visual span:nth-child(3) { bottom: 10%; left: 34%; }
+
+.services__counter {
+  margin: 0 0 1rem;
+  color: var(--appland-cyan);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+h3 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  letter-spacing: -0.03em;
+}
+
+.services__panel div > p:last-child {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--appland-muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+  .services__tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x proximity;
+  }
+
+  .services__tab { flex: 0 0 auto; scroll-snap-align: start; }
+  .services__panel { grid-template-columns: 1fr; min-height: auto; }
+  .services__visual { width: min(76%, 280px); margin-inline: auto; }
+}

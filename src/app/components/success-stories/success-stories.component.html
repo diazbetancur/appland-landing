@@ -1,24 +1,38 @@
-<div class="container">
-  <section id="success-stories" class="section success-stories">
-    <div class="container">
-      <h2>Casos de Éxito</h2>
-      <div class="grid-cards">
-        <div class="case-card">
-          <img src="assets/proyectos/emsula.webp" alt="EMSULA Web" />
-          <h4>EMSULA Landing</h4>
-          <p>Diseño web para captación masiva de leads.</p>
-        </div>
-        <div class="case-card">
-          <img src="assets/proyectos/ops.webp" alt="OPS Telemedicina" />
-          <h4>OPS Telemedicina</h4>
-          <p>Plataforma de atención médica remota para Unión Europea.</p>
-        </div>
-        <div class="case-card">
-          <img src="assets/proyectos/tengo.webp" alt="TENGO Wallet" />
-          <h4>TENGO App</h4>
-          <p>Desarrollo de eWallet para pagos digitales en Centroamérica.</p>
-        </div>
-      </div>
+<div class="appland-container">
+  <div class="cases__heading">
+    <div>
+      <p class="appland-eyebrow">Casos de éxito</p>
+      <h2 id="casos-title" class="appland-heading">Algunos proyectos desarrollados</h2>
     </div>
-  </section>
+    <div class="cases__controls">
+      <button type="button" aria-label="Caso anterior" [disabled]="!carousel.canMovePrevious" (click)="carousel.movePrevious()">←</button>
+      <button type="button" aria-label="Caso siguiente" [disabled]="!carousel.canMoveNext" (click)="carousel.moveNext()">→</button>
+    </div>
+  </div>
+
+  <div
+    #carousel="appHorizontalCarousel"
+    class="cases__track"
+    appHorizontalCarousel
+    [itemCount]="cases.length"
+    role="region"
+    aria-labelledby="casos-title"
+    aria-roledescription="carrusel"
+    tabindex="0"
+    >
+    @for (item of cases; track item; let index = $index) {
+      <article class="case-card">
+        @if (item.media) {
+          <img [src]="item.media.src" [alt]="item.media.alt" [width]="item.media.width" [height]="item.media.height" loading="lazy">
+        }
+        <p class="case-card__number">0{{ index + 1 }}</p>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.summary }}</p>
+        @if (destinationHref(item.destination); as href) {
+          <a [href]="href" target="_blank" rel="noopener noreferrer">Ver caso</a>
+        }
+      </article>
+    }
+  </div>
+  <p class="cases__position" aria-live="polite">{{ carousel.positionLabel }}</p>
 </div>

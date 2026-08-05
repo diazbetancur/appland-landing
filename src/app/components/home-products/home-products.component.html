@@ -1,0 +1,44 @@
+@if (products.length) {
+  <div class="appland-container">
+    <div class="products__heading">
+      <div>
+        <p class="appland-eyebrow">Productos</p>
+        <h2 id="productos-title" class="appland-heading">Soluciones listas para acelerar tu operación</h2>
+      </div>
+      <div class="products__controls">
+        <button type="button" aria-label="Producto anterior" [disabled]="!carousel.canMovePrevious" (click)="carousel.movePrevious()">←</button>
+        <button type="button" aria-label="Producto siguiente" [disabled]="!carousel.canMoveNext" (click)="carousel.moveNext()">→</button>
+      </div>
+    </div>
+    <div
+      #carousel="appHorizontalCarousel"
+      class="products__track"
+      appHorizontalCarousel
+      [itemCount]="products.length"
+      role="region"
+      aria-labelledby="productos-title"
+      aria-roledescription="carrusel"
+      tabindex="0"
+      >
+      @for (product of products; track product) {
+        <article class="product-card">
+          @if (product.media) {
+            <img [src]="product.media.src" [alt]="product.media.alt" [width]="product.media.width" [height]="product.media.height" loading="lazy">
+          }
+          <h3>{{ product.name }}</h3>
+          @if (product.summary) {
+            <p>{{ product.summary }}</p>
+          }
+          @if (inquiryAction(product); as action) {
+            @if (action.kind === 'router') {
+              <a class="product-card__action" [routerLink]="['/']" [fragment]="action.fragment">{{ product.inquiryAction.label }}</a>
+            } @else {
+              <a class="product-card__action" [href]="action.href" [target]="action.target" [rel]="action.rel">{{ product.inquiryAction.label }}</a>
+            }
+          }
+        </article>
+      }
+    </div>
+    <p class="products__position" aria-live="polite">{{ carousel.positionLabel }}</p>
+  </div>
+}
