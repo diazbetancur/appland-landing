@@ -23,7 +23,7 @@ export class LanguageService {
 
     const lang = storedLang || (['en', 'es'].includes(browserLang) ? browserLang : this.defaultLanguage);
 
-    this.translate.setDefaultLang(lang);
+    this.translate.setFallbackLang(lang);
     this.translate.use(lang);
 
   }
@@ -38,6 +38,6 @@ export class LanguageService {
   }
 
   getCurrentLanguage(): string {
-    return this.translate.currentLang || 'en';
+    return this.translate.currentLang() ?? 'en';
   }
 }

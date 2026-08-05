@@ -1,0 +1,38 @@
+<div class="appland-container">
+  <div class="cases__heading">
+    <div>
+      <p class="appland-eyebrow">Casos de éxito</p>
+      <h2 id="casos-title" class="appland-heading">Algunos proyectos desarrollados</h2>
+    </div>
+    <div class="cases__controls">
+      <button type="button" aria-label="Caso anterior" [disabled]="!carousel.canMovePrevious" (click)="carousel.movePrevious()">←</button>
+      <button type="button" aria-label="Caso siguiente" [disabled]="!carousel.canMoveNext" (click)="carousel.moveNext()">→</button>
+    </div>
+  </div>
+
+  <div
+    #carousel="appHorizontalCarousel"
+    class="cases__track"
+    appHorizontalCarousel
+    [itemCount]="cases.length"
+    role="region"
+    aria-labelledby="casos-title"
+    aria-roledescription="carrusel"
+    tabindex="0"
+    >
+    @for (item of cases; track item; let index = $index) {
+      <article class="case-card">
+        @if (item.media) {
+          <img [src]="item.media.src" [alt]="item.media.alt" [width]="item.media.width" [height]="item.media.height" loading="lazy">
+        }
+        <p class="case-card__number">0{{ index + 1 }}</p>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.summary }}</p>
+        @if (destinationHref(item.destination); as href) {
+          <a [href]="href" target="_blank" rel="noopener noreferrer">Ver caso</a>
+        }
+      </article>
+    }
+  </div>
+  <p class="cases__position" aria-live="polite">{{ carousel.positionLabel }}</p>
+</div>

@@ -1,0 +1,22 @@
+<div class="services-container">
+  <div class="services-grid">
+    @for (service of services; track service) {
+      <div
+        class="service-card"
+        [attr.data-key]="service.key"
+        >
+        <div class="card-content">
+          <div class="service-icon">
+            <img [src]="'assets/images/services/' + service.image" alt />
+          </div>
+          <div class="information">
+            <h3 class="service-title">{{ service.title | translate }}</h3>
+            <p class="service-description">
+              {{ service.description | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

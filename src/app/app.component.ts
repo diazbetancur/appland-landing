@@ -1,18 +1,14 @@
-import { Component, HostListener } from '@angular/core';
-import { LanguageService } from './components/shared/language.service';
+import { Component } from '@angular/core';
+import { HOME_CONTENT } from './feature/pages/home/home-content.config';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent {
-  title = 'appland';
-
-  constructor( private languageService: LanguageService) {
-  }
-
-  changeLanguage(lang: string) {
-    this.languageService.changeLanguage(lang);
-  }
+  readonly navigation = HOME_CONTENT.navigation;
+  readonly meetingAction = HOME_CONTENT.hero.primaryAction;
+  readonly footerContent = HOME_CONTENT.footer;
 }

@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FooterContent } from '../../feature/pages/home/home-content.models';
+import { destinationHref } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+    selector: 'app-footer',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.scss'],
+    standalone: false
 })
 export class FooterComponent {
-
+  @Input() content!: FooterContent;
+  readonly currentYear = new Date().getFullYear();
+  readonly destinationHref = destinationHref;
 }

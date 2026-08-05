@@ -1,10 +1,22 @@
 # Appland
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
+This project uses [Angular CLI](https://angular.dev/tools/cli) 21.2.x.
+
+## Prerequisites
+
+- Node.js 20.19+, 22.12+, or 24.x. The repository pins Node 24.16.0 in `.nvmrc`.
+- npm 11.x when using the pinned Node version.
+
+With NVM for Windows, select the project runtime before installing or running the application:
+
+```powershell
+nvm use 24.16.0
+npm install
+```
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm start` for a local-only dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any source files. Do not expose the development server to an external network.
 
 ## Code scaffolding
 
@@ -24,4 +36,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Angular CLI, run `npx ng help` or see the [Angular CLI documentation](https://angular.dev/tools/cli).

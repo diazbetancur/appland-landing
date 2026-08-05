@@ -1,0 +1,20 @@
+<div class="appland-container team">
+  <div class="team__visual" aria-hidden="true">
+    <span class="team__globe"></span>
+    <span class="team__orbit team__orbit--one"></span>
+    <span class="team__orbit team__orbit--two"></span>
+  </div>
+
+  <div class="team__content">
+    <p class="appland-eyebrow">Equipo global</p>
+    <h2 id="equipo-global-title" class="appland-heading">Talento conectado en distintas regiones</h2>
+    <ul class="team__countries" aria-label="Países con presencia de APPLAND">
+      @for (country of countries; track country) {
+        <li>
+          <span aria-hidden="true">{{ country.code }}</span>
+          {{ country.name }}
+        </li>
+      }
+    </ul>
+  </div>
+</div>
