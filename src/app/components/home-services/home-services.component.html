@@ -1,0 +1,34 @@
+<div class="appland-container">
+  <header class="services__header">
+    <p class="appland-eyebrow">Servicios</p>
+    <h2 id="servicios-title" class="appland-heading">Soluciones tecnológicas que impulsan el crecimiento de tu empresa</h2>
+  </header>
+
+  <div class="services__tabs" role="tablist" aria-label="Servicios de APPLAND">
+    <button
+      #tabButton
+      *ngFor="let service of services; let index = index"
+      type="button"
+      role="tab"
+      class="services__tab"
+      [class.services__tab--active]="service.id === activeServiceId"
+      [id]="'service-tab-' + service.id"
+      [attr.aria-selected]="service.id === activeServiceId"
+      [attr.aria-controls]="'service-panel-' + service.id"
+      [attr.tabindex]="service.id === activeServiceId ? 0 : -1"
+      (click)="select(service)"
+      (keydown)="onTabKeydown($event, index)"
+    >{{ service.name }}</button>
+  </div>
+
+  <div *ngIf="activeService as service" class="services__panel" role="tabpanel" [id]="'service-panel-' + service.id" [attr.aria-labelledby]="'service-tab-' + service.id" tabindex="0">
+    <div class="services__visual" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div>
+      <p class="services__counter">0{{ services.indexOf(service) + 1 }} / 0{{ services.length }}</p>
+      <h3>{{ service.name }}</h3>
+      <p>{{ service.summary }}</p>
+    </div>
+  </div>
+</div>

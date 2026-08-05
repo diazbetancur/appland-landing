@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Benefit } from '../../feature/pages/home/home-content.models';
 
 @Component({
   selector: 'app-why',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./why.component.scss']
 })
 export class WhyComponent {
-
+  @Input() benefits: readonly Benefit[] = [];
 }

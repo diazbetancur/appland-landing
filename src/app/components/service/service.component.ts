@@ -15,7 +15,7 @@ export class ServiceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.trans.stream('ourServiceDescription').subscribe((res) => {
-      this.services = res;
+      this.services = Array.isArray(res) ? res : [];
     });
   }
 

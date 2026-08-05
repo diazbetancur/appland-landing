@@ -1,0 +1,27 @@
+<div class="appland-container contact">
+  <div class="contact__copy">
+    <p class="appland-eyebrow">Hablemos</p>
+    <h2 id="contacto-title" class="appland-heading">{{ content.title }}</h2>
+    <p>{{ content.body }}</p>
+  </div>
+
+  <div class="contact__actions">
+    <ng-container *ngIf="meetingAction.kind === 'router'; else meetingExternal">
+      <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="meetingAction.fragment">{{ content.meetingAction.label }}</a>
+    </ng-container>
+    <ng-template #meetingExternal>
+      <a class="appland-button appland-button--primary" [href]="meetingAction.href" [target]="meetingAction.target" [rel]="meetingAction.rel">{{ content.meetingAction.label }}</a>
+    </ng-template>
+
+    <a class="appland-button appland-button--secondary" [href]="whatsappAction.href" [target]="whatsappAction.target" [rel]="whatsappAction.rel">{{ content.whatsappAction.label }}</a>
+  </div>
+
+  <address class="contact__details">
+    <a [href]="destinationHref(content.email)">{{ content.email.value }}</a>
+    <a [href]="destinationHref(content.phone)">+504 3394-9211</a>
+  </address>
+
+  <nav *ngIf="content.socialLinks.length" class="contact__social" aria-label="Redes sociales">
+    <a *ngFor="let link of content.socialLinks" [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+  </nav>
+</div>

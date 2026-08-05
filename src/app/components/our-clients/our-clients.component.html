@@ -1,13 +1,24 @@
-<div class="title-info">
-  <h2>{{ "ourClients" | translate }}</h2>
-  <section class="logo-carousel">
-    <div class="logo-group">
-      <img
-        *ngFor="let logo of logos.concat(logos)"
-        [src]="'assets/images/clients/' + logo"
-        alt
-        class="logo-img"
-      />
+<div class="clients appland-container">
+  <div class="clients__heading">
+    <h2 id="clientes-title">Empresas que han confiado en nosotros</h2>
+    <button *ngIf="!reducedMotion" type="button" class="clients__pause" (click)="togglePause()" [attr.aria-pressed]="pausedByUser">
+      {{ pausedByUser ? 'Reanudar logos' : 'Pausar logos' }}
+    </button>
+  </div>
+  <div
+    class="clients__viewport"
+    (mouseenter)="setInteractionPause(true)"
+    (mouseleave)="setInteractionPause(false)"
+    (focusin)="setInteractionPause(true)"
+    (focusout)="setInteractionPause(false)"
+  >
+    <div class="clients__track" [class.clients__track--paused]="paused">
+      <div class="clients__group">
+        <img *ngFor="let client of clients" [src]="client.logo.src" [alt]="client.logo.alt" [width]="client.logo.width" [height]="client.logo.height" loading="lazy">
+      </div>
+      <div class="clients__group" aria-hidden="true">
+        <img *ngFor="let client of clients" [src]="client.logo.src" alt="" [width]="client.logo.width" [height]="client.logo.height" loading="lazy">
+      </div>
     </div>
-  </section>
+  </div>
 </div>

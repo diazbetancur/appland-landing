@@ -1,5 +1,6 @@
-import { Component, HostListener } from '@angular/core';
-import { LanguageService } from './components/shared/language.service';
+import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { HOME_CONTENT } from './feature/pages/home/home-content.config';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,12 @@ import { LanguageService } from './components/shared/language.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'appland';
+  readonly navigation = HOME_CONTENT.navigation;
+  readonly meetingAction = HOME_CONTENT.hero.primaryAction;
+  readonly footerContent = HOME_CONTENT.footer;
 
-  constructor( private languageService: LanguageService) {
-  }
-
-  changeLanguage(lang: string) {
-    this.languageService.changeLanguage(lang);
+  constructor(translate: TranslateService) {
+    translate.setDefaultLang('es');
+    translate.use('es');
   }
 }

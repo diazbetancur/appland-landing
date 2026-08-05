@@ -1,0 +1,90 @@
+:host {
+  display: block;
+  background: var(--appland-bg-alt);
+}
+
+.products__heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.products__controls {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.products__controls button {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--appland-line-strong);
+  border-radius: 50%;
+  background: var(--appland-panel);
+  color: var(--appland-text);
+  cursor: pointer;
+}
+
+.products__controls button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.products__track {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.25rem 1rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--appland-orange) var(--appland-panel);
+}
+
+.product-card {
+  flex: 0 0 min(390px, calc(100vw - (var(--appland-gutter) * 2) - 0.5rem));
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border: 1px solid var(--appland-line);
+  border-radius: var(--appland-radius-lg);
+  background: linear-gradient(150deg, var(--appland-panel-2), var(--appland-panel));
+  scroll-snap-align: start;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--appland-radius);
+  object-fit: cover;
+}
+
+.product-card h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.45rem;
+}
+
+.product-card p {
+  margin: 0 0 1.25rem;
+  color: var(--appland-muted);
+}
+
+.product-card__action {
+  align-self: flex-start;
+  margin-top: auto;
+  color: var(--appland-orange);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.products__position {
+  margin: 0.75rem 0 0;
+  color: var(--appland-muted);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 559px) {
+  .products__heading { align-items: flex-start; flex-direction: column; }
+}

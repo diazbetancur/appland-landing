@@ -1,33 +1,13 @@
-<div class="container">
-  <div class="title-info">
-    <h2>{{ 'whyAppland' | translate}}</h2>
-  </div>
-  <div class="why">
-    <div class="why-item">
-      <div class="title-why">
-        <img src="assets/images/descarga.png" alt />
-        <h5>{{ 'whyApplandDescription.experience.title' | translate}}</h5>
-      </div>
-      <div class="description-why">
-        <h5>{{ 'whyApplandDescription.experience.description' | translate}}</h5>
-      </div>
-      <div class="title-why">
-        <img src="assets/images/descarga.png" alt />
-        <h5>{{ 'whyApplandDescription.solutions.title' | translate}}</h5>
-      </div>
-      <div class="description-why">
-        <h5>{{ 'whyApplandDescription.solutions.description' | translate}}</h5>
-      </div>
-      <div class="title-why">
-        <img src="assets/images/descarga.png" alt />
-        <h5>{{ 'whyApplandDescription.attention.title' | translate}}</h5>
-      </div>
-      <div class="description-why">
-        <h5>{{ 'whyApplandDescription.attention.description' | translate}}</h5>
-      </div>
-    </div>
-    <div class="why-image">
-      <img src="assets/images/why.jpg" alt />
-    </div>
-  </div>
+<div class="appland-container why">
+  <header class="why__intro">
+    <p class="appland-eyebrow">¿Por qué APPLAND?</p>
+    <h2 id="por-que-appland-title" class="appland-heading">Tecnología cercana, experiencia global y ejecución que escala</h2>
+  </header>
+
+  <ul class="why__grid">
+    <li *ngFor="let benefit of benefits; let index = index">
+      <span class="why__number" aria-hidden="true">0{{ index + 1 }}</span>
+      <p>{{ benefit.statement }}</p>
+    </li>
+  </ul>
 </div>

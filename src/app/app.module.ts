@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { A11yModule } from '@angular/cdk/a11y';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +27,13 @@ import { TeamCoverageComponent } from './components/team-coverage/team-coverage.
 import { WhyComponent } from './components/why/why.component';
 import { HomeComponent } from './feature/pages/home/home.component';
 import { CountUpDirective } from './shared/directives/count-up.directive';
+import { HomeSectionDirective } from './shared/directives/home-section.directive';
+import { HomeChallengesComponent } from './components/home-challenges/home-challenges.component';
+import { HomeServicesComponent } from './components/home-services/home-services.component';
+import { HorizontalCarouselDirective } from './shared/directives/horizontal-carousel.directive';
+import { HomeProductsComponent } from './components/home-products/home-products.component';
+import { HomeCtaComponent } from './components/home-cta/home-cta.component';
+import { RevealOnScrollDirective } from './shared/directives/reveal-on-scroll.directive';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -48,6 +56,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     CardTemplateComponent,
     ChooseUsComponent,
     CountUpDirective,
+    HomeSectionDirective,
+    HomeChallengesComponent,
+    HomeServicesComponent,
+    HorizontalCarouselDirective,
+    HomeProductsComponent,
+    HomeCtaComponent,
+    RevealOnScrollDirective,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
+    A11yModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

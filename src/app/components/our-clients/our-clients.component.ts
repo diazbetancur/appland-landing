@@ -1,50 +1,31 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Client } from '../../feature/pages/home/home-content.models';
 
 @Component({
   selector: 'app-our-clients',
   templateUrl: './our-clients.component.html',
   styleUrls: ['./our-clients.component.scss'],
 })
-export class OurClientsComponent {
-  logos: string[] = [
-    'logo-tengo.png',
-    'Avianca-logo.png',
-    // 'Pepsi-Logo.png',
-    'logo-Toyota.png',
-    'dominos.png',
-    'UE.jpg',
-    'banco_ficohsa.png',
-    'GrupoTerra.png',
-    'darden.png',
-    'espresso_americano.webp',
-    'atlantida.png',
-    'Loto_borde.webp',
-    'emsula.webp',
-    'lacthosa.png',
-    'pronto.png',
-    'LogoDilo.png',
-    'broadcast.png',
-    'tigo.png',
-  ];
+export class OurClientsComponent implements OnInit {
+  @Input() clients: readonly Client[] = [];
 
-  @ViewChild('carousel', { static: false })
-  carouselRef!: ElementRef<HTMLDivElement>;
+  pausedByUser = false;
+  pausedByInteraction = false;
+  reducedMotion = false;
 
-  ngAfterViewInit() {
-    const container = this.carouselRef.nativeElement;
-    const speed = 100; // píxeles por frame
+  ngOnInit(): void {
+    this.reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
 
-    const scroll = () => {
-      container.scrollLeft += speed;
+  get paused(): boolean {
+    return this.reducedMotion || this.pausedByUser || this.pausedByInteraction;
+  }
 
-      // Cuando ha scrolleado el ancho de un grupo, reinicia al inicio
-      if (container.scrollLeft >= container.scrollWidth / 2) {
-        container.scrollLeft = 0;
-      }
+  togglePause(): void {
+    this.pausedByUser = !this.pausedByUser;
+  }
 
-      requestAnimationFrame(scroll);
-    };
-
-    requestAnimationFrame(scroll);
+  setInteractionPause(paused: boolean): void {
+    this.pausedByInteraction = paused;
   }
 }
