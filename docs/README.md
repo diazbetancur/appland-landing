@@ -21,7 +21,7 @@ la nueva Home de APPLAND dentro del proyecto Angular existente.
 - No inventar métricas, testimonios, clientes o resultados.
 - No incorporar placeholders como información definitiva.
 - El sitio inicial será únicamente en español.
-- Debe respetarse el sistema de diseño oscuro con naranja como acento.
+- Debe respetarse el sistema de diseño oscuro. **Actualización (2026-08-23):** el color primario es el cian (`#14b8c4`, marca real de APPLAND) y el naranja pasa a ser el acento secundario — decisión del Product Owner que reemplaza la referencia visual original (`appland-home-reference.dc.html`), donde el naranja era el primario. Ver `specs/001-appland-home-redesign/quickstart.md` sección 19 para el detalle técnico.
 - Debe implementarse usando componentes Angular reutilizables.
 - Las animaciones deben respetar `prefers-reduced-motion`.
 

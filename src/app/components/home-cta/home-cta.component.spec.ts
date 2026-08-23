@@ -34,4 +34,5 @@ describe('HomeCtaComponent', () => {
   it('omits social navigation while no link is approved', () => {
     expect(fixture.debugElement.query(By.css('.contact__social'))).toBeNull();
   });
+
 });

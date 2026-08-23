@@ -94,10 +94,10 @@ La experiencia contiene un header global, diez secciones principales y un footer
 
 5. **Algunos proyectos desarrollados**
    - Toyota: App móvil para clientes.
-   - Avianca: Plataforma de gestión.
    - Dilo: Aplicación financiera.
-   - Telemedicine Platform: Unión Europea.
-   - Espresso Americano: App de fidelización.
+   - Solo se muestran casos con mockup e información oficial aprobados; el resto permanece oculto hasta contar con ambos.
+
+   > **Actualización de contenido aprobada (2026-08-21):** el Product Owner sustituyó la lista original del brief (Toyota, Avianca, Dilo, Telemedicine Platform, Espresso Americano) por el criterio "solo se publica el caso que tenga mockup aprobado"; el orden visible acordado es Toyota, Dilo, Tengo, TV Azteca. Toyota y Dilo ya cuentan con mockup y descripción aprobados. Tengo y TV Azteca tienen mockup aprobado pero están pendientes de descripción oficial y permanecen ocultos hasta recibirla. Avianca, Telemedicine Platform y Espresso Americano quedan pendientes de mockup y permanecen ocultos.
 
 6. **Inteligencia Artificial aplicada a negocios**
    - Agentes conversacionales.
@@ -283,7 +283,7 @@ Como usuario de teclado, lector de pantalla, dispositivo móvil o preferencia de
 - **FR-014**: Desafíos MUST presentar los cinco problemas y respuestas oficiales.
 - **FR-015**: Servicios MUST presentar los cinco servicios oficiales y permitir que el visitante seleccione y consulte cada uno.
 - **FR-016**: La selección de servicios MUST comunicar claramente cuál opción está activa sin depender únicamente del color.
-- **FR-017**: Casos MUST presentar los cinco proyectos oficiales y permitir un recorrido manual mediante mouse, touch y teclado.
+- **FR-017**: Casos MUST presentar únicamente los casos con mockup y descripción oficiales aprobados, en el orden acordado (Toyota, Dilo, Tengo, TV Azteca, Avianca, Telemedicine Platform, Espresso Americano), y permitir un recorrido manual mediante mouse, touch y teclado.
 - **FR-018**: Los casos MUST admitir recursos oficiales posteriores sin requerir mockups, resultados o tecnologías inventadas.
 - **FR-019**: La acción “Ver caso” MUST permanecer oculta mientras no exista un destino aprobado.
 - **FR-020**: IA MUST presentar las ocho aplicaciones oficiales y una acción de contacto relacionada.
@@ -344,7 +344,7 @@ Como usuario de teclado, lector de pantalla, dispositivo móvil o preferencia de
 - **SC-010**: En el 100% de las validaciones, el Hero, la navegación y las acciones principales son utilizables sin esperar la carga de contenido inferior.
 - **SC-011**: En el 100% de las validaciones, ningún cambio visible durante la carga provoca pérdida de contexto, selección errónea o activación accidental.
 - **SC-012**: El 100% de las empresas, productos y casos visibles cumple sus respectivas reglas de aprobación y disponibilidad.
-- **SC-013**: La revisión visual en los seis anchos confirma la conservación del fondo oscuro, naranja principal, cian secundario, jerarquía, tipografía, espaciado amplio, header cambiante y composición responsive aprobados.
+- **SC-013**: La revisión visual en los seis anchos confirma la conservación del fondo oscuro, cian principal (marca real de APPLAND), naranja como acento secundario, jerarquía, tipografía, espaciado amplio, header cambiante y composición responsive aprobados.
 - **SC-014**: La revisión funcional y de contenido confirma que las diez secciones aplicables mantienen el orden relativo del brief y que no se agregó una sección “Nosotros”.
 
 Los perfiles, herramientas y umbrales técnicos para medir carga, estabilidad y respuesta se definirán posteriormente durante la planificación. Esta especificación evalúa únicamente resultados observables para el usuario.
