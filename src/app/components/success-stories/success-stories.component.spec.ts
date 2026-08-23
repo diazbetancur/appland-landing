@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { HOME_CONTENT, selectVisibleCases } from '../../feature/pages/home/home-content.config';
+import { selectVisibleCases } from '../../feature/pages/home/home-content.config';
 import { HorizontalCarouselDirective } from '../../shared/directives/horizontal-carousel.directive';
 import { SuccessStoriesComponent } from './success-stories.component';
 
@@ -16,13 +16,18 @@ describe('SuccessStoriesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders the five official cases in order without invented actions or media', () => {
+  it('renders only the approved cases in order, each with its approved media and no invented action', () => {
+    const visible = selectVisibleCases();
     const cards = fixture.debugElement.queryAll(By.css('.case-card'));
-    expect(cards.length).toBe(5);
+    expect(cards.length).toBe(visible.length);
     expect(cards.map((card) => card.query(By.css('h3')).nativeElement.textContent.trim())).toEqual(
-      HOME_CONTENT.cases.map((item) => item.name)
+      visible.map((item) => item.name)
     );
-    expect(fixture.debugElement.query(By.css('.case-card img'))).toBeNull();
+    cards.forEach((card, index) => {
+      const img = card.query(By.css('img')).nativeElement;
+      expect(img.src).toContain(visible[index].media?.src);
+      expect(img.alt).toBe(visible[index].media?.alt);
+    });
     expect(fixture.debugElement.query(By.css('.case-card a'))).toBeNull();
   });
 

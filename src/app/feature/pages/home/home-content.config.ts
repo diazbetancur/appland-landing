@@ -7,6 +7,10 @@ import {
   Product,
 } from './home-content.models';
 
+function approvedAsset(src: string, width: number, height: number, alt: string, decorative = false): ApprovedAsset {
+  return { src, width, height, alt, decorative, publicationStatus: 'approved' };
+}
+
 const meetingAction = {
   id: 'meeting',
   label: 'Agendar una reunión',
@@ -48,7 +52,7 @@ const contact = {
   socialLinks: [],
 } as const;
 
-const pendingClients: readonly Client[] = [
+const approvedClients: readonly Client[] = [
   ['ficohsa', 'Ficohsa', 'banco_ficohsa.png', 480, 173],
   ['grupo-terra', 'Grupo Terra', 'GrupoTerra.png', 1600, 526],
   ['tigo', 'Tigo', 'tigo.png', 2560, 1839],
@@ -57,14 +61,14 @@ const pendingClients: readonly Client[] = [
 ].map(([id, name, file, width, height]) => ({
   id: String(id),
   name: String(name),
-  publicationStatus: 'pending',
+  publicationStatus: 'approved',
   logo: {
     src: `assets/images/clients/${file}`,
     width: Number(width),
     height: Number(height),
     alt: `Logo de ${name}`,
     decorative: false,
-    publicationStatus: 'pending',
+    publicationStatus: 'approved',
   },
 }));
 
@@ -102,27 +106,165 @@ export const HOME_CONTENT: HomeContent = {
     },
     whatsappAction,
   },
-  clients: pendingClients,
+  clients: approvedClients,
   challenges: [
-    { id: 'manual', problem: 'Procesos manuales que consumen tiempo', response: 'Automatizamos tareas repetitivas para aumentar productividad.', visualKey: 'automation' },
-    { id: 'disconnected', problem: 'Sistemas desconectados', response: 'Integramos plataformas, ERPs, CRMs y APIs.', visualKey: 'integration' },
-    { id: 'overloaded', problem: 'Equipos tecnológicos saturados', response: 'Incorporamos talento especializado rápidamente.', visualKey: 'team' },
-    { id: 'support', problem: 'Atención al cliente ineficiente', response: 'Implementamos agentes de IA que operan 24/7.', visualKey: 'support' },
-    { id: 'platform', problem: 'Necesidad de lanzar una plataforma', response: 'Diseñamos y desarrollamos soluciones escalables.', visualKey: 'platform' },
+    {
+      id: 'manual',
+      problem: 'Procesos manuales que consumen tiempo',
+      response: 'Automatizamos tareas repetitivas para aumentar productividad.',
+      visualKey: 'automation',
+      media: approvedAsset('assets/images/home/challenges/manual.jpg', 560, 373, 'Persona trabajando en una laptop con un panel de automatización de tareas.'),
+    },
+    {
+      id: 'disconnected',
+      problem: 'Sistemas desconectados',
+      response: 'Integramos plataformas, ERPs, CRMs y APIs.',
+      visualKey: 'integration',
+      media: approvedAsset('assets/images/home/challenges/disconnected.jpg', 560, 373, 'Íconos de servidores, base de datos, usuarios y configuración conectados a una nube central.'),
+    },
+    {
+      id: 'overloaded',
+      problem: 'Equipos tecnológicos saturados',
+      response: 'Incorporamos talento especializado rápidamente.',
+      visualKey: 'team',
+      media: approvedAsset('assets/images/home/challenges/overloaded.jpg', 560, 280, 'Desarrollador trabajando frente a dos monitores con código en una oficina.'),
+    },
+    {
+      id: 'support',
+      problem: 'Atención al cliente ineficiente',
+      response: 'Implementamos agentes de IA que operan 24/7.',
+      visualKey: 'support',
+      media: approvedAsset('assets/images/home/challenges/support.jpg', 560, 373, 'Persona sosteniendo un teléfono con una conversación de asistente de IA en pantalla.'),
+    },
+    {
+      id: 'platform',
+      problem: 'Necesidad de lanzar una plataforma',
+      response: 'Diseñamos y desarrollamos soluciones escalables.',
+      visualKey: 'platform',
+      media: approvedAsset('assets/images/home/challenges/platform.jpg', 560, 373, 'Laptop y teléfono mostrando el panel de una plataforma con métricas de usuarios y ventas.'),
+    },
   ],
   services: [
-    { id: 'software', name: 'Desarrollo de Software', summary: 'Apps móviles, plataformas web y sistemas empresariales.', visualKey: 'code' },
-    { id: 'artificial-intelligence', name: 'Inteligencia Artificial', summary: 'Agentes IA, automatización, asistentes de voz y chat.', visualKey: 'ai' },
-    { id: 'staff-augmentation', name: 'Staff Augmentation', summary: 'Desarrolladores, QA, UX/UI y equipos dedicados.', visualKey: 'people' },
-    { id: 'process-automation', name: 'Automatización de Procesos', summary: 'Optimización operativa mediante IA e integraciones.', visualKey: 'flow' },
-    { id: 'technology-consulting', name: 'Consultoría Tecnológica', summary: 'Transformación digital y arquitectura tecnológica.', visualKey: 'strategy' },
+    {
+      id: 'software',
+      name: 'Desarrollo de Software',
+      summary: 'Apps móviles, plataformas web y sistemas empresariales.',
+      visualKey: 'code',
+      media: approvedAsset('assets/images/home/services/software.png', 428, 380, '', true),
+      highlights: [
+        { id: 'software-mobile', label: 'Apps móviles', iconKey: 'mobile' },
+        { id: 'software-web', label: 'Plataformas web', iconKey: 'web' },
+        { id: 'software-enterprise', label: 'Sistemas empresariales', iconKey: 'stack' },
+      ],
+    },
+    {
+      id: 'artificial-intelligence',
+      name: 'Inteligencia Artificial',
+      summary: 'Agentes IA, automatización, asistentes de voz y chat.',
+      visualKey: 'ai',
+      media: approvedAsset('assets/images/home/services/artificial-intelligence.png', 480, 256, '', true),
+      highlights: [
+        { id: 'ai-agents', label: 'Agentes IA', iconKey: 'chip' },
+        { id: 'ai-automation', label: 'Automatización', iconKey: 'gear' },
+        { id: 'ai-voice', label: 'Asistentes de voz', iconKey: 'mic' },
+        { id: 'ai-chat', label: 'Asistentes de chat', iconKey: 'chat' },
+      ],
+    },
+    {
+      id: 'staff-augmentation',
+      name: 'Staff Augmentation',
+      summary: 'Desarrolladores, QA, UX/UI y equipos dedicados.',
+      visualKey: 'people',
+      media: approvedAsset('assets/images/home/services/staff-augmentation.png', 304, 380, '', true),
+      highlights: [
+        { id: 'staff-devs', label: 'Desarrolladores', iconKey: 'web' },
+        { id: 'staff-qa', label: 'QA', iconKey: 'check' },
+        { id: 'staff-ux', label: 'UX/UI', iconKey: 'pen' },
+        { id: 'staff-teams', label: 'Equipos dedicados', iconKey: 'people' },
+      ],
+    },
+    {
+      id: 'process-automation',
+      name: 'Automatización de Procesos',
+      summary: 'Optimización operativa mediante IA e integraciones.',
+      visualKey: 'flow',
+      media: approvedAsset('assets/images/home/services/process-automation.png', 480, 320, '', true),
+      highlights: [
+        { id: 'automation-operations', label: 'Optimización operativa', iconKey: 'gear' },
+        { id: 'automation-ai', label: 'IA aplicada', iconKey: 'chip' },
+        { id: 'automation-integrations', label: 'Integraciones', iconKey: 'nodes' },
+      ],
+    },
+    {
+      id: 'technology-consulting',
+      name: 'Consultoría Tecnológica',
+      summary: 'Transformación digital y arquitectura tecnológica.',
+      visualKey: 'strategy',
+      media: approvedAsset('assets/images/home/services/technology-consulting.png', 317, 380, '', true),
+      highlights: [
+        { id: 'consulting-transformation', label: 'Transformación digital', iconKey: 'chart' },
+        { id: 'consulting-architecture', label: 'Arquitectura tecnológica', iconKey: 'stack' },
+      ],
+    },
   ],
   cases: [
-    { id: 'toyota', name: 'Toyota', summary: 'App móvil para clientes.', publicationStatus: 'approved' },
-    { id: 'avianca', name: 'Avianca', summary: 'Plataforma de gestión.', publicationStatus: 'approved' },
-    { id: 'dilo', name: 'Dilo', summary: 'Aplicación financiera.', publicationStatus: 'approved' },
-    { id: 'telemedicine', name: 'Telemedicine Platform', summary: 'Unión Europea.', publicationStatus: 'approved' },
-    { id: 'espresso-americano', name: 'Espresso Americano', summary: 'App de fidelización.', publicationStatus: 'approved' },
+    {
+      id: 'toyota',
+      name: 'Toyota',
+      summary: 'App móvil para clientes.',
+      publicationStatus: 'approved',
+      media: {
+        src: 'assets/images/home/cases/toyota.jpg',
+        width: 640,
+        height: 800,
+        alt: 'Pantalla principal de la app móvil de Toyota con menú de servicios.',
+        decorative: false,
+        publicationStatus: 'approved',
+      },
+    },
+    {
+      id: 'dilo',
+      name: 'Dilo',
+      summary: 'Aplicación financiera.',
+      publicationStatus: 'approved',
+      media: {
+        src: 'assets/images/home/cases/dilo.png',
+        width: 640,
+        height: 800,
+        alt: 'Pantalla principal de la app financiera Dilo mostrando el saldo disponible.',
+        decorative: false,
+        publicationStatus: 'approved',
+      },
+    },
+    {
+      id: 'tengo',
+      name: 'Tengo',
+      publicationStatus: 'pending',
+      media: {
+        src: 'assets/images/home/cases/tengo.jpg',
+        width: 640,
+        height: 800,
+        alt: 'Pantalla de inicio de sesión de la app Tengo con Ficohsa.',
+        decorative: false,
+        publicationStatus: 'approved',
+      },
+    },
+    {
+      id: 'tv-azteca',
+      name: 'TV Azteca',
+      publicationStatus: 'pending',
+      media: {
+        src: 'assets/images/home/cases/tv-azteca.jpg',
+        width: 800,
+        height: 449,
+        alt: 'Portal de noticias de TV Azteca Honduras.',
+        decorative: false,
+        publicationStatus: 'approved',
+      },
+    },
+    { id: 'avianca', name: 'Avianca', summary: 'Plataforma de gestión.', publicationStatus: 'pending' },
+    { id: 'telemedicine', name: 'Telemedicine Platform', summary: 'Unión Europea.', publicationStatus: 'pending' },
+    { id: 'espresso-americano', name: 'Espresso Americano', summary: 'App de fidelización.', publicationStatus: 'pending' },
   ],
   aiApplications: [
     { id: 'conversational', label: 'Agentes conversacionales', visualKey: 'chat' },
@@ -165,10 +307,7 @@ export const HOME_CONTENT: HomeContent = {
     ],
     cases: [
       { id: 'footer-toyota', label: 'Toyota', fragment: 'casos' },
-      { id: 'footer-avianca', label: 'Avianca', fragment: 'casos' },
       { id: 'footer-dilo', label: 'Dilo', fragment: 'casos' },
-      { id: 'footer-telemedicine', label: 'Telemedicine Platform', fragment: 'casos' },
-      { id: 'footer-espresso', label: 'Espresso Americano', fragment: 'casos' },
     ],
     contact,
     socialLinks: [],

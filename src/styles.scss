@@ -45,7 +45,7 @@ textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--appland-orange);
+  outline: 3px solid var(--appland-primary);
   outline-offset: 4px;
 }
 
@@ -64,7 +64,7 @@ textarea {
   align-items: center;
   gap: 0.55rem;
   margin: 0 0 1rem;
-  color: var(--appland-cyan);
+  color: var(--appland-primary);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -90,7 +90,7 @@ textarea {
   gap: 0.6rem;
   padding: 0.85rem 1.45rem;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 750;
   line-height: 1.2;
@@ -99,13 +99,13 @@ textarea {
 }
 
 .appland-button--primary {
-  background: var(--appland-orange);
+  background: var(--appland-primary);
   color: #080c11;
-  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
+  box-shadow: 0 14px 34px rgba(20, 184, 196, 0.25);
 }
 
 .appland-button--primary:hover {
-  background: var(--appland-orange-hover);
+  background: var(--appland-primary-hover);
   transform: translateY(-2px);
 }
 
@@ -116,8 +116,8 @@ textarea {
 }
 
 .appland-button--secondary:hover {
-  border-color: var(--appland-orange);
-  background: var(--appland-orange-soft);
+  border-color: var(--appland-secondary);
+  background: var(--appland-secondary-soft);
 }
 
 .skip-link {
@@ -127,7 +127,7 @@ textarea {
   left: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: var(--appland-radius-sm);
-  background: var(--appland-orange);
+  background: var(--appland-primary);
   color: #080c11;
   font-weight: 800;
   transform: translateY(-160%);

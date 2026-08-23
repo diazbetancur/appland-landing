@@ -80,6 +80,13 @@ export interface Challenge {
   readonly problem: string;
   readonly response: string;
   readonly visualKey?: string;
+  readonly media?: ApprovedAsset;
+}
+
+export interface ServiceHighlight {
+  readonly id: string;
+  readonly label: string;
+  readonly iconKey: string;
 }
 
 export interface Service {
@@ -87,12 +94,15 @@ export interface Service {
   readonly name: string;
   readonly summary: string;
   readonly visualKey?: string;
+  readonly media?: ApprovedAsset;
+  /** Derived from the approved summary; never new business copy. */
+  readonly highlights?: readonly ServiceHighlight[];
 }
 
 export interface CaseStudy {
   readonly id: string;
   readonly name: string;
-  readonly summary: string;
+  readonly summary?: string;
   readonly media?: ApprovedAsset;
   readonly destination?: ApprovedDestination;
   readonly publicationStatus: PublicationStatus;

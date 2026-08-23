@@ -1,7 +1,7 @@
 <nav class="menu" [class.menu--scrolled]="isScrolled" aria-label="Navegación principal">
   <div class="menu__inner appland-container">
     <a class="menu__brand" [routerLink]="['/']" fragment="inicio" (click)="navigate()" aria-label="APPLAND, inicio">
-      <span class="menu__brand-mark" aria-hidden="true"></span>
+      <img class="menu__brand-mark" src="assets/images/logo-appland.png" width="28" height="28" alt="">
       <span>APPLAND</span>
     </a>
 
@@ -58,7 +58,7 @@
     [cdkTrapFocusAutoCapture]="true"
     >
     <div class="compact-menu__top appland-container">
-      <span class="menu__brand"><span class="menu__brand-mark" aria-hidden="true"></span>APPLAND</span>
+      <span class="menu__brand"><img class="menu__brand-mark" src="assets/images/logo-appland.png" width="28" height="28" alt="">APPLAND</span>
       <button class="compact-menu__close" type="button" aria-label="Cerrar menú" (click)="closeMenu()">×</button>
     </div>
     <div class="compact-menu__body appland-container">

@@ -24,6 +24,35 @@ describe('HomeServicesComponent', () => {
     expect(tabs[0].attributes['aria-controls']).toBe(panel.attributes['id']);
   });
 
+  it('keeps the panel visual decorative and hidden from assistive tech', () => {
+    expect(fixture.debugElement.query(By.css('.services__visual')).attributes['aria-hidden']).toBe('true');
+    const img = fixture.debugElement.query(By.css('.services__visual img'));
+    expect(img.attributes['src']).toContain(HOME_CONTENT.services[0].media!.src);
+    expect(img.attributes['alt']).toBe('');
+  });
+
+  it('swaps the panel visual and highlights when another service is selected', () => {
+    const tabs = fixture.debugElement.queryAll(By.css('[role="tab"]'));
+    tabs[1].triggerEventHandler('click');
+    fixture.detectChanges();
+    const service = HOME_CONTENT.services[1];
+    expect(fixture.debugElement.query(By.css('.services__visual img')).attributes['src']).toContain(service.media!.src);
+    const labels = fixture.debugElement
+      .queryAll(By.css('.services__highlight-label'))
+      .map((node) => node.nativeElement.textContent.trim());
+    expect(labels).toEqual(service.highlights!.map((highlight) => highlight.label));
+  });
+
+  it('derives every highlight label from the approved service summary', () => {
+    HOME_CONTENT.services.forEach((service) => {
+      const summary = service.summary.toLowerCase();
+      service.highlights!.forEach((highlight) => {
+        const head = highlight.label.toLowerCase().split(' ')[0].replace(/s$/, '');
+        expect(summary).toContain(head);
+      });
+    });
+  });
+
   it('selects by click with a non-color active treatment', () => {
     const tabs = fixture.debugElement.queryAll(By.css('[role="tab"]'));
     tabs[2].triggerEventHandler('click');

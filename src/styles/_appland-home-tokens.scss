@@ -11,7 +11,15 @@
   --appland-orange-hover: #ff6a2e;
   --appland-orange-soft: rgba(240, 90, 36, 0.12);
   --appland-cyan: #14b8c4;
+  --appland-cyan-hover: #29c8d4;
   --appland-cyan-soft: rgba(20, 184, 196, 0.12);
+  /* APPLAND brand primary is cyan; orange is the secondary accent. */
+  --appland-primary: var(--appland-cyan);
+  --appland-primary-hover: var(--appland-cyan-hover);
+  --appland-primary-soft: var(--appland-cyan-soft);
+  --appland-secondary: var(--appland-orange);
+  --appland-secondary-hover: var(--appland-orange-hover);
+  --appland-secondary-soft: var(--appland-orange-soft);
   --appland-text: #f5f7fa;
   --appland-muted: #a8b0bc;
   --appland-dim: #8b95a3;
@@ -21,8 +29,8 @@
   --appland-radius-xl: 32px;
   --appland-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
   --appland-section-space: clamp(72px, 8.5vw, 132px);
-  --appland-content-width: 1280px;
-  --appland-gutter: clamp(18px, 4vw, 24px);
+  --appland-content-width: 1760px;
+  --appland-gutter: clamp(14px, 2.2vw, 22px);
   --appland-header-height: 84px;
   --appland-font: "Manrope", "Segoe UI", Roboto, system-ui, sans-serif;
 }

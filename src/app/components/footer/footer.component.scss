@@ -29,11 +29,10 @@
   font-weight: 850;
 }
 
-.footer__logo span {
-  width: 24px;
-  height: 24px;
-  border-radius: 7px;
-  background: linear-gradient(145deg, var(--appland-orange-hover), #9c310b);
+.footer__logo img {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 h2 {
@@ -64,7 +63,7 @@ li a,
 
 li a:hover,
 .footer__social a:hover {
-  color: var(--appland-orange);
+  color: var(--appland-primary);
 }
 
 .footer__bottom {
