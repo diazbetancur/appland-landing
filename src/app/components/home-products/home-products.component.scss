@@ -37,7 +37,7 @@
   overflow-x: auto;
   padding: 0.25rem 0.25rem 1rem;
   scroll-snap-type: x mandatory;
-  scrollbar-color: var(--appland-orange) var(--appland-panel);
+  scrollbar-color: var(--appland-primary) var(--appland-panel);
 }
 
 .product-card {
@@ -73,7 +73,7 @@
 .product-card__action {
   align-self: flex-start;
   margin-top: auto;
-  color: var(--appland-orange);
+  color: var(--appland-primary);
   font-weight: 800;
   text-decoration: underline;
   text-underline-offset: 0.3em;

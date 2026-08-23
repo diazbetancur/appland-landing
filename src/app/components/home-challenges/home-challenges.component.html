@@ -1,15 +1,44 @@
-<div class="appland-container">
-  <header class="challenges__header">
-    <p class="appland-eyebrow">Desafíos</p>
-    <h2 id="desafios-title" class="appland-heading">¿Qué desafíos podemos ayudarte a resolver?</h2>
-  </header>
-  <div class="challenges__grid">
-    @for (challenge of challenges; track challenge; let index = $index) {
-      <article class="challenge">
-        <span class="challenge__number" aria-hidden="true">0{{ index + 1 }}</span>
-        <h3>{{ challenge.problem }}</h3>
-        <p>{{ challenge.response }}</p>
-      </article>
+<div class="appland-container challenges">
+  <img class="challenges__wave" src="assets/images/home/hero/wave.png" width="700" height="233" alt="" aria-hidden="true" loading="lazy">
+  <img class="challenges__sphere" src="assets/images/home/hero/sphere.png" width="260" height="241" alt="" aria-hidden="true" loading="lazy">
+
+  <header class="challenges__intro">
+    <p class="appland-eyebrow challenges__eyebrow">Soluciones</p>
+    <h2 id="desafios-title" class="appland-heading">
+      ¿Qué desafíos podemos ayudarte a <span class="challenges__highlight">resolver?</span>
+    </h2>
+    <p class="challenges__lead">
+      Identificamos los retos que frenan tu crecimiento y desarrollamos soluciones tecnológicas a la medida.
+    </p>
+
+    @if (resolvedContactAction) {
+      @if (resolvedContactAction.kind === 'router') {
+        <a class="appland-button challenges__cta" [routerLink]="['/']" [fragment]="resolvedContactAction.fragment">
+          Hablemos de tu proyecto
+          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+        </a>
+      } @else {
+        <a class="appland-button challenges__cta" [href]="resolvedContactAction.href" [target]="resolvedContactAction.target" [rel]="resolvedContactAction.rel">
+          Hablemos de tu proyecto
+          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+        </a>
+      }
     }
-  </div>
+  </header>
+
+  <ul class="challenges__list">
+    @for (challenge of challenges; track challenge) {
+      <li class="challenge">
+        <div class="challenge__body">
+          <h3>{{ challenge.problem }}</h3>
+          <p>{{ challenge.response }}</p>
+        </div>
+        @if (challenge.media; as media) {
+          <div class="challenge__media">
+            <img [src]="media.src" [alt]="media.alt" [width]="media.width" [height]="media.height" loading="lazy">
+          </div>
+        }
+      </li>
+    }
+  </ul>
 </div>

@@ -37,7 +37,7 @@
   overflow-x: auto;
   padding: 0.25rem 0.25rem 1rem;
   scroll-snap-type: x mandatory;
-  scrollbar-color: var(--appland-orange) var(--appland-panel);
+  scrollbar-color: var(--appland-primary) var(--appland-panel);
 }
 
 .case-card {
@@ -54,7 +54,7 @@
 
 .case-card img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 5;
   margin-bottom: 1.25rem;
   border-radius: var(--appland-radius);
   object-fit: cover;
@@ -69,7 +69,7 @@
 
 .case-card h3 { margin: 2.5rem 0 0.6rem; font-size: 1.35rem; }
 .case-card p { margin: 0; color: var(--appland-muted); }
-.case-card a { min-height: 44px; display: inline-flex; align-items: center; margin-top: 1rem; color: var(--appland-orange); font-weight: 750; }
+.case-card a { min-height: 44px; display: inline-flex; align-items: center; margin-top: 1rem; color: var(--appland-primary); font-weight: 750; }
 .cases__position { margin: 1rem 0 0; color: var(--appland-dim); text-align: center; }
 
 @media (min-width: 1024px) {

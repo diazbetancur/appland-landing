@@ -21,6 +21,7 @@ describe('HomeComponent', () => {
     const ids = fixture.debugElement.queryAll(By.css('section')).map((section) => section.attributes['id']);
     expect(ids).toEqual([
       'inicio',
+      'clientes',
       'desafios',
       'servicios',
       'casos',
@@ -31,8 +32,8 @@ describe('HomeComponent', () => {
     ]);
   });
 
-  it('fully omits clients and products while no content is approved', () => {
-    expect(fixture.debugElement.query(By.css('#clientes'))).toBeNull();
+  it('renders clients now that logos are approved, but fully omits products while none is approved', () => {
+    expect(fixture.debugElement.query(By.css('#clientes'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('#productos'))).toBeNull();
     expect(fixture.nativeElement.textContent).not.toContain('pendiente');
   });

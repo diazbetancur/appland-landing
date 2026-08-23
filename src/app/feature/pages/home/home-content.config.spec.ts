@@ -17,7 +17,7 @@ describe('HOME_CONTENT', () => {
   it('contains exactly the approved business entity counts', () => {
     expect(HOME_CONTENT.challenges.length).toBe(5);
     expect(HOME_CONTENT.services.length).toBe(5);
-    expect(HOME_CONTENT.cases.length).toBe(5);
+    expect(HOME_CONTENT.cases.length).toBe(7);
     expect(HOME_CONTENT.aiApplications.length).toBe(8);
     expect(HOME_CONTENT.benefits.length).toBe(7);
     expect(HOME_CONTENT.countries.length).toBe(6);
@@ -28,10 +28,20 @@ describe('HOME_CONTENT', () => {
     expect(about?.fragment).toBe('por-que-appland');
   });
 
-  it('denies pending clients and products by default', () => {
-    expect(selectVisibleClients()).toEqual([]);
+  it('denies pending products by default', () => {
     expect(selectVisibleProducts()).toEqual([]);
-    expect(selectVisibleCases().length).toBe(5);
+  });
+
+  it('shows the five approved client logos', () => {
+    const visible = selectVisibleClients();
+    expect(visible.map((client) => client.name)).toEqual(['Ficohsa', 'Grupo Terra', 'Tigo', 'Toyota', 'Avianca']);
+    expect(visible.every((client) => Boolean(client.logo))).toBeTrue();
+  });
+
+  it('shows only cases with approved copy and media, in approved order', () => {
+    const visible = selectVisibleCases();
+    expect(visible.map((item) => item.name)).toEqual(['Toyota', 'Dilo']);
+    expect(visible.every((item) => Boolean(item.media))).toBeTrue();
   });
 
   it('contains no testimonial or provisional public copy', () => {

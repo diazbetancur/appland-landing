@@ -29,8 +29,27 @@ describe('BannerComponent', () => {
     expect(fixture.debugElement.query(By.css('a[href*="#servicios"]'))).not.toBeNull();
   });
 
-  it('keeps the CSS-only visual decorative', () => {
-    expect(fixture.debugElement.query(By.css('.hero__visual')).attributes['aria-hidden']).toBe('true');
-    expect(fixture.debugElement.query(By.css('.hero__visual img'))).toBeNull();
+  it('highlights the title from "soluciones" onwards without altering the approved copy', () => {
+    const h1 = fixture.debugElement.query(By.css('h1'));
+    const highlight = fixture.debugElement.query(By.css('.hero__highlight'));
+    expect(highlight.nativeElement.textContent.trim()).toBe('soluciones digitales inteligentes.');
+    expect(h1.nativeElement.textContent.trim()).toBe(HOME_CONTENT.hero.title);
+  });
+
+  it('keeps every hero visual decorative and out of the accessibility tree', () => {
+    const decorativeImages = fixture.debugElement.queryAll(By.css('.hero img'));
+    expect(decorativeImages.length).toBeGreaterThan(0);
+    decorativeImages.forEach((image) => {
+      expect(image.attributes['alt']).toBe('');
+      expect(image.attributes['aria-hidden']).toBe('true');
+    });
+    fixture.debugElement.queryAll(By.css('.hero__ghost')).forEach((ghost) => {
+      expect(ghost.attributes['aria-hidden']).toBe('true');
+    });
+  });
+
+  it('exposes exactly two hero conversion actions', () => {
+    expect(fixture.debugElement.queryAll(By.css('.hero__actions a')).length).toBe(2);
+    expect(fixture.debugElement.query(By.css('.hero__actions a[href*="wa.me"]'))).toBeNull();
   });
 });

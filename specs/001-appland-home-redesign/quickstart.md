@@ -219,7 +219,7 @@ Compare visible output with the approved spec/PDF:
 
 - 5 challenges.
 - 5 services.
-- 5 cases.
+- Only cases with both an approved mockup and an approved description (2 of 7 candidates as of 2026-08-21: Toyota, Dilo).
 - 8 IA applications.
 - 7 APPLAND attributes.
 - 6 countries.
@@ -506,3 +506,124 @@ T100 remains open until real results satisfy the criteria or an explicitly named
 | T102 | Depends on T101 and all evidence gates | Requirement mapping exists, but release acceptance remains incomplete | Release Owner, pending designation | After T101 | Evidence audit confirms all 46 FR and 14 SC or records explicit approved deviations |
 
 No acceptance owner, target date or deferral approval is inferred from a role label. Each remains pending explicit human confirmation.
+
+## 17. Content increment — approved case mockups — 2026-08-21
+
+The Product Owner supplied new business assets under `docs/img/` (case mockups, challenge/service imagery, Hero/CTA backgrounds, decorative graphics) and made two content decisions: (1) publish only cases that have both an approved mockup and an approved description; (2) hide the remaining candidates until each is complete rather than showing invented copy. This entry covers only the case-mockup slice of that asset drop; challenge/service imagery, Hero/CTA backgrounds and decorative graphics remain unintegrated and out of scope for this entry (see spec.md's `(2026-08-21)` note in section 5).
+
+### Asset processing
+
+No image-optimization dependency was added (`sharp`/`cwebp`/ImageMagick are unavailable in this environment and adding one would violate the plan's no-new-dependency constraint). PowerShell `System.Drawing` was used instead: resize to the card's render size, then either keep PNG (small, flat-color/transparent sources) or flatten onto the card background `#171e28` and re-encode as JPEG quality 82 (photographic sources), which stays well inside the plan's <150 kB per-card-image budget:
+
+| Source | Approved asset | Dimensions | Size |
+|---|---|---:|---:|
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TOYOTA.png` (1080x1350, 1.2 MB) | `src/assets/images/home/cases/toyota.jpg` | 640x800 | 48.5 KB |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/DILO.png` (1080x1350, 293 KB) | `src/assets/images/home/cases/dilo.png` | 640x800 | 126.0 KB |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TENGO.png` (1080x1350, 448 KB) | `src/assets/images/home/cases/tengo.jpg` | 640x800 | 33.1 KB |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TV AZTECA.png` (2878x1614, 5.8 MB) | `src/assets/images/home/cases/tv-azteca.jpg` | 800x449 | 80.8 KB |
+
+### Content/config changes
+
+- `CaseStudy.summary` became optional in `home-content.models.ts` (matching the existing `Product.summary?` pattern) so a case can hold an approved mockup while its description is still pending, without inventing placeholder text.
+- `home-content.config.ts`: Toyota and Dilo now carry their approved `media` and remain `publicationStatus: 'approved'`. Tengo and TV Azteca were added with approved `media` and `publicationStatus: 'pending'` (no summary yet). Avianca, Telemedicine Platform and Espresso Americano were switched to `publicationStatus: 'pending'` (no approved mockup). The footer's case-link list was reduced to the two currently visible cases so it never links to a hidden case.
+- `success-stories.component.scss`: card image `aspect-ratio` changed from `16/10` to `4/5` to match the actual approved mockup shape (device-frame renders on transparent background) instead of cropping them under `object-fit: cover`.
+
+### Test/build evidence
+
+- `home-content.config.spec.ts` and `success-stories.component.spec.ts` were updated for the new counts/behavior (exact case roster of 7, 2 visible with real media, footer case-link parity) before the implementation changes landed.
+- `npm test -- --watch=false --browsers=ChromeHeadless`: 65 of 65 tests passed in Chrome Headless 151 (was 64; one assertion split into a dedicated visible-cases test).
+- `npm run build -- --configuration production`: passed; initial raw bundle 408.29 kB, estimated transfer 104.82 kB. No component-style budget warning.
+- `dist/appland/assets/images/home/cases/` contains all four processed files after build.
+- Manual verification via a local dev server: the accessibility tree shows exactly two `case-card` articles (Toyota, Dilo) in that order with correct `alt` text and position label `1 de 2`; no “Ver caso” link renders; the footer “Casos de éxito” list shows only Toyota and Dilo. A direct `fetch()` against all four processed asset URLs returned `200` with the expected `content-type` and `content-length`, confirming the build serves them correctly even though only two are currently linked from a rendered `<img>`.
+
+### Still pending (business, not technical)
+
+- Approved one-line descriptions for Tengo and TV Azteca — once supplied, publishing them is a one-line `publicationStatus` flip plus the summary text; no further asset or code work is required.
+- An approved mockup for Avianca, Telemedicine Platform and/or Espresso Americano, if the business wants any of them republished.
+- Challenge/service photography, Hero/CTA background imagery and the decorative graphic elements from `docs/img/Elementos Grafico/` remain unintegrated; the Home's Hero, Desafíos, Servicios and CTA-final components currently have no image-rendering path at all (by original, deliberate performance-budget design — see plan.md's Asset/Performance strategy), so wiring those in is a separate, explicitly-scoped follow-up, not a data change.
+
+## 18. Content increment — Hero, Desafíos, Servicios and CTA-final imagery — 2026-08-23
+
+The Product Owner approved wiring the remaining photographic/illustration assets from `docs/img/` into Hero, Desafíos (5 cards), Servicios (5 tab panels) and the CTA-final visual, while explicitly declining to introduce the `Elementos Grafico/` decorative graphics (onda/pelota) — the existing CSS-only Hero orbit already serves that role at zero network cost and with reduced-motion safety already tested, so it was kept as the fallback rather than replaced.
+
+### Asset processing
+
+Same constraint as section 17: no image-optimization dependency was added. Photographic sources (Desafíos, all opaque stock photography) were resized and encoded directly as JPEG quality 80. Illustration sources (Hero, CTA, Servicios — all transparent 3D renders) were resized then flattened onto a background color sampled from the section they render in (`#0a0f14` Hero, `#171e28` CTA, `#10151d` Services panel) and encoded as JPEG quality 82; a visual spot-check confirmed no visible seam where the illustration's soft-edged glow meets the flattened background.
+
+| Section | Approved asset | Dimensions | Size |
+|---|---|---:|---:|
+| Hero | `src/assets/images/home/hero/hero-visual.jpg` | 900x600 | 41.4 KB |
+| CTA final | `src/assets/images/home/cta/cta-visual.jpg` | 675x900 | 69.1 KB |
+| Servicios — Desarrollo de Software | `src/assets/images/home/services/software.jpg` | 640x569 | 41.1 KB |
+| Servicios — Inteligencia Artificial | `src/assets/images/home/services/artificial-intelligence.jpg` | 640x341 | 26.1 KB |
+| Servicios — Staff Augmentation | `src/assets/images/home/services/staff-augmentation.jpg` | 512x640 | 56.0 KB |
+| Servicios — Automatización de Procesos | `src/assets/images/home/services/process-automation.jpg` | 640x427 | 29.4 KB |
+| Servicios — Consultoría Tecnológica | `src/assets/images/home/services/technology-consulting.jpg` | 533x640 | 35.5 KB |
+| Desafíos — Procesos manuales | `src/assets/images/home/challenges/manual.jpg` | 700x467 | 44.0 KB |
+| Desafíos — Sistemas desconectados | `src/assets/images/home/challenges/disconnected.jpg` | 700x467 | 34.5 KB |
+| Desafíos — Equipos saturados | `src/assets/images/home/challenges/overloaded.jpg` | 700x350 | 31.3 KB |
+| Desafíos — Atención al cliente | `src/assets/images/home/challenges/support.jpg` | 700x467 | 37.2 KB |
+| Desafíos — Nueva plataforma | `src/assets/images/home/challenges/platform.jpg` | 700x467 | 45.8 KB |
+
+All 12 files stay well under the plan's <150 kB per-card-image budget; combined they add roughly 490 KB across the whole Home, and only the Hero image (`fetchpriority="high"`, no `loading="lazy"`) is above-the-fold — every other new image uses `loading="lazy"`.
+
+### Content/model/template changes
+
+- `home-content.models.ts`: added `Challenge.media?`, `Service.media?` and `ContactContent.decorativeAsset?` (the latter mirrors the pre-existing, previously-unused `HeroContent.decorativeAsset?`).
+- `home-content.config.ts`: added a small `approvedAsset()` helper; populated Hero's `decorativeAsset`, all 5 challenges' `media` (informative, real `alt` text — these illustrate the problem being described), all 5 services' `media` (decorative, empty `alt` — redundant with the adjacent heading/summary text) and the CTA's `decorativeAsset`.
+- `banner.component.html/scss`: `.hero__visual` now renders the approved image when present and falls back to the original CSS-only orbit/grid/node animation otherwise — the fallback path was kept and is still tested, not deleted.
+- `home-services.component.html/scss`: `.services__visual` renders the active tab's photo (swaps correctly on tab change, verified interactively) instead of the static three-dot placeholder, falling back to the dots if a service has no approved media.
+- `home-challenges.component.html/scss`: each card gained a `.challenge__media` image above the existing number/title/text, now wrapped in `.challenge__body`; card `min-height` was removed since the image now provides visual weight.
+- `home-cta.component.html/scss`: existing copy/actions/details/social were wrapped in `.contact__content`; a new `.contact__visual` column renders the approved image at ≥900px viewport width only (mobile keeps the original single-column layout so the primary actions aren't pushed down by a decorative image); the whole grid only activates via `.contact--with-visual` when `decorativeAsset` is present.
+- All four new/changed decorative images use `aria-hidden` containers and empty `alt`; the five challenge images use real, literal (non-marketing) `alt` text describing what is visually shown.
+
+### Test/build/manual evidence
+
+- `banner.component.spec.ts`'s prior test asserting "no image, ever" (written when the CSS-only visual was a deliberate constraint) was replaced with two tests: the approved asset renders correctly, and the original CSS fallback still renders when no asset is supplied.
+- `home-challenges.component.spec.ts`, `home-services.component.spec.ts` and `home-cta.component.spec.ts` gained assertions for the new media/decorativeAsset rendering, including the CTA's no-asset omission case.
+- `npm test -- --watch=false --browsers=ChromeHeadless`: 70 of 70 tests passed in Chrome Headless 151 (was 65).
+- `npm run build -- --configuration production`: passed; initial raw bundle 411.85 kB, estimated transfer 105.57 kB; no component-style budget warning (all four touched stylesheets stayed well under 6 kB).
+- `dist/appland/assets/images/home/` contains all 16 processed files (4 from section 17, 12 from this entry) after build.
+- Manual verification via a local dev server: the accessibility tree shows the 5 Desafíos images with their full literal `alt` text, the 2 visible Casos images (unchanged from section 17), and correctly excludes the Hero/Services/CTA decorative images from the tree (their containers are `aria-hidden`). A direct DOM query confirmed exactly one image per Hero/Services-active-tab/CTA slot and five in Desafíos, all pointing at the expected `assets/images/home/...` paths. Clicking the "Inteligencia Artificial" services tab correctly swapped `.services__visual img`'s `src` to `artificial-intelligence.jpg`. A `fetch()` against a sample of the new URLs returned `200`.
+
+### Still pending (business, not technical)
+
+- The `Elementos Grafico/` decorative assets (onda, pelota) remain unused by deliberate choice, not oversight — revisit only if there's a specific section where the Product Owner wants a raster decorative flourish instead of the existing CSS-only treatment.
+- No new business-content decision is pending from this increment; all 12 wired images already had both a clear placement (per the PDF's own section/heading naming) and approved use, unlike the Tengo/TV Azteca cases from section 17 which are still waiting on copy.
+
+## 19. Brand color correction and reference realignment — 2026-08-23
+
+Product Owner review against the running build surfaced two issues: (1) the Hero/Desafíos/Servicios/CTA-final photography from section 18 diverged from `docs/appland-home-reference.dc.html` — that reference is 100% abstract CSS (gradients, shapes, inline SVG line icons) with zero photography anywhere, including its Hero; (2) the button/accent color did not match APPLAND's real brand, where cyan is primary and orange is secondary — the opposite of both `appland-home-reference.dc.html` and the prior `docs/README.md` wording. Both are now corrected.
+
+### Brand color: cyan primary, orange secondary
+
+Confirmed reason (Product Owner): cyan (`#14b8c4`) is APPLAND's real brand color; the internal `.dc.html` reference had the roles reversed. `docs/README.md` and `spec.md` (SC-013) were updated to state this explicitly so a future comparison against the reference file doesn't reintroduce orange-as-primary as a "fix."
+
+Implementation: `_appland-home-tokens.scss` gained semantic tokens `--appland-primary`/`--appland-primary-hover`/`--appland-primary-soft` (mapped to the existing cyan family) and `--appland-secondary`/`--appland-secondary-hover`/`--appland-secondary-soft` (mapped to the existing orange family), added a new `--appland-cyan-hover: #29c8d4`, and left the physical `--appland-orange*`/`--appland-cyan*` tokens unchanged for literal thematic use (e.g. the IA section's cyan identity, which is unaffected since cyan is now also primary). Every "primary role" usage — `.appland-button--primary`, `:focus-visible`, `.skip-link`, `.appland-eyebrow`, the header/footer logo mark, the active service tab, the Hero orbit's dominant ring, scrollbar accents, link/underline accents on cases/products/CTA — was repointed from the orange token to the new primary token across `styles.scss`, `menu.component.scss`, `footer.component.scss`, `banner.component.scss`, `home-services.component.scss`, `home-challenges.component.scss`, `home-products.component.scss`, `success-stories.component.scss` and `home-cta.component.scss`. `.appland-button--secondary`'s hover state correctly keeps orange (it is the secondary accent now, not a leftover).
+
+A genuine bug was found and fixed in the same pass: the Hero's WhatsApp action used a bespoke `.hero__whatsapp` class rendered in cyan text, while the CTA-final WhatsApp action already correctly used the neutral outlined `.appland-button--secondary` style matching the reference. The Hero now uses the same shared class; the dead `.hero__whatsapp` rule was removed.
+
+### Hero/Desafíos/Servicios/CTA-final: reverted to the reference's abstract-CSS direction
+
+Section 18's photography is removed from these four sections; Casos de éxito is unaffected (the reference itself expects a real mockup there) and keeps the Toyota/Dilo photos from section 17.
+
+- **Hero**: `.hero__visual` no longer branches on a `decorativeAsset` — it always renders the original CSS orbit/grid/node composition. The two orbit rings were renamed `hero__orbit--primary`/`hero__orbit--secondary` (from `--orange`/`--cyan`) and recolored to match: the dominant ring and core glow are now cyan-tinted, the inner ring orange-tinted.
+- **Desafíos**: each card now shows an inline SVG line icon (clock, linked nodes, people, chat bubble, layered platform — one simple original icon per `visualKey`, not copied from the reference's path data) in a colored circular badge, alternating primary/secondary by index, replacing both the photo and the plain number-only treatment. The card's `.challenge__number` "01"–"05" labels were removed since the icon now serves that marker role, matching the reference's icon-only pattern.
+- **Servicios**: `.services__visual` reverted to the original abstract blob (conic-gradient blob shape + three small decorative circles), recolored primary/secondary instead of orange/cyan.
+- **CTA final**: the two-column layout and `.contact__visual` image column were removed; back to the original single-column copy/actions/details layout, matching the reference.
+- `HeroContent.decorativeAsset` (pre-existing, now unpopulated again), `ContactContent.decorativeAsset`, `Challenge.media` and `Service.media` (both added in section 18) — the Contact/Challenge/Service model fields were removed outright since they were net-new and are now unused; `HeroContent.decorativeAsset` predates this feature and was left in the model, simply unpopulated in config, consistent with its state before section 18.
+- The now-orphaned optimized images from section 18 (`src/assets/images/home/hero/`, `services/`, `challenges/`, `cta/` — 12 files, ~490 KB) were deleted so they don't ship as unreferenced dead weight in the production bundle; `src/assets/images/home/cases/` (Toyota/Dilo/Tengo/TV Azteca) is untouched. The original source photos remain available under `docs/img/` if a future targeted increment wants them back for a specific section — the resize/optimize pipeline is already documented in section 18.
+
+### Test/build/manual evidence
+
+- `banner.component.spec.ts` reverted to asserting the CSS-only visual (no `<img>` in `.hero__visual`) and gained an assertion that the Hero WhatsApp link uses `.appland-button--secondary`.
+- `home-challenges.component.spec.ts` replaced its photo-alt-text assertion with one confirming each card renders a decorative (`aria-hidden`), non-textual SVG icon.
+- `home-services.component.spec.ts` replaced its photo assertion with one confirming `.services__visual` stays image-free and hidden from assistive tech.
+- `home-cta.component.spec.ts` and `home-content.config.spec.ts` had their now-inapplicable decorative-asset tests removed; no replacement was needed since the CTA/Contact model no longer exposes that field.
+- `npm test -- --watch=false --browsers=ChromeHeadless`: 68 of 68 tests passed in Chrome Headless 151.
+- `npm run build -- --configuration production`: passed; initial raw bundle 410.30 kB, estimated transfer 105.36 kB; no component-style budget warning.
+- Manual verification via a local dev server: computed-style checks confirmed `.appland-button--primary` background is `rgb(20, 184, 196)` (cyan), `.services__tab--active` background is the same cyan, the header/footer brand mark gradient is cyan-based, and the first (index 0) challenge icon strokes cyan (alternating to orange on odd indices). DOM queries confirmed zero `<img>` elements remain in `.hero__visual`, `.services__visual` or anywhere under `.contact`, exactly 5 `.challenge__icon` elements render, and the Hero's WhatsApp link carries the `appland-button appland-button--secondary` classes. Console was clean (no errors).
+
+### Still pending (business, not technical)
+
+Unchanged from section 18 — the `Elementos Grafico/` decorative assets remain unused by choice, and Tengo/TV Azteca still need approved descriptions. Nothing new is pending from this correction; it is a same-scope fix, not new content.
