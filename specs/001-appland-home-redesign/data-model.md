@@ -381,7 +381,7 @@ If IntersectionObserver is unsupported, motion is reduced or setup fails, state 
 2. Navigation fragments resolve to currently rendered regions.
 3. “Nosotros” resolves only to por-que-appland.
 4. There is one h1 and every region has a unique visible heading.
-5. Exactly five challenges, five services, five cases, eight IA applications, seven benefits and six countries are configured from the brief.
+5. Exactly five challenges, five services, five cases, nine IA applications, seven benefits and six countries are configured from the brief.
 6. No pending or withdrawn item reaches the public view.
 7. No informative image lacks alt text or intrinsic dimensions.
 8. No absent asset or destination produces an empty control/frame.

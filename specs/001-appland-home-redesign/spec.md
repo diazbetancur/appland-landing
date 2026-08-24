@@ -108,6 +108,9 @@ La experiencia contiene un header global, diez secciones principales y un footer
    - Agendamiento de citas.
    - Soporte 24/7.
    - Automatización documental.
+   - Análisis inteligente.
+
+   > **Actualización de contenido aprobada (2026-08-24):** el Product Owner amplió la sección a nueve aplicaciones agregando "Análisis inteligente", y aprobó una descripción de una línea para cada una, además de un párrafo de apoyo y la acción "Descubre cómo la IA puede ayudarte". Este contenido proviene de la referencia visual entregada por el Product Owner, no del brief original.
 
 7. **Plataformas listas para implementar**
    - Categorías candidatas del brief: Restaurantes, Clínicas, Hoteles, Gimnasios, Laboratorios, Programas de Lealtad y E-commerce.
@@ -206,11 +209,11 @@ Como empresa interesada en automatización o plataformas listas para implementar
 
 **Why this priority**: Presenta dos líneas de oferta con alto potencial comercial sin publicar productos o capacidades no aprobadas.
 
-**Independent Test**: Se puede probar con las secciones de IA y productos; IA debe mostrar sus ocho aplicaciones y productos debe respetar las reglas de aprobación y visibilidad.
+**Independent Test**: Se puede probar con las secciones de IA y productos; IA debe mostrar sus nueve aplicaciones y productos debe respetar las reglas de aprobación y visibilidad.
 
 **Acceptance Scenarios**:
 
-1. **Given** la sección de IA, **When** el visitante la consulta, **Then** encuentra las ocho aplicaciones oficiales y una acción de contacto relacionada.
+1. **Given** la sección de IA, **When** el visitante la consulta, **Then** encuentra las nueve aplicaciones oficiales y una acción de contacto relacionada.
 2. **Given** que no existe ningún producto aprobado, **When** se carga la Home, **Then** no aparecen productos, tarjetas vacías ni mensajes de contenido pendiente.
 3. **Given** que existe al menos un producto aprobado, **When** el visitante consulta productos, **Then** puede recorrer manualmente los productos disponibles y solicitar información.
 4. **Given** un producto sin recurso visual aprobado, **When** se presenta su información, **Then** no aparece un mockup inventado ni una indicación de placeholder.
@@ -286,7 +289,7 @@ Como usuario de teclado, lector de pantalla, dispositivo móvil o preferencia de
 - **FR-017**: Casos MUST presentar únicamente los casos con mockup y descripción oficiales aprobados, en el orden acordado (Toyota, Dilo, Tengo, TV Azteca, Avianca, Telemedicine Platform, Espresso Americano), y permitir un recorrido manual mediante mouse, touch y teclado.
 - **FR-018**: Los casos MUST admitir recursos oficiales posteriores sin requerir mockups, resultados o tecnologías inventadas.
 - **FR-019**: La acción “Ver caso” MUST permanecer oculta mientras no exista un destino aprobado.
-- **FR-020**: IA MUST presentar las ocho aplicaciones oficiales y una acción de contacto relacionada.
+- **FR-020**: IA MUST presentar las nueve aplicaciones oficiales, cada una con su descripción aprobada, y una acción de contacto relacionada.
 - **FR-021**: Productos MUST mostrar únicamente productos aprobados como disponibles.
 - **FR-022**: Si no existe ningún producto aprobado, la sección de productos MUST permanecer oculta y MUST NOT mostrar placeholders o estados vacíos públicos.
 - **FR-023**: Si existen productos aprobados, el visitante MUST poder recorrerlos manualmente y seleccionar “Solicitar información”.
