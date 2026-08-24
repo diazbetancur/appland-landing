@@ -1,30 +1,72 @@
-<div class="appland-container contact">
-  <div class="contact__copy">
-    <p class="appland-eyebrow">Hablemos</p>
-    <h2 id="contacto-title" class="appland-heading">{{ content.title }}</h2>
-    <p>{{ content.body }}</p>
-  </div>
+<div class="appland-container">
+  <div class="contact">
+    <div class="contact__decor" aria-hidden="true">
+      <span class="contact__ribbon contact__ribbon--one"></span>
+      <span class="contact__ribbon contact__ribbon--two"></span>
+      <span class="contact__ribbon contact__ribbon--three"></span>
+    </div>
 
-  <div class="contact__actions">
-    @if (meetingAction.kind === 'router') {
-      <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="meetingAction.fragment">{{ content.meetingAction.label }}</a>
-    } @else {
-      <a class="appland-button appland-button--primary" [href]="meetingAction.href" [target]="meetingAction.target" [rel]="meetingAction.rel">{{ content.meetingAction.label }}</a>
-    }
+    <div class="contact__body">
+      <span class="contact__rule" aria-hidden="true"></span>
+      <h2 id="contacto-title" class="appland-heading contact__title">
+        ¿Listo para <span class="contact__highlight">transformar</span> tu negocio?
+      </h2>
+      <p class="contact__lead">{{ content.body }}</p>
 
-    <a class="appland-button appland-button--secondary" [href]="whatsappAction.href" [target]="whatsappAction.target" [rel]="whatsappAction.rel">{{ content.whatsappAction.label }}</a>
-  </div>
+      <div class="contact__actions">
+        @if (meetingAction.kind === 'router') {
+          <a class="appland-button contact__meeting" [routerLink]="['/']" [fragment]="meetingAction.fragment">
+            <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+            {{ content.meetingAction.label }}
+          </a>
+        } @else {
+          <a class="appland-button contact__meeting" [href]="meetingAction.href" [target]="meetingAction.target" [rel]="meetingAction.rel">
+            <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+            {{ content.meetingAction.label }}
+          </a>
+        }
 
-  <address class="contact__details">
-    <a [href]="destinationHref(content.email)">{{ content.email.value }}</a>
-    <a [href]="destinationHref(content.phone)">+504 3394-9211</a>
-  </address>
+        <a class="appland-button contact__whatsapp" [href]="whatsappAction.href" [target]="whatsappAction.target" [rel]="whatsappAction.rel">
+          <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-4.2-7.6L21 4l-1 4"></path><path d="M8.5 11.5c1 2 2 3 4 4"></path></svg>
+          {{ content.whatsappAction.label }}
+        </a>
+      </div>
+    </div>
 
-  @if (content.socialLinks.length) {
-    <nav class="contact__social" aria-label="Redes sociales">
+    <ul class="contact__details">
+      <li>
+        <a [href]="destinationHref(content.email)">
+          <span class="contact__detail-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="M3.5 7.5l8.5 6 8.5-6"></path></svg>
+          </span>
+          {{ content.email.value }}
+        </a>
+      </li>
+      <li>
+        <a [href]="destinationHref(content.phone)">
+          <span class="contact__detail-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect><path d="M10.5 18.5h3"></path></svg>
+          </span>
+          +504 3394-9211
+        </a>
+      </li>
       @for (link of content.socialLinks; track link) {
-        <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+        <li>
+          <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">
+            <span class="contact__detail-icon" aria-hidden="true">
+              @switch (link.id) {
+                @case ('linkedin') {
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M7.5 10.5v6M7.5 7.6v.02M11.5 16.5v-6M11.5 13a2.5 2.5 0 0 1 5 0v3.5"></path></svg>
+                }
+                @case ('instagram') {
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17 7h.01"></path></svg>
+                }
+              }
+            </span>
+            {{ link.label }}
+          </a>
+        </li>
       }
-    </nav>
-  }
+    </ul>
+  </div>
 </div>

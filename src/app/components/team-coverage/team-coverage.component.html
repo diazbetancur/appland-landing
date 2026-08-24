@@ -1,20 +1,41 @@
 <div class="appland-container team">
-  <div class="team__visual" aria-hidden="true">
-    <span class="team__globe"></span>
-    <span class="team__orbit team__orbit--one"></span>
-    <span class="team__orbit team__orbit--two"></span>
-  </div>
+  <img class="team__wave" src="assets/images/home/hero/wave.png" width="700" height="233" alt="" aria-hidden="true" loading="lazy">
+  <img class="team__sphere" src="assets/images/home/hero/sphere.png" width="260" height="241" alt="" aria-hidden="true" loading="lazy">
 
   <div class="team__content">
-    <p class="appland-eyebrow">Equipo global</p>
-    <h2 id="equipo-global-title" class="appland-heading">Talento conectado en distintas regiones</h2>
-    <ul class="team__countries" aria-label="Países con presencia de APPLAND">
-      @for (country of countries; track country) {
-        <li>
-          <span aria-hidden="true">{{ country.code }}</span>
-          {{ country.name }}
-        </li>
+    <span class="team__rule" aria-hidden="true"></span>
+    <h2 id="equipo-global-title" class="appland-heading">
+      Equipo distribuido <span class="team__highlight">internacionalmente</span>
+    </h2>
+    <p class="team__lead">
+      Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.
+    </p>
+
+    @if (resolvedContactAction; as action) {
+      @if (action.kind === 'router') {
+        <a class="appland-button team__cta" [routerLink]="['/']" [fragment]="action.fragment">
+          Conoce nuestro equipo
+          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+        </a>
+      } @else {
+        <a class="appland-button team__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
+          Conoce nuestro equipo
+          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+        </a>
       }
-    </ul>
+    }
   </div>
+
+  <ul class="team__countries" aria-label="Países con presencia de APPLAND">
+    @for (country of countries; track country) {
+      <li class="country-card">
+        <span class="country-card__flag">
+          <img [src]="country.flag.src" [alt]="country.flag.alt" [width]="country.flag.width" [height]="country.flag.height" loading="lazy">
+        </span>
+        <h3>{{ country.name }}</h3>
+        <span class="country-card__rule" aria-hidden="true"></span>
+        <p>{{ country.role }}</p>
+      </li>
+    }
+  </ul>
 </div>

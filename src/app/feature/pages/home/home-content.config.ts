@@ -11,6 +11,11 @@ function approvedAsset(src: string, width: number, height: number, alt: string, 
   return { src, width, height, alt, decorative, publicationStatus: 'approved' };
 }
 
+/** Flags are local public-domain SVGs; never a remote flag service. */
+function countryFlag(slug: string, country: string): ApprovedAsset {
+  return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 40, `Bandera de ${country}`);
+}
+
 const meetingAction = {
   id: 'meeting',
   label: 'Agendar una reunión',
@@ -39,7 +44,7 @@ const contact = {
   whatsappAction,
   email: {
     kind: 'email',
-    value: 'hello@applandtech.com',
+    value: 'mario@applandtech.com',
     publicationStatus: 'approved',
     newContext: false,
   },
@@ -49,7 +54,26 @@ const contact = {
     publicationStatus: 'approved',
     newContext: false,
   },
-  socialLinks: [],
+  // Recovered from the pre-redesign footer (commit 239d018^), so these are the
+  // company's own live profiles rather than invented destinations.
+  socialLinks: [
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      kind: 'external',
+      value: 'https://www.linkedin.com/company/appland-inc/',
+      publicationStatus: 'approved',
+      newContext: true,
+    },
+    {
+      id: 'instagram',
+      label: 'Instagram',
+      kind: 'external',
+      value: 'https://www.instagram.com/appland.inc/',
+      publicationStatus: 'approved',
+      newContext: true,
+    },
+  ],
 } as const;
 
 const approvedClients: readonly Client[] = [
@@ -324,21 +348,56 @@ export const HOME_CONTENT: HomeContent = {
   ],
   products: productCandidates,
   benefits: [
-    { id: 'experience', statement: 'Más de 13 años de experiencia', visualKey: 'calendar' },
-    { id: 'bilingual', statement: 'Equipo bilingüe', visualKey: 'language' },
-    { id: 'international', statement: 'Presencia internacional', visualKey: 'world' },
-    { id: 'timezones', statement: 'Cobertura multizona horaria', visualKey: 'clock' },
-    { id: 'industries', statement: 'Experiencia en fintech, salud, retail y consumo masivo', visualKey: 'industries' },
-    { id: 'agile', statement: 'Metodologías ágiles', visualKey: 'agile' },
-    { id: 'scalable', statement: 'Soluciones escalables', visualKey: 'scale' },
+    {
+      id: 'experience',
+      statement: 'Más de 13 años de experiencia',
+      description: 'Solidez y conocimiento que se traducen en resultados.',
+      visualKey: 'calendar',
+    },
+    {
+      id: 'bilingual',
+      statement: 'Equipo bilingüe',
+      description: 'Comunicación clara y efectiva en tu idioma durante todo el proyecto.',
+      visualKey: 'language',
+    },
+    {
+      id: 'international',
+      statement: 'Presencia internacional',
+      description: 'Trabajamos con clientes en diferentes países y entendemos sus mercados.',
+      visualKey: 'world',
+    },
+    {
+      id: 'timezones',
+      statement: 'Cobertura multizona horaria',
+      description: 'Disponibilidad y coordinación sin importar la ubicación.',
+      visualKey: 'clock',
+    },
+    {
+      id: 'industries',
+      statement: 'Experiencia en fintech, salud, retail y consumo masivo',
+      description: 'Entendemos tu industria y sus desafíos específicos.',
+      visualKey: 'industries',
+    },
+    {
+      id: 'agile',
+      statement: 'Metodologías ágiles',
+      description: 'Entregamos valor de forma iterativa, rápida y eficiente.',
+      visualKey: 'agile',
+    },
+    {
+      id: 'scalable',
+      statement: 'Soluciones escalables',
+      description: 'Desarrollamos tecnología preparada para crecer junto a tu negocio.',
+      visualKey: 'scale',
+    },
   ],
   countries: [
-    { code: 'HN', name: 'Honduras' },
-    { code: 'US', name: 'Estados Unidos' },
-    { code: 'CO', name: 'Colombia' },
-    { code: 'PA', name: 'Panamá' },
-    { code: 'BD', name: 'Bangladesh' },
-    { code: 'GT', name: 'Guatemala' },
+    { code: 'HN', name: 'Honduras', role: 'HQ & Desarrollo', flag: countryFlag('hn', 'Honduras') },
+    { code: 'US', name: 'Estados Unidos', role: 'Business Development', flag: countryFlag('us', 'Estados Unidos') },
+    { code: 'CO', name: 'Colombia', role: 'Software Development', flag: countryFlag('co', 'Colombia') },
+    { code: 'PA', name: 'Panamá', role: 'Operaciones', flag: countryFlag('pa', 'Panamá') },
+    { code: 'BD', name: 'Bangladesh', role: 'Engineering', flag: countryFlag('bd', 'Bangladesh') },
+    { code: 'GT', name: 'Guatemala', role: 'QA & Support', flag: countryFlag('gt', 'Guatemala') },
   ],
   contact,
   footer: {
