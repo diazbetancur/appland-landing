@@ -18,7 +18,7 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.challenges.length).toBe(5);
     expect(HOME_CONTENT.services.length).toBe(5);
     expect(HOME_CONTENT.cases.length).toBe(7);
-    expect(HOME_CONTENT.aiApplications.length).toBe(8);
+    expect(HOME_CONTENT.aiApplications.length).toBe(9);
     expect(HOME_CONTENT.benefits.length).toBe(7);
     expect(HOME_CONTENT.countries.length).toBe(6);
   });

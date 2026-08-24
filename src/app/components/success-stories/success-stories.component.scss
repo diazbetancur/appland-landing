@@ -8,75 +8,197 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(2rem, 3.5vw, 3rem);
+}
+
+.cases__highlight {
+  color: var(--appland-secondary);
+}
+
+.cases__rule {
+  display: block;
+  width: 96px;
+  height: 2px;
+  margin-top: 1rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--appland-primary), transparent);
 }
 
 .cases__controls {
   display: flex;
+  flex-shrink: 0;
   gap: 0.65rem;
 }
 
 .cases__controls button {
+  display: flex;
   width: 48px;
   height: 48px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--appland-line-strong);
   border-radius: 50%;
-  background: var(--appland-panel);
+  background: transparent;
   color: var(--appland-text);
   cursor: pointer;
+  transition: border-color 200ms ease, background-color 200ms ease;
 }
 
-.cases__controls button:disabled { opacity: 0.35; cursor: not-allowed; }
+.cases__controls button svg {
+  stroke: currentColor;
+}
+
+.cases__controls button:not(:disabled):hover {
+  border-color: var(--appland-primary);
+  background: var(--appland-primary-soft);
+}
+
+.cases__controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
 
 .cases__track {
   min-width: 0;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(min(82vw, 300px), 1fr);
-  gap: 1rem;
+  gap: clamp(1rem, 1.6vw, 1.5rem);
   overflow-x: auto;
   padding: 0.25rem 0.25rem 1rem;
-  scroll-snap-type: x mandatory;
+  /* `proximity`, not `mandatory`: when the last card's start-align position
+     sits past the maximum scroll offset, mandatory snapping drags the track
+     back and the final card can never be reached. */
+  scroll-snap-type: x proximity;
   scrollbar-color: var(--appland-primary) var(--appland-panel);
 }
 
 .case-card {
   min-width: 0;
-  min-height: 310px;
   display: flex;
   flex-direction: column;
-  padding: clamp(1.4rem, 3vw, 2rem);
+  overflow: hidden;
   border: 1px solid var(--appland-line);
   border-radius: var(--appland-radius-lg);
   background: linear-gradient(180deg, var(--appland-panel-2), var(--appland-panel));
   scroll-snap-align: start;
+  transition: border-color 250ms ease, transform 250ms ease;
 }
 
-.case-card img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  margin-bottom: 1.25rem;
-  border-radius: var(--appland-radius);
-  object-fit: cover;
+/* The last card aligns to the end so it has a snap point at the maximum
+   scroll offset; aligned to start its snap point sits beyond it and smooth
+   scrolling springs the track back to the first card. */
+.case-card:last-child {
+  scroll-snap-align: end;
+}
+
+.case-card:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-4px);
+}
+
+/* A landscape frame keeps every card the same shape, while `contain` shows
+   each portrait device mockup whole instead of cropping it. */
+.case-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  border-bottom: 1px solid var(--appland-line);
+  background:
+    radial-gradient(circle at 50% 120%, rgba(20, 184, 196, 0.16), transparent 70%),
+    repeating-linear-gradient(135deg, #171f2a 0 12px, #121a24 12px 24px);
+}
+
+.case-card__media img {
+  width: auto;
+  max-width: 62%;
+  height: 92%;
+  object-fit: contain;
+}
+
+.case-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
 }
 
 .case-card__number {
-  margin: 0 0 auto;
-  color: var(--appland-cyan) !important;
+  margin: 0 0 0.9rem;
+  color: var(--appland-primary);
   font-size: 0.78rem;
   font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
-.case-card h3 { margin: 2.5rem 0 0.6rem; font-size: 1.35rem; }
-.case-card p { margin: 0; color: var(--appland-muted); }
-.case-card a { min-height: 44px; display: inline-flex; align-items: center; margin-top: 1rem; color: var(--appland-primary); font-weight: 750; }
-.cases__position { margin: 1rem 0 0; color: var(--appland-dim); text-align: center; }
+.case-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.25rem, 1.5vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.case-card__body p:not(.case-card__number) {
+  margin: 0;
+  color: var(--appland-muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.case-card a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  margin-top: 1.1rem;
+  color: var(--appland-secondary);
+  font-weight: 750;
+}
+
+.case-card a svg {
+  stroke: currentColor;
+}
+
+.cases__position {
+  margin: 1rem 0 0;
+  color: var(--appland-dim);
+  text-align: center;
+}
 
 @media (min-width: 1024px) {
-  .cases__track { grid-auto-columns: calc((100% - 2rem) / 3); }
+  .cases__track {
+    grid-auto-columns: calc((100% - 3rem) / 3);
+  }
+
+  /* With fewer cards than columns the track would leave a large gap on the
+     right, so cap the width and centre what is published. */
+  .cases__track--few {
+    grid-auto-columns: minmax(0, 420px);
+    justify-content: center;
+  }
 }
 
 @media (max-width: 559px) {
-  .cases__heading { align-items: start; flex-direction: column; }
-  .cases__controls { align-self: end; }
+  .cases__heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .cases__controls {
+    align-self: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-card,
+  .cases__controls button {
+    transition: none;
+  }
+
+  .case-card:hover {
+    transform: none;
+  }
 }

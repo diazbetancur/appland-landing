@@ -36,7 +36,9 @@
   gap: 1.25rem;
   overflow-x: auto;
   padding: 0.25rem 0.25rem 1rem;
-  scroll-snap-type: x mandatory;
+  /* See success-stories: mandatory snapping can make the last card
+     unreachable when its snap point sits past the maximum scroll offset. */
+  scroll-snap-type: x proximity;
   scrollbar-color: var(--appland-primary) var(--appland-panel);
 }
 
@@ -50,6 +52,12 @@
   border-radius: var(--appland-radius-lg);
   background: linear-gradient(150deg, var(--appland-panel-2), var(--appland-panel));
   scroll-snap-align: start;
+}
+
+/* See success-stories: the final card needs an end-aligned snap point or
+   smooth scrolling springs the track back. */
+.product-card:last-child {
+  scroll-snap-align: end;
 }
 
 .product-card img {

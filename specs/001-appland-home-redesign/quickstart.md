@@ -220,7 +220,7 @@ Compare visible output with the approved spec/PDF:
 - 5 challenges.
 - 5 services.
 - Only cases with both an approved mockup and an approved description (2 of 7 candidates as of 2026-08-21: Toyota, Dilo).
-- 8 IA applications.
+- 9 IA applications.
 - 7 APPLAND attributes.
 - 6 countries.
 - 0 testimonials.
