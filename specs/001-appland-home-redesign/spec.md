@@ -126,18 +126,22 @@ La experiencia contiene un header global, diez secciones principales y un footer
    - Soluciones escalables.
    - El enlace “Nosotros” del header dirige a esta sección y no crea una sección adicional.
 
+   > **Actualización de contenido aprobada (2026-08-24):** el Product Owner aprobó una descripción de una línea para cada uno de los siete atributos, un rótulo, un nuevo título (“Por qué empresas eligen trabajar con nosotros”), un párrafo de apoyo y la acción “Conversemos sobre tu proyecto”. La referencia visual entregada incluye además un carrusel de testimonios; los testimonios permanecen fuera de alcance por FR-025 y no se implementaron.
+
 9. **Equipo distribuido internacionalmente**
-   - Honduras.
-   - Estados Unidos.
-   - Colombia.
-   - Panamá.
-   - Bangladesh.
-   - Guatemala.
+   - Honduras: HQ & Desarrollo.
+   - Estados Unidos: Business Development.
+   - Colombia: Software Development.
+   - Panamá: Operaciones.
+   - Bangladesh: Engineering.
+   - Guatemala: QA & Support.
+
+   > **Actualización de contenido aprobada (2026-08-24):** el Product Owner aprobó el rol de cada país, un párrafo de apoyo y la acción "Conoce nuestro equipo", además de mostrar la bandera de cada país. Las banderas son archivos SVG locales de dominio público; la prohibición vigente es el hotlink a un servicio remoto de banderas, no la bandera en sí.
 
 10. **¿Listo para transformar tu negocio?**
     - Texto: “Conversemos sobre tu proyecto y descubre cómo la tecnología, la automatización y la inteligencia artificial pueden ayudarte a crecer.”
     - Acciones: “Agendar reunión” y “Escribir por WhatsApp”.
-    - Contacto: hello@applandtech.com y +504 3394-9211.
+    - Contacto: mario@applandtech.com y +504 3394-9211.
     - Redes: LinkedIn e Instagram cuando dispongan de URL aprobada.
 
 11. **Footer global**
@@ -359,7 +363,8 @@ Los perfiles, herramientas y umbrales técnicos para medir carga, estabilidad y 
 - La experiencia inicial muestra contenido únicamente en español.
 - La nueva Home no presenta selector ES/EN, alternancia de idioma ni contenido inglés visible u oculto sin propósito.
 - El footer puede describirse como la región once sin afectar el orden funcional de las diez secciones principales.
-- El correo hello@applandtech.com y el teléfono +504 3394-9211 son datos oficiales.
+- El correo mario@applandtech.com y el teléfono +504 3394-9211 son datos oficiales. El correo fue corregido por el Product Owner el 2026-08-24; la versión anterior (hello@applandtech.com) queda descartada.
+- LinkedIn (linkedin.com/company/appland-inc/) e Instagram (instagram.com/appland.inc/) son URLs oficiales recuperadas del footer previo al rediseño y aprobadas para publicación el 2026-08-24.
 - Una URL de agendamiento pendiente usa el bloque final de contacto como destino alternativo.
 - Un mensaje de WhatsApp pendiente no se inventa; se usa el número oficial sin mensaje prellenado hasta recibir aprobación.
 - Los productos permanecen ocultos hasta contar con aprobación individual.

@@ -31,11 +31,11 @@
 }
 
 <section id="por-que-appland" class="home-region appland-section" aria-labelledby="por-que-appland-title" appHomeSection="por-que-appland" appRevealOnScroll>
-  <app-why [benefits]="content.benefits"></app-why>
+  <app-why [benefits]="content.benefits" [contactAction]="content.contact.meetingAction"></app-why>
 </section>
 
 <section id="equipo-global" class="home-region appland-section" aria-labelledby="equipo-global-title" appHomeSection="equipo-global" appRevealOnScroll>
-  <app-team-coverage [countries]="content.countries"></app-team-coverage>
+  <app-team-coverage [countries]="content.countries" [contactAction]="content.contact.meetingAction"></app-team-coverage>
 </section>
 
 <section id="contacto" class="home-region appland-section home-region--contact" aria-labelledby="contacto-title" appHomeSection="contacto" appRevealOnScroll>

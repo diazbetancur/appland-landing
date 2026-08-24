@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { CountryPresence } from '../../feature/pages/home/home-content.models';
+import { Component, Input, OnChanges } from '@angular/core';
+import { ConversionAction, CountryPresence, ResolvedAction } from '../../feature/pages/home/home-content.models';
+import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
     selector: 'app-team-coverage',
@@ -7,6 +8,15 @@ import { CountryPresence } from '../../feature/pages/home/home-content.models';
     styleUrls: ['./team-coverage.component.scss'],
     standalone: false
 })
-export class TeamCoverageComponent {
+export class TeamCoverageComponent implements OnChanges {
   @Input() countries: readonly CountryPresence[] = [];
+  @Input() contactAction?: ConversionAction;
+
+  resolvedContactAction?: ResolvedAction;
+
+  ngOnChanges(): void {
+    this.resolvedContactAction = this.contactAction
+      ? resolveConversionAction(this.contactAction)
+      : undefined;
+  }
 }
