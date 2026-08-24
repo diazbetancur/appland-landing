@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Benefit } from '../../feature/pages/home/home-content.models';
+import { Component, Input, OnChanges } from '@angular/core';
+import { Benefit, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
+import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
     selector: 'app-why',
@@ -7,6 +8,15 @@ import { Benefit } from '../../feature/pages/home/home-content.models';
     styleUrls: ['./why.component.scss'],
     standalone: false
 })
-export class WhyComponent {
+export class WhyComponent implements OnChanges {
   @Input() benefits: readonly Benefit[] = [];
+  @Input() contactAction?: ConversionAction;
+
+  resolvedContactAction?: ResolvedAction;
+
+  ngOnChanges(): void {
+    this.resolvedContactAction = this.contactAction
+      ? resolveConversionAction(this.contactAction)
+      : undefined;
+  }
 }

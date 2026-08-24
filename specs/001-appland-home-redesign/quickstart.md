@@ -233,7 +233,7 @@ Compare visible output with the approved spec/PDF:
 
 Check the exact contact data:
 
-- hello@applandtech.com
+- mario@applandtech.com
 - +504 3394-9211
 - WhatsApp number 50433949211
 

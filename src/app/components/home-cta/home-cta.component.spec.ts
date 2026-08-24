@@ -18,9 +18,9 @@ describe('HomeCtaComponent', () => {
   });
 
   it('renders official title, body, email and phone', () => {
-    expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.contact.title);
+    expect(fixture.nativeElement.textContent).toContain('¿Listo para transformar tu negocio?');
     expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.contact.body);
-    expect(fixture.debugElement.query(By.css('a[href^="mailto:"]')).attributes['href']).toBe('mailto:hello@applandtech.com');
+    expect(fixture.debugElement.query(By.css('a[href^="mailto:"]')).attributes['href']).toBe('mailto:mario@applandtech.com');
     expect(fixture.debugElement.query(By.css('a[href^="tel:"]')).attributes['href']).toBe('tel:+50433949211');
   });
 
@@ -31,8 +31,27 @@ describe('HomeCtaComponent', () => {
     expect(whatsapp.attributes['rel']).toBe('noopener noreferrer');
   });
 
-  it('omits social navigation while no link is approved', () => {
-    expect(fixture.debugElement.query(By.css('.contact__social'))).toBeNull();
+  it('publishes only approved social links, each opening safely in a new context', () => {
+    const links = fixture.debugElement.queryAll(By.css('.contact__details a[target="_blank"]'));
+    expect(links.length).toBe(HOME_CONTENT.contact.socialLinks.length);
+    links.forEach((link, index) => {
+      const approved = HOME_CONTENT.contact.socialLinks[index];
+      expect(approved.publicationStatus).toBe('approved');
+      expect(link.attributes['href']).toBe(approved.value);
+      expect(link.attributes['rel']).toBe('noopener noreferrer');
+      expect(link.nativeElement.textContent.trim()).toContain(approved.label);
+    });
   });
 
+  it('omits any social link that is not approved', () => {
+    fixture.componentRef.setInput('content', { ...HOME_CONTENT.contact, socialLinks: [] });
+    fixture.detectChanges();
+    expect(fixture.debugElement.queryAll(By.css('.contact__details a[target="_blank"]')).length).toBe(0);
+  });
+
+  it('keeps the decorative artwork out of the accessibility tree', () => {
+    const decor = fixture.debugElement.query(By.css('.contact__decor'));
+    expect(decor.attributes['aria-hidden']).toBe('true');
+    expect(decor.nativeElement.textContent.trim()).toBe('');
+  });
 });

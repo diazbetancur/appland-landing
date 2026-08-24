@@ -127,12 +127,15 @@ export interface Product {
 export interface Benefit {
   readonly id: string;
   readonly statement: string;
+  readonly description: string;
   readonly visualKey?: string;
 }
 
 export interface CountryPresence {
   readonly code: 'HN' | 'US' | 'CO' | 'PA' | 'BD' | 'GT';
   readonly name: string;
+  readonly role: string;
+  readonly flag: ApprovedAsset;
 }
 
 export interface ContactContent {

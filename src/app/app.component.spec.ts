@@ -55,7 +55,7 @@ describe('AppComponent shell', () => {
 
   it('binds one complete FooterContent object including nested contact', () => {
     const footer = fixture.debugElement.query(By.directive(FooterStubComponent)).componentInstance as FooterStubComponent;
-    expect(footer.content.contact.email.value).toBe('hello@applandtech.com');
+    expect(footer.content.contact.email.value).toBe('mario@applandtech.com');
     expect(footer.content.navigation.length).toBe(5);
   });
 
