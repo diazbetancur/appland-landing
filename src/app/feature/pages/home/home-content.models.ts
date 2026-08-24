@@ -111,6 +111,7 @@ export interface CaseStudy {
 export interface AiApplication {
   readonly id: string;
   readonly label: string;
+  readonly description: string;
   readonly visualKey?: string;
 }
 
