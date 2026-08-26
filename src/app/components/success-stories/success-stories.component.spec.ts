@@ -35,7 +35,7 @@ describe('SuccessStoriesComponent', () => {
     const track = fixture.debugElement.query(By.css('[aria-roledescription="carrusel"]'));
     expect(track.attributes['aria-labelledby']).toBe('casos-title');
     expect(track.attributes['tabindex']).toBe('0');
-    expect(fixture.debugElement.queryAll(By.css('.cases__controls button')).length).toBe(2);
+    expect(fixture.debugElement.queryAll(By.css('.cases__control')).length).toBe(2);
     expect((fixture.componentInstance as unknown as { interval?: unknown }).interval).toBeUndefined();
   });
 });

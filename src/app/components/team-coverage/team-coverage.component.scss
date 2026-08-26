@@ -128,6 +128,9 @@
   text-wrap: balance;
 }
 
+/* Anchored to .team__content (not the taller .team row) and placed below
+   the CTA via `top`, so the graphics always sit under the button instead of
+   behind it regardless of how tall the countries grid is. */
 .team__wave,
 .team__sphere {
   position: absolute;
@@ -135,19 +138,19 @@
 }
 
 .team__wave {
-  z-index: 1;
-  bottom: 6%;
-  left: -14%;
-  width: clamp(260px, 32vw, 500px);
+  z-index: 0;
+  top: calc(100% + 0.5rem);
+  left: -10%;
+  width: clamp(180px, 22vw, 340px);
   height: auto;
   opacity: 0.8;
 }
 
 .team__sphere {
   z-index: 0;
-  bottom: 2%;
+  top: calc(100% + 1.5rem);
   left: clamp(2%, 5vw, 8%);
-  width: clamp(72px, 9vw, 128px);
+  width: clamp(56px, 7vw, 100px);
   height: auto;
 }
 

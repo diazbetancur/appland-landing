@@ -103,6 +103,7 @@ export interface CaseStudy {
   readonly id: string;
   readonly name: string;
   readonly summary?: string;
+  readonly description?: string;
   readonly media?: ApprovedAsset;
   readonly destination?: ApprovedDestination;
   readonly publicationStatus: PublicationStatus;

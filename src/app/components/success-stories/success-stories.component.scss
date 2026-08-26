@@ -24,36 +24,47 @@
   background: linear-gradient(90deg, var(--appland-primary), transparent);
 }
 
-.cases__controls {
-  display: flex;
-  flex-shrink: 0;
-  gap: 0.65rem;
+.cases__carousel {
+  position: relative;
 }
 
-.cases__controls button {
+.cases__control {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
   display: flex;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--appland-line-strong);
   border-radius: 50%;
-  background: transparent;
+  background: var(--appland-panel);
   color: var(--appland-text);
   cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-50%);
   transition: border-color 200ms ease, background-color 200ms ease;
 }
 
-.cases__controls button svg {
+.cases__control--prev {
+  left: 0.5rem;
+}
+
+.cases__control--next {
+  right: 0.5rem;
+}
+
+.cases__control svg {
   stroke: currentColor;
 }
 
-.cases__controls button:not(:disabled):hover {
+.cases__control:not(:disabled):hover {
   border-color: var(--appland-primary);
   background: var(--appland-primary-soft);
 }
 
-.cases__controls button:disabled {
+.cases__control:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
@@ -65,12 +76,16 @@
   grid-auto-columns: minmax(min(82vw, 300px), 1fr);
   gap: clamp(1rem, 1.6vw, 1.5rem);
   overflow-x: auto;
-  padding: 0.25rem 0.25rem 1rem;
+  padding: 0.25rem clamp(2.5rem, 5vw, 3.5rem) 1rem;
   /* `proximity`, not `mandatory`: when the last card's start-align position
      sits past the maximum scroll offset, mandatory snapping drags the track
      back and the final card can never be reached. */
   scroll-snap-type: x proximity;
-  scrollbar-color: var(--appland-primary) var(--appland-panel);
+  scrollbar-width: none;
+}
+
+.cases__track::-webkit-scrollbar {
+  display: none;
 }
 
 .case-card {
@@ -111,11 +126,19 @@
     repeating-linear-gradient(135deg, #171f2a 0 12px, #121a24 12px 24px);
 }
 
+/* Absolute so the image's intrinsic ratio never drives the media box height
+   (a percentage-height img inside a flex+aspect-ratio parent can otherwise
+   stretch that parent to fit tall portrait mockups). Same fix as
+   .challenge__media in home-challenges. */
 .case-card__media img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: auto;
-  max-width: 62%;
+  max-width: 90%;
   height: 92%;
   object-fit: contain;
+  transform: translate(-50%, -50%);
 }
 
 .case-card__body {
@@ -140,10 +163,18 @@
   letter-spacing: -0.02em;
 }
 
-.case-card__body p:not(.case-card__number) {
+.case-card__category {
   margin: 0;
-  color: var(--appland-muted);
+  color: var(--appland-text);
   font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.case-card__description {
+  margin: 0.5rem 0 0;
+  color: var(--appland-muted);
+  font-size: 0.9rem;
   line-height: 1.6;
 }
 
@@ -181,20 +212,9 @@
   }
 }
 
-@media (max-width: 559px) {
-  .cases__heading {
-    align-items: start;
-    flex-direction: column;
-  }
-
-  .cases__controls {
-    align-self: flex-end;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .case-card,
-  .cases__controls button {
+  .cases__control {
     transition: none;
   }
 

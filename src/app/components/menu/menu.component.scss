@@ -28,18 +28,15 @@
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  color: var(--appland-text);
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
 }
 
 .menu__brand-mark {
-  width: 28px;
-  height: 28px;
+  width: 215px;
+  height: 44px;
   display: inline-block;
   flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .menu__desktop-links {

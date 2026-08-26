@@ -10,7 +10,7 @@
 
 .footer__grid {
   display: grid;
-  grid-template-columns: minmax(240px, 1.5fr) repeat(4, minmax(140px, 1fr));
+  grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(140px, 1fr));
   gap: clamp(2rem, 4vw, 4rem);
 }
 
@@ -25,14 +25,14 @@
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  font-weight: 850;
 }
 
 .footer__logo img {
-  width: 28px;
-  height: 28px;
+  width: 215px;
+  height: 44px;
   flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 h2 {
