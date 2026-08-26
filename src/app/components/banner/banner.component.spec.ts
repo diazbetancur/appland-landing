@@ -52,4 +52,8 @@ describe('BannerComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('.hero__actions a')).length).toBe(2);
     expect(fixture.debugElement.query(By.css('.hero__actions a[href*="wa.me"]'))).toBeNull();
   });
+
+  it('does not render the capabilities list of icons/labels below the actions', () => {
+    expect(fixture.debugElement.query(By.css('.hero__capabilities'))).toBeNull();
+  });
 });

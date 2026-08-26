@@ -30,4 +30,11 @@ describe('FooterComponent', () => {
     expect(fixture.nativeElement.textContent).not.toContain('EN');
     expect(fixture.debugElement.query(By.css('[data-en]'))).toBeNull();
   });
+
+  it('exposes the brand name via aria-label since the logo image is decorative', () => {
+    const brandLink = fixture.debugElement.query(By.css('.footer__logo'));
+    const brandMark = fixture.debugElement.query(By.css('.footer__logo img'));
+    expect(brandLink.attributes['aria-label']).toBe('APPLAND, inicio');
+    expect(brandMark.attributes['alt']).toBe('');
+  });
 });

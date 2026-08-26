@@ -87,12 +87,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: clamp(260px, 24vw, 340px);
 }
 
 .services__visual img {
   width: 100%;
   max-width: 420px;
-  height: auto;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -151,6 +152,7 @@ h3 {
 
   .services__visual {
     order: -1;
+    height: clamp(200px, 40vw, 280px);
   }
 
   .services__visual img {
