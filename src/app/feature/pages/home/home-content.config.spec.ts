@@ -40,7 +40,7 @@ describe('HOME_CONTENT', () => {
 
   it('shows only cases with approved copy and media, in approved order', () => {
     const visible = selectVisibleCases();
-    expect(visible.map((item) => item.name)).toEqual(['Toyota', 'Dilo']);
+    expect(visible.map((item) => item.name)).toEqual(['Toyota', 'Dilo', 'Go', 'TV Azteca Honduras']);
     expect(visible.every((item) => Boolean(item.media))).toBeTrue();
   });
 

@@ -90,7 +90,8 @@ La experiencia contiene un header global, diez secciones principales y un footer
    - Inteligencia Artificial: “Agentes IA, automatización, asistentes de voz y chat.”
    - Staff Augmentation: “Desarrolladores, QA, UX/UI y equipos dedicados.”
    - Automatización de Procesos: “Optimización operativa mediante IA e integraciones.”
-   - Consultoría Tecnológica: “Transformación digital y arquitectura tecnológica.”
+   - Consultoría Tecnológica: “Alineamos tecnología, estrategia y negocio para impulsar
+     tu crecimiento.”
 
 5. **Algunos proyectos desarrollados**
    - Toyota: App móvil para clientes.
@@ -141,7 +142,7 @@ La experiencia contiene un header global, diez secciones principales y un footer
 10. **¿Listo para transformar tu negocio?**
     - Texto: “Conversemos sobre tu proyecto y descubre cómo la tecnología, la automatización y la inteligencia artificial pueden ayudarte a crecer.”
     - Acciones: “Agendar reunión” y “Escribir por WhatsApp”.
-    - Contacto: mario@applandtech.com y +504 3394-9211.
+    - Contacto: hello@applandtech.com y +504 3394-9211.
     - Redes: LinkedIn e Instagram cuando dispongan de URL aprobada.
 
 11. **Footer global**
@@ -152,7 +153,7 @@ La experiencia contiene un header global, diez secciones principales y un footer
     - Copyright.
     - Los enlaces de privacidad y términos se omiten hasta contar con URL aprobada.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Comprender y contactar (Priority: P1)
 
@@ -270,7 +271,7 @@ Como usuario de teclado, lector de pantalla, dispositivo móvil o preferencia de
 - El texto aumenta de tamaño o el viewport se reduce a 360 px: el contenido y los controles permanecen disponibles sin solaparse ni recortarse.
 - Un recurso inferior tarda en estar disponible: el Hero, la navegación y las acciones principales continúan visibles y utilizables.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -335,7 +336,7 @@ Como usuario de teclado, lector de pantalla, dispositivo móvil o preferencia de
 - **Presencia global**: País oficial incluido en la cobertura internacional.
 - **Recurso empresarial**: Logo, mockup, URL o texto sujeto a aprobación y a reglas de visibilidad.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -363,7 +364,7 @@ Los perfiles, herramientas y umbrales técnicos para medir carga, estabilidad y 
 - La experiencia inicial muestra contenido únicamente en español.
 - La nueva Home no presenta selector ES/EN, alternancia de idioma ni contenido inglés visible u oculto sin propósito.
 - El footer puede describirse como la región once sin afectar el orden funcional de las diez secciones principales.
-- El correo mario@applandtech.com y el teléfono +504 3394-9211 son datos oficiales. El correo fue corregido por el Product Owner el 2026-08-24; la versión anterior (hello@applandtech.com) queda descartada.
+- El correo hello@applandtech.com y el teléfono +504 3394-9211 son datos oficiales. El correo fue corregido por el Product Owner el 2026-08-24; la versión anterior (hello@applandtech.com) queda descartada.
 - LinkedIn (linkedin.com/company/appland-inc/) e Instagram (instagram.com/appland.inc/) son URLs oficiales recuperadas del footer previo al rediseño y aprobadas para publicación el 2026-08-24.
 - Una URL de agendamiento pendiente usa el bloque final de contacto como destino alternativo.
 - Un mensaje de WhatsApp pendiente no se inventa; se usa el número oficial sin mensaje prellenado hasta recibir aprobación.

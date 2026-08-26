@@ -147,16 +147,16 @@ If the directory does not yet contain an approved optional resource, its UI must
 
 Use responsive mode and also one real touch-capable browser/device where available.
 
-| Width | Header expectation | Hero expectation | Main checks |
-|---:|---|---|---|
-| 1440 | Desktop nav + CTA | Two columns | Max-width, spacing, three-column opportunities |
-| 1280 | Desktop nav + CTA | Two columns | 24 px gutters and no edge clipping |
-| 1024 | Desktop threshold | Two columns | Header fit, card grids, no overflow |
-| 768 | Compact menu | One column | Two-column cards where suitable, track controls |
-| 560 | Approved compact-header CTA state | Contract-appropriate column state | No competing duplicate/missing/shifted control, overlap or overflow |
-| 559 | Mobile rule; desktop header CTA hidden | One column | Approved compact-menu/Hero conversion remains available with no competing duplicate |
-| 390 | Compact | One column | Wrapped copy/actions, touch scroll |
-| 360 | Compact | One column | No horizontal page scroll or clipped focus |
+| Width | Header expectation                     | Hero expectation                  | Main checks                                                                         |
+| ----: | -------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------- |
+|  1440 | Desktop nav + CTA                      | Two columns                       | Max-width, spacing, three-column opportunities                                      |
+|  1280 | Desktop nav + CTA                      | Two columns                       | 24 px gutters and no edge clipping                                                  |
+|  1024 | Desktop threshold                      | Two columns                       | Header fit, card grids, no overflow                                                 |
+|   768 | Compact menu                           | One column                        | Two-column cards where suitable, track controls                                     |
+|   560 | Approved compact-header CTA state      | Contract-appropriate column state | No competing duplicate/missing/shifted control, overlap or overflow                 |
+|   559 | Mobile rule; desktop header CTA hidden | One column                        | Approved compact-menu/Hero conversion remains available with no competing duplicate |
+|   390 | Compact                                | One column                        | Wrapped copy/actions, touch scroll                                                  |
+|   360 | Compact                                | One column                        | No horizontal page scroll or clipped focus                                          |
 
 For every width:
 
@@ -233,7 +233,7 @@ Compare visible output with the approved spec/PDF:
 
 Check the exact contact data:
 
-- mario@applandtech.com
+- hello@applandtech.com
 - +504 3394-9211
 - WhatsApp number 50433949211
 
@@ -331,16 +331,16 @@ Do not proceed to release with a failed mandatory gate, a dead destination, a vi
 
 Chrome DevTools Protocol emulation used the production build with reduced motion enabled. DOM width checks use the real emulated CSS viewport rather than Chrome headless's outer-window minimum.
 
-| Width | Header mode | Header CTA | Hero | Horizontal overflow | Visible conditional regions |
-|---:|---|---|---|---|---|
-| 1440 | desktop | full | two columns | none | clients/products omitted |
-| 1280 | desktop | full | two columns | none | clients/products omitted |
-| 1024 | desktop threshold | full | two columns | none | clients/products omitted |
-| 768 | compact | compact | one column | none | clients/products omitted |
-| 560 | compact | compact | one column | none | clients/products omitted |
-| 559 | compact | hidden from header; available in menu/Hero | one column | none | clients/products omitted |
-| 390 | compact | hidden from header; available in menu/Hero | one column | none | clients/products omitted |
-| 360 | compact | hidden from header; available in menu/Hero | one column | none | clients/products omitted |
+| Width | Header mode       | Header CTA                                 | Hero        | Horizontal overflow | Visible conditional regions |
+| ----: | ----------------- | ------------------------------------------ | ----------- | ------------------- | --------------------------- |
+|  1440 | desktop           | full                                       | two columns | none                | clients/products omitted    |
+|  1280 | desktop           | full                                       | two columns | none                | clients/products omitted    |
+|  1024 | desktop threshold | full                                       | two columns | none                | clients/products omitted    |
+|   768 | compact           | compact                                    | one column  | none                | clients/products omitted    |
+|   560 | compact           | compact                                    | one column  | none                | clients/products omitted    |
+|   559 | compact           | hidden from header; available in menu/Hero | one column  | none                | clients/products omitted    |
+|   390 | compact           | hidden from header; available in menu/Hero | one column  | none                | clients/products omitted    |
+|   360 | compact           | hidden from header; available in menu/Hero | one column  | none                | clients/products omitted    |
 
 Every width rendered one `h1`, no testimonials, no legacy Home selectors and the applicable order `inicio → desafios → servicios → casos → ia → por-que-appland → equipo-global → contacto`. The 390 px compact menu opened as a modal dialog, moved focus to its close button and contained one meeting CTA. Visual captures of Hero, services and final contact were inspected at desktop and mobile sizes; copy, controls and focusable tracks remained contained.
 
@@ -391,19 +391,19 @@ No application code or dependency file was changed during this review. The only 
 
 ### Open-task evidence assessment
 
-| Task | Expected criterion | Evidence available | Evidence still missing | Can close without code? |
-|---|---|---|---|---|
-| T004 | Comparable pre-change `/`, `/about` and `/service` baseline at every requested width, including overflow and console | Baseline Karma/build plus one pre-change 1440 Home capture and inherited-resource notes | The complete pre-change route/width matrix was never captured and must not be recreated from post-change output | No. Keep the explicit historical deviation open unless formally accepted |
-| T041 | Initial-increment layouts at 1440/1024/768/560/559/390/360, active-state/Menu specs, focus/zoom, CTA and overflow checkpoint | Final production width matrix, Menu/active-state tests, one `aria-current` contract, 559/560 CTA evidence and no overflow | Contemporaneous initial-increment checkpoint and complete manual focus/zoom validation | No code defect is identified; manual evidence or formal acceptance is required |
-| T055 | Service/case/IA specs, full Karma/build and independent mouse, touch and keyboard checkpoints | Component tests plus 64/64 full Karma, passing build, manual controls rendered, click/keyboard behavior covered by specs | Independent real touch-device checkpoint | No code change is indicated; real touch evidence is required |
-| T087 | Final mobile why/team/CTA/footer group at 560/559/390/360 and 200% zoom | All four widths pass overflow/containment and representative final CTA captures were inspected | Manual 200% zoom workflow | No; external/manual validation is required |
-| T088 | Passing build/budgets, three Lighthouse mobile runs and Chrome Network/Performance inspection | Build passes its unchanged error gate; three non-Lighthouse Chrome diagnostic runs and Network/Performance evidence exist | Lighthouse is unavailable locally; no valid three-run Lighthouse median or approved performance deviation exists | No. Chrome diagnostics cannot close a Lighthouse-specific task |
-| T089 | Full reference comparison at all eight widths plus typography, active/focus/hover, language and runtime review | Captures at all widths, representative visual inspection, typography fallback, active-state tests, no language UI and no Home runtime errors | T088 dependency and complete human focus/hover/all-width comparison | No code defect is confirmed; dependency and manual evidence remain |
-| T098 | Complete keyboard, 200% zoom, reduced-motion and real screen-reader checklist | Automated keyboard, ARIA, focus-transfer and reduced-motion coverage | Manual 200% zoom and real screen-reader validation | No; both are required external checks |
-| T099 | Final all-width visual/touch matrix plus DOM, console and network inspection | All-width DOM/capture matrix, no overflow, forbidden-runtime absence, Home-clean console/network and internal-route regression | Real touch-device execution and complete human visual interaction sign-off | No code defect is confirmed; touch/manual evidence remains |
-| T100 | Representative first-visit/contact exercise for SC-001 and SC-002 | The target flows and acceptance method are documented | Real participants, anonymized counts, comprehension time and decision count | No; participant evidence cannot be simulated |
-| T101 | Normalize the quickstart with actual final outcomes and approved deviations after T100 | Commands, build, browser diagnostics, publication decisions and current deviations are documented | T100 outcomes and any resulting approved deviations; dependency is not satisfied | No; keep open despite this incremental evidence update |
-| T102 | Final evidence audit for all 46 FR and 14 SC with no blocker | All IDs exist and are mapped in the traceability table; automated coverage is recorded | Evidence-based closure after T101, including Lighthouse/manual/participant gates or formal approved deferrals | No; inventory coverage is not acceptance completion |
+| Task | Expected criterion                                                                                                           | Evidence available                                                                                                                           | Evidence still missing                                                                                           | Can close without code?                                                        |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| T004 | Comparable pre-change `/`, `/about` and `/service` baseline at every requested width, including overflow and console         | Baseline Karma/build plus one pre-change 1440 Home capture and inherited-resource notes                                                      | The complete pre-change route/width matrix was never captured and must not be recreated from post-change output  | No. Keep the explicit historical deviation open unless formally accepted       |
+| T041 | Initial-increment layouts at 1440/1024/768/560/559/390/360, active-state/Menu specs, focus/zoom, CTA and overflow checkpoint | Final production width matrix, Menu/active-state tests, one `aria-current` contract, 559/560 CTA evidence and no overflow                    | Contemporaneous initial-increment checkpoint and complete manual focus/zoom validation                           | No code defect is identified; manual evidence or formal acceptance is required |
+| T055 | Service/case/IA specs, full Karma/build and independent mouse, touch and keyboard checkpoints                                | Component tests plus 64/64 full Karma, passing build, manual controls rendered, click/keyboard behavior covered by specs                     | Independent real touch-device checkpoint                                                                         | No code change is indicated; real touch evidence is required                   |
+| T087 | Final mobile why/team/CTA/footer group at 560/559/390/360 and 200% zoom                                                      | All four widths pass overflow/containment and representative final CTA captures were inspected                                               | Manual 200% zoom workflow                                                                                        | No; external/manual validation is required                                     |
+| T088 | Passing build/budgets, three Lighthouse mobile runs and Chrome Network/Performance inspection                                | Build passes its unchanged error gate; three non-Lighthouse Chrome diagnostic runs and Network/Performance evidence exist                    | Lighthouse is unavailable locally; no valid three-run Lighthouse median or approved performance deviation exists | No. Chrome diagnostics cannot close a Lighthouse-specific task                 |
+| T089 | Full reference comparison at all eight widths plus typography, active/focus/hover, language and runtime review               | Captures at all widths, representative visual inspection, typography fallback, active-state tests, no language UI and no Home runtime errors | T088 dependency and complete human focus/hover/all-width comparison                                              | No code defect is confirmed; dependency and manual evidence remain             |
+| T098 | Complete keyboard, 200% zoom, reduced-motion and real screen-reader checklist                                                | Automated keyboard, ARIA, focus-transfer and reduced-motion coverage                                                                         | Manual 200% zoom and real screen-reader validation                                                               | No; both are required external checks                                          |
+| T099 | Final all-width visual/touch matrix plus DOM, console and network inspection                                                 | All-width DOM/capture matrix, no overflow, forbidden-runtime absence, Home-clean console/network and internal-route regression               | Real touch-device execution and complete human visual interaction sign-off                                       | No code defect is confirmed; touch/manual evidence remains                     |
+| T100 | Representative first-visit/contact exercise for SC-001 and SC-002                                                            | The target flows and acceptance method are documented                                                                                        | Real participants, anonymized counts, comprehension time and decision count                                      | No; participant evidence cannot be simulated                                   |
+| T101 | Normalize the quickstart with actual final outcomes and approved deviations after T100                                       | Commands, build, browser diagnostics, publication decisions and current deviations are documented                                            | T100 outcomes and any resulting approved deviations; dependency is not satisfied                                 | No; keep open despite this incremental evidence update                         |
+| T102 | Final evidence audit for all 46 FR and 14 SC with no blocker                                                                 | All IDs exist and are mapped in the traceability table; automated coverage is recorded                                                       | Evidence-based closure after T101, including Lighthouse/manual/participant gates or formal approved deferrals    | No; inventory coverage is not acceptance completion                            |
 
 No task was marked complete during this review. The implementation remains technically buildable, but the recommended state is **Acceptance Pending**, not Ready for Release.
 
@@ -436,15 +436,15 @@ Chrome ran against the production build. The following results are repeatable an
 
 ### T004 pre-change baseline deviation — approval pending
 
-| Field | Record |
-|---|---|
-| Evidence that should exist | Pre-change `/`, `/about` and `/service` structure, overflow, console and shell evidence at 1440, 1280, 1024, 768, 390 and 360 CSS pixels |
-| Why it is unavailable | The complete matrix was not captured before implementation. The current application cannot reproduce historical output without inventing or rebuilding evidence |
+| Field                          | Record                                                                                                                                                                                |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Evidence that should exist     | Pre-change `/`, `/about` and `/service` structure, overflow, console and shell evidence at 1440, 1280, 1024, 768, 390 and 360 CSS pixels                                              |
+| Why it is unavailable          | The complete matrix was not captured before implementation. The current application cannot reproduce historical output without inventing or rebuilding evidence                       |
 | Post-change evidence available | Baseline Karma/build results, one inherited Home capture at 1440 px, final production captures at eight widths, automated overflow checks and `/about`/`/service` regression coverage |
-| Residual risk | A width-by-width visual delta against the exact prior implementation cannot be proven; current behavior can be verified only as post-change output |
-| Acceptance owner | Pending explicit designation and approval by the Product Owner or Release Owner |
-| Acceptance date | Pending human approval; no date recorded |
-| Closure condition | Named owner records explicit acceptance and date, acknowledging that the historical baseline cannot be recovered |
+| Residual risk                  | A width-by-width visual delta against the exact prior implementation cannot be proven; current behavior can be verified only as post-change output                                    |
+| Acceptance owner               | Pending explicit designation and approval by the Product Owner or Release Owner                                                                                                       |
+| Acceptance date                | Pending human approval; no date recorded                                                                                                                                              |
+| Closure condition              | Named owner records explicit acceptance and date, acknowledging that the historical baseline cannot be recovered                                                                      |
 
 T004 remains open. This record is a deviation request, not an approved deferral.
 
@@ -483,27 +483,27 @@ T004 remains open. This record is a deviation request, not an approved deferral.
 
 **Result record**
 
-| Anonymous ID | Profile | Device/input | Offer understood | Time (s) | CTA identified | Meeting decisions/result | WhatsApp decisions/result | Assistance | Notes |
-|---|---|---|---|---:|---|---|---|---|---|
-| Pending | Pending | Pending | Pending | — | Pending | Pending | Pending | Pending | No participant executed yet |
+| Anonymous ID | Profile | Device/input | Offer understood | Time (s) | CTA identified | Meeting decisions/result | WhatsApp decisions/result | Assistance | Notes                       |
+| ------------ | ------- | ------------ | ---------------- | -------: | -------------- | ------------------------ | ------------------------- | ---------- | --------------------------- |
+| Pending      | Pending | Pending      | Pending          |        — | Pending        | Pending                  | Pending                   | Pending    | No participant executed yet |
 
 T100 remains open until real results satisfy the criteria or an explicitly named human owner approves a formal deferral.
 
 ### Unexecuted-gate deviation requests — none approved
 
-| Task | Reason not completed | Risk and impact | Acceptance owner | Target date | Closure condition |
-|---|---|---|---|---|---|
-| T004 | Historical baseline was not captured | Exact pre/post visual comparison cannot be proven | Product Owner or Release Owner, pending explicit designation | Pending human definition | Explicit named acceptance and date for the baseline deviation |
-| T041 | Complete manual focus and 200% zoom checkpoint cannot be operated/observed here | Possible zoom clipping or focus issue could escape automation | Accessibility/QA owner, pending designation | Pending human definition | Manual browser matrix recorded with browser, resolution, route and evidence |
-| T055 | No real touch device and no independent human input session are available | Gesture, touch-target or scroll-interference issue could remain | Mobile QA owner, pending designation | Pending human definition | Real-device mouse/touch/keyboard checkpoint passes and is recorded |
-| T087 | Manual 200% zoom is unavailable | Final CTA/footer content could behave differently under real browser zoom | Accessibility/QA owner, pending designation | Pending human definition | Home final-group zoom checklist passes at required widths |
-| T088 | No callable Lighthouse installation is available without adding/downloading a dependency | Official performance/accessibility/best-practices/SEO scores and median remain unknown; Chrome diagnostic remains above planned LCP/TBT targets | Performance or Release Owner, pending designation | Pending human definition | Three independent mobile Lighthouse reports pass, or a named owner explicitly accepts a documented deviation |
-| T089 | Depends on T088 and lacks complete human all-width focus/hover comparison | A visual or interaction mismatch may remain | Design QA and Release Owner, pending designation | Pending human definition | T088 closes and the full reference comparison is signed off |
-| T098 | No observable screen-reader session or manual 200% zoom | Announcements, reading order or zoom usability may differ from DOM/AX-tree evidence | Accessibility owner, pending designation | Pending human definition | NVDA/Chrome, NVDA/Edge or VoiceOver/Safari checklist plus manual zoom passes |
-| T099 | No real touch device or complete human visual-interaction sign-off | Mobile gestures and touch targets remain unverified on hardware | Mobile QA owner, pending designation | Pending human definition | Real-device touch matrix and final browser inspection pass |
-| T100 | No representative participants are available | SC-001 and SC-002 business outcomes remain unmeasured | Product Owner/UX Research owner, pending designation | Pending human definition | Protocol executes with at least ten participants and meets both 90% gates, or an explicit formal deferral is approved |
-| T101 | Depends on actual T100 outcomes | Final verification record cannot contain unavailable outcomes | Release Owner, pending designation | After T100 | Quickstart is normalized with actual participant results or an approved deferral |
-| T102 | Depends on T101 and all evidence gates | Requirement mapping exists, but release acceptance remains incomplete | Release Owner, pending designation | After T101 | Evidence audit confirms all 46 FR and 14 SC or records explicit approved deviations |
+| Task | Reason not completed                                                                     | Risk and impact                                                                                                                                 | Acceptance owner                                             | Target date              | Closure condition                                                                                                     |
+| ---- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| T004 | Historical baseline was not captured                                                     | Exact pre/post visual comparison cannot be proven                                                                                               | Product Owner or Release Owner, pending explicit designation | Pending human definition | Explicit named acceptance and date for the baseline deviation                                                         |
+| T041 | Complete manual focus and 200% zoom checkpoint cannot be operated/observed here          | Possible zoom clipping or focus issue could escape automation                                                                                   | Accessibility/QA owner, pending designation                  | Pending human definition | Manual browser matrix recorded with browser, resolution, route and evidence                                           |
+| T055 | No real touch device and no independent human input session are available                | Gesture, touch-target or scroll-interference issue could remain                                                                                 | Mobile QA owner, pending designation                         | Pending human definition | Real-device mouse/touch/keyboard checkpoint passes and is recorded                                                    |
+| T087 | Manual 200% zoom is unavailable                                                          | Final CTA/footer content could behave differently under real browser zoom                                                                       | Accessibility/QA owner, pending designation                  | Pending human definition | Home final-group zoom checklist passes at required widths                                                             |
+| T088 | No callable Lighthouse installation is available without adding/downloading a dependency | Official performance/accessibility/best-practices/SEO scores and median remain unknown; Chrome diagnostic remains above planned LCP/TBT targets | Performance or Release Owner, pending designation            | Pending human definition | Three independent mobile Lighthouse reports pass, or a named owner explicitly accepts a documented deviation          |
+| T089 | Depends on T088 and lacks complete human all-width focus/hover comparison                | A visual or interaction mismatch may remain                                                                                                     | Design QA and Release Owner, pending designation             | Pending human definition | T088 closes and the full reference comparison is signed off                                                           |
+| T098 | No observable screen-reader session or manual 200% zoom                                  | Announcements, reading order or zoom usability may differ from DOM/AX-tree evidence                                                             | Accessibility owner, pending designation                     | Pending human definition | NVDA/Chrome, NVDA/Edge or VoiceOver/Safari checklist plus manual zoom passes                                          |
+| T099 | No real touch device or complete human visual-interaction sign-off                       | Mobile gestures and touch targets remain unverified on hardware                                                                                 | Mobile QA owner, pending designation                         | Pending human definition | Real-device touch matrix and final browser inspection pass                                                            |
+| T100 | No representative participants are available                                             | SC-001 and SC-002 business outcomes remain unmeasured                                                                                           | Product Owner/UX Research owner, pending designation         | Pending human definition | Protocol executes with at least ten participants and meets both 90% gates, or an explicit formal deferral is approved |
+| T101 | Depends on actual T100 outcomes                                                          | Final verification record cannot contain unavailable outcomes                                                                                   | Release Owner, pending designation                           | After T100               | Quickstart is normalized with actual participant results or an approved deferral                                      |
+| T102 | Depends on T101 and all evidence gates                                                   | Requirement mapping exists, but release acceptance remains incomplete                                                                           | Release Owner, pending designation                           | After T101               | Evidence audit confirms all 46 FR and 14 SC or records explicit approved deviations                                   |
 
 No acceptance owner, target date or deferral approval is inferred from a role label. Each remains pending explicit human confirmation.
 
@@ -515,12 +515,12 @@ The Product Owner supplied new business assets under `docs/img/` (case mockups, 
 
 No image-optimization dependency was added (`sharp`/`cwebp`/ImageMagick are unavailable in this environment and adding one would violate the plan's no-new-dependency constraint). PowerShell `System.Drawing` was used instead: resize to the card's render size, then either keep PNG (small, flat-color/transparent sources) or flatten onto the card background `#171e28` and re-encode as JPEG quality 82 (photographic sources), which stays well inside the plan's <150 kB per-card-image budget:
 
-| Source | Approved asset | Dimensions | Size |
-|---|---|---:|---:|
-| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TOYOTA.png` (1080x1350, 1.2 MB) | `src/assets/images/home/cases/toyota.jpg` | 640x800 | 48.5 KB |
-| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/DILO.png` (1080x1350, 293 KB) | `src/assets/images/home/cases/dilo.png` | 640x800 | 126.0 KB |
-| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TENGO.png` (1080x1350, 448 KB) | `src/assets/images/home/cases/tengo.jpg` | 640x800 | 33.1 KB |
-| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TV AZTECA.png` (2878x1614, 5.8 MB) | `src/assets/images/home/cases/tv-azteca.jpg` | 800x449 | 80.8 KB |
+| Source                                                                       | Approved asset                               | Dimensions |     Size |
+| ---------------------------------------------------------------------------- | -------------------------------------------- | ---------: | -------: |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TOYOTA.png` (1080x1350, 1.2 MB)    | `src/assets/images/home/cases/toyota.jpg`    |    640x800 |  48.5 KB |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/DILO.png` (1080x1350, 293 KB)      | `src/assets/images/home/cases/dilo.png`      |    640x800 | 126.0 KB |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TENGO.png` (1080x1350, 448 KB)     | `src/assets/images/home/cases/tengo.jpg`     |    640x800 |  33.1 KB |
+| `docs/img/ALGUNOS PROYECTOS DESARROLLADOS/TV AZTECA.png` (2878x1614, 5.8 MB) | `src/assets/images/home/cases/tv-azteca.jpg` |    800x449 |  80.8 KB |
 
 ### Content/config changes
 
@@ -550,20 +550,20 @@ The Product Owner approved wiring the remaining photographic/illustration assets
 
 Same constraint as section 17: no image-optimization dependency was added. Photographic sources (Desafíos, all opaque stock photography) were resized and encoded directly as JPEG quality 80. Illustration sources (Hero, CTA, Servicios — all transparent 3D renders) were resized then flattened onto a background color sampled from the section they render in (`#0a0f14` Hero, `#171e28` CTA, `#10151d` Services panel) and encoded as JPEG quality 82; a visual spot-check confirmed no visible seam where the illustration's soft-edged glow meets the flattened background.
 
-| Section | Approved asset | Dimensions | Size |
-|---|---|---:|---:|
-| Hero | `src/assets/images/home/hero/hero-visual.jpg` | 900x600 | 41.4 KB |
-| CTA final | `src/assets/images/home/cta/cta-visual.jpg` | 675x900 | 69.1 KB |
-| Servicios — Desarrollo de Software | `src/assets/images/home/services/software.jpg` | 640x569 | 41.1 KB |
-| Servicios — Inteligencia Artificial | `src/assets/images/home/services/artificial-intelligence.jpg` | 640x341 | 26.1 KB |
-| Servicios — Staff Augmentation | `src/assets/images/home/services/staff-augmentation.jpg` | 512x640 | 56.0 KB |
-| Servicios — Automatización de Procesos | `src/assets/images/home/services/process-automation.jpg` | 640x427 | 29.4 KB |
-| Servicios — Consultoría Tecnológica | `src/assets/images/home/services/technology-consulting.jpg` | 533x640 | 35.5 KB |
-| Desafíos — Procesos manuales | `src/assets/images/home/challenges/manual.jpg` | 700x467 | 44.0 KB |
-| Desafíos — Sistemas desconectados | `src/assets/images/home/challenges/disconnected.jpg` | 700x467 | 34.5 KB |
-| Desafíos — Equipos saturados | `src/assets/images/home/challenges/overloaded.jpg` | 700x350 | 31.3 KB |
-| Desafíos — Atención al cliente | `src/assets/images/home/challenges/support.jpg` | 700x467 | 37.2 KB |
-| Desafíos — Nueva plataforma | `src/assets/images/home/challenges/platform.jpg` | 700x467 | 45.8 KB |
+| Section                                | Approved asset                                                | Dimensions |    Size |
+| -------------------------------------- | ------------------------------------------------------------- | ---------: | ------: |
+| Hero                                   | `src/assets/images/home/hero/hero-visual.jpg`                 |    900x600 | 41.4 KB |
+| CTA final                              | `src/assets/images/home/cta/cta-visual.jpg`                   |    675x900 | 69.1 KB |
+| Servicios — Desarrollo de Software     | `src/assets/images/home/services/software.jpg`                |    640x569 | 41.1 KB |
+| Servicios — Inteligencia Artificial    | `src/assets/images/home/services/artificial-intelligence.jpg` |    640x341 | 26.1 KB |
+| Servicios — Staff Augmentation         | `src/assets/images/home/services/staff-augmentation.jpg`      |    512x640 | 56.0 KB |
+| Servicios — Automatización de Procesos | `src/assets/images/home/services/process-automation.jpg`      |    640x427 | 29.4 KB |
+| Servicios — Consultoría Tecnológica    | `src/assets/images/home/services/technology-consulting.jpg`   |    533x640 | 35.5 KB |
+| Desafíos — Procesos manuales           | `src/assets/images/home/challenges/manual.jpg`                |    700x467 | 44.0 KB |
+| Desafíos — Sistemas desconectados      | `src/assets/images/home/challenges/disconnected.jpg`          |    700x467 | 34.5 KB |
+| Desafíos — Equipos saturados           | `src/assets/images/home/challenges/overloaded.jpg`            |    700x350 | 31.3 KB |
+| Desafíos — Atención al cliente         | `src/assets/images/home/challenges/support.jpg`               |    700x467 | 37.2 KB |
+| Desafíos — Nueva plataforma            | `src/assets/images/home/challenges/platform.jpg`              |    700x467 | 45.8 KB |
 
 All 12 files stay well under the plan's <150 kB per-card-image budget; combined they add roughly 490 KB across the whole Home, and only the Hero image (`fetchpriority="high"`, no `loading="lazy"`) is above-the-fold — every other new image uses `loading="lazy"`.
 
