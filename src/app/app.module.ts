@@ -10,18 +10,15 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { AiSolutionComponent } from './components/ai-solution/ai-solution.component';
 import { BannerComponent } from './components/banner/banner.component';
-import { ChooseUsComponent } from './components/choose-us/choose-us.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { OurClientsComponent } from './components/our-clients/our-clients.component';
-import { OurTeamComponent } from './components/our-team/our-team.component';
 import { CardTemplateComponent } from './components/service/card-template/card-template';
 import { ServiceComponent } from './components/service/service.component';
 import { SuccessStoriesComponent } from './components/success-stories/success-stories.component';
 import { TeamCoverageComponent } from './components/team-coverage/team-coverage.component';
 import { WhyComponent } from './components/why/why.component';
 import { HomeComponent } from './feature/pages/home/home.component';
-import { CountUpDirective } from './shared/directives/count-up.directive';
 import { HomeSectionDirective } from './shared/directives/home-section.directive';
 import { HomeChallengesComponent } from './components/home-challenges/home-challenges.component';
 import { HomeServicesComponent } from './components/home-services/home-services.component';
@@ -41,13 +38,10 @@ import { RevealOnScrollDirective } from './shared/directives/reveal-on-scroll.di
     FooterComponent,
     HomeComponent,
     OurClientsComponent,
-    OurTeamComponent,
     AiSolutionComponent,
     SuccessStoriesComponent,
     TeamCoverageComponent,
     CardTemplateComponent,
-    ChooseUsComponent,
-    CountUpDirective,
     HomeSectionDirective,
     HomeChallengesComponent,
     HomeServicesComponent,
