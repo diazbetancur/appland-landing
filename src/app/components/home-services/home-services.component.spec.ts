@@ -8,7 +8,7 @@ describe('HomeServicesComponent', () => {
   let component: HomeServicesComponent;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ declarations: [HomeServicesComponent] }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [HomeServicesComponent] }).compileComponents();
     fixture = TestBed.createComponent(HomeServicesComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('services', HOME_CONTENT.services);

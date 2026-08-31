@@ -1,5 +1,6 @@
 import type { Mock } from 'vitest';
 import { ElementRef, Renderer2 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { RevealOnScrollDirective } from './reveal-on-scroll.directive';
 
 describe('RevealOnScrollDirective', () => {
@@ -9,12 +10,26 @@ describe('RevealOnScrollDirective', () => {
   let renderer: { addClass: Mock; removeClass: Mock };
   let element: HTMLElement;
 
+  /**
+   * La directiva paso a obtener sus dependencias con inject() en el spec 006, asi que ya no
+   * acepta parametros de constructor. Se instancia dentro de un contexto de inyeccion, con
+   * los dobles registrados como proveedores, conservando la intencion original de la prueba.
+   */
+  const createDirective = (): RevealOnScrollDirective =>
+    TestBed.runInInjectionContext(() => new RevealOnScrollDirective());
+
   beforeEach(() => {
     renderer = {
       addClass: vi.fn().mockName('Renderer2.addClass'),
       removeClass: vi.fn().mockName('Renderer2.removeClass'),
     };
     element = document.createElement('section');
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ElementRef, useValue: new ElementRef(element) },
+        { provide: Renderer2, useValue: renderer as unknown as Renderer2 },
+      ],
+    });
   });
 
   afterEach(() => {
@@ -31,13 +46,13 @@ describe('RevealOnScrollDirective', () => {
         IntersectionObserver?: typeof IntersectionObserver;
       }
     ).IntersectionObserver = undefined;
-    new RevealOnScrollDirective(new ElementRef(element), renderer as unknown as Renderer2).ngAfterViewInit();
+    createDirective().ngAfterViewInit();
     expect(renderer.addClass).not.toHaveBeenCalled();
   });
 
   it('leaves content visible when reduced motion is requested', () => {
     vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList);
-    new RevealOnScrollDirective(new ElementRef(element), renderer as unknown as Renderer2).ngAfterViewInit();
+    createDirective().ngAfterViewInit();
     expect(renderer.addClass).not.toHaveBeenCalled();
   });
 
@@ -61,7 +76,7 @@ describe('RevealOnScrollDirective', () => {
         IntersectionObserver: typeof IntersectionObserver;
       }
     ).IntersectionObserver = ObserverStub as unknown as typeof IntersectionObserver;
-    const directive = new RevealOnScrollDirective(new ElementRef(element), renderer as unknown as Renderer2);
+    const directive = createDirective();
     directive.ngAfterViewInit();
     expect(renderer.addClass).toHaveBeenCalledWith(element, 'appland-reveal-pending');
     callback([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver);

@@ -9,8 +9,7 @@ describe('TeamCoverageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [TeamCoverageComponent],
+      imports: [RouterTestingModule, TeamCoverageComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(TeamCoverageComponent);
     fixture.componentRef.setInput('countries', HOME_CONTENT.countries);

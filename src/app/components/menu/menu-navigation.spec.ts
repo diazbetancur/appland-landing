@@ -10,7 +10,7 @@ import { MenuComponent } from './menu.component';
 
 @Component({
   template: '',
-  standalone: false,
+  imports: [A11yModule],
 })
 class MenuRouteStubComponent {}
 
@@ -28,8 +28,9 @@ describe('MenuComponent navigation', () => {
           { path: 'about', component: MenuRouteStubComponent },
           { path: 'service', component: MenuRouteStubComponent },
         ]),
+        MenuComponent,
+        MenuRouteStubComponent,
       ],
-      declarations: [MenuComponent, MenuRouteStubComponent],
     }).compileComponents();
     router = TestBed.inject(Router);
     service = TestBed.inject(HomeSectionObserverService);

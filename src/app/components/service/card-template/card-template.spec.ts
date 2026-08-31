@@ -28,8 +28,7 @@ describe('CardTemplateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslatePipe],
-      declarations: [CardTemplateComponent],
+      imports: [TranslatePipe, CardTemplateComponent],
       providers: [provideTranslateService()],
     }).compileComponents();
     fixture = TestBed.createComponent(CardTemplateComponent);

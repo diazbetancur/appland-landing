@@ -9,7 +9,7 @@ describe('SuccessStoriesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SuccessStoriesComponent, HorizontalCarouselDirective],
+      imports: [SuccessStoriesComponent, HorizontalCarouselDirective],
     }).compileComponents();
     fixture = TestBed.createComponent(SuccessStoriesComponent);
     fixture.componentInstance.cases = selectVisibleCases();

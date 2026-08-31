@@ -9,8 +9,7 @@ describe('ServiceComponent regression smoke', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslatePipe],
-      declarations: [ServiceComponent],
+      imports: [TranslatePipe, ServiceComponent],
       providers: [provideTranslateService()],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

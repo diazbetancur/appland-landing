@@ -22,7 +22,7 @@ describe('OurClientsComponent', () => {
   let component: OurClientsComponent;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ declarations: [OurClientsComponent] }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [OurClientsComponent] }).compileComponents();
     fixture = TestBed.createComponent(OurClientsComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('clients', [client]);

@@ -9,8 +9,7 @@ describe('AiSolutionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AiSolutionComponent],
+      imports: [RouterTestingModule, AiSolutionComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(AiSolutionComponent);
     fixture.componentRef.setInput('applications', HOME_CONTENT.aiApplications);
