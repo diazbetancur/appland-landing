@@ -62,13 +62,13 @@ describe('MenuComponent navigation', () => {
     const active = fixture.debugElement.queryAll(By.css('.menu__desktop-links [aria-current="location"]'));
     expect(active.length).toBe(1);
     expect(active[0].nativeElement.textContent.trim()).toBe('Casos de éxito');
-    expect(active[0].classes['menu__link--active']).toBeTrue();
+    expect(active[0].classes['menu__link--active']).toBe(true);
 
     fixture.componentInstance.openMenu();
     fixture.detectChanges();
     const openMenuActive = fixture.debugElement.queryAll(By.css('[aria-current="location"]'));
     expect(openMenuActive.length).toBe(1);
-    expect(openMenuActive[0].classes['compact-menu__link--active']).toBeTrue();
+    expect(openMenuActive[0].classes['compact-menu__link--active']).toBe(true);
   }));
 
   ['/about', '/service'].forEach((url) => {

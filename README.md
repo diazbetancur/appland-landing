@@ -35,7 +35,14 @@ The project uses the esbuild-based `@angular/build:application` builder. The pre
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm test` for watch mode, or `npm run test:ci` for a single run.
+
+Tests execute on [Vitest](https://vitest.dev) through Angular's `@angular/build:unit-test` builder, in a real headless Chromium driven by Playwright. Karma and Jasmine were removed in `specs/004-vitest`.
+
+Two details of that setup are load-bearing and easy to break:
+
+- The test build uses its own `test` configuration in `angular.json`, which adds `zone.js/testing` and `zone.js/plugins/vitest-patch` to the polyfills. Without the Vitest patch, `zone.js` never installs the ProxyZone that `fakeAsync` requires, and every `fakeAsync` test fails.
+- `src/test-setup.ts` restores spies after each test. Jasmine did that automatically and Vitest does not, so removing it makes a `vi.spyOn` leak into the tests that follow.
 
 ## Running end-to-end tests
 

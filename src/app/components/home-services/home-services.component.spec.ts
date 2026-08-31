@@ -58,12 +58,12 @@ describe('HomeServicesComponent', () => {
     tabs[2].triggerEventHandler('click');
     fixture.detectChanges();
     expect(component.activeServiceId).toBe(HOME_CONTENT.services[2].id);
-    expect(tabs[2].classes['services__tab--active']).toBeTrue();
+    expect(tabs[2].classes['services__tab--active']).toBe(true);
     expect(tabs[2].attributes['tabindex']).toBe('0');
   });
 
   it('supports ArrowLeft, ArrowRight, Home and End roving activation', () => {
-    const preventDefault = jasmine.createSpy('preventDefault');
+    const preventDefault = vi.fn();
     component.onTabKeydown({ key: 'End', preventDefault } as unknown as KeyboardEvent, 0);
     expect(component.activeServiceId).toBe(HOME_CONTENT.services[4].id);
     component.onTabKeydown({ key: 'Home', preventDefault } as unknown as KeyboardEvent, 4);

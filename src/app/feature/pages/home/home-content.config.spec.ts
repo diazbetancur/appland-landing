@@ -38,13 +38,13 @@ describe('HOME_CONTENT', () => {
   it('shows the five approved client logos', () => {
     const visible = selectVisibleClients();
     expect(visible.map((client) => client.name)).toEqual(['Ficohsa', 'Grupo Terra', 'Tigo', 'Toyota', 'Avianca']);
-    expect(visible.every((client) => Boolean(client.logo))).toBeTrue();
+    expect(visible.every((client) => Boolean(client.logo))).toBe(true);
   });
 
   it('shows only cases with approved copy and media, in approved order', () => {
     const visible = selectVisibleCases();
     expect(visible.map((item) => item.name)).toEqual(['Toyota', 'Dilo', 'Go', 'TV Azteca Honduras']);
-    expect(visible.every((item) => Boolean(item.media))).toBeTrue();
+    expect(visible.every((item) => Boolean(item.media))).toBe(true);
   });
 
   it('contains no testimonial or provisional public copy', () => {
