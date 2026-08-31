@@ -72,6 +72,13 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "test": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "polyfills": ["zone.js", "zone.js/testing", "zone.js/plugins/vitest-patch"]
             }
           },
           "defaultConfiguration": "production"
@@ -95,14 +102,13 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "buildTarget": "appland:build:test",
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
+            "runner": "vitest",
+            "browsers": ["ChromiumHeadless"],
+            "setupFiles": ["src/test-setup.ts"]
           }
         },
         "lint": {

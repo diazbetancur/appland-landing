@@ -31,7 +31,7 @@ describe('TeamCoverageComponent', () => {
     expect(flags.length).toBe(6);
     flags.forEach((flag, index) => {
       const src = flag.attributes['src']!;
-      expect(src.startsWith('assets/')).toBeTrue();
+      expect(src.startsWith('assets/')).toBe(true);
       expect(src).not.toContain('//');
       expect(flag.attributes['alt']).toBe(HOME_CONTENT.countries[index].flag.alt);
     });
@@ -39,9 +39,15 @@ describe('TeamCoverageComponent', () => {
 
   it('has no clocks, timers or remote images', () => {
     fixture.debugElement.queryAll(By.css('img')).forEach((image) => {
-      expect(image.attributes['src']!.startsWith('assets/')).toBeTrue();
+      expect(image.attributes['src']!.startsWith('assets/')).toBe(true);
     });
-    expect((fixture.componentInstance as unknown as { timeInterval?: unknown }).timeInterval).toBeUndefined();
+    expect(
+      (
+        fixture.componentInstance as unknown as {
+          timeInterval?: unknown;
+        }
+      ).timeInterval,
+    ).toBeUndefined();
     expect(fixture.nativeElement.textContent).not.toContain('24/7');
   });
 

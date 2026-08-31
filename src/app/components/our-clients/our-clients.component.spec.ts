@@ -41,19 +41,19 @@ describe('OurClientsComponent', () => {
 
   it('pauses by user, hover or focus and resumes independently', () => {
     component.togglePause();
-    expect(component.paused).toBeTrue();
+    expect(component.paused).toBe(true);
     component.togglePause();
-    expect(component.paused).toBeFalse();
+    expect(component.paused).toBe(false);
     component.setInteractionPause(true);
-    expect(component.paused).toBeTrue();
+    expect(component.paused).toBe(true);
     component.setInteractionPause(false);
-    expect(component.paused).toBeFalse();
+    expect(component.paused).toBe(false);
   });
 
   it('is static when reduced motion is requested', () => {
     component.reducedMotion = true;
     fixture.detectChanges();
-    expect(component.paused).toBeTrue();
+    expect(component.paused).toBe(true);
     expect(fixture.debugElement.query(By.css('.clients__pause'))).toBeNull();
   });
 });

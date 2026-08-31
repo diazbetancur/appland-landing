@@ -46,7 +46,7 @@ describe('MenuComponent accessibility', () => {
     component.onEscape();
     fixture.detectChanges();
     tick();
-    expect(component.isMenuOpen).toBeFalse();
+    expect(component.isMenuOpen).toBe(false);
     expect(document.activeElement).toBe(fixture.debugElement.query(By.css('.menu__toggle')).nativeElement);
   }));
 

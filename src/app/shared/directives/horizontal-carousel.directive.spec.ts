@@ -1,30 +1,37 @@
+import type { Mock } from 'vitest';
 import { ElementRef } from '@angular/core';
 import { HorizontalCarouselDirective } from './horizontal-carousel.directive';
 
 describe('HorizontalCarouselDirective', () => {
   let element: HTMLElement;
   let directive: HorizontalCarouselDirective;
-  let scrollBy: jasmine.Spy;
+  let scrollBy: Mock;
 
   beforeEach(() => {
     element = document.createElement('div');
     const card = document.createElement('article');
     element.appendChild(card);
-    spyOn(card, 'getBoundingClientRect').and.returnValue({ width: 240 } as DOMRect);
+    vi.spyOn(card, 'getBoundingClientRect').mockReturnValue({ width: 240 } as DOMRect);
     Object.defineProperties(element, {
       clientWidth: { configurable: true, value: 300 },
       scrollWidth: { configurable: true, value: 900 },
       scrollLeft: { configurable: true, writable: true, value: 0 },
     });
-    scrollBy = spyOn(element, 'scrollBy');
+    scrollBy = vi.spyOn(element, 'scrollBy');
     directive = new HorizontalCarouselDirective(new ElementRef(element));
     directive.itemCount = 3;
   });
 
   it('moves exactly one card step and has no autoplay timer', () => {
     directive.moveNext();
-    expect(scrollBy).toHaveBeenCalledWith(jasmine.objectContaining({ left: 240 }));
-    expect((directive as unknown as { timer?: unknown }).timer).toBeUndefined();
+    expect(scrollBy).toHaveBeenCalledWith(expect.objectContaining({ left: 240 }));
+    expect(
+      (
+        directive as unknown as {
+          timer?: unknown;
+        }
+      ).timer,
+    ).toBeUndefined();
   });
 
   it('updates boundary and current-position state from native scrolling', () => {
@@ -32,26 +39,26 @@ describe('HorizontalCarouselDirective', () => {
     directive.updateState();
     expect(directive.currentIndex).toBe(2);
     expect(directive.positionLabel).toBe('3 de 3');
-    expect(directive.canMovePrevious).toBeTrue();
-    expect(directive.canMoveNext).toBeFalse();
+    expect(directive.canMovePrevious).toBe(true);
+    expect(directive.canMoveNext).toBe(false);
   });
 
   it('supports arrow keys and prevents accidental page scrolling', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowRight', cancelable: true });
-    spyOn(event, 'preventDefault').and.callThrough();
+    vi.spyOn(event, 'preventDefault');
     directive.onKeydown(event);
     expect(event.preventDefault).toHaveBeenCalled();
     expect(scrollBy).toHaveBeenCalled();
   });
 
   it('uses immediate movement when reduced motion is requested', () => {
-    spyOn(window, 'matchMedia').and.returnValue({ matches: true } as MediaQueryList);
+    vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList);
     directive.moveNext();
-    expect(scrollBy).toHaveBeenCalledWith(jasmine.objectContaining({ behavior: 'auto' }));
+    expect(scrollBy).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'auto' }));
   });
 
   it('completes its state output on destroy', () => {
-    const complete = jasmine.createSpy('complete');
+    const complete = vi.fn();
     directive.positionChange.subscribe({ complete });
     directive.ngOnDestroy();
     expect(complete).toHaveBeenCalled();
