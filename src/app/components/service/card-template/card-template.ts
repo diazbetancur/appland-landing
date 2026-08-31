@@ -12,7 +12,7 @@ export class CardTemplateComponent {
   constructor() {}
 }
 
-interface ServiceDescription {
+export interface ServiceDescription {
   key: string;
   image: string;
   title: string;

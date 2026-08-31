@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { ServiceDescription } from './card-template/card-template';
 
 @Component({
     selector: 'app-service',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs';
     standalone: false
 })
 export class ServiceComponent implements OnInit, OnDestroy {
-  services: any[] = [];
+  services: ServiceDescription[] = [];
   private sub!: Subscription;
 
   constructor(private readonly trans: TranslateService) {}

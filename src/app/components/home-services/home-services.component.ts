@@ -28,7 +28,7 @@ export class HomeServicesComponent implements OnChanges {
   }
 
   onTabKeydown(event: KeyboardEvent, index: number): void {
-    let nextIndex = index;
+    let nextIndex: number;
     if (event.key === 'ArrowRight') {
       nextIndex = (index + 1) % this.services.length;
     } else if (event.key === 'ArrowLeft') {

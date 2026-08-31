@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslationObject } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,8 +33,8 @@ export class LanguageService {
     localStorage.setItem('language', lang);
   }
 
-  getTranslations(lang: string): Observable<any> {
-    return this.http.get(`assets/i18n/${lang}.json`);
+  getTranslations(lang: string): Observable<TranslationObject> {
+    return this.http.get<TranslationObject>(`assets/i18n/${lang}.json`);
   }
 
   getCurrentLanguage(): string {
