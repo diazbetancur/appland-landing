@@ -10,9 +10,9 @@ import {
 } from '@angular/core';
 
 @Directive({
-    selector: '[appHorizontalCarousel]',
-    exportAs: 'appHorizontalCarousel',
-    standalone: false
+  selector: '[appHorizontalCarousel]',
+  exportAs: 'appHorizontalCarousel',
+  standalone: false,
 })
 export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   @Input() itemCount = 0;
@@ -61,7 +61,7 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
     const step = this.cardStep();
     this.currentIndex = Math.min(
       Math.max(0, Math.round(element.scrollLeft / Math.max(step, 1))),
-      Math.max(0, this.itemCount - 1)
+      Math.max(0, this.itemCount - 1),
     );
     this.canMovePrevious = element.scrollLeft > 2;
     this.canMoveNext = element.scrollLeft < maxScroll - 2;
@@ -76,8 +76,7 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   private move(direction: -1 | 1): void {
     const element = this.elementRef.nativeElement;
     const reducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     element.scrollBy({
       left: this.cardStep() * direction,
       behavior: reducedMotion ? 'auto' : 'smooth',

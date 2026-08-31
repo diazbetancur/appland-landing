@@ -12,7 +12,8 @@ describe('RevealOnScrollDirective', () => {
   });
 
   afterEach(() => {
-    (window as unknown as { IntersectionObserver?: typeof IntersectionObserver }).IntersectionObserver = originalObserver;
+    (window as unknown as { IntersectionObserver?: typeof IntersectionObserver }).IntersectionObserver =
+      originalObserver;
   });
 
   it('leaves content visible when the API is unavailable', () => {
@@ -31,7 +32,9 @@ describe('RevealOnScrollDirective', () => {
     let callback!: IntersectionObserverCallback;
     const disconnect = jasmine.createSpy('disconnect');
     class ObserverStub {
-      constructor(received: IntersectionObserverCallback) { callback = received; }
+      constructor(received: IntersectionObserverCallback) {
+        callback = received;
+      }
       observe = jasmine.createSpy('observe');
       disconnect = disconnect;
       unobserve = jasmine.createSpy('unobserve');
@@ -40,7 +43,8 @@ describe('RevealOnScrollDirective', () => {
       rootMargin = '';
       thresholds = [];
     }
-    (window as unknown as { IntersectionObserver: typeof IntersectionObserver }).IntersectionObserver = ObserverStub as unknown as typeof IntersectionObserver;
+    (window as unknown as { IntersectionObserver: typeof IntersectionObserver }).IntersectionObserver =
+      ObserverStub as unknown as typeof IntersectionObserver;
     const directive = new RevealOnScrollDirective(new ElementRef(element), renderer);
     directive.ngAfterViewInit();
     expect(renderer.addClass).toHaveBeenCalledWith(element, 'appland-reveal-pending');

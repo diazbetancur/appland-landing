@@ -94,5 +94,8 @@
 }
 
 @media (max-width: 559px) {
-  .products__heading { align-items: flex-start; flex-direction: column; }
+  .products__heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

@@ -2,51 +2,131 @@
   <p class="hero__ghost hero__ghost--top" aria-hidden="true">TU VISIÓN</p>
   <p class="hero__ghost hero__ghost--bottom" aria-hidden="true">NUESTRA <span>TECNOLOGÍA</span></p>
 
-  <img class="hero__wave" src="assets/images/home/hero/wave.png" width="700" height="233" alt="" aria-hidden="true">
-  <img class="hero__sphere" src="assets/images/home/hero/sphere.png" width="260" height="241" alt="" aria-hidden="true">
+  <img class="hero__wave" src="assets/images/home/hero/wave.png" width="700" height="233" alt="" aria-hidden="true" />
+  <img
+    class="hero__sphere"
+    src="assets/images/home/hero/sphere.png"
+    width="260"
+    height="241"
+    alt=""
+    aria-hidden="true"
+  />
 
   <div class="hero__inner appland-container">
     <div class="hero__content">
-      <h1 id="hero-title">{{ titleBefore }}<span class="hero__highlight">{{ titleHighlight }}</span></h1>
+      <h1 id="hero-title">
+        {{ titleBefore }}<span class="hero__highlight">{{ titleHighlight }}</span>
+      </h1>
       <p class="hero__subtitle">{{ content.subtitle }}</p>
 
       <div class="hero__actions">
         @if (primaryAction.kind === 'router') {
           <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="primaryAction.fragment">
             {{ content.primaryAction.label }}
-            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+            <svg
+              aria-hidden="true"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
           </a>
         } @else {
-          <a class="appland-button appland-button--primary" [href]="primaryAction.href" [target]="primaryAction.target" [rel]="primaryAction.rel">
+          <a
+            class="appland-button appland-button--primary"
+            [href]="primaryAction.href"
+            [target]="primaryAction.target"
+            [rel]="primaryAction.rel"
+          >
             {{ content.primaryAction.label }}
-            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+            <svg
+              aria-hidden="true"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
           </a>
         }
 
         <a class="appland-button appland-button--secondary" [routerLink]="['/']" [fragment]="servicesAction.fragment">
           {{ content.servicesAction.label }}
-          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
         </a>
       </div>
     </div>
 
     <div class="hero__visual">
-      <img class="hero__laptop" src="assets/images/home/hero/laptop.png" width="700" height="467" alt="" aria-hidden="true" fetchpriority="high">
+      <img
+        class="hero__laptop"
+        src="assets/images/home/hero/laptop.png"
+        width="700"
+        height="467"
+        alt=""
+        aria-hidden="true"
+        fetchpriority="high"
+      />
 
       <div class="hero__cards" aria-hidden="true">
         <article class="hero__card">
           <span class="hero__card-icon hero__card-icon--primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 1.6 5.5 5 5.5 8.6L19 14l-2.4 1.2-1.4 3.3-3.2-1.6-3.2 1.6-1.4-3.3L5 14l1.5-2.4C6.5 8 8.5 4.6 12 3z"></path><circle cx="12" cy="10.5" r="2"></circle></svg>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 3c3.5 1.6 5.5 5 5.5 8.6L19 14l-2.4 1.2-1.4 3.3-3.2-1.6-3.2 1.6-1.4-3.3L5 14l1.5-2.4C6.5 8 8.5 4.6 12 3z"
+              ></path>
+              <circle cx="12" cy="10.5" r="2"></circle>
+            </svg>
           </span>
-          <p>Soluciones<br>a la medida</p>
+          <p>Soluciones<br />a la medida</p>
         </article>
 
         <article class="hero__card hero__card--accent">
           <span class="hero__card-icon hero__card-icon--secondary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="1"></circle></svg>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="8.5"></circle>
+              <circle cx="12" cy="12" r="4.5"></circle>
+              <circle cx="12" cy="12" r="1"></circle>
+            </svg>
           </span>
           <p class="hero__card-metric">100%</p>
-          <p>Soluciones<br>personalizadas</p>
+          <p>Soluciones<br />personalizadas</p>
         </article>
       </div>
     </div>

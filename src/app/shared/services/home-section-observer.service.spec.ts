@@ -3,14 +3,11 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_SECTION_IDS, ObservedRegionId } from '../../feature/pages/home/home-content.models';
-import {
-  HomeSectionObserverService,
-  mapObservedRegionToNavigationFragment,
-} from './home-section-observer.service';
+import { HomeSectionObserverService, mapObservedRegionToNavigationFragment } from './home-section-observer.service';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 class RouteStubComponent {}
 
@@ -20,11 +17,13 @@ describe('HomeSectionObserverService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([
-        { path: '', component: RouteStubComponent },
-        { path: 'about', component: RouteStubComponent },
-        { path: 'service', component: RouteStubComponent },
-      ])],
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: '', component: RouteStubComponent },
+          { path: 'about', component: RouteStubComponent },
+          { path: 'service', component: RouteStubComponent },
+        ]),
+      ],
       declarations: [RouteStubComponent],
     }).compileComponents();
     router = TestBed.inject(Router);
@@ -34,8 +33,17 @@ describe('HomeSectionObserverService', () => {
   it('maps all ten Home regions plus footer to an approved header fragment', () => {
     const regions: readonly ObservedRegionId[] = [...HOME_SECTION_IDS, 'footer'];
     expect(regions.map(mapObservedRegionToNavigationFragment)).toEqual([
-      'inicio', 'inicio', 'servicios', 'servicios', 'casos', 'servicios',
-      'servicios', 'por-que-appland', 'por-que-appland', 'contacto', 'contacto',
+      'inicio',
+      'inicio',
+      'servicios',
+      'servicios',
+      'casos',
+      'servicios',
+      'servicios',
+      'por-que-appland',
+      'por-que-appland',
+      'contacto',
+      'contacto',
     ]);
     expect(service.activationThresholdPx).toBe(140);
   });

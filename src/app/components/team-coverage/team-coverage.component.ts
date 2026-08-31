@@ -3,10 +3,10 @@ import { ConversionAction, CountryPresence, ResolvedAction } from '../../feature
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-team-coverage',
-    templateUrl: './team-coverage.component.html',
-    styleUrls: ['./team-coverage.component.scss'],
-    standalone: false
+  selector: 'app-team-coverage',
+  templateUrl: './team-coverage.component.html',
+  styleUrls: ['./team-coverage.component.scss'],
+  standalone: false,
 })
 export class TeamCoverageComponent implements OnChanges {
   @Input() countries: readonly CountryPresence[] = [];
@@ -15,8 +15,6 @@ export class TeamCoverageComponent implements OnChanges {
   resolvedContactAction?: ResolvedAction;
 
   ngOnChanges(): void {
-    this.resolvedContactAction = this.contactAction
-      ? resolveConversionAction(this.contactAction)
-      : undefined;
+    this.resolvedContactAction = this.contactAction ? resolveConversionAction(this.contactAction) : undefined;
   }
 }

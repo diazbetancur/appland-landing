@@ -3,8 +3,8 @@ import { ObservedRegionId } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService } from '../services/home-section-observer.service';
 
 @Directive({
-    selector: '[appHomeSection]',
-    standalone: false
+  selector: '[appHomeSection]',
+  standalone: false,
 })
 export class HomeSectionDirective implements AfterViewInit, OnDestroy {
   @Input('appHomeSection') regionId!: ObservedRegionId;
@@ -13,7 +13,7 @@ export class HomeSectionDirective implements AfterViewInit, OnDestroy {
 
   constructor(
     private readonly elementRef: ElementRef<HTMLElement>,
-    private readonly sectionObserver: HomeSectionObserverService
+    private readonly sectionObserver: HomeSectionObserverService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -32,7 +32,7 @@ export class HomeSectionDirective implements AfterViewInit, OnDestroy {
           this.sectionObserver.notifyRegionVisibility(this.regionId, crossesLine);
         }
       },
-      { rootMargin: '-140px 0px -70% 0px', threshold: 0 }
+      { rootMargin: '-140px 0px -70% 0px', threshold: 0 },
     );
     this.observer.observe(this.elementRef.nativeElement);
   }

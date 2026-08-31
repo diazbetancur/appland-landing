@@ -2,10 +2,10 @@ import { Component, ElementRef, Input, OnChanges, QueryList, ViewChildren } from
 import { Service } from '../../feature/pages/home/home-content.models';
 
 @Component({
-    selector: 'app-home-services',
-    templateUrl: './home-services.component.html',
-    styleUrls: ['./home-services.component.scss'],
-    standalone: false
+  selector: 'app-home-services',
+  templateUrl: './home-services.component.html',
+  styleUrls: ['./home-services.component.scss'],
+  standalone: false,
 })
 export class HomeServicesComponent implements OnChanges {
   @Input() services: readonly Service[] = [];
@@ -28,7 +28,7 @@ export class HomeServicesComponent implements OnChanges {
   }
 
   onTabKeydown(event: KeyboardEvent, index: number): void {
-    let nextIndex = index;
+    let nextIndex: number;
     if (event.key === 'ArrowRight') {
       nextIndex = (index + 1) % this.services.length;
     } else if (event.key === 'ArrowLeft') {

@@ -1,30 +1,12 @@
-import {
-  ApprovedAsset,
-  ApprovedDestination,
-  CaseStudy,
-  Client,
-  HomeContent,
-  Product,
-} from './home-content.models';
+import { ApprovedAsset, ApprovedDestination, CaseStudy, Client, HomeContent, Product } from './home-content.models';
 
-function approvedAsset(
-  src: string,
-  width: number,
-  height: number,
-  alt: string,
-  decorative = false,
-): ApprovedAsset {
+function approvedAsset(src: string, width: number, height: number, alt: string, decorative = false): ApprovedAsset {
   return { src, width, height, alt, decorative, publicationStatus: 'approved' };
 }
 
 /** Flags are local public-domain SVGs; never a remote flag service. */
 function countryFlag(slug: string, country: string): ApprovedAsset {
-  return approvedAsset(
-    `assets/images/home/flags/${slug}.svg`,
-    60,
-    40,
-    `Bandera de ${country}`,
-  );
+  return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 40, `Bandera de ${country}`);
 }
 
 const meetingAction = {
@@ -150,8 +132,7 @@ const productCandidates: readonly Product[] = [
 export const HOME_CONTENT: HomeContent = {
   navigation,
   hero: {
-    title:
-      'Transformamos procesos complejos en soluciones digitales inteligentes.',
+    title: 'Transformamos procesos complejos en soluciones digitales inteligentes.',
     subtitle:
       'Desarrollo de software, Inteligencia Artificial, Automatización y Staff Augmentation para empresas que buscan crecer más rápido.',
     primaryAction: meetingAction,
@@ -232,13 +213,7 @@ export const HOME_CONTENT: HomeContent = {
       name: 'Desarrollo de Software',
       summary: 'Apps móviles, plataformas web y sistemas empresariales.',
       visualKey: 'code',
-      media: approvedAsset(
-        'assets/images/home/services/software.png',
-        428,
-        380,
-        '',
-        true,
-      ),
+      media: approvedAsset('assets/images/home/services/software.png', 428, 380, '', true),
       highlights: [
         { id: 'software-mobile', label: 'Apps móviles', iconKey: 'mobile' },
         { id: 'software-web', label: 'Plataformas web', iconKey: 'web' },
@@ -255,13 +230,7 @@ export const HOME_CONTENT: HomeContent = {
       summary:
         'Agentes y asistentes de inteligencia artificial que aplican automatización para resolver desafíos reales de tu negocio.',
       visualKey: 'ai',
-      media: approvedAsset(
-        'assets/images/home/services/artificial-intelligence.png',
-        480,
-        256,
-        '',
-        true,
-      ),
+      media: approvedAsset('assets/images/home/services/artificial-intelligence.png', 480, 256, '', true),
       highlights: [
         { id: 'ai-agents', label: 'Agentes IA', iconKey: 'chip' },
         { id: 'ai-automation', label: 'Automatización', iconKey: 'gear' },
@@ -274,13 +243,7 @@ export const HOME_CONTENT: HomeContent = {
       name: 'Staff Augmentation',
       summary: 'Desarrolladores, QA, UX/UI y equipos dedicados.',
       visualKey: 'people',
-      media: approvedAsset(
-        'assets/images/home/services/staff-augmentation.png',
-        304,
-        380,
-        '',
-        true,
-      ),
+      media: approvedAsset('assets/images/home/services/staff-augmentation.png', 304, 380, '', true),
       highlights: [
         { id: 'staff-devs', label: 'Desarrolladores', iconKey: 'web' },
         { id: 'staff-qa', label: 'QA', iconKey: 'check' },
@@ -294,13 +257,7 @@ export const HOME_CONTENT: HomeContent = {
       summary:
         'Convertimos tareas repetitivas en procesos más ágiles mediante optimización operativa, IA e integraciones conectadas.',
       visualKey: 'flow',
-      media: approvedAsset(
-        'assets/images/home/services/process-automation.png',
-        480,
-        320,
-        '',
-        true,
-      ),
+      media: approvedAsset('assets/images/home/services/process-automation.png', 480, 320, '', true),
       highlights: [
         {
           id: 'automation-operations',
@@ -321,13 +278,7 @@ export const HOME_CONTENT: HomeContent = {
       summary:
         'Impulsamos tu transformación digital con arquitectura tecnológica alineada a tu negocio y estrategia de crecimiento.',
       visualKey: 'strategy',
-      media: approvedAsset(
-        'assets/images/home/services/technology-consulting.png',
-        317,
-        380,
-        '',
-        true,
-      ),
+      media: approvedAsset('assets/images/home/services/technology-consulting.png', 317, 380, '', true),
       highlights: [
         {
           id: 'consulting-transformation',
@@ -347,8 +298,7 @@ export const HOME_CONTENT: HomeContent = {
       id: 'toyota',
       name: 'Toyota',
       summary: 'App móvil para clientes.',
-      description:
-        'Plataforma móvil que centraliza servicios, productos, promociones y atención al cliente de Toyota.',
+      description: 'Plataforma móvil que centraliza servicios, productos, promociones y atención al cliente de Toyota.',
       publicationStatus: 'approved',
       media: {
         src: 'assets/images/home/cases/toyota.jpg',
@@ -430,29 +380,25 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'conversational',
       label: 'Agentes conversacionales',
-      description:
-        'Asistentes inteligentes que entienden y responden a tus clientes.',
+      description: 'Asistentes inteligentes que entienden y responden a tus clientes.',
       visualKey: 'chat',
     },
     {
       id: 'reception',
       label: 'Recepción de clientes',
-      description:
-        'Automatizamos la atención inicial y gestión de consultas al instante.',
+      description: 'Automatizamos la atención inicial y gestión de consultas al instante.',
       visualKey: 'reception',
     },
     {
       id: 'call-center',
       label: 'Call Center IA',
-      description:
-        'Atención automatizada de llamadas con respuestas precisas y naturales.',
+      description: 'Atención automatizada de llamadas con respuestas precisas y naturales.',
       visualKey: 'phone',
     },
     {
       id: 'whatsapp-ai',
       label: 'WhatsApp IA',
-      description:
-        'Responde, gestiona y convierte clientes directamente desde WhatsApp.',
+      description: 'Responde, gestiona y convierte clientes directamente desde WhatsApp.',
       visualKey: 'message',
     },
     {
@@ -464,29 +410,25 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'appointments',
       label: 'Agendamiento de citas',
-      description:
-        'Agenda citas automáticamente y reduce ausencias con recordatorios.',
+      description: 'Agenda citas automáticamente y reduce ausencias con recordatorios.',
       visualKey: 'calendar',
     },
     {
       id: 'support',
       label: 'Soporte 24/7',
-      description:
-        'Brinda soporte continuo con agentes de IA disponibles todo el tiempo.',
+      description: 'Brinda soporte continuo con agentes de IA disponibles todo el tiempo.',
       visualKey: 'support',
     },
     {
       id: 'documents',
       label: 'Automatización documental',
-      description:
-        'Extrae, procesa y organiza documentos sin intervención humana.',
+      description: 'Extrae, procesa y organiza documentos sin intervención humana.',
       visualKey: 'document',
     },
     {
       id: 'analytics',
       label: 'Análisis inteligente',
-      description:
-        'Convierte datos en insights accionables para tomar mejores decisiones.',
+      description: 'Convierte datos en insights accionables para tomar mejores decisiones.',
       visualKey: 'chart',
     },
   ],
@@ -501,15 +443,13 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'bilingual',
       statement: 'Equipo bilingüe',
-      description:
-        'Comunicación clara y efectiva en tu idioma durante todo el proyecto.',
+      description: 'Comunicación clara y efectiva en tu idioma durante todo el proyecto.',
       visualKey: 'language',
     },
     {
       id: 'international',
       statement: 'Presencia internacional',
-      description:
-        'Trabajamos con clientes en diferentes países y entendemos sus mercados.',
+      description: 'Trabajamos con clientes en diferentes países y entendemos sus mercados.',
       visualKey: 'world',
     },
     {
@@ -533,8 +473,7 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'scalable',
       statement: 'Soluciones escalables',
-      description:
-        'Desarrollamos tecnología preparada para crecer junto a tu negocio.',
+      description: 'Desarrollamos tecnología preparada para crecer junto a tu negocio.',
       visualKey: 'scale',
     },
   ],
@@ -615,9 +554,7 @@ export const HOME_CONTENT: HomeContent = {
   },
 };
 
-function isApprovedAsset(
-  asset: ApprovedAsset | undefined,
-): asset is ApprovedAsset {
+function isApprovedAsset(asset: ApprovedAsset | undefined): asset is ApprovedAsset {
   return Boolean(
     asset &&
     asset.publicationStatus === 'approved' &&
@@ -627,42 +564,25 @@ function isApprovedAsset(
   );
 }
 
-function isApprovedDestination(
-  destination: ApprovedDestination | undefined,
-): destination is ApprovedDestination {
-  return Boolean(
-    destination &&
-    destination.publicationStatus === 'approved' &&
-    destination.value.trim(),
-  );
+function isApprovedDestination(destination: ApprovedDestination | undefined): destination is ApprovedDestination {
+  return Boolean(destination && destination.publicationStatus === 'approved' && destination.value.trim());
 }
 
-export function selectVisibleClients(
-  content: HomeContent = HOME_CONTENT,
-): readonly Client[] {
-  return content.clients.filter(
-    (client) =>
-      client.publicationStatus === 'approved' && isApprovedAsset(client.logo),
-  );
+export function selectVisibleClients(content: HomeContent = HOME_CONTENT): readonly Client[] {
+  return content.clients.filter((client) => client.publicationStatus === 'approved' && isApprovedAsset(client.logo));
 }
 
-export function selectVisibleCases(
-  content: HomeContent = HOME_CONTENT,
-): readonly CaseStudy[] {
+export function selectVisibleCases(content: HomeContent = HOME_CONTENT): readonly CaseStudy[] {
   return content.cases
     .filter((item) => item.publicationStatus === 'approved')
     .map((item) => ({
       ...item,
       media: isApprovedAsset(item.media) ? item.media : undefined,
-      destination: isApprovedDestination(item.destination)
-        ? item.destination
-        : undefined,
+      destination: isApprovedDestination(item.destination) ? item.destination : undefined,
     }));
 }
 
-export function selectVisibleProducts(
-  content: HomeContent = HOME_CONTENT,
-): readonly Product[] {
+export function selectVisibleProducts(content: HomeContent = HOME_CONTENT): readonly Product[] {
   return content.products
     .filter((item) => item.publicationStatus === 'approved')
     .map((item) => ({

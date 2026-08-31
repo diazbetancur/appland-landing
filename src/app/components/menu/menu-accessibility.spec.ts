@@ -7,8 +7,8 @@ import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { MenuComponent } from './menu.component';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 class AccessibilityRouteStubComponent {}
 

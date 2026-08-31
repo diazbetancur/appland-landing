@@ -43,20 +43,14 @@ describe('AppComponent shell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        AppComponent,
-        MenuStubComponent,
-        FooterStubComponent,
-        HomeSectionStubDirective,
-      ],
+      declarations: [AppComponent, MenuStubComponent, FooterStubComponent, HomeSectionStubDirective],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
   });
 
   it('binds navigation and meeting inputs to the global Menu', () => {
-    const menu = fixture.debugElement.query(By.directive(MenuStubComponent))
-      .componentInstance as MenuStubComponent;
+    const menu = fixture.debugElement.query(By.directive(MenuStubComponent)).componentInstance as MenuStubComponent;
     expect(menu.items.length).toBe(5);
     expect(menu.meetingAction.fallbackFragment).toBe('contacto');
   });
@@ -69,13 +63,9 @@ describe('AppComponent shell', () => {
   });
 
   it('renders skip link and header/main/footer landmarks', () => {
-    expect(
-      fixture.debugElement.query(By.css('.skip-link')).attributes['href'],
-    ).toBe('#contenido-principal');
+    expect(fixture.debugElement.query(By.css('.skip-link')).attributes['href']).toBe('#contenido-principal');
     expect(fixture.debugElement.query(By.css('header'))).not.toBeNull();
-    expect(
-      fixture.debugElement.query(By.css('main#contenido-principal')),
-    ).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('main#contenido-principal'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('footer'))).not.toBeNull();
   });
 });

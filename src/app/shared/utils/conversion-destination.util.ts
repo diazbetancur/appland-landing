@@ -1,8 +1,4 @@
-import {
-  ApprovedDestination,
-  ConversionAction,
-  ResolvedAction,
-} from '../../feature/pages/home/home-content.models';
+import { ApprovedDestination, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
 
 const OFFICIAL_WHATSAPP_NUMBER = '50433949211';
 

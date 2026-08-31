@@ -1,12 +1,10 @@
 <div class="appland-container why">
   <header class="why__intro">
     <h2 id="por-que-appland-title" class="appland-heading why__title">
-      Por qué empresas eligen <span class="why__highlight">trabajar</span> con
-      nosotros
+      Por qué empresas eligen <span class="why__highlight">trabajar</span> con nosotros
     </h2>
     <p class="why__lead">
-      Más de 13 años desarrollando soluciones tecnológicas que impulsan el
-      crecimiento de negocios en todo el mundo.
+      Más de 13 años desarrollando soluciones tecnológicas que impulsan el crecimiento de negocios en todo el mundo.
     </p>
   </header>
 
@@ -16,7 +14,7 @@
         <li>
           <span class="why__icon" aria-hidden="true">
             @switch (benefit.visualKey) {
-              @case ("calendar") {
+              @case ('calendar') {
                 <svg
                   width="22"
                   height="22"
@@ -30,7 +28,7 @@
                   <path d="M3 10h18M8 3v4M16 3v4"></path>
                 </svg>
               }
-              @case ("language") {
+              @case ('language') {
                 <svg
                   width="22"
                   height="22"
@@ -41,14 +39,12 @@
                   stroke-linejoin="round"
                 >
                   <circle cx="9" cy="8" r="3"></circle>
-                  <path
-                    d="M3.5 19.5c0-3 2.5-5.2 5.5-5.2s5.5 2.2 5.5 5.2"
-                  ></path>
+                  <path d="M3.5 19.5c0-3 2.5-5.2 5.5-5.2s5.5 2.2 5.5 5.2"></path>
                   <circle cx="17.5" cy="7.5" r="2.2"></circle>
                   <path d="M15.5 14.6c2.5.2 4.5 2.2 4.5 4.9"></path>
                 </svg>
               }
-              @case ("world") {
+              @case ('world') {
                 <svg
                   width="22"
                   height="22"
@@ -64,7 +60,7 @@
                   ></path>
                 </svg>
               }
-              @case ("clock") {
+              @case ('clock') {
                 <svg
                   width="22"
                   height="22"
@@ -78,7 +74,7 @@
                   <path d="M12 7v5l3.5 2"></path>
                 </svg>
               }
-              @case ("industries") {
+              @case ('industries') {
                 <svg
                   width="22"
                   height="22"
@@ -93,7 +89,7 @@
                   <path d="M14 6l3-2.5L20 6"></path>
                 </svg>
               }
-              @case ("agile") {
+              @case ('agile') {
                 <svg
                   width="22"
                   height="22"
@@ -106,7 +102,7 @@
                   <path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"></path>
                 </svg>
               }
-              @case ("scale") {
+              @case ('scale') {
                 <svg
                   width="22"
                   height="22"
@@ -133,12 +129,8 @@
 
   @if (resolvedContactAction; as action) {
     <div class="why__cta-row">
-      @if (action.kind === "router") {
-        <a
-          class="appland-button why__cta"
-          [routerLink]="['/']"
-          [fragment]="action.fragment"
-        >
+      @if (action.kind === 'router') {
+        <a class="appland-button why__cta" [routerLink]="['/']" [fragment]="action.fragment">
           Conversemos sobre tu proyecto
           <svg
             aria-hidden="true"
@@ -154,12 +146,7 @@
           </svg>
         </a>
       } @else {
-        <a
-          class="appland-button why__cta"
-          [href]="action.href"
-          [target]="action.target"
-          [rel]="action.rel"
-        >
+        <a class="appland-button why__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
           Conversemos sobre tu proyecto
           <svg
             aria-hidden="true"

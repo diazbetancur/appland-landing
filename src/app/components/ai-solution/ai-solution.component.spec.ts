@@ -52,8 +52,6 @@ describe('AiSolutionComponent', () => {
   });
 
   it('exposes the applications as one semantic list', () => {
-    expect(fixture.debugElement.queryAll(By.css('.ai__grid > li')).length).toBe(
-      HOME_CONTENT.aiApplications.length
-    );
+    expect(fixture.debugElement.queryAll(By.css('.ai__grid > li')).length).toBe(HOME_CONTENT.aiApplications.length);
   });
 });

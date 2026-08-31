@@ -9,8 +9,8 @@ import { HomeSectionObserverService } from '../../shared/services/home-section-o
 import { MenuComponent } from './menu.component';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 class MenuRouteStubComponent {}
 
@@ -21,11 +21,14 @@ describe('MenuComponent navigation', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [A11yModule, RouterTestingModule.withRoutes([
-        { path: '', component: MenuRouteStubComponent },
-        { path: 'about', component: MenuRouteStubComponent },
-        { path: 'service', component: MenuRouteStubComponent },
-      ])],
+      imports: [
+        A11yModule,
+        RouterTestingModule.withRoutes([
+          { path: '', component: MenuRouteStubComponent },
+          { path: 'about', component: MenuRouteStubComponent },
+          { path: 'service', component: MenuRouteStubComponent },
+        ]),
+      ],
       declarations: [MenuComponent, MenuRouteStubComponent],
     }).compileComponents();
     router = TestBed.inject(Router);
@@ -38,9 +41,13 @@ describe('MenuComponent navigation', () => {
 
   it('renders the five Spanish root-fragment links with Nosotros mapped to por-que-appland', () => {
     const links = fixture.debugElement.queryAll(By.css('.menu__desktop-links a'));
-    expect(links.map((link) => link.nativeElement.textContent.trim())).toEqual(
-      ['Inicio', 'Servicios', 'Casos de éxito', 'Nosotros', 'Contacto']
-    );
+    expect(links.map((link) => link.nativeElement.textContent.trim())).toEqual([
+      'Inicio',
+      'Servicios',
+      'Casos de éxito',
+      'Nosotros',
+      'Contacto',
+    ]);
     expect(links[3].attributes['href']).toContain('#por-que-appland');
     expect(fixture.debugElement.query(By.css('[data-en]'))).toBeNull();
     expect(fixture.nativeElement.textContent).not.toContain('EN');

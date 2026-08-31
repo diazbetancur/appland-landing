@@ -3,10 +3,10 @@ import { FooterContent } from '../../feature/pages/home/home-content.models';
 import { destinationHref } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss'],
-    standalone: false
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
+  standalone: false,
 })
 export class FooterComponent {
   @Input() content!: FooterContent;

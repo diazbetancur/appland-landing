@@ -1,15 +1,18 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-    selector: '[appCountUp]',
-    standalone: false
+  selector: '[appCountUp]',
+  standalone: false,
 })
 export class CountUpDirective implements OnInit {
   @Input() endValue: number = 0;
   @Input() duration: number = 2000; // en milisegundos
   @Input() suffix: string = '';
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+  ) {}
 
   ngOnInit(): void {
     const observer = new IntersectionObserver(
@@ -21,7 +24,7 @@ export class CountUpDirective implements OnInit {
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
     observer.observe(this.el.nativeElement);
   }
@@ -34,14 +37,8 @@ export class CountUpDirective implements OnInit {
 
     const step = (currentTime: number) => {
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      const currentValue = Math.floor(
-        progress * (endValue - startValue) + startValue
-      );
-      this.renderer.setProperty(
-        this.el.nativeElement,
-        'textContent',
-        `${currentValue}${this.suffix}`
-      );
+      const currentValue = Math.floor(progress * (endValue - startValue) + startValue);
+      this.renderer.setProperty(this.el.nativeElement, 'textContent', `${currentValue}${this.suffix}`);
       if (progress < 1) {
         requestAnimationFrame(step);
       }

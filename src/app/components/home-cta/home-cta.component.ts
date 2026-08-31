@@ -3,10 +3,10 @@ import { ContactContent, ResolvedAction } from '../../feature/pages/home/home-co
 import { destinationHref, resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-home-cta',
-    templateUrl: './home-cta.component.html',
-    styleUrls: ['./home-cta.component.scss'],
-    standalone: false
+  selector: 'app-home-cta',
+  templateUrl: './home-cta.component.html',
+  styleUrls: ['./home-cta.component.scss'],
+  standalone: false,
 })
 export class HomeCtaComponent implements OnChanges {
   @Input() content!: ContactContent;

@@ -3,10 +3,10 @@ import { Benefit, ConversionAction, ResolvedAction } from '../../feature/pages/h
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-why',
-    templateUrl: './why.component.html',
-    styleUrls: ['./why.component.scss'],
-    standalone: false
+  selector: 'app-why',
+  templateUrl: './why.component.html',
+  styleUrls: ['./why.component.scss'],
+  standalone: false,
 })
 export class WhyComponent implements OnChanges {
   @Input() benefits: readonly Benefit[] = [];
@@ -15,8 +15,6 @@ export class WhyComponent implements OnChanges {
   resolvedContactAction?: ResolvedAction;
 
   ngOnChanges(): void {
-    this.resolvedContactAction = this.contactAction
-      ? resolveConversionAction(this.contactAction)
-      : undefined;
+    this.resolvedContactAction = this.contactAction ? resolveConversionAction(this.contactAction) : undefined;
   }
 }

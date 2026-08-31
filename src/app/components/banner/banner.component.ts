@@ -5,10 +5,10 @@ import { resolveConversionAction } from '../../shared/utils/conversion-destinati
 const TITLE_HIGHLIGHT_FROM = 'soluciones';
 
 @Component({
-    selector: 'app-banner',
-    templateUrl: './banner.component.html',
-    styleUrls: ['./banner.component.scss'],
-    standalone: false
+  selector: 'app-banner',
+  templateUrl: './banner.component.html',
+  styleUrls: ['./banner.component.scss'],
+  standalone: false,
 })
 export class BannerComponent implements OnChanges {
   @Input() content!: HeroContent;
