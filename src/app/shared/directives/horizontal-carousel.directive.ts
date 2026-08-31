@@ -7,14 +7,16 @@ import {
   Input,
   OnDestroy,
   Output,
+  inject,
 } from '@angular/core';
 
 @Directive({
   selector: '[appHorizontalCarousel]',
   exportAs: 'appHorizontalCarousel',
-  standalone: false,
 })
 export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   @Input() itemCount = 0;
   @Output() readonly positionChange = new EventEmitter<number>();
 
@@ -22,8 +24,6 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   canMovePrevious = false;
   canMoveNext = false;
   private destroyed = false;
-
-  constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
   get positionLabel(): string {
     return this.itemCount ? `${this.currentIndex + 1} de ${this.itemCount}` : '';

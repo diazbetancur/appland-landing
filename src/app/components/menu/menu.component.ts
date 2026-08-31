@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { NavigationStart, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
   ConversionAction,
@@ -9,14 +9,18 @@ import {
 } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService } from '../../shared/services/home-section-observer.service';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  standalone: false,
+  imports: [RouterLink, CdkTrapFocus],
 })
 export class MenuComponent implements OnInit, OnDestroy {
+  private readonly sectionObserver = inject(HomeSectionObserverService);
+  private readonly router = inject(Router);
+
   @Input() items: readonly NavigationItem[] = [];
   @Input() meetingAction!: ConversionAction;
   @ViewChild('menuToggle') menuToggle?: ElementRef<HTMLButtonElement>;
@@ -26,11 +30,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   isScrolled = false;
   meetingDestination!: ResolvedAction;
   private readonly subscriptions = new Subscription();
-
-  constructor(
-    private readonly sectionObserver: HomeSectionObserverService,
-    private readonly router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.meetingDestination = resolveConversionAction(this.meetingAction);

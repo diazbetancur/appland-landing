@@ -9,8 +9,7 @@ describe('WhyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [WhyComponent],
+      imports: [RouterTestingModule, WhyComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(WhyComponent);
     fixture.componentRef.setInput('benefits', HOME_CONTENT.benefits);

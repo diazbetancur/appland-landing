@@ -1,4 +1,5 @@
 import { ElementRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { HomeSectionDirective } from './home-section.directive';
 import { HomeSectionObserverService } from '../services/home-section-observer.service';
 
@@ -10,11 +11,16 @@ describe('HomeSectionDirective', () => {
       notifyRegionVisibility: vi.fn().mockName('HomeSectionObserverService.notifyRegionVisibility'),
       activationThresholdPx: 140,
     };
-    const directive = new HomeSectionDirective(
-      new ElementRef(document.createElement('section')),
-      // Doble parcial: solo los tres metodos y la propiedad que la directiva consume.
-      service as unknown as HomeSectionObserverService,
-    );
+    // La directiva obtiene sus dependencias con inject() desde el spec 006. Los dobles se
+    // registran como proveedores y la instancia se crea en un contexto de inyeccion.
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ElementRef, useValue: new ElementRef(document.createElement('section')) },
+        // Doble parcial: solo los tres metodos y la propiedad que la directiva consume.
+        { provide: HomeSectionObserverService, useValue: service as unknown as HomeSectionObserverService },
+      ],
+    });
+    const directive = TestBed.runInInjectionContext(() => new HomeSectionDirective());
     directive.regionId = 'inicio';
     const originalObserver = window.IntersectionObserver;
     (

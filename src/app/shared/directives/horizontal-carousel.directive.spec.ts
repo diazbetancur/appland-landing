@@ -1,5 +1,6 @@
 import type { Mock } from 'vitest';
 import { ElementRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { HorizontalCarouselDirective } from './horizontal-carousel.directive';
 
 describe('HorizontalCarouselDirective', () => {
@@ -18,7 +19,12 @@ describe('HorizontalCarouselDirective', () => {
       scrollLeft: { configurable: true, writable: true, value: 0 },
     });
     scrollBy = vi.spyOn(element, 'scrollBy');
-    directive = new HorizontalCarouselDirective(new ElementRef(element));
+    // La directiva obtiene ElementRef con inject() desde el spec 006, asi que se instancia
+    // dentro de un contexto de inyeccion con el elemento de prueba como proveedor.
+    TestBed.configureTestingModule({
+      providers: [{ provide: ElementRef, useValue: new ElementRef(element) }],
+    });
+    directive = TestBed.runInInjectionContext(() => new HorizontalCarouselDirective());
     directive.itemCount = 3;
   });
 

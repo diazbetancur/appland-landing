@@ -9,8 +9,7 @@ describe('BannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [BannerComponent],
+      imports: [RouterTestingModule, BannerComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(BannerComponent);
     fixture.componentRef.setInput('content', HOME_CONTENT.hero);

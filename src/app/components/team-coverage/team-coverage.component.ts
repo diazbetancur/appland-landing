@@ -1,12 +1,13 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ConversionAction, CountryPresence, ResolvedAction } from '../../feature/pages/home/home-content.models';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-team-coverage',
   templateUrl: './team-coverage.component.html',
   styleUrls: ['./team-coverage.component.scss'],
-  standalone: false,
+  imports: [RouterLink],
 })
 export class TeamCoverageComponent implements OnChanges {
   @Input() countries: readonly CountryPresence[] = [];

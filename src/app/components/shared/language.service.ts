@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService, TranslationObject } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LanguageService {
+  private translate = inject(TranslateService);
+  private http = inject(HttpClient);
+
   private readonly defaultLanguage = 'en';
 
-  constructor(
-    private translate: TranslateService,
-    private http: HttpClient,
-  ) {
+  constructor() {
     this.setDefaultLanguage();
   }
 

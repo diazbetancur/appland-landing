@@ -5,10 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_SECTION_IDS, ObservedRegionId } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService, mapObservedRegionToNavigationFragment } from './home-section-observer.service';
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 class RouteStubComponent {}
 
 describe('HomeSectionObserverService', () => {
@@ -23,8 +20,8 @@ describe('HomeSectionObserverService', () => {
           { path: 'about', component: RouteStubComponent },
           { path: 'service', component: RouteStubComponent },
         ]),
+        RouteStubComponent,
       ],
-      declarations: [RouteStubComponent],
     }).compileComponents();
     router = TestBed.inject(Router);
     service = TestBed.inject(HomeSectionObserverService);

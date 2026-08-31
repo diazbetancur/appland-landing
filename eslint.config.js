@@ -17,11 +17,12 @@ module.exports = tseslint.config(
     // Permite analizar templates escritos inline en decoradores, no solo archivos .html separados.
     processor: angular.processInlineTemplates,
     rules: {
-      // Deuda de modernizacion arquitectural, medida el 2026-08-31: 27 y 8 violaciones respectivamente.
-      // Se mantienen en 'warn' porque su resolucion es la migracion completa a standalone.
-      // Destino: 'error' como criterio de cierre del spec 006.
-      '@angular-eslint/prefer-standalone': 'warn',
-      '@angular-eslint/prefer-inject': 'warn',
+      // Estas dos reglas nacieron en 'warn' en el spec 002, con 27 y 8 violaciones, porque
+      // resolverlas era la migracion completa a standalone. El spec 006 la ejecuto y las
+      // llevo a cero, asi que aqui se promueven a 'error' como estaba previsto: a partir de
+      // ahora, cualquier reintroduccion de NgModule o de inyeccion por constructor falla.
+      '@angular-eslint/prefer-standalone': 'error',
+      '@angular-eslint/prefer-inject': 'error',
     },
   },
   {

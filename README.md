@@ -24,6 +24,20 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Since `specs/005-test-safety-net`, the schematics generate a spec file alongside every component, directive, service, pipe, guard, interceptor, resolver and class. The project previously set `skipTests: true` for all eight, which is why several files ended up with no tests at all. Fill in the generated spec rather than deleting it.
 
+## Architecture
+
+The application is standalone: every component and directive declares its own `imports`, there are no NgModules, and dependencies are obtained with `inject()`. `src/app/app.config.ts` holds the application providers and `src/main.ts` bootstraps with `bootstrapApplication`. The NgModule architecture was removed in `specs/006-standalone`.
+
+One provider in `app.config.ts` is load-bearing and easy to delete by accident:
+
+```ts
+provideAppInitializer(() => {
+  inject(ViewportScroller).setOffset(SECTION_SCROLL_OFFSET);
+});
+```
+
+`withInMemoryScrolling` accepts only `anchorScrolling` and `scrollPositionRestoration`. The `scrollOffset` that `RouterModule.forRoot` used to accept has no equivalent in the standalone router API, so the fixed-header offset is applied by hand. Without it, anchors on the Home page land underneath the header. `src/app/app.config.spec.ts` guards this, and that guard was verified to fail when the initializer is removed.
+
 ## Build
 
 Run `ng build` to build the project. The browser artifacts are written to `dist/appland/browser/`.

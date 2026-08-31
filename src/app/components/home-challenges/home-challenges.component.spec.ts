@@ -9,8 +9,7 @@ describe('HomeChallengesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [HomeChallengesComponent],
+      imports: [RouterTestingModule, HomeChallengesComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(HomeChallengesComponent);
     fixture.componentRef.setInput('challenges', HOME_CONTENT.challenges);

@@ -25,8 +25,7 @@ describe('HomeProductsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [HomeProductsComponent, HorizontalCarouselDirective],
+      imports: [RouterTestingModule, HomeProductsComponent, HorizontalCarouselDirective],
     }).compileComponents();
     fixture = TestBed.createComponent(HomeProductsComponent);
   });

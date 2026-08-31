@@ -5,7 +5,6 @@ import { Service } from '../../feature/pages/home/home-content.models';
   selector: 'app-home-services',
   templateUrl: './home-services.component.html',
   styleUrls: ['./home-services.component.scss'],
-  standalone: false,
 })
 export class HomeServicesComponent implements OnChanges {
   @Input() services: readonly Service[] = [];

@@ -8,7 +8,7 @@ import { MenuComponent } from './menu.component';
 
 @Component({
   template: '',
-  standalone: false,
+  imports: [A11yModule],
 })
 class AccessibilityRouteStubComponent {}
 
@@ -18,8 +18,12 @@ describe('MenuComponent accessibility', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [A11yModule, RouterTestingModule.withRoutes([{ path: '', component: AccessibilityRouteStubComponent }])],
-      declarations: [MenuComponent, AccessibilityRouteStubComponent],
+      imports: [
+        A11yModule,
+        RouterTestingModule.withRoutes([{ path: '', component: AccessibilityRouteStubComponent }]),
+        MenuComponent,
+        AccessibilityRouteStubComponent,
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;

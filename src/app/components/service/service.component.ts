@@ -1,19 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { ServiceDescription } from './card-template/card-template';
+import { ServiceDescription, CardTemplateComponent } from './card-template/card-template';
 
 @Component({
   selector: 'app-service',
   templateUrl: './service.component.html',
   styleUrls: ['./service.component.scss'],
-  standalone: false,
+  imports: [CardTemplateComponent, TranslatePipe],
 })
 export class ServiceComponent implements OnInit, OnDestroy {
+  private readonly trans = inject(TranslateService);
+
   services: ServiceDescription[] = [];
   private sub!: Subscription;
-
-  constructor(private readonly trans: TranslateService) {}
 
   ngOnInit(): void {
     this.sub = this.trans.stream('ourServiceDescription').subscribe((res) => {

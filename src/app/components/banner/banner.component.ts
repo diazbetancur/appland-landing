@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { HeroContent, ResolvedAction } from '../../feature/pages/home/home-content.models';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { RouterLink } from '@angular/router';
 
 const TITLE_HIGHLIGHT_FROM = 'soluciones';
 
@@ -8,7 +9,7 @@ const TITLE_HIGHLIGHT_FROM = 'soluciones';
   selector: 'app-banner',
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss'],
-  standalone: false,
+  imports: [RouterLink],
 })
 export class BannerComponent implements OnChanges {
   @Input() content!: HeroContent;

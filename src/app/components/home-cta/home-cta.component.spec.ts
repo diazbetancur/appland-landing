@@ -9,8 +9,7 @@ describe('HomeCtaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [HomeCtaComponent],
+      imports: [RouterTestingModule, HomeCtaComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(HomeCtaComponent);
     fixture.componentRef.setInput('content', HOME_CONTENT.contact);
