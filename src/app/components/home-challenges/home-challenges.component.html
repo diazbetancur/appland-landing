@@ -24,17 +24,12 @@
       <span class="challenges__highlight">resolver?</span>
     </h2>
     <p class="challenges__lead">
-      Identificamos los retos que frenan tu crecimiento y desarrollamos
-      soluciones tecnológicas a la medida.
+      Identificamos los retos que frenan tu crecimiento y desarrollamos soluciones tecnológicas a la medida.
     </p>
 
     @if (resolvedContactAction) {
-      @if (resolvedContactAction.kind === "router") {
-        <a
-          class="appland-button challenges__cta"
-          [routerLink]="['/']"
-          [fragment]="resolvedContactAction.fragment"
-        >
+      @if (resolvedContactAction.kind === 'router') {
+        <a class="appland-button challenges__cta" [routerLink]="['/']" [fragment]="resolvedContactAction.fragment">
           Hablemos de tu proyecto
           <svg
             aria-hidden="true"
@@ -83,13 +78,7 @@
         </div>
         @if (challenge.media; as media) {
           <div class="challenge__media">
-            <img
-              [src]="media.src"
-              [alt]="media.alt"
-              [width]="media.width"
-              [height]="media.height"
-              loading="lazy"
-            />
+            <img [src]="media.src" [alt]="media.alt" [width]="media.width" [height]="media.height" loading="lazy" />
           </div>
         }
       </li>

@@ -22,13 +22,43 @@ Run `npm start` for a local-only dev server. Navigate to `http://localhost:4200/
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+Since `specs/005-test-safety-net`, the schematics generate a spec file alongside every component, directive, service, pipe, guard, interceptor, resolver and class. The project previously set `skipTests: true` for all eight, which is why several files ended up with no tests at all. Fill in the generated spec rather than deleting it.
+
+## Architecture
+
+The application is standalone: every component and directive declares its own `imports`, there are no NgModules, and dependencies are obtained with `inject()`. `src/app/app.config.ts` holds the application providers and `src/main.ts` bootstraps with `bootstrapApplication`. The NgModule architecture was removed in `specs/006-standalone`.
+
+One provider in `app.config.ts` is load-bearing and easy to delete by accident:
+
+```ts
+provideAppInitializer(() => {
+  inject(ViewportScroller).setOffset(SECTION_SCROLL_OFFSET);
+});
+```
+
+`withInMemoryScrolling` accepts only `anchorScrolling` and `scrollPositionRestoration`. The `scrollOffset` that `RouterModule.forRoot` used to accept has no equivalent in the standalone router API, so the fixed-header offset is applied by hand. Without it, anchors on the Home page land underneath the header. `src/app/app.config.spec.ts` guards this, and that guard was verified to fail when the initializer is removed.
+
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng build` to build the project. The browser artifacts are written to `dist/appland/browser/`.
+
+The project uses the esbuild-based `@angular/build:application` builder. The previous webpack builder (`@angular-devkit/build-angular:browser`) was removed in `specs/003-build-system`, which is also why the output moved from `dist/appland/` into the `browser/` subdirectory.
+
+## Code quality
+
+- `npm run lint` runs ESLint over TypeScript, separate templates and inline templates, including Angular's template accessibility rules. It fails on any error and caps warnings at the current architectural-modernization debt.
+- `npm run format` applies Prettier to `src/**/*.{ts,html,scss}`; `npm run format:check` verifies without writing.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm test` for watch mode, or `npm run test:ci` for a single run.
+
+Tests execute on [Vitest](https://vitest.dev) through Angular's `@angular/build:unit-test` builder, in a real headless Chromium driven by Playwright. Karma and Jasmine were removed in `specs/004-vitest`.
+
+Two details of that setup are load-bearing and easy to break:
+
+- The test build uses its own `test` configuration in `angular.json`, which adds `zone.js/testing` and `zone.js/plugins/vitest-patch` to the polyfills. Without the Vitest patch, `zone.js` never installs the ProxyZone that `fakeAsync` requires, and every `fakeAsync` test fails.
+- `src/test-setup.ts` restores spies after each test. Jasmine did that automatically and Vitest does not, so removing it makes a `vi.spyOn` leak into the tests that follow.
 
 ## Running end-to-end tests
 

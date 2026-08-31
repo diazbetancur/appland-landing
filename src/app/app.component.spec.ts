@@ -3,6 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { HomeSectionDirective } from './shared/directives/home-section.directive';
 import {
   ConversionAction,
   FooterContent,
@@ -13,7 +16,7 @@ import {
 @Component({
   selector: 'app-menu',
   template: '',
-  standalone: false,
+  imports: [RouterTestingModule],
 })
 class MenuStubComponent {
   @Input() items: readonly NavigationItem[] = [];
@@ -23,16 +26,13 @@ class MenuStubComponent {
 @Component({
   selector: 'app-footer',
   template: '',
-  standalone: false,
+  imports: [RouterTestingModule],
 })
 class FooterStubComponent {
   @Input() content!: FooterContent;
 }
 
-@Directive({
-  selector: '[appHomeSection]',
-  standalone: false,
-})
+@Directive({ selector: '[appHomeSection]' })
 class HomeSectionStubDirective {
   @Input('appHomeSection') regionId!: ObservedRegionId;
 }
@@ -41,22 +41,23 @@ describe('AppComponent shell', () => {
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        AppComponent,
-        MenuStubComponent,
-        FooterStubComponent,
-        HomeSectionStubDirective,
-      ],
-    }).compileComponents();
+    // Al pasar a standalone, AppComponent declara sus propios imports y renderiza los
+    // componentes reales, asi que los dobles dejaron de usarse. En NgModule bastaba
+    // declararlos en el TestBed para que ganaran; ahora hay que sustituirlos explicitamente.
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, MenuStubComponent, FooterStubComponent, HomeSectionStubDirective, AppComponent],
+    });
+    TestBed.overrideComponent(AppComponent, {
+      remove: { imports: [MenuComponent, FooterComponent, HomeSectionDirective] },
+      add: { imports: [MenuStubComponent, FooterStubComponent, HomeSectionStubDirective] },
+    });
+    await TestBed.compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
   });
 
   it('binds navigation and meeting inputs to the global Menu', () => {
-    const menu = fixture.debugElement.query(By.directive(MenuStubComponent))
-      .componentInstance as MenuStubComponent;
+    const menu = fixture.debugElement.query(By.directive(MenuStubComponent)).componentInstance as MenuStubComponent;
     expect(menu.items.length).toBe(5);
     expect(menu.meetingAction.fallbackFragment).toBe('contacto');
   });
@@ -69,13 +70,9 @@ describe('AppComponent shell', () => {
   });
 
   it('renders skip link and header/main/footer landmarks', () => {
-    expect(
-      fixture.debugElement.query(By.css('.skip-link')).attributes['href'],
-    ).toBe('#contenido-principal');
+    expect(fixture.debugElement.query(By.css('.skip-link')).attributes['href']).toBe('#contenido-principal');
     expect(fixture.debugElement.query(By.css('header'))).not.toBeNull();
-    expect(
-      fixture.debugElement.query(By.css('main#contenido-principal')),
-    ).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('main#contenido-principal'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('footer'))).not.toBeNull();
   });
 });

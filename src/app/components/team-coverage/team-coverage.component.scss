@@ -28,7 +28,7 @@
 }
 
 .team__highlight {
-  color: var(--appland-secondary);
+  color: var(--appland-primary);
 }
 
 .team__lead {
@@ -79,7 +79,9 @@
   border-radius: var(--appland-radius-lg);
   background: linear-gradient(180deg, var(--appland-panel), #0d131b);
   text-align: center;
-  transition: border-color 250ms ease, transform 250ms ease;
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
 }
 
 .country-card:hover {

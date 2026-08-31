@@ -9,8 +9,7 @@ describe('AiSolutionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AiSolutionComponent],
+      imports: [RouterTestingModule, AiSolutionComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(AiSolutionComponent);
     fixture.componentRef.setInput('applications', HOME_CONTENT.aiApplications);
@@ -52,8 +51,6 @@ describe('AiSolutionComponent', () => {
   });
 
   it('exposes the applications as one semantic list', () => {
-    expect(fixture.debugElement.queryAll(By.css('.ai__grid > li')).length).toBe(
-      HOME_CONTENT.aiApplications.length
-    );
+    expect(fixture.debugElement.queryAll(By.css('.ai__grid > li')).length).toBe(HOME_CONTENT.aiApplications.length);
   });
 });

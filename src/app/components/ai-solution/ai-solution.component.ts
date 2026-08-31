@@ -1,12 +1,13 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { AiApplication, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-ai-solution',
-    templateUrl: './ai-solution.component.html',
-    styleUrls: ['./ai-solution.component.scss'],
-    standalone: false
+  selector: 'app-ai-solution',
+  templateUrl: './ai-solution.component.html',
+  styleUrls: ['./ai-solution.component.scss'],
+  imports: [RouterLink],
 })
 export class AiSolutionComponent implements OnChanges {
   @Input() applications: readonly AiApplication[] = [];

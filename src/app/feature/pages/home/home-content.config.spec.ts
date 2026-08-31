@@ -1,16 +1,19 @@
-import {
-  HOME_CONTENT,
-  selectVisibleCases,
-  selectVisibleClients,
-  selectVisibleProducts,
-} from './home-content.config';
+import { HOME_CONTENT, selectVisibleCases, selectVisibleClients, selectVisibleProducts } from './home-content.config';
 import { HOME_SECTION_IDS } from './home-content.models';
 
 describe('HOME_CONTENT', () => {
   it('preserves the complete stable section id contract', () => {
     expect(HOME_SECTION_IDS).toEqual([
-      'inicio', 'clientes', 'desafios', 'servicios', 'casos', 'ia',
-      'productos', 'por-que-appland', 'equipo-global', 'contacto',
+      'inicio',
+      'clientes',
+      'desafios',
+      'servicios',
+      'casos',
+      'ia',
+      'productos',
+      'por-que-appland',
+      'equipo-global',
+      'contacto',
     ]);
   });
 
@@ -20,7 +23,7 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.cases.length).toBe(7);
     expect(HOME_CONTENT.aiApplications.length).toBe(9);
     expect(HOME_CONTENT.benefits.length).toBe(7);
-    expect(HOME_CONTENT.countries.length).toBe(6);
+    expect(HOME_CONTENT.countries.length).toBe(9);
   });
 
   it('maps Nosotros only to por-que-appland', () => {
@@ -35,13 +38,13 @@ describe('HOME_CONTENT', () => {
   it('shows the five approved client logos', () => {
     const visible = selectVisibleClients();
     expect(visible.map((client) => client.name)).toEqual(['Ficohsa', 'Grupo Terra', 'Tigo', 'Toyota', 'Avianca']);
-    expect(visible.every((client) => Boolean(client.logo))).toBeTrue();
+    expect(visible.every((client) => Boolean(client.logo))).toBe(true);
   });
 
   it('shows only cases with approved copy and media, in approved order', () => {
     const visible = selectVisibleCases();
     expect(visible.map((item) => item.name)).toEqual(['Toyota', 'Dilo', 'Go', 'TV Azteca Honduras']);
-    expect(visible.every((item) => Boolean(item.media))).toBeTrue();
+    expect(visible.every((item) => Boolean(item.media))).toBe(true);
   });
 
   it('contains no testimonial or provisional public copy', () => {
@@ -58,5 +61,21 @@ describe('HOME_CONTENT', () => {
     expect(visibleCopy).not.toContain('testimonial');
     expect(visibleCopy).not.toContain('placeholder');
     expect(visibleCopy).not.toContain('coming soon');
+  });
+
+  it('keeps every service summary from being just a restatement of its own icon labels', () => {
+    // Cada servicio muestra sus capacidades como iconos con etiqueta. Si el resumen se limita
+    // a enumerar esas mismas etiquetas, el texto no aporta nada y duplica lo que ya se ve.
+    for (const service of HOME_CONTENT.services) {
+      const highlights = service.highlights ?? [];
+      if (!highlights.length) {
+        continue;
+      }
+
+      const summary = service.summary.toLowerCase();
+      const echoed = highlights.filter((highlight) => summary.includes(highlight.label.toLowerCase()));
+
+      expect(echoed.length).toBeLessThan(highlights.length);
+    }
   });
 });

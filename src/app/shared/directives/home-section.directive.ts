@@ -1,20 +1,15 @@
-import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import { ObservedRegionId } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService } from '../services/home-section-observer.service';
 
-@Directive({
-    selector: '[appHomeSection]',
-    standalone: false
-})
+@Directive({ selector: '[appHomeSection]' })
 export class HomeSectionDirective implements AfterViewInit, OnDestroy {
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly sectionObserver = inject(HomeSectionObserverService);
+
   @Input('appHomeSection') regionId!: ObservedRegionId;
 
   private observer?: IntersectionObserver;
-
-  constructor(
-    private readonly elementRef: ElementRef<HTMLElement>,
-    private readonly sectionObserver: HomeSectionObserverService
-  ) {}
 
   ngAfterViewInit(): void {
     this.sectionObserver.registerRegion(this.regionId);
@@ -32,7 +27,7 @@ export class HomeSectionDirective implements AfterViewInit, OnDestroy {
           this.sectionObserver.notifyRegionVisibility(this.regionId, crossesLine);
         }
       },
-      { rootMargin: '-140px 0px -70% 0px', threshold: 0 }
+      { rootMargin: '-140px 0px -70% 0px', threshold: 0 },
     );
     this.observer.observe(this.elementRef.nativeElement);
   }

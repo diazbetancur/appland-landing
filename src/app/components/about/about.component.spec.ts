@@ -7,7 +7,7 @@ describe('AboutComponent regression smoke', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AboutComponent],
+      imports: [AboutComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
     fixture = TestBed.createComponent(AboutComponent);

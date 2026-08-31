@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AboutComponent } from './components/about/about.component';
 import { ServiceComponent } from './components/service/service.component';
 import { HomeComponent } from './feature/pages/home/home.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
@@ -18,15 +17,3 @@ const routes: Routes = [
     component: ServiceComponent,
   },
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      anchorScrolling: 'enabled',
-      scrollPositionRestoration: 'enabled',
-      scrollOffset: [0, 104],
-    }),
-  ],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

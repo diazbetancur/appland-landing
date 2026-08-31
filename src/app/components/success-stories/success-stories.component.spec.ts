@@ -9,7 +9,7 @@ describe('SuccessStoriesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SuccessStoriesComponent, HorizontalCarouselDirective],
+      imports: [SuccessStoriesComponent, HorizontalCarouselDirective],
     }).compileComponents();
     fixture = TestBed.createComponent(SuccessStoriesComponent);
     fixture.componentInstance.cases = selectVisibleCases();
@@ -21,7 +21,7 @@ describe('SuccessStoriesComponent', () => {
     const cards = fixture.debugElement.queryAll(By.css('.case-card'));
     expect(cards.length).toBe(visible.length);
     expect(cards.map((card) => card.query(By.css('h3')).nativeElement.textContent.trim())).toEqual(
-      visible.map((item) => item.name)
+      visible.map((item) => item.name),
     );
     cards.forEach((card, index) => {
       const img = card.query(By.css('img')).nativeElement;
@@ -37,5 +37,23 @@ describe('SuccessStoriesComponent', () => {
     expect(track.attributes['tabindex']).toBe('0');
     expect(fixture.debugElement.queryAll(By.css('.cases__control')).length).toBe(2);
     expect((fixture.componentInstance as unknown as { interval?: unknown }).interval).toBeUndefined();
+  });
+
+  it('runs the carousel in a circular loop, so the controls never dead-end', () => {
+    const track = fixture.debugElement.query(By.directive(HorizontalCarouselDirective));
+
+    expect(track.injector.get(HorizontalCarouselDirective).loop).toBe(true);
+  });
+
+  it('announces the position to assistive technology without showing any visual indicator', () => {
+    // La seccion no muestra ni contador ni puntos: al ser circular no hay extremos que
+    // senalar. Pero quien navega con lector de pantalla si necesita saber por donde va.
+    const position = fixture.debugElement.query(By.css('.cases__position'));
+
+    expect(fixture.debugElement.query(By.css('.cases__dots'))).toBeNull();
+    expect(position).not.toBeNull();
+    expect(position.attributes['aria-live']).toBe('polite');
+    expect(position.nativeElement.classList).toContain('appland-visually-hidden');
+    expect(position.nativeElement.textContent.trim()).toMatch(/^\d+ de \d+$/);
   });
 });

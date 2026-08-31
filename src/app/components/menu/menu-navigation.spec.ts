@@ -9,8 +9,8 @@ import { HomeSectionObserverService } from '../../shared/services/home-section-o
 import { MenuComponent } from './menu.component';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  imports: [A11yModule],
 })
 class MenuRouteStubComponent {}
 
@@ -21,12 +21,16 @@ describe('MenuComponent navigation', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [A11yModule, RouterTestingModule.withRoutes([
-        { path: '', component: MenuRouteStubComponent },
-        { path: 'about', component: MenuRouteStubComponent },
-        { path: 'service', component: MenuRouteStubComponent },
-      ])],
-      declarations: [MenuComponent, MenuRouteStubComponent],
+      imports: [
+        A11yModule,
+        RouterTestingModule.withRoutes([
+          { path: '', component: MenuRouteStubComponent },
+          { path: 'about', component: MenuRouteStubComponent },
+          { path: 'service', component: MenuRouteStubComponent },
+        ]),
+        MenuComponent,
+        MenuRouteStubComponent,
+      ],
     }).compileComponents();
     router = TestBed.inject(Router);
     service = TestBed.inject(HomeSectionObserverService);
@@ -38,9 +42,13 @@ describe('MenuComponent navigation', () => {
 
   it('renders the five Spanish root-fragment links with Nosotros mapped to por-que-appland', () => {
     const links = fixture.debugElement.queryAll(By.css('.menu__desktop-links a'));
-    expect(links.map((link) => link.nativeElement.textContent.trim())).toEqual(
-      ['Inicio', 'Servicios', 'Casos de éxito', 'Nosotros', 'Contacto']
-    );
+    expect(links.map((link) => link.nativeElement.textContent.trim())).toEqual([
+      'Inicio',
+      'Servicios',
+      'Casos de éxito',
+      'Nosotros',
+      'Contacto',
+    ]);
     expect(links[3].attributes['href']).toContain('#por-que-appland');
     expect(fixture.debugElement.query(By.css('[data-en]'))).toBeNull();
     expect(fixture.nativeElement.textContent).not.toContain('EN');
@@ -55,13 +63,13 @@ describe('MenuComponent navigation', () => {
     const active = fixture.debugElement.queryAll(By.css('.menu__desktop-links [aria-current="location"]'));
     expect(active.length).toBe(1);
     expect(active[0].nativeElement.textContent.trim()).toBe('Casos de éxito');
-    expect(active[0].classes['menu__link--active']).toBeTrue();
+    expect(active[0].classes['menu__link--active']).toBe(true);
 
     fixture.componentInstance.openMenu();
     fixture.detectChanges();
     const openMenuActive = fixture.debugElement.queryAll(By.css('[aria-current="location"]'));
     expect(openMenuActive.length).toBe(1);
-    expect(openMenuActive[0].classes['compact-menu__link--active']).toBeTrue();
+    expect(openMenuActive[0].classes['compact-menu__link--active']).toBe(true);
   }));
 
   ['/about', '/service'].forEach((url) => {

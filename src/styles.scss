@@ -1,4 +1,4 @@
-@use "styles/appland-home-tokens";
+@use 'styles/appland-home-tokens';
 
 html,
 body {
@@ -54,6 +54,26 @@ textarea {
   margin-inline: auto;
 }
 
+/**
+ * Oculta un elemento visualmente conservandolo en el arbol de accesibilidad.
+ *
+ * Se usa donde la informacion se comunica de forma grafica pero debe seguir estando
+ * disponible para lectores de pantalla, como la posicion de un carrusel indicada con puntos.
+ * No se usa `display: none` ni `visibility: hidden` porque ambos retiran el elemento del
+ * arbol de accesibilidad, que es justo lo contrario de lo que se busca.
+ */
+.appland-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .appland-section {
   padding-block: var(--appland-section-space);
   scroll-margin-top: calc(var(--appland-header-height) + 20px);
@@ -95,7 +115,10 @@ textarea {
   font-weight: 750;
   line-height: 1.2;
   text-align: center;
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
 }
 
 .appland-button--primary {
@@ -145,7 +168,9 @@ textarea {
 .appland-revealed {
   opacity: 1;
   transform: none;
-  transition: opacity 500ms ease, transform 500ms ease;
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

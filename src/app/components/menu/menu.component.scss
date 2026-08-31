@@ -8,7 +8,10 @@
   align-items: center;
   border-bottom: 1px solid transparent;
   background: rgba(9, 13, 18, 0.25);
-  transition: background-color 180ms ease, border-color 180ms ease, backdrop-filter 180ms ease;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    backdrop-filter 180ms ease;
 }
 
 .menu--scrolled {
@@ -65,7 +68,7 @@
 
 .menu__link--active::after,
 .compact-menu__link--active::after {
-  content: "";
+  content: '';
   width: 6px;
   height: 6px;
   margin-left: 0.5rem;

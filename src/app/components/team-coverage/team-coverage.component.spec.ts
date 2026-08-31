@@ -9,8 +9,7 @@ describe('TeamCoverageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [TeamCoverageComponent],
+      imports: [RouterTestingModule, TeamCoverageComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(TeamCoverageComponent);
     fixture.componentRef.setInput('countries', HOME_CONTENT.countries);
@@ -18,20 +17,19 @@ describe('TeamCoverageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders the six official countries, including Guatemala, with their roles', () => {
-    expect(fixture.debugElement.queryAll(By.css('.country-card')).length).toBe(6);
+  it('renders every approved country by name, without the role text under each card', () => {
+    expect(fixture.debugElement.queryAll(By.css('.country-card')).length).toBe(HOME_CONTENT.countries.length);
     HOME_CONTENT.countries.forEach((country) => {
       expect(fixture.nativeElement.textContent).toContain(country.name);
-      expect(fixture.nativeElement.textContent).toContain(country.role);
     });
   });
 
   it('serves every flag from a local asset, never a remote flag service', () => {
     const flags = fixture.debugElement.queryAll(By.css('.country-card__flag img'));
-    expect(flags.length).toBe(6);
+    expect(flags.length).toBe(HOME_CONTENT.countries.length);
     flags.forEach((flag, index) => {
       const src = flag.attributes['src']!;
-      expect(src.startsWith('assets/')).toBeTrue();
+      expect(src.startsWith('assets/')).toBe(true);
       expect(src).not.toContain('//');
       expect(flag.attributes['alt']).toBe(HOME_CONTENT.countries[index].flag.alt);
     });
@@ -39,9 +37,15 @@ describe('TeamCoverageComponent', () => {
 
   it('has no clocks, timers or remote images', () => {
     fixture.debugElement.queryAll(By.css('img')).forEach((image) => {
-      expect(image.attributes['src']!.startsWith('assets/')).toBeTrue();
+      expect(image.attributes['src']!.startsWith('assets/')).toBe(true);
     });
-    expect((fixture.componentInstance as unknown as { timeInterval?: unknown }).timeInterval).toBeUndefined();
+    expect(
+      (
+        fixture.componentInstance as unknown as {
+          timeInterval?: unknown;
+        }
+      ).timeInterval,
+    ).toBeUndefined();
     expect(fixture.nativeElement.textContent).not.toContain('24/7');
   });
 

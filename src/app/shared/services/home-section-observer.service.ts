@@ -1,11 +1,7 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import {
-  HOME_SECTION_IDS,
-  HomeSectionId,
-  ObservedRegionId,
-} from '../../feature/pages/home/home-content.models';
+import { HOME_SECTION_IDS, HomeSectionId, ObservedRegionId } from '../../feature/pages/home/home-content.models';
 
 const ACTIVE_NAVIGATION_MAP: Readonly<Record<ObservedRegionId, HomeSectionId>> = {
   inicio: 'inicio',
@@ -23,6 +19,8 @@ const ACTIVE_NAVIGATION_MAP: Readonly<Record<ObservedRegionId, HomeSectionId>> =
 
 @Injectable({ providedIn: 'root' })
 export class HomeSectionObserverService implements OnDestroy {
+  private readonly router = inject(Router);
+
   readonly activationThresholdPx = 140;
 
   private readonly registeredRegionIds = new Set<ObservedRegionId>();
@@ -34,7 +32,7 @@ export class HomeSectionObserverService implements OnDestroy {
   readonly activeRegionId = this.activeRegionSubject.asObservable();
   readonly activeNavigationFragment = this.activeNavigationSubject.asObservable();
 
-  constructor(private readonly router: Router) {
+  constructor() {
     this.syncRoute(this.router.url);
     this.routeSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart || event instanceof NavigationEnd) {

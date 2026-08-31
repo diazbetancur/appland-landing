@@ -36,7 +36,7 @@
 }
 
 .contact__highlight {
-  color: var(--appland-secondary);
+  color: var(--appland-primary);
 }
 
 .contact__lead {
@@ -145,19 +145,19 @@
 
 .contact__ribbon--one {
   inset: 4%;
-  background: conic-gradient(from 200deg, transparent, var(--appland-secondary) 24%, #7d2b0d 42%, transparent 62%);
+  background: conic-gradient(from 200deg, transparent, var(--appland-primary) 24%, #0d5b62 42%, transparent 62%);
   transform: rotate(-14deg);
 }
 
 .contact__ribbon--two {
   inset: 20%;
-  background: conic-gradient(from 40deg, transparent, #1b232e 22%, var(--appland-secondary) 46%, transparent 68%);
+  background: conic-gradient(from 40deg, transparent, #1b232e 22%, var(--appland-primary) 46%, transparent 68%);
   transform: rotate(22deg);
 }
 
 .contact__ribbon--three {
   inset: 36%;
-  background: conic-gradient(from 300deg, transparent, var(--appland-secondary-hover) 30%, transparent 58%);
+  background: conic-gradient(from 300deg, transparent, var(--appland-primary-hover) 30%, transparent 58%);
   transform: rotate(-40deg);
 }
 

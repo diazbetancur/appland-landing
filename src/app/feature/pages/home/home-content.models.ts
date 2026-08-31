@@ -48,6 +48,12 @@ export interface FragmentLink {
   readonly id: string;
   readonly label: string;
   readonly fragment: HomeSectionId;
+  /**
+   * Parametros de consulta del enlace. La seccion de servicios es un componente de pestanas
+   * con un solo anclaje, asi que el fragmento por si solo no puede seleccionar un servicio
+   * concreto: eso lo hace un parametro que el componente lee de la URL.
+   */
+  readonly queryParams?: Readonly<Record<string, string>>;
 }
 
 export interface ConversionAction {
@@ -132,10 +138,13 @@ export interface Benefit {
   readonly visualKey?: string;
 }
 
+/**
+ * Al incorporar un pais nuevo hay que anadir su codigo aqui y su bandera SVG local en
+ * `src/assets/images/home/flags/`, cuyo ATTRIBUTION.md explica de donde salen los archivos.
+ */
 export interface CountryPresence {
-  readonly code: 'HN' | 'US' | 'CO' | 'PA' | 'BD' | 'GT';
+  readonly code: 'HN' | 'US' | 'CO' | 'PA' | 'GT' | 'MX' | 'SV' | 'PE' | 'EC';
   readonly name: string;
-  readonly role: string;
   readonly flag: ApprovedAsset;
 }
 

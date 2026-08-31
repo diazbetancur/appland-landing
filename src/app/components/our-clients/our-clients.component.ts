@@ -2,10 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Client } from '../../feature/pages/home/home-content.models';
 
 @Component({
-    selector: 'app-our-clients',
-    templateUrl: './our-clients.component.html',
-    styleUrls: ['./our-clients.component.scss'],
-    standalone: false
+  selector: 'app-our-clients',
+  templateUrl: './our-clients.component.html',
+  styleUrls: ['./our-clients.component.scss'],
 })
 export class OurClientsComponent implements OnInit {
   @Input() clients: readonly Client[] = [];

@@ -7,17 +7,8 @@
   z-index: 0;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 78% 24%,
-      rgba(20, 184, 196, 0.14),
-      transparent 32rem
-    ),
-    radial-gradient(
-      circle at 8% 82%,
-      rgba(20, 184, 196, 0.1),
-      transparent 30rem
-    ),
-    var(--appland-bg);
+    radial-gradient(circle at 78% 24%, rgba(20, 184, 196, 0.14), transparent 32rem),
+    radial-gradient(circle at 8% 82%, rgba(20, 184, 196, 0.1), transparent 30rem), var(--appland-bg);
 }
 
 .hero__inner {
@@ -43,7 +34,7 @@
 h1 {
   max-width: 16ch;
   margin: 0 0 1.15rem;
-  font-size: clamp(2.05rem, 3.5vw, 3.35rem);
+  font-size: clamp(1.8rem, 3.24vw, 3.1rem);
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 1.12;
@@ -59,7 +50,7 @@ h1 {
 }
 
 .hero__highlight {
-  color: var(--appland-secondary);
+  color: var(--appland-primary);
 }
 
 .hero__actions {
@@ -83,6 +74,20 @@ h1 {
 .hero__actions svg {
   flex-shrink: 0;
   stroke: currentColor;
+}
+
+/**
+ * El boton de conversion del hero va en naranja, mientras el del menu principal se mantiene
+ * en cyan. Los dos comparten la clase global `.appland-button--primary`, asi que la regla se
+ * acota a `.hero__actions`: cambiar la clase global arrastraria tambien al del menu.
+ */
+.hero__actions .appland-button--primary {
+  background: var(--appland-secondary);
+  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
+}
+
+.hero__actions .appland-button--primary:hover {
+  background: var(--appland-secondary-hover);
 }
 
 .hero__visual {
@@ -129,23 +134,15 @@ h1 {
   padding: 1.15rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--appland-radius);
-  background: linear-gradient(
-    170deg,
-    rgba(30, 40, 53, 0.34),
-    rgba(13, 19, 27, 0.22)
-  );
+  background: linear-gradient(170deg, rgba(30, 40, 53, 0.34), rgba(13, 19, 27, 0.22));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
 }
 
 .hero__card--accent {
-  border-color: rgba(240, 90, 36, 0.35);
-  background: linear-gradient(
-    170deg,
-    rgba(240, 90, 36, 0.18),
-    rgba(20, 14, 11, 0.22)
-  );
+  border-color: rgba(20, 184, 196, 0.35);
+  background: linear-gradient(170deg, rgba(20, 184, 196, 0.18), rgba(11, 18, 20, 0.22));
 }
 
 .hero__card p {
@@ -176,11 +173,7 @@ h1 {
 
 .hero__card-icon--primary {
   border: 1px solid rgba(20, 184, 196, 0.5);
-  background: radial-gradient(
-    circle at 50% 40%,
-    rgba(20, 184, 196, 0.42),
-    rgba(20, 184, 196, 0.1)
-  );
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.42), rgba(20, 184, 196, 0.1));
   box-shadow:
     0 0 22px rgba(20, 184, 196, 0.45),
     inset 0 0 14px rgba(20, 184, 196, 0.3);
@@ -192,20 +185,16 @@ h1 {
 }
 
 .hero__card-icon--secondary {
-  border: 1px solid rgba(240, 90, 36, 0.55);
-  background: radial-gradient(
-    circle at 50% 40%,
-    rgba(240, 90, 36, 0.5),
-    rgba(240, 90, 36, 0.14)
-  );
+  border: 1px solid rgba(20, 184, 196, 0.55);
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.5), rgba(20, 184, 196, 0.14));
   box-shadow:
-    0 0 22px rgba(240, 90, 36, 0.45),
-    inset 0 0 14px rgba(240, 90, 36, 0.3);
+    0 0 22px rgba(20, 184, 196, 0.45),
+    inset 0 0 14px rgba(20, 184, 196, 0.3);
 }
 
 .hero__card-icon--secondary svg {
-  stroke: #ffb694;
-  filter: drop-shadow(0 0 5px rgba(240, 90, 36, 0.9));
+  stroke: #8fe3ea;
+  filter: drop-shadow(0 0 5px rgba(20, 184, 196, 0.9));
 }
 
 .hero__ghost {
@@ -225,11 +214,7 @@ h1 {
   left: 45%;
   right: auto;
   font-size: clamp(3.2rem, 10vw, 9rem);
-  background: linear-gradient(
-    180deg,
-    rgba(245, 247, 250, 0.52),
-    rgba(245, 247, 250, 0.04)
-  );
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0.52), rgba(245, 247, 250, 0.04));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -254,12 +239,7 @@ h1 {
 @media (min-width: 1024px) {
   .hero__ghost--top {
     top: 50%;
-    transform: translateY(
-      calc(
-        -0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 *
-          clamp(3.2rem, 10vw, 9rem)
-      )
-    );
+    transform: translateY(calc(-0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 * clamp(3.2rem, 10vw, 9rem)));
   }
 }
 

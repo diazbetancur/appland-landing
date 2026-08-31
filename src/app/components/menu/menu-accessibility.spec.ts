@@ -7,8 +7,8 @@ import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { MenuComponent } from './menu.component';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  imports: [A11yModule],
 })
 class AccessibilityRouteStubComponent {}
 
@@ -18,8 +18,12 @@ describe('MenuComponent accessibility', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [A11yModule, RouterTestingModule.withRoutes([{ path: '', component: AccessibilityRouteStubComponent }])],
-      declarations: [MenuComponent, AccessibilityRouteStubComponent],
+      imports: [
+        A11yModule,
+        RouterTestingModule.withRoutes([{ path: '', component: AccessibilityRouteStubComponent }]),
+        MenuComponent,
+        AccessibilityRouteStubComponent,
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
@@ -46,7 +50,7 @@ describe('MenuComponent accessibility', () => {
     component.onEscape();
     fixture.detectChanges();
     tick();
-    expect(component.isMenuOpen).toBeFalse();
+    expect(component.isMenuOpen).toBe(false);
     expect(document.activeElement).toBe(fixture.debugElement.query(By.css('.menu__toggle')).nativeElement);
   }));
 

@@ -9,8 +9,25 @@
   </div>
 
   <div class="cases__carousel">
-    <button type="button" class="cases__control cases__control--prev" aria-label="Caso anterior" [disabled]="!carousel.canMovePrevious" (click)="carousel.movePrevious()">
-      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+    <button
+      type="button"
+      class="cases__control cases__control--prev"
+      aria-label="Caso anterior"
+      [disabled]="!carousel.canMovePrevious"
+      (click)="carousel.movePrevious()"
+    >
+      <svg
+        aria-hidden="true"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M15 5l-7 7 7 7"></path>
+      </svg>
     </button>
 
     <div
@@ -19,16 +36,17 @@
       [class.cases__track--few]="cases.length < 3"
       appHorizontalCarousel
       [itemCount]="cases.length"
+      [loop]="true"
       role="region"
       aria-labelledby="casos-title"
       aria-roledescription="carrusel"
       tabindex="0"
-      >
+    >
       @for (item of cases; track item; let index = $index) {
         <article class="case-card">
           @if (item.media; as media) {
             <div class="case-card__media">
-              <img [src]="media.src" [alt]="media.alt" [width]="media.width" [height]="media.height" loading="lazy">
+              <img [src]="media.src" [alt]="media.alt" [width]="media.width" [height]="media.height" loading="lazy" />
             </div>
           }
           <div class="case-card__body">
@@ -41,7 +59,18 @@
             @if (destinationHref(item.destination); as href) {
               <a [href]="href" target="_blank" rel="noopener noreferrer">
                 Ver caso
-                <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                <svg
+                  aria-hidden="true"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
               </a>
             }
           </div>
@@ -49,9 +78,32 @@
       }
     </div>
 
-    <button type="button" class="cases__control cases__control--next" aria-label="Caso siguiente" [disabled]="!carousel.canMoveNext" (click)="carousel.moveNext()">
-      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg>
+    <button
+      type="button"
+      class="cases__control cases__control--next"
+      aria-label="Caso siguiente"
+      [disabled]="!carousel.canMoveNext"
+      (click)="carousel.moveNext()"
+    >
+      <svg
+        aria-hidden="true"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M9 5l7 7-7 7"></path>
+      </svg>
     </button>
   </div>
-  <p class="cases__position" aria-live="polite">{{ carousel.positionLabel }}</p>
+  <!--
+    El recorrido es circular y no lleva indicador de posicion visible: los extremos dejaron de
+    existir, asi que las flechas bastan. La posicion si se mantiene para tecnologia asistiva,
+    en una region aria-live oculta visualmente, porque quien navega sin ver la pantalla no
+    tiene otra forma de saber por donde va.
+  -->
+  <p class="cases__position appland-visually-hidden" aria-live="polite">{{ carousel.positionLabel }}</p>
 </div>

@@ -1,29 +1,14 @@
 <div class="footer appland-container">
   <div class="footer__grid">
     <div class="footer__brand">
-      <a
-        class="footer__logo"
-        [routerLink]="['/']"
-        fragment="inicio"
-        aria-label="APPLAND, inicio"
-      >
-        <img
-          src="assets/images/logo-appland.png"
-          width="215"
-          height="44"
-          alt=""
-        />
+      <a class="footer__logo" [routerLink]="['/']" fragment="inicio" aria-label="APPLAND, inicio">
+        <img src="assets/images/logo-appland.png" width="215" height="44" alt="" />
       </a>
       <p>{{ content.brandSummary }}</p>
       @if (content.socialLinks.length) {
         <div class="footer__social">
           @for (link of content.socialLinks; track link) {
-            <a
-              [href]="destinationHref(link)"
-              target="_blank"
-              rel="noopener noreferrer"
-              >{{ link.label }}</a
-            >
+            <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
           }
         </div>
       }
@@ -34,9 +19,7 @@
       <ul>
         @for (item of content.navigation; track item) {
           <li>
-            <a [routerLink]="['/']" [fragment]="item.fragment">{{
-              item.label
-            }}</a>
+            <a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a>
           </li>
         }
       </ul>
@@ -47,9 +30,7 @@
       <ul>
         @for (item of content.services; track item) {
           <li>
-            <a [routerLink]="['/']" [fragment]="item.fragment">{{
-              item.label
-            }}</a>
+            <a [routerLink]="['/']" [fragment]="item.fragment" [queryParams]="item.queryParams">{{ item.label }}</a>
           </li>
         }
       </ul>
@@ -59,30 +40,20 @@
       <h2>Contacto</h2>
       <ul>
         <li>
-          <a [href]="destinationHref(content.contact.email)">{{
-            content.contact.email.value
-          }}</a>
+          <a [href]="destinationHref(content.contact.email)">{{ content.contact.email.value }}</a>
         </li>
         <li>
           <a [href]="destinationHref(content.contact.phone)">+504 3394-9211</a>
         </li>
         <li>
-          <a
-            href="https://wa.me/50433949211"
-            target="_blank"
-            rel="noopener noreferrer"
-            >WhatsApp</a
-          >
+          <a href="https://wa.me/50433949211" target="_blank" rel="noopener noreferrer">WhatsApp</a>
         </li>
       </ul>
     </div>
   </div>
 
   <div class="footer__bottom">
-    <p>
-      © {{ currentYear }} {{ content.copyrightOwner }}. Todos los derechos
-      reservados.
-    </p>
+    <p>© {{ currentYear }} {{ content.copyrightOwner }}. Todos los derechos reservados.</p>
     @if (content.legalLinks.length) {
       <div>
         @for (link of content.legalLinks; track link) {

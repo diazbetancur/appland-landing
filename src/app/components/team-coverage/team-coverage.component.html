@@ -12,29 +12,72 @@
       @if (action.kind === 'router') {
         <a class="appland-button team__cta" [routerLink]="['/']" [fragment]="action.fragment">
           Conoce nuestro equipo
-          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
         </a>
       } @else {
         <a class="appland-button team__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
           Conoce nuestro equipo
-          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
         </a>
       }
     }
 
-    <img class="team__wave" src="assets/images/home/hero/wave.png" width="700" height="233" alt="" aria-hidden="true" loading="lazy">
-    <img class="team__sphere" src="assets/images/home/hero/sphere.png" width="260" height="241" alt="" aria-hidden="true" loading="lazy">
+    <img
+      class="team__wave"
+      src="assets/images/home/hero/wave.png"
+      width="700"
+      height="233"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    />
+    <img
+      class="team__sphere"
+      src="assets/images/home/hero/sphere.png"
+      width="260"
+      height="241"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    />
   </div>
 
   <ul class="team__countries" aria-label="Países con presencia de APPLAND">
     @for (country of countries; track country) {
       <li class="country-card">
         <span class="country-card__flag">
-          <img [src]="country.flag.src" [alt]="country.flag.alt" [width]="country.flag.width" [height]="country.flag.height" loading="lazy">
+          <img
+            [src]="country.flag.src"
+            [alt]="country.flag.alt"
+            [width]="country.flag.width"
+            [height]="country.flag.height"
+            loading="lazy"
+          />
         </span>
         <h3>{{ country.name }}</h3>
         <span class="country-card__rule" aria-hidden="true"></span>
-        <p>{{ country.role }}</p>
       </li>
     }
   </ul>
