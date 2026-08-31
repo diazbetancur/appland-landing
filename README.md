@@ -22,6 +22,8 @@ Run `npm start` for a local-only dev server. Navigate to `http://localhost:4200/
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+Since `specs/005-test-safety-net`, the schematics generate a spec file alongside every component, directive, service, pipe, guard, interceptor, resolver and class. The project previously set `skipTests: true` for all eight, which is why several files ended up with no tests at all. Fill in the generated spec rather than deleting it.
+
 ## Build
 
 Run `ng build` to build the project. The browser artifacts are written to `dist/appland/browser/`.

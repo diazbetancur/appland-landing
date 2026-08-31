@@ -39,9 +39,12 @@ describe('HomeComponent', () => {
   });
 
   it('does not render the inherited Home composition or metrics', () => {
+    // Este caso protegia tambien la ausencia de app-choose-us y app-our-team. El spec 005
+    // elimino esos componentes del proyecto por estar muertos, asi que asserear su ausencia
+    // dejo de poder fallar. Las dos aserciones se retiraron en vez de conservarse vacuas.
+    // app-service sigue existiendo, propiedad de la ruta /service, asi que su ausencia en la
+    // Home si sigue siendo una condicion verificable.
     expect(fixture.debugElement.query(By.css('app-service'))).toBeNull();
-    expect(fixture.debugElement.query(By.css('app-choose-us'))).toBeNull();
-    expect(fixture.debugElement.query(By.css('app-our-team'))).toBeNull();
     expect(fixture.nativeElement.textContent).not.toContain('100K');
   });
 });
