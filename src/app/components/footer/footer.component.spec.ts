@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
+import { HOME_CONTENT, SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { FooterComponent } from './footer.component';
 
 describe('FooterComponent', () => {
@@ -35,5 +35,16 @@ describe('FooterComponent', () => {
     const brandMark = fixture.debugElement.query(By.css('.footer__logo img'));
     expect(brandLink.attributes['aria-label']).toBe('APPLAND, inicio');
     expect(brandMark.attributes['alt']).toBe('');
+  });
+
+  it('points every service link at its own service, not just the generic section', () => {
+    // Los cinco enlaces caian en la misma seccion porque la de servicios es un componente
+    // de pestanas con un solo anclaje. El parametro identifica cual abrir.
+    const links = fixture.debugElement.queryAll(By.css('a[href*="servicio="]'));
+
+    expect(links.length).toBe(HOME_CONTENT.footer.services.length);
+
+    const requested = links.map((link) => new URL(link.nativeElement.href).searchParams.get(SERVICE_QUERY_PARAM));
+    expect(requested).toEqual(HOME_CONTENT.services.map((service) => service.id));
   });
 });

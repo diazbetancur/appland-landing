@@ -55,4 +55,16 @@ describe('BannerComponent', () => {
   it('does not render the capabilities list of icons/labels below the actions', () => {
     expect(fixture.debugElement.query(By.css('.hero__capabilities'))).toBeNull();
   });
+
+  it('states the approved business-focus claim on the accent card', () => {
+    const accentCard = fixture.debugElement.query(By.css('.hero__card--accent'));
+
+    expect(accentCard).not.toBeNull();
+
+    // Los dos parrafos se apilan como bloques, asi que se asserean por separado en vez de
+    // concatenar su texto: entre ellos no hay nodo de texto que los separe.
+    const lines = accentCard.queryAll(By.css('p')).map((paragraph) => paragraph.nativeElement.textContent.trim());
+
+    expect(lines).toEqual(['100%', 'enfocadas en tu negocio']);
+  });
 });

@@ -1,12 +1,27 @@
 import { ApprovedAsset, ApprovedDestination, CaseStudy, Client, HomeContent, Product } from './home-content.models';
 
+/**
+ * Nombre del parametro de consulta que selecciona un servicio concreto.
+ *
+ * La seccion de servicios es un componente de pestanas con un solo anclaje, asi que el
+ * fragmento no puede identificar el servicio. Se define aqui y lo consumen tanto los enlaces
+ * que lo escriben como el componente que lo lee, para que el nombre viva en un solo sitio.
+ */
+export const SERVICE_QUERY_PARAM = 'servicio';
+
 function approvedAsset(src: string, width: number, height: number, alt: string, decorative = false): ApprovedAsset {
   return { src, width, height, alt, decorative, publicationStatus: 'approved' };
 }
 
-/** Flags are local public-domain SVGs; never a remote flag service. */
+/**
+ * Flags are local SVGs committed to the repository; never a remote flag service.
+ *
+ * They come from the MIT-licensed flag-icons square set, which is not a project dependency.
+ * See `src/assets/images/home/flags/ATTRIBUTION.md`. The square source matches the circular
+ * mask the cards apply, so the flag fills it without being cropped.
+ */
 function countryFlag(slug: string, country: string): ApprovedAsset {
-  return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 40, `Bandera de ${country}`);
+  return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 60, `Bandera de ${country}`);
 }
 
 const meetingAction = {
@@ -211,7 +226,7 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'software',
       name: 'Desarrollo de Software',
-      summary: 'Apps móviles, plataformas web y sistemas empresariales.',
+      summary: 'Tecnología a la medida para resolver desafíos reales de tu negocio.',
       visualKey: 'code',
       media: approvedAsset('assets/images/home/services/software.png', 428, 380, '', true),
       highlights: [
@@ -227,8 +242,7 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'artificial-intelligence',
       name: 'Inteligencia Artificial',
-      summary:
-        'Agentes y asistentes de inteligencia artificial que aplican automatización para resolver desafíos reales de tu negocio.',
+      summary: 'Soluciones inteligentes que automatizan procesos y mejoran la experiencia de tus clientes.',
       visualKey: 'ai',
       media: approvedAsset('assets/images/home/services/artificial-intelligence.png', 480, 256, '', true),
       highlights: [
@@ -241,7 +255,7 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'staff-augmentation',
       name: 'Staff Augmentation',
-      summary: 'Desarrolladores, QA, UX/UI y equipos dedicados.',
+      summary: 'Incorpora talento especializado a tu equipo, cuando lo necesitas.',
       visualKey: 'people',
       media: approvedAsset('assets/images/home/services/staff-augmentation.png', 304, 380, '', true),
       highlights: [
@@ -275,8 +289,7 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'technology-consulting',
       name: 'Consultoría Tecnológica',
-      summary:
-        'Impulsamos tu transformación digital con arquitectura tecnológica alineada a tu negocio y estrategia de crecimiento.',
+      summary: 'Alineamos tecnología, estrategia y negocio para impulsar tu crecimiento.',
       visualKey: 'strategy',
       media: approvedAsset('assets/images/home/services/technology-consulting.png', 317, 380, '', true),
       highlights: [
@@ -481,38 +494,47 @@ export const HOME_CONTENT: HomeContent = {
     {
       code: 'HN',
       name: 'Honduras',
-      role: 'HQ & Desarrollo',
       flag: countryFlag('hn', 'Honduras'),
     },
     {
       code: 'US',
       name: 'Estados Unidos',
-      role: 'Business Development',
       flag: countryFlag('us', 'Estados Unidos'),
     },
     {
       code: 'CO',
       name: 'Colombia',
-      role: 'Software Development',
       flag: countryFlag('co', 'Colombia'),
     },
     {
       code: 'PA',
       name: 'Panamá',
-      role: 'Operaciones',
       flag: countryFlag('pa', 'Panamá'),
-    },
-    {
-      code: 'BD',
-      name: 'Bangladesh',
-      role: 'Engineering',
-      flag: countryFlag('bd', 'Bangladesh'),
     },
     {
       code: 'GT',
       name: 'Guatemala',
-      role: 'QA & Support',
       flag: countryFlag('gt', 'Guatemala'),
+    },
+    {
+      code: 'MX',
+      name: 'México',
+      flag: countryFlag('mx', 'México'),
+    },
+    {
+      code: 'SV',
+      name: 'El Salvador',
+      flag: countryFlag('sv', 'El Salvador'),
+    },
+    {
+      code: 'PE',
+      name: 'Perú',
+      flag: countryFlag('pe', 'Perú'),
+    },
+    {
+      code: 'EC',
+      name: 'Ecuador',
+      flag: countryFlag('ec', 'Ecuador'),
     },
   ],
   contact,
@@ -523,22 +545,31 @@ export const HOME_CONTENT: HomeContent = {
     services: [
       {
         id: 'footer-software',
+        queryParams: { [SERVICE_QUERY_PARAM]: 'software' },
         label: 'Desarrollo de Software',
         fragment: 'servicios',
       },
-      { id: 'footer-ai', label: 'Inteligencia Artificial', fragment: 'ia' },
+      {
+        id: 'footer-ai',
+        queryParams: { [SERVICE_QUERY_PARAM]: 'artificial-intelligence' },
+        label: 'Inteligencia Artificial',
+        fragment: 'ia',
+      },
       {
         id: 'footer-staff',
+        queryParams: { [SERVICE_QUERY_PARAM]: 'staff-augmentation' },
         label: 'Staff Augmentation',
         fragment: 'servicios',
       },
       {
         id: 'footer-automation',
+        queryParams: { [SERVICE_QUERY_PARAM]: 'process-automation' },
         label: 'Automatización de Procesos',
         fragment: 'servicios',
       },
       {
         id: 'footer-consulting',
+        queryParams: { [SERVICE_QUERY_PARAM]: 'technology-consulting' },
         label: 'Consultoría Tecnológica',
         fragment: 'servicios',
       },

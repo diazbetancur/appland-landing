@@ -69,4 +69,78 @@ describe('HorizontalCarouselDirective', () => {
     directive.ngOnDestroy();
     expect(complete).toHaveBeenCalled();
   });
+
+  describe('circular loop', () => {
+    let scrollTo: Mock;
+
+    beforeEach(() => {
+      scrollTo = vi.spyOn(element, 'scrollTo');
+      directive.loop = true;
+    });
+
+    it('keeps both controls usable at either end, because there is no dead end', () => {
+      element.scrollLeft = 0;
+      directive.updateState();
+      expect(directive.canMovePrevious).toBe(true);
+      expect(directive.canMoveNext).toBe(true);
+
+      element.scrollLeft = 600;
+      directive.updateState();
+      expect(directive.canMovePrevious).toBe(true);
+      expect(directive.canMoveNext).toBe(true);
+    });
+
+    it('returns to the first card when advancing past the last one', () => {
+      element.scrollLeft = 600;
+      directive.updateState();
+
+      directive.moveNext();
+
+      // Instantaneo a proposito: animar el regreso recorreria todo el track a la vista.
+      expect(scrollTo).toHaveBeenCalledWith({ left: 0, behavior: 'auto' });
+      expect(scrollBy).not.toHaveBeenCalled();
+    });
+
+    it('jumps to the last card when going back from the first one', () => {
+      element.scrollLeft = 0;
+      directive.updateState();
+
+      directive.movePrevious();
+
+      expect(scrollTo).toHaveBeenCalledWith({ left: 600, behavior: 'auto' });
+      expect(scrollBy).not.toHaveBeenCalled();
+    });
+
+    it('still steps card by card away from the edges', () => {
+      element.scrollLeft = 240;
+      directive.updateState();
+
+      directive.moveNext();
+
+      expect(scrollBy).toHaveBeenCalledWith(expect.objectContaining({ left: 240 }));
+      expect(scrollTo).not.toHaveBeenCalled();
+    });
+
+    it('wraps with the arrow keys too, not only with the controls', () => {
+      element.scrollLeft = 600;
+      directive.updateState();
+
+      directive.onKeydown(new KeyboardEvent('keydown', { key: 'ArrowRight', cancelable: true }));
+
+      expect(scrollTo).toHaveBeenCalledWith({ left: 0, behavior: 'auto' });
+    });
+  });
+
+  it('still stops at the edges when the loop is off, which is the default', () => {
+    const scrollTo = vi.spyOn(element, 'scrollTo');
+    element.scrollLeft = 600;
+    directive.updateState();
+
+    expect(directive.loop).toBe(false);
+    expect(directive.canMoveNext).toBe(false);
+
+    directive.moveNext();
+
+    expect(scrollTo).not.toHaveBeenCalled();
+  });
 });

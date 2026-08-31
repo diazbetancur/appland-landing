@@ -38,4 +38,22 @@ describe('SuccessStoriesComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('.cases__control')).length).toBe(2);
     expect((fixture.componentInstance as unknown as { interval?: unknown }).interval).toBeUndefined();
   });
+
+  it('runs the carousel in a circular loop, so the controls never dead-end', () => {
+    const track = fixture.debugElement.query(By.directive(HorizontalCarouselDirective));
+
+    expect(track.injector.get(HorizontalCarouselDirective).loop).toBe(true);
+  });
+
+  it('announces the position to assistive technology without showing any visual indicator', () => {
+    // La seccion no muestra ni contador ni puntos: al ser circular no hay extremos que
+    // senalar. Pero quien navega con lector de pantalla si necesita saber por donde va.
+    const position = fixture.debugElement.query(By.css('.cases__position'));
+
+    expect(fixture.debugElement.query(By.css('.cases__dots'))).toBeNull();
+    expect(position).not.toBeNull();
+    expect(position.attributes['aria-live']).toBe('polite');
+    expect(position.nativeElement.classList).toContain('appland-visually-hidden');
+    expect(position.nativeElement.textContent.trim()).toMatch(/^\d+ de \d+$/);
+  });
 });

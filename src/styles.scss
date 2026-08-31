@@ -54,6 +54,26 @@ textarea {
   margin-inline: auto;
 }
 
+/**
+ * Oculta un elemento visualmente conservandolo en el arbol de accesibilidad.
+ *
+ * Se usa donde la informacion se comunica de forma grafica pero debe seguir estando
+ * disponible para lectores de pantalla, como la posicion de un carrusel indicada con puntos.
+ * No se usa `display: none` ni `visibility: hidden` porque ambos retiran el elemento del
+ * arbol de accesibilidad, que es justo lo contrario de lo que se busca.
+ */
+.appland-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .appland-section {
   padding-block: var(--appland-section-space);
   scroll-margin-top: calc(var(--appland-header-height) + 20px);
