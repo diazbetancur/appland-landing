@@ -24,7 +24,14 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng build` to build the project. The browser artifacts are written to `dist/appland/browser/`.
+
+The project uses the esbuild-based `@angular/build:application` builder. The previous webpack builder (`@angular-devkit/build-angular:browser`) was removed in `specs/003-build-system`, which is also why the output moved from `dist/appland/` into the `browser/` subdirectory.
+
+## Code quality
+
+- `npm run lint` runs ESLint over TypeScript, separate templates and inline templates, including Angular's template accessibility rules. It fails on any error and caps warnings at the current architectural-modernization debt.
+- `npm run format` applies Prettier to `src/**/*.{ts,html,scss}`; `npm run format:check` verifies without writing.
 
 ## Running unit tests
 
