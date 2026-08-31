@@ -18,11 +18,23 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() itemCount = 0;
+
+  /**
+   * Recorrido circular: desde la ultima tarjeta, avanzar vuelve a la primera, y desde la
+   * primera, retroceder lleva a la ultima. Con el activado los controles no se deshabilitan
+   * en los extremos, porque dejan de existir extremos desde los que no se pueda seguir.
+   */
+  @Input() loop = false;
+
   @Output() readonly positionChange = new EventEmitter<number>();
 
   currentIndex = 0;
   canMovePrevious = false;
   canMoveNext = false;
+
+  /** Extremos reales del scroll, al margen de lo que `loop` deje pulsable. */
+  private atStart = true;
+  private atEnd = false;
   private destroyed = false;
 
   get positionLabel(): string {
@@ -34,10 +46,18 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   }
 
   movePrevious(): void {
+    if (this.loop && this.atStart) {
+      this.jumpTo(this.maxScroll());
+      return;
+    }
     this.move(-1);
   }
 
   moveNext(): void {
+    if (this.loop && this.atEnd) {
+      this.jumpTo(0);
+      return;
+    }
     this.move(1);
   }
 
@@ -47,7 +67,11 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
       return;
     }
     event.preventDefault();
-    this.move(event.key === 'ArrowLeft' ? -1 : 1);
+    if (event.key === 'ArrowLeft') {
+      this.movePrevious();
+    } else {
+      this.moveNext();
+    }
   }
 
   @HostListener('scroll')
@@ -57,14 +81,16 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
       return;
     }
     const element = this.elementRef.nativeElement;
-    const maxScroll = Math.max(0, element.scrollWidth - element.clientWidth);
+    const maxScroll = this.maxScroll();
     const step = this.cardStep();
     this.currentIndex = Math.min(
       Math.max(0, Math.round(element.scrollLeft / Math.max(step, 1))),
       Math.max(0, this.itemCount - 1),
     );
-    this.canMovePrevious = element.scrollLeft > 2;
-    this.canMoveNext = element.scrollLeft < maxScroll - 2;
+    this.atStart = element.scrollLeft <= 2;
+    this.atEnd = element.scrollLeft >= maxScroll - 2;
+    this.canMovePrevious = this.loop || !this.atStart;
+    this.canMoveNext = this.loop || !this.atEnd;
     this.positionChange.emit(this.currentIndex);
   }
 
@@ -81,6 +107,21 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
       left: this.cardStep() * direction,
       behavior: reducedMotion ? 'auto' : 'smooth',
     });
+  }
+
+  /**
+   * El salto circular es instantaneo a proposito. Con desplazamiento suave, volver de la
+   * ultima tarjeta a la primera recorreria todo el track hacia atras a la vista, que es
+   * mareante; el paso normal entre tarjetas si conserva la animacion.
+   */
+  private jumpTo(left: number): void {
+    this.elementRef.nativeElement.scrollTo({ left, behavior: 'auto' });
+    this.updateState();
+  }
+
+  private maxScroll(): number {
+    const element = this.elementRef.nativeElement;
+    return Math.max(0, element.scrollWidth - element.clientWidth);
   }
 
   private cardStep(): number {

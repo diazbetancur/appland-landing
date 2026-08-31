@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
+import { provideRouter } from '@angular/router';
+import { provideLocationMocks } from '@angular/common/testing';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
+import { HOME_CONTENT, SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { HomeServicesComponent } from './home-services.component';
 
 describe('HomeServicesComponent', () => {
@@ -8,7 +12,12 @@ describe('HomeServicesComponent', () => {
   let component: HomeServicesComponent;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [HomeServicesComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [HomeServicesComponent],
+      // El componente lee el parametro de consulta que selecciona la pestana, asi que
+      // necesita un router desde el spec 006 en adelante.
+      providers: [provideRouter([]), provideLocationMocks()],
+    }).compileComponents();
     fixture = TestBed.createComponent(HomeServicesComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('services', HOME_CONTENT.services);
@@ -43,13 +52,31 @@ describe('HomeServicesComponent', () => {
     expect(labels).toEqual(service.highlights!.map((highlight) => highlight.label));
   });
 
-  it('derives every highlight label from the approved service summary', () => {
+  /**
+   * Guardia contra capacidades inventadas en los iconos.
+   *
+   * La version original de esta prueba exigia que la etiqueta de cada icono apareciera
+   * dentro del resumen del servicio, usando el resumen como fuente de verdad. Ese mecanismo
+   * dejo de ser viable cuando los resumenes pasaron a ser propuestas de valor en vez de
+   * enumeraciones de capacidades, precisamente para no repetir lo que los iconos ya dicen.
+   *
+   * El proposito se conserva anclando las etiquetas aprobadas aqui: nadie puede anadir,
+   * quitar ni renombrar una capacidad sin editar esta lista a proposito, que es exactamente
+   * la barrera que el guardia original buscaba.
+   */
+  const APPROVED_HIGHLIGHTS: Readonly<Record<string, readonly string[]>> = {
+    software: ['Apps móviles', 'Plataformas web', 'Sistemas empresariales'],
+    'artificial-intelligence': ['Agentes IA', 'Automatización', 'Asistentes de voz', 'Asistentes de chat'],
+    'staff-augmentation': ['Desarrolladores', 'QA', 'UX/UI', 'Equipos dedicados'],
+    'process-automation': ['Optimización operativa', 'IA aplicada', 'Integraciones'],
+    'technology-consulting': ['Transformación digital', 'Arquitectura tecnológica'],
+  };
+
+  it('exposes only approved capability labels on the service icons', () => {
+    expect(HOME_CONTENT.services.map((service) => service.id).sort()).toEqual(Object.keys(APPROVED_HIGHLIGHTS).sort());
+
     HOME_CONTENT.services.forEach((service) => {
-      const summary = service.summary.toLowerCase();
-      service.highlights!.forEach((highlight) => {
-        const head = highlight.label.toLowerCase().split(' ')[0].replace(/s$/, '');
-        expect(summary).toContain(head);
-      });
+      expect(service.highlights?.map((highlight) => highlight.label)).toEqual(APPROVED_HIGHLIGHTS[service.id]);
     });
   });
 
@@ -73,5 +100,50 @@ describe('HomeServicesComponent', () => {
     component.onTabKeydown({ key: 'ArrowRight', preventDefault } as unknown as KeyboardEvent, 4);
     expect(component.activeServiceId).toBe(HOME_CONTENT.services[0].id);
     expect(preventDefault).toHaveBeenCalledTimes(4);
+  });
+
+  it('opens the service requested through the URL instead of defaulting to the first one', async () => {
+    // Los enlaces del pie de pagina llevaban a la seccion generica porque el fragmento no
+    // puede identificar una pestana. Esta prueba fija que el parametro si la selecciona.
+    const requestedId = HOME_CONTENT.services[2].id;
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      imports: [HomeServicesComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { queryParamMap: of(convertToParamMap({ [SERVICE_QUERY_PARAM]: requestedId })) },
+        },
+      ],
+    }).compileComponents();
+
+    const requested = TestBed.createComponent(HomeServicesComponent);
+    requested.componentRef.setInput('services', HOME_CONTENT.services);
+    requested.detectChanges();
+
+    expect(requested.componentInstance.activeServiceId).toBe(requestedId);
+    expect(requestedId).not.toBe(HOME_CONTENT.services[0].id);
+  });
+
+  it('lets a manual tab selection win over the service requested in the URL', async () => {
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      imports: [HomeServicesComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { queryParamMap: of(convertToParamMap({ [SERVICE_QUERY_PARAM]: HOME_CONTENT.services[2].id })) },
+        },
+      ],
+    }).compileComponents();
+
+    const requested = TestBed.createComponent(HomeServicesComponent);
+    requested.componentRef.setInput('services', HOME_CONTENT.services);
+    requested.detectChanges();
+
+    requested.componentInstance.select(HOME_CONTENT.services[4]);
+    requested.detectChanges();
+
+    expect(requested.componentInstance.activeServiceId).toBe(HOME_CONTENT.services[4].id);
   });
 });

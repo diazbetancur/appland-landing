@@ -36,6 +36,7 @@
       [class.cases__track--few]="cases.length < 3"
       appHorizontalCarousel
       [itemCount]="cases.length"
+      [loop]="true"
       role="region"
       aria-labelledby="casos-title"
       aria-roledescription="carrusel"
@@ -98,5 +99,11 @@
       </svg>
     </button>
   </div>
-  <p class="cases__position" aria-live="polite">{{ carousel.positionLabel }}</p>
+  <!--
+    El recorrido es circular y no lleva indicador de posicion visible: los extremos dejaron de
+    existir, asi que las flechas bastan. La posicion si se mantiene para tecnologia asistiva,
+    en una region aria-live oculta visualmente, porque quien navega sin ver la pantalla no
+    tiene otra forma de saber por donde va.
+  -->
+  <p class="cases__position appland-visually-hidden" aria-live="polite">{{ carousel.positionLabel }}</p>
 </div>

@@ -30,7 +30,7 @@
       <ul>
         @for (item of content.services; track item) {
           <li>
-            <a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a>
+            <a [routerLink]="['/']" [fragment]="item.fragment" [queryParams]="item.queryParams">{{ item.label }}</a>
           </li>
         }
       </ul>

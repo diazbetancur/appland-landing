@@ -17,17 +17,16 @@ describe('TeamCoverageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders the six official countries, including Guatemala, with their roles', () => {
-    expect(fixture.debugElement.queryAll(By.css('.country-card')).length).toBe(6);
+  it('renders every approved country by name, without the role text under each card', () => {
+    expect(fixture.debugElement.queryAll(By.css('.country-card')).length).toBe(HOME_CONTENT.countries.length);
     HOME_CONTENT.countries.forEach((country) => {
       expect(fixture.nativeElement.textContent).toContain(country.name);
-      expect(fixture.nativeElement.textContent).toContain(country.role);
     });
   });
 
   it('serves every flag from a local asset, never a remote flag service', () => {
     const flags = fixture.debugElement.queryAll(By.css('.country-card__flag img'));
-    expect(flags.length).toBe(6);
+    expect(flags.length).toBe(HOME_CONTENT.countries.length);
     flags.forEach((flag, index) => {
       const src = flag.attributes['src']!;
       expect(src.startsWith('assets/')).toBe(true);
