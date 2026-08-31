@@ -3,10 +3,10 @@ import { AiApplication, ConversionAction, ResolvedAction } from '../../feature/p
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-ai-solution',
-    templateUrl: './ai-solution.component.html',
-    styleUrls: ['./ai-solution.component.scss'],
-    standalone: false
+  selector: 'app-ai-solution',
+  templateUrl: './ai-solution.component.html',
+  styleUrls: ['./ai-solution.component.scss'],
+  standalone: false,
 })
 export class AiSolutionComponent implements OnChanges {
   @Input() applications: readonly AiApplication[] = [];

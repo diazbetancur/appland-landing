@@ -1,21 +1,20 @@
 import { AfterViewInit, Directive, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 
 @Directive({
-    selector: '[appRevealOnScroll]',
-    standalone: false
+  selector: '[appRevealOnScroll]',
+  standalone: false,
 })
 export class RevealOnScrollDirective implements AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
 
   constructor(
     private readonly elementRef: ElementRef<HTMLElement>,
-    private readonly renderer: Renderer2
+    private readonly renderer: Renderer2,
   ) {}
 
   ngAfterViewInit(): void {
     const reducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (reducedMotion || typeof IntersectionObserver === 'undefined') {
       return;
@@ -33,7 +32,7 @@ export class RevealOnScrollDirective implements AfterViewInit, OnDestroy {
         this.observer?.disconnect();
         this.observer = undefined;
       },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
     );
     this.observer.observe(element);
   }

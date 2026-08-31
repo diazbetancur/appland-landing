@@ -44,7 +44,9 @@
   cursor: pointer;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
   transform: translateY(-50%);
-  transition: border-color 200ms ease, background-color 200ms ease;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
 }
 
 .cases__control--prev {
@@ -97,7 +99,9 @@
   border-radius: var(--appland-radius-lg);
   background: linear-gradient(180deg, var(--appland-panel-2), var(--appland-panel));
   scroll-snap-align: start;
-  transition: border-color 250ms ease, transform 250ms ease;
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
 }
 
 /* The last card aligns to the end so it has a snap point at the maximum

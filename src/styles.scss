@@ -1,4 +1,4 @@
-@use "styles/appland-home-tokens";
+@use 'styles/appland-home-tokens';
 
 html,
 body {
@@ -95,7 +95,10 @@ textarea {
   font-weight: 750;
   line-height: 1.2;
   text-align: center;
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
 }
 
 .appland-button--primary {
@@ -145,7 +148,9 @@ textarea {
 .appland-revealed {
   opacity: 1;
   transform: none;
-  transition: opacity 500ms ease, transform 500ms ease;
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

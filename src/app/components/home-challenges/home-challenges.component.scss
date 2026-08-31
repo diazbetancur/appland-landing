@@ -71,7 +71,9 @@
   border: 1px solid var(--appland-line);
   border-radius: var(--appland-radius-lg);
   background: linear-gradient(120deg, #141b25, #0f151e);
-  transition: border-color 250ms ease, transform 250ms ease;
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
 }
 
 .challenge:hover {
@@ -111,7 +113,7 @@
 }
 
 .challenge__media::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   /* The fade covers the leftmost 35% so 65% of the photo stays clear. */

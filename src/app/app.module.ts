@@ -56,12 +56,7 @@ import { RevealOnScrollDirective } from './shared/directives/reveal-on-scroll.di
     HomeCtaComponent,
     RevealOnScrollDirective,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    A11yModule,
-    TranslatePipe,
-  ],
+  imports: [BrowserModule, AppRoutingModule, A11yModule, TranslatePipe],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
     provideTranslateService({

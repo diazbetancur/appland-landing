@@ -1,23 +1,7 @@
-<nav
-  class="menu"
-  [class.menu--scrolled]="isScrolled"
-  aria-label="Navegación principal"
->
+<nav class="menu" [class.menu--scrolled]="isScrolled" aria-label="Navegación principal">
   <div class="menu__inner appland-container">
-    <a
-      class="menu__brand"
-      [routerLink]="['/']"
-      fragment="inicio"
-      (click)="navigate()"
-      aria-label="APPLAND, inicio"
-    >
-      <img
-        class="menu__brand-mark"
-        src="assets/images/logo-appland.png"
-        width="215"
-        height="44"
-        alt=""
-      />
+    <a class="menu__brand" [routerLink]="['/']" fragment="inicio" (click)="navigate()" aria-label="APPLAND, inicio">
+      <img class="menu__brand-mark" src="assets/images/logo-appland.png" width="215" height="44" alt="" />
     </a>
 
     <div class="menu__desktop-links">
@@ -25,9 +9,7 @@
         <a
           class="menu__link"
           [class.menu__link--active]="!isMenuOpen && isActive(item.fragment)"
-          [attr.aria-current]="
-            !isMenuOpen && isActive(item.fragment) ? 'location' : null
-          "
+          [attr.aria-current]="!isMenuOpen && isActive(item.fragment) ? 'location' : null"
           [routerLink]="['/']"
           [fragment]="item.fragment"
           >{{ item.label }}</a
@@ -35,7 +17,7 @@
       }
     </div>
 
-    @if (meetingDestination.kind === "router") {
+    @if (meetingDestination.kind === 'router') {
       <a
         class="appland-button appland-button--primary menu__meeting menu__meeting--desktop"
         [routerLink]="['/']"
@@ -95,21 +77,9 @@
   >
     <div class="compact-menu__top appland-container">
       <span class="menu__brand"
-        ><img
-          class="menu__brand-mark"
-          src="assets/images/logo-appland.png"
-          width="215"
-          height="44"
-          alt=""
+        ><img class="menu__brand-mark" src="assets/images/logo-appland.png" width="215" height="44" alt=""
       /></span>
-      <button
-        class="compact-menu__close"
-        type="button"
-        aria-label="Cerrar menú"
-        (click)="closeMenu()"
-      >
-        ×
-      </button>
+      <button class="compact-menu__close" type="button" aria-label="Cerrar menú" (click)="closeMenu()">×</button>
     </div>
     <div class="compact-menu__body appland-container">
       @for (item of items; track item) {
@@ -123,7 +93,7 @@
           >{{ item.label }}</a
         >
       }
-      @if (meetingDestination.kind === "router") {
+      @if (meetingDestination.kind === 'router') {
         <a
           class="appland-button appland-button--primary compact-menu__cta"
           [routerLink]="['/']"

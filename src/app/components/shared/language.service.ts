@@ -4,15 +4,14 @@ import { TranslateService, TranslationObject } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
-
   private readonly defaultLanguage = 'en';
 
   constructor(
     private translate: TranslateService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.setDefaultLanguage();
   }
@@ -25,7 +24,6 @@ export class LanguageService {
 
     this.translate.setFallbackLang(lang);
     this.translate.use(lang);
-
   }
 
   changeLanguage(lang: string) {

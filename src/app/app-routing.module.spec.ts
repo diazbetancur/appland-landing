@@ -7,11 +7,15 @@ import { HomeComponent } from './feature/pages/home/home.component';
 
 describe('Application routing contract', () => {
   it('preserves only the existing Home, About and Service route ownership', () => {
-    TestBed.configureTestingModule({ imports: [RouterTestingModule.withRoutes([
-      { path: '', component: HomeComponent },
-      { path: 'about', component: AboutComponent },
-      { path: 'service', component: ServiceComponent },
-    ])] });
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: '', component: HomeComponent },
+          { path: 'about', component: AboutComponent },
+          { path: 'service', component: ServiceComponent },
+        ]),
+      ],
+    });
     const routes = TestBed.inject(Router).config;
     expect(routes.map((route) => route.path)).toEqual(['', 'about', 'service']);
     expect(routes[0].component).toBe(HomeComponent);

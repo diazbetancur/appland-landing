@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 import { ServiceDescription } from './card-template/card-template';
 
 @Component({
-    selector: 'app-service',
-    templateUrl: './service.component.html',
-    styleUrls: ['./service.component.scss'],
-    standalone: false
+  selector: 'app-service',
+  templateUrl: './service.component.html',
+  styleUrls: ['./service.component.scss'],
+  standalone: false,
 })
 export class ServiceComponent implements OnInit, OnDestroy {
   services: ServiceDescription[] = [];

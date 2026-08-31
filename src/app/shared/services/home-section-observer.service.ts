@@ -1,11 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import {
-  HOME_SECTION_IDS,
-  HomeSectionId,
-  ObservedRegionId,
-} from '../../feature/pages/home/home-content.models';
+import { HOME_SECTION_IDS, HomeSectionId, ObservedRegionId } from '../../feature/pages/home/home-content.models';
 
 const ACTIVE_NAVIGATION_MAP: Readonly<Record<ObservedRegionId, HomeSectionId>> = {
   inicio: 'inicio',

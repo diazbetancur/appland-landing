@@ -1,16 +1,19 @@
-import {
-  HOME_CONTENT,
-  selectVisibleCases,
-  selectVisibleClients,
-  selectVisibleProducts,
-} from './home-content.config';
+import { HOME_CONTENT, selectVisibleCases, selectVisibleClients, selectVisibleProducts } from './home-content.config';
 import { HOME_SECTION_IDS } from './home-content.models';
 
 describe('HOME_CONTENT', () => {
   it('preserves the complete stable section id contract', () => {
     expect(HOME_SECTION_IDS).toEqual([
-      'inicio', 'clientes', 'desafios', 'servicios', 'casos', 'ia',
-      'productos', 'por-que-appland', 'equipo-global', 'contacto',
+      'inicio',
+      'clientes',
+      'desafios',
+      'servicios',
+      'casos',
+      'ia',
+      'productos',
+      'por-que-appland',
+      'equipo-global',
+      'contacto',
     ]);
   });
 

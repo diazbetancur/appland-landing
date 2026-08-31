@@ -69,7 +69,7 @@
 /* Hairline on the grid itself, so it stays on the true column boundary no
    matter how wide each centred item is. */
 .why__grid::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   bottom: 0;

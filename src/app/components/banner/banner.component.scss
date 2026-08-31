@@ -7,17 +7,8 @@
   z-index: 0;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 78% 24%,
-      rgba(20, 184, 196, 0.14),
-      transparent 32rem
-    ),
-    radial-gradient(
-      circle at 8% 82%,
-      rgba(20, 184, 196, 0.1),
-      transparent 30rem
-    ),
-    var(--appland-bg);
+    radial-gradient(circle at 78% 24%, rgba(20, 184, 196, 0.14), transparent 32rem),
+    radial-gradient(circle at 8% 82%, rgba(20, 184, 196, 0.1), transparent 30rem), var(--appland-bg);
 }
 
 .hero__inner {
@@ -129,11 +120,7 @@ h1 {
   padding: 1.15rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--appland-radius);
-  background: linear-gradient(
-    170deg,
-    rgba(30, 40, 53, 0.34),
-    rgba(13, 19, 27, 0.22)
-  );
+  background: linear-gradient(170deg, rgba(30, 40, 53, 0.34), rgba(13, 19, 27, 0.22));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
@@ -141,11 +128,7 @@ h1 {
 
 .hero__card--accent {
   border-color: rgba(240, 90, 36, 0.35);
-  background: linear-gradient(
-    170deg,
-    rgba(240, 90, 36, 0.18),
-    rgba(20, 14, 11, 0.22)
-  );
+  background: linear-gradient(170deg, rgba(240, 90, 36, 0.18), rgba(20, 14, 11, 0.22));
 }
 
 .hero__card p {
@@ -176,11 +159,7 @@ h1 {
 
 .hero__card-icon--primary {
   border: 1px solid rgba(20, 184, 196, 0.5);
-  background: radial-gradient(
-    circle at 50% 40%,
-    rgba(20, 184, 196, 0.42),
-    rgba(20, 184, 196, 0.1)
-  );
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.42), rgba(20, 184, 196, 0.1));
   box-shadow:
     0 0 22px rgba(20, 184, 196, 0.45),
     inset 0 0 14px rgba(20, 184, 196, 0.3);
@@ -193,11 +172,7 @@ h1 {
 
 .hero__card-icon--secondary {
   border: 1px solid rgba(240, 90, 36, 0.55);
-  background: radial-gradient(
-    circle at 50% 40%,
-    rgba(240, 90, 36, 0.5),
-    rgba(240, 90, 36, 0.14)
-  );
+  background: radial-gradient(circle at 50% 40%, rgba(240, 90, 36, 0.5), rgba(240, 90, 36, 0.14));
   box-shadow:
     0 0 22px rgba(240, 90, 36, 0.45),
     inset 0 0 14px rgba(240, 90, 36, 0.3);
@@ -225,11 +200,7 @@ h1 {
   left: 45%;
   right: auto;
   font-size: clamp(3.2rem, 10vw, 9rem);
-  background: linear-gradient(
-    180deg,
-    rgba(245, 247, 250, 0.52),
-    rgba(245, 247, 250, 0.04)
-  );
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0.52), rgba(245, 247, 250, 0.04));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -254,12 +225,7 @@ h1 {
 @media (min-width: 1024px) {
   .hero__ghost--top {
     top: 50%;
-    transform: translateY(
-      calc(
-        -0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 *
-          clamp(3.2rem, 10vw, 9rem)
-      )
-    );
+    transform: translateY(calc(-0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 * clamp(3.2rem, 10vw, 9rem)));
   }
 }
 

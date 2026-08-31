@@ -3,10 +3,10 @@ import { Challenge, ConversionAction, ResolvedAction } from '../../feature/pages
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-home-challenges',
-    templateUrl: './home-challenges.component.html',
-    styleUrls: ['./home-challenges.component.scss'],
-    standalone: false
+  selector: 'app-home-challenges',
+  templateUrl: './home-challenges.component.html',
+  styleUrls: ['./home-challenges.component.scss'],
+  standalone: false,
 })
 export class HomeChallengesComponent implements OnChanges {
   @Input() challenges: readonly Challenge[] = [];
@@ -17,6 +17,6 @@ export class HomeChallengesComponent implements OnChanges {
   ngOnChanges(): void {
     this.resolvedContactAction = this.contactAction
       ? resolveConversionAction(this.contactAction)
-      : undefined as unknown as ResolvedAction;
+      : (undefined as unknown as ResolvedAction);
   }
 }

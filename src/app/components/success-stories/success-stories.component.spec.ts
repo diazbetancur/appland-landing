@@ -21,7 +21,7 @@ describe('SuccessStoriesComponent', () => {
     const cards = fixture.debugElement.queryAll(By.css('.case-card'));
     expect(cards.length).toBe(visible.length);
     expect(cards.map((card) => card.query(By.css('h3')).nativeElement.textContent.trim())).toEqual(
-      visible.map((item) => item.name)
+      visible.map((item) => item.name),
     );
     cards.forEach((card, index) => {
       const img = card.query(By.css('img')).nativeElement;

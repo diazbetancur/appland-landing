@@ -78,7 +78,9 @@
   border: 1px solid var(--appland-line);
   border-radius: var(--appland-radius);
   background: linear-gradient(160deg, var(--appland-panel), #0c1219);
-  transition: border-color 250ms ease, transform 250ms ease;
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
 }
 
 .ai-card:hover {

@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
@@ -19,10 +11,10 @@ import { HomeSectionObserverService } from '../../shared/services/home-section-o
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 
 @Component({
-    selector: 'app-menu',
-    templateUrl: './menu.component.html',
-    styleUrls: ['./menu.component.scss'],
-    standalone: false
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
+  standalone: false,
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @Input() items: readonly NavigationItem[] = [];
@@ -37,7 +29,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly sectionObserver: HomeSectionObserverService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -45,14 +37,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.sectionObserver.activeNavigationFragment.subscribe((fragment) => {
         this.activeFragment = fragment;
-      })
+      }),
     );
     this.subscriptions.add(
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           this.closeMenu(false);
         }
-      })
+      }),
     );
   }
 
