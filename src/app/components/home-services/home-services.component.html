@@ -1,4 +1,10 @@
-<div class="appland-container">
+<div
+  class="services appland-container"
+  (mouseenter)="setInteractionPause(true)"
+  (mouseleave)="setInteractionPause(false)"
+  (focusin)="setInteractionPause(true)"
+  (focusout)="setInteractionPause(false)"
+>
   <header class="services__header">
     <h2 id="servicios-title" class="appland-heading services__title">
       Soluciones tecnológicas que impulsan el <span class="services__highlight">crecimiento</span> de tu empresa
@@ -6,27 +12,53 @@
     <span class="services__rule" aria-hidden="true"></span>
   </header>
 
-  <div class="services__tabs" role="tablist" aria-label="Servicios de APPLAND">
-    @for (service of services; track service; let index = $index) {
+  <div class="services__tabbar">
+    <div #tabStrip class="services__tabs" role="tablist" aria-label="Servicios de APPLAND">
+      @for (service of services; track service; let index = $index) {
+        <button
+          #tabButton
+          type="button"
+          role="tab"
+          class="services__tab"
+          [class.services__tab--active]="service.id === activeServiceId"
+          [id]="'service-tab-' + service.id"
+          [attr.aria-selected]="service.id === activeServiceId"
+          [attr.aria-controls]="'service-panel-' + service.id"
+          [attr.tabindex]="service.id === activeServiceId ? 0 : -1"
+          (click)="select(service)"
+          (keydown)="onTabKeydown($event, index)"
+        >
+          {{ service.name }}
+        </button>
+      }
+    </div>
+
+    @if (tabsOverflowing) {
+      <p class="services__count" aria-hidden="true">{{ activeIndex + 1 }} / {{ services.length }}</p>
+    }
+
+    @if (rotationControlVisible) {
       <button
-        #tabButton
         type="button"
-        role="tab"
-        class="services__tab"
-        [class.services__tab--active]="service.id === activeServiceId"
-        [id]="'service-tab-' + service.id"
-        [attr.aria-selected]="service.id === activeServiceId"
-        [attr.aria-controls]="'service-panel-' + service.id"
-        [attr.tabindex]="service.id === activeServiceId ? 0 : -1"
-        (click)="select(service)"
-        (keydown)="onTabKeydown($event, index)"
+        class="services__pause"
+        [attr.aria-pressed]="pausedByControl"
+        [attr.aria-label]="
+          pausedByControl ? 'Reanudar el cambio automático de servicio' : 'Pausar el cambio automático de servicio'
+        "
+        (click)="togglePause()"
       >
-        {{ service.name }}
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          @if (pausedByControl) {
+            <path d="M8 5v14l11-7z"></path>
+          } @else {
+            <path d="M7 5h3.2v14H7zM13.8 5H17v14h-3.2z"></path>
+          }
+        </svg>
       </button>
     }
   </div>
 
-  @if (activeService; as service) {
+  @for (service of activePanel; track service.id) {
     <div
       class="services__panel"
       role="tabpanel"
