@@ -19,7 +19,9 @@ describe('BannerComponent', () => {
   it('renders the approved proposition as the only h1', () => {
     const headings = fixture.debugElement.queryAll(By.css('h1'));
     expect(headings.length).toBe(1);
-    expect(headings[0].nativeElement.textContent.trim()).toBe(HOME_CONTENT.hero.title);
+    expect(headings[0].nativeElement.textContent.trim()).toBe(
+      HOME_CONTENT.hero.titleLead + HOME_CONTENT.hero.titleHighlight,
+    );
     expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.hero.subtitle);
   });
 
@@ -28,11 +30,16 @@ describe('BannerComponent', () => {
     expect(fixture.debugElement.query(By.css('a[href*="#servicios"]'))).not.toBeNull();
   });
 
-  it('highlights the title from "soluciones" onwards without altering the approved copy', () => {
+  // El resaltado dejo de deducirse buscando una palabra literal dentro del titulo: esa
+  // busqueda devolvia cadena vacia en silencio cada vez que la copia dejaba de contenerla.
+  // Ahora el fragmento en cian es un campo propio del contenido, y aqui se asegura que
+  // nunca quede vacio y que el h1 siga leyendose como una sola frase.
+  it('paints the approved trailing fragment of the title and never leaves it empty', () => {
     const h1 = fixture.debugElement.query(By.css('h1'));
     const highlight = fixture.debugElement.query(By.css('.hero__highlight'));
-    expect(highlight.nativeElement.textContent.trim()).toBe('soluciones digitales inteligentes.');
-    expect(h1.nativeElement.textContent.trim()).toBe(HOME_CONTENT.hero.title);
+    expect(highlight.nativeElement.textContent.trim()).toBe('con tecnología inteligente.');
+    expect(HOME_CONTENT.hero.titleHighlight.length).toBeGreaterThan(0);
+    expect(h1.nativeElement.textContent.trim()).toBe(HOME_CONTENT.hero.titleLead + HOME_CONTENT.hero.titleHighlight);
   });
 
   it('keeps every hero visual decorative and out of the accessibility tree', () => {

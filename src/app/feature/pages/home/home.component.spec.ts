@@ -29,8 +29,8 @@ describe('HomeComponent', () => {
     expect(ids).toEqual([
       'inicio',
       'clientes',
-      'desafios',
       'servicios',
+      'desafios',
       'casos',
       'ia',
       'por-que-appland',

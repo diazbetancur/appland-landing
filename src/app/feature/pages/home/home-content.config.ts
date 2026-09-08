@@ -37,6 +37,16 @@ const whatsappAction = {
   intent: 'whatsapp',
 } as const;
 
+/**
+ * Atajo a la seccion de contacto que usan las secciones intermedias de la Home.
+ *
+ * Antes estas secciones compartian objeto con el boton de la propia seccion de contacto.
+ * Como ese objeto resuelve al fragmento `contacto`, el boton de la seccion de contacto
+ * terminaba enlazando consigo mismo y no llevaba a ninguna parte. Son dos acciones
+ * distintas y se declaran por separado.
+ */
+const contactAction = { ...meetingAction, label: 'Agendar reunión' } as const;
+
 const navigation = [
   { id: 'nav-inicio', label: 'Inicio', fragment: 'inicio', prominent: false },
   {
@@ -68,7 +78,19 @@ const navigation = [
 const contact = {
   title: '¿Listo para transformar tu negocio?',
   body: 'Conversemos sobre tu proyecto y descubre cómo la tecnología, la automatización y la inteligencia artificial pueden ayudarte a crecer.',
-  meetingAction: { ...meetingAction, label: 'Agendar reunión' },
+  /**
+   * El boton de la propia seccion de contacto abre WhatsApp, no un fragmento: un enlace al
+   * fragmento `contacto` desde dentro de la seccion `contacto` no lleva a ningun sitio.
+   *
+   * El mensaje precargado lo aprobo el usuario y es lo unico que lo distingue del boton de
+   * WhatsApp contiguo, que abre el chat vacio a proposito.
+   */
+  meetingAction: {
+    id: 'contact-meeting',
+    label: 'Agendar reunión',
+    intent: 'whatsapp',
+    approvedMessage: 'Hola, quiero agendar una reunión.',
+  },
   whatsappAction,
   email: {
     kind: 'email',
@@ -146,14 +168,16 @@ const productCandidates: readonly Product[] = [
 
 export const HOME_CONTENT: HomeContent = {
   navigation,
+  contactAction,
   hero: {
-    title: 'Transformamos procesos complejos en soluciones digitales inteligentes.',
+    titleLead: 'Impulsamos tu negocio ',
+    titleHighlight: 'con tecnología inteligente.',
     subtitle:
-      'Desarrollo de software, Inteligencia Artificial, Automatización y Staff Augmentation para empresas que buscan crecer más rápido.',
+      'Desarrollo de software, Inteligencia Artificial, SaaS Automatización y Staff Augmentation para empresas que buscan crecer mejor y más rápido.',
     primaryAction: meetingAction,
     servicesAction: {
       id: 'services',
-      label: 'Conocer nuestros servicios',
+      label: 'Nuestros servicios',
       intent: 'services',
       fallbackFragment: 'servicios',
     },
