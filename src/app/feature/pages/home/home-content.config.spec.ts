@@ -6,15 +6,37 @@ describe('HOME_CONTENT', () => {
     expect(HOME_SECTION_IDS).toEqual([
       'inicio',
       'clientes',
-      'desafios',
       'servicios',
+      'desafios',
       'casos',
       'ia',
-      'productos',
       'por-que-appland',
       'equipo-global',
       'contacto',
+      'productos',
     ]);
+  });
+
+  it('pins the approved hero copy so any wording change is deliberate', () => {
+    expect(HOME_CONTENT.hero.titleLead).toBe('Impulsamos tu negocio ');
+    expect(HOME_CONTENT.hero.titleHighlight).toBe('con tecnología inteligente.');
+    expect(HOME_CONTENT.hero.subtitle).toBe(
+      'Desarrollo de software, Inteligencia Artificial, SaaS Automatización y Staff Augmentation para empresas que buscan crecer mejor y más rápido.',
+    );
+    expect(HOME_CONTENT.hero.servicesAction.label).toBe('Nuestros servicios');
+  });
+
+  it('keeps the page-wide contact shortcut separate from the contact section button', () => {
+    // Compartir un solo objeto hacia que el boton de la seccion de contacto enlazara consigo
+    // mismo. Son dos acciones distintas y esta prueba impide que vuelvan a fundirse.
+    expect(HOME_CONTENT.contactAction.intent).toBe('meeting');
+    expect(HOME_CONTENT.contactAction.fallbackFragment).toBe('contacto');
+
+    expect(HOME_CONTENT.contact.meetingAction.intent).toBe('whatsapp');
+    expect(HOME_CONTENT.contact.meetingAction.approvedMessage).toBe('Hola, quiero agendar una reunión.');
+    expect(HOME_CONTENT.contact.meetingAction.fallbackFragment).toBeUndefined();
+
+    expect(HOME_CONTENT.contact.whatsappAction.approvedMessage).toBeUndefined();
   });
 
   it('contains exactly the approved business entity counts', () => {

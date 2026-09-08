@@ -13,7 +13,7 @@ describe('TeamCoverageComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(TeamCoverageComponent);
     fixture.componentRef.setInput('countries', HOME_CONTENT.countries);
-    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contact.meetingAction);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
     fixture.detectChanges();
   });
 

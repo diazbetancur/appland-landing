@@ -13,7 +13,7 @@ describe('AiSolutionComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(AiSolutionComponent);
     fixture.componentRef.setInput('applications', HOME_CONTENT.aiApplications);
-    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contact.meetingAction);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
     fixture.detectChanges();
   });
 

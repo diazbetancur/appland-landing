@@ -243,6 +243,18 @@ h1 {
   }
 }
 
+/* Las tarjetas se centran en la columna derecha y por eso caian dentro de la banda vertical
+   que ocupa "TU VISION", que es absoluta, no hace wrap y se extiende hacia la derecha. Cuanto
+   mas estrecha la ventana, mas se monta la cola del texto sobre ellas: el solape medido va de
+   105px a 1024px hasta 0 a 1920px, donde el texto ya no alcanza la columna. El desplazamiento
+   sigue esa misma pendiente y deja ~15px de aire en el peor caso. Debe ir despues de la regla
+   base de .hero__cards. */
+@media (min-width: 1024px) {
+  .hero__cards {
+    transform: translateY(clamp(0px, 167px - 6.8vw, 98px));
+  }
+}
+
 .hero__wave {
   position: absolute;
   z-index: 0;

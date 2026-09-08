@@ -13,7 +13,7 @@ describe('HomeChallengesComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(HomeChallengesComponent);
     fixture.componentRef.setInput('challenges', HOME_CONTENT.challenges);
-    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contact.meetingAction);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
     fixture.detectChanges();
   });
 

@@ -13,7 +13,7 @@ describe('WhyComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(WhyComponent);
     fixture.componentRef.setInput('benefits', HOME_CONTENT.benefits);
-    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contact.meetingAction);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
     fixture.detectChanges();
   });
 
