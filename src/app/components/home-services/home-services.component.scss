@@ -35,12 +35,49 @@
   background: linear-gradient(90deg, var(--appland-primary), transparent);
 }
 
+.services__tabbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+}
+
 .services__tabs {
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.65rem;
-  margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+/**
+ * Control discreto: presente y alcanzable, pero sin competir con las pestanas, que son lo
+ * que la persona ha venido a leer.
+ */
+.services__pause {
+  display: flex;
+  min-width: 44px;
+  min-height: 44px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--appland-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--appland-muted);
+  cursor: pointer;
+  opacity: 0.6;
+  transition:
+    opacity 160ms ease,
+    color 160ms ease;
+}
+
+.services__pause:hover,
+.services__pause:focus-visible {
+  color: var(--appland-text);
+  opacity: 1;
 }
 
 .services__tab {
@@ -72,8 +109,27 @@
   box-shadow: 0 0 18px rgba(20, 184, 196, 0.22);
 }
 
+@keyframes services-panel-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.services__count {
+  margin: 0;
+  color: var(--appland-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
 .services__panel {
   min-width: 0;
+  animation: services-panel-in 250ms ease-out;
   display: grid;
   grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.15fr);
   align-items: center;
@@ -191,7 +247,12 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .services__tab {
+  .services__tab,
+  .services__pause {
     transition: none;
+  }
+
+  .services__panel {
+    animation: none;
   }
 }
