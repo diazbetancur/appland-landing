@@ -149,7 +149,7 @@ export interface Benefit {
  * `src/assets/images/home/flags/`, cuyo ATTRIBUTION.md explica de donde salen los archivos.
  */
 export interface CountryPresence {
-  readonly code: 'HN' | 'US' | 'CO' | 'PA' | 'GT' | 'MX' | 'SV' | 'PE' | 'EC';
+  readonly code: 'HN' | 'AR' | 'CO' | 'PA' | 'GT' | 'MX' | 'SV' | 'PE' | 'EC';
   readonly name: string;
   readonly flag: ApprovedAsset;
 }
