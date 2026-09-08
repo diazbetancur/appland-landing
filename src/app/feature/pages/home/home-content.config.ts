@@ -521,9 +521,9 @@ export const HOME_CONTENT: HomeContent = {
       flag: countryFlag('hn', 'Honduras'),
     },
     {
-      code: 'US',
-      name: 'Estados Unidos',
-      flag: countryFlag('us', 'Estados Unidos'),
+      code: 'AR',
+      name: 'Argentina',
+      flag: countryFlag('ar', 'Argentina'),
     },
     {
       code: 'CO',

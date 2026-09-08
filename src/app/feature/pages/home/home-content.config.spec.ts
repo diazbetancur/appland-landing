@@ -39,6 +39,41 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.contact.whatsappAction.approvedMessage).toBeUndefined();
   });
 
+  /**
+   * Guardia sobre los paises publicados.
+   *
+   * Las tres pruebas de TeamCoverageComponent comparan contra `HOME_CONTENT.countries`, asi
+   * que pasan con la lista que sea: ninguna detecta que se anada, quite o renombre un pais.
+   * Anclarla aqui obliga a editar esta lista a proposito, que es la barrera que faltaba.
+   */
+  const APPROVED_COUNTRIES: readonly { code: string; name: string }[] = [
+    { code: 'HN', name: 'Honduras' },
+    { code: 'AR', name: 'Argentina' },
+    { code: 'CO', name: 'Colombia' },
+    { code: 'PA', name: 'Panamá' },
+    { code: 'GT', name: 'Guatemala' },
+    { code: 'MX', name: 'México' },
+    { code: 'SV', name: 'El Salvador' },
+    { code: 'PE', name: 'Perú' },
+    { code: 'EC', name: 'Ecuador' },
+  ];
+
+  it('publishes exactly the approved countries, in the approved order', () => {
+    expect(HOME_CONTENT.countries.map(({ code, name }) => ({ code, name }))).toEqual(APPROVED_COUNTRIES);
+  });
+
+  /**
+   * Sin esto, declarar un pais nuevo apuntando por error al SVG de otro pasaria verde: las
+   * pruebas de la seccion solo comprueban que la ruta empiece por `assets/`.
+   */
+  it('points every flag at the local asset named after its own country code', () => {
+    HOME_CONTENT.countries.forEach((country) => {
+      expect(country.flag.src).toBe(`assets/images/home/flags/${country.code.toLowerCase()}.svg`);
+      expect(country.flag.alt).toBe(`Bandera de ${country.name}`);
+      expect(country.flag.publicationStatus).toBe('approved');
+    });
+  });
+
   it('contains exactly the approved business entity counts', () => {
     expect(HOME_CONTENT.challenges.length).toBe(5);
     expect(HOME_CONTENT.services.length).toBe(5);
