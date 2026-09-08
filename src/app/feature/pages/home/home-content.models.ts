@@ -3,14 +3,14 @@ export type PublicationStatus = 'approved' | 'pending' | 'withdrawn';
 export const HOME_SECTION_IDS = [
   'inicio',
   'clientes',
-  'desafios',
   'servicios',
+  'desafios',
   'casos',
   'ia',
-  'productos',
   'por-que-appland',
   'equipo-global',
   'contacto',
+  'productos',
 ] as const;
 
 export type HomeSectionId = (typeof HOME_SECTION_IDS)[number];
@@ -66,7 +66,13 @@ export interface ConversionAction {
 }
 
 export interface HeroContent {
-  readonly title: string;
+  /**
+   * El titulo se declara partido en dos porque el hero pinta su tramo final en cian.
+   * Antes esa particion se deducia buscando una palabra literal dentro del titulo, asi que
+   * cualquier cambio de copia que no la contuviera apagaba el resaltado sin avisar.
+   */
+  readonly titleLead: string;
+  readonly titleHighlight: string;
   readonly subtitle: string;
   readonly primaryAction: ConversionAction;
   readonly servicesAction: ConversionAction;
@@ -171,6 +177,14 @@ export interface FooterContent {
 
 export interface HomeContent {
   readonly navigation: readonly NavigationItem[];
+  /**
+   * Accion que baja a la seccion de contacto desde el resto de la pagina.
+   *
+   * Vive aqui y no dentro de `contact` porque no pertenece a esa seccion: la usan las
+   * secciones intermedias para llevar hasta ella. El boton de la propia seccion de contacto
+   * es `contact.meetingAction`, y hace algo distinto.
+   */
+  readonly contactAction: ConversionAction;
   readonly hero: HeroContent;
   readonly clients: readonly Client[];
   readonly challenges: readonly Challenge[];

@@ -15,19 +15,6 @@
 }
 
 <section
-  id="desafios"
-  class="home-region appland-section"
-  aria-labelledby="desafios-title"
-  appHomeSection="desafios"
-  appRevealOnScroll
->
-  <app-home-challenges
-    [challenges]="content.challenges"
-    [contactAction]="content.contact.meetingAction"
-  ></app-home-challenges>
-</section>
-
-<section
   id="servicios"
   class="home-region appland-section"
   aria-labelledby="servicios-title"
@@ -35,6 +22,16 @@
   appRevealOnScroll
 >
   <app-home-services [services]="content.services"></app-home-services>
+</section>
+
+<section
+  id="desafios"
+  class="home-region appland-section"
+  aria-labelledby="desafios-title"
+  appHomeSection="desafios"
+  appRevealOnScroll
+>
+  <app-home-challenges [challenges]="content.challenges" [contactAction]="content.contactAction"></app-home-challenges>
 </section>
 
 <section
@@ -48,10 +45,37 @@
 </section>
 
 <section id="ia" class="home-region appland-section" aria-labelledby="ia-title" appHomeSection="ia" appRevealOnScroll>
-  <app-ai-solution
-    [applications]="content.aiApplications"
-    [contactAction]="content.contact.meetingAction"
-  ></app-ai-solution>
+  <app-ai-solution [applications]="content.aiApplications" [contactAction]="content.contactAction"></app-ai-solution>
+</section>
+
+<section
+  id="por-que-appland"
+  class="home-region appland-section"
+  aria-labelledby="por-que-appland-title"
+  appHomeSection="por-que-appland"
+  appRevealOnScroll
+>
+  <app-why [benefits]="content.benefits" [contactAction]="content.contactAction"></app-why>
+</section>
+
+<section
+  id="equipo-global"
+  class="home-region appland-section"
+  aria-labelledby="equipo-global-title"
+  appHomeSection="equipo-global"
+  appRevealOnScroll
+>
+  <app-team-coverage [countries]="content.countries" [contactAction]="content.contactAction"></app-team-coverage>
+</section>
+
+<section
+  id="contacto"
+  class="home-region appland-section home-region--contact"
+  aria-labelledby="contacto-title"
+  appHomeSection="contacto"
+  appRevealOnScroll
+>
+  <app-home-cta [content]="content.contact"></app-home-cta>
 </section>
 
 @if (visibleProducts.length) {
@@ -65,36 +89,3 @@
     <app-home-products [products]="visibleProducts"></app-home-products>
   </section>
 }
-
-<section
-  id="por-que-appland"
-  class="home-region appland-section"
-  aria-labelledby="por-que-appland-title"
-  appHomeSection="por-que-appland"
-  appRevealOnScroll
->
-  <app-why [benefits]="content.benefits" [contactAction]="content.contact.meetingAction"></app-why>
-</section>
-
-<section
-  id="equipo-global"
-  class="home-region appland-section"
-  aria-labelledby="equipo-global-title"
-  appHomeSection="equipo-global"
-  appRevealOnScroll
->
-  <app-team-coverage
-    [countries]="content.countries"
-    [contactAction]="content.contact.meetingAction"
-  ></app-team-coverage>
-</section>
-
-<section
-  id="contacto"
-  class="home-region appland-section home-region--contact"
-  aria-labelledby="contacto-title"
-  appHomeSection="contacto"
-  appRevealOnScroll
->
-  <app-home-cta [content]="content.contact"></app-home-cta>
-</section>

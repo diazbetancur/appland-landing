@@ -36,10 +36,10 @@ describe('HomeSectionObserverService', () => {
       'servicios',
       'casos',
       'servicios',
-      'servicios',
       'por-que-appland',
       'por-que-appland',
       'contacto',
+      'servicios',
       'contacto',
     ]);
     expect(service.activationThresholdPx).toBe(140);
