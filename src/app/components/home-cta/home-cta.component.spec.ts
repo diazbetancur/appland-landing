@@ -22,7 +22,7 @@ describe('HomeCtaComponent', () => {
     expect(fixture.debugElement.query(By.css('a[href^="mailto:"]')).attributes['href']).toBe(
       'mailto:hello@applandtech.com',
     );
-    expect(fixture.debugElement.query(By.css('a[href^="tel:"]')).attributes['href']).toBe('tel:+50433949211');
+    expect(fixture.debugElement.query(By.css('a[href^="tel:"]')).attributes['href']).toBe('tel:+50433349211');
   });
 
   it('sends both conversion actions to the official WhatsApp number', () => {
@@ -32,9 +32,9 @@ describe('HomeCtaComponent', () => {
     // Solo el de agendar lleva texto precargado, y es el aprobado por el usuario: es lo unico
     // que distingue dos botones que de otro modo apuntarian al mismo sitio.
     expect(meeting.attributes['href']).toBe(
-      'https://wa.me/50433949211?text=Hola%2C%20quiero%20agendar%20una%20reuni%C3%B3n.',
+      'https://wa.me/50433349211?text=Hola%2C%20quiero%20agendar%20una%20reuni%C3%B3n.',
     );
-    expect(whatsapp.attributes['href']).toBe('https://wa.me/50433949211');
+    expect(whatsapp.attributes['href']).toBe('https://wa.me/50433349211');
 
     [meeting, whatsapp].forEach((link) => {
       expect(link.attributes['target']).toBe('_blank');

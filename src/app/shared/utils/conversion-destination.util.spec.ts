@@ -31,7 +31,7 @@ describe('resolveConversionAction', () => {
 
   it('uses the official WhatsApp number without inventing a message', () => {
     expect(resolveConversionAction({ id: 'wa', label: 'WhatsApp', intent: 'whatsapp' }).href).toBe(
-      'https://wa.me/50433949211',
+      'https://wa.me/50433349211',
     );
   });
 
@@ -42,7 +42,7 @@ describe('resolveConversionAction', () => {
       intent: 'whatsapp',
       approvedMessage: 'Hola APPLAND',
     });
-    expect(resolved.href).toBe('https://wa.me/50433949211?text=Hola%20APPLAND');
+    expect(resolved.href).toBe('https://wa.me/50433349211?text=Hola%20APPLAND');
   });
 
   it('uses contacto for a product inquiry without an approved destination', () => {
