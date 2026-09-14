@@ -1,61 +1,349 @@
-.container {
-  display: flex;
-  flex-direction: row;
-  background-size: cover;
-  background-position: center;
-  height: 100vh; /* ajusta el alto según sea necesario */
+:host {
+  display: block;
 }
 
-.image {
-  flex-basis: 50%;
-  display: flex;
-  justify-content: center;
+.hero {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 24%, rgba(20, 184, 196, 0.14), transparent 32rem),
+    radial-gradient(circle at 8% 82%, rgba(20, 184, 196, 0.1), transparent 30rem), var(--appland-bg);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-block: clamp(1rem, 3.25vw, 1rem) clamp(5rem, 16vw, 14rem);
 }
 
-.image img {
+.hero__content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.hero__visual {
+  min-width: 0;
+}
+
+h1 {
+  max-width: 16ch;
+  margin: 0 0 1.15rem;
+  font-size: clamp(1.8rem, 3.24vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.hero__subtitle {
+  max-width: 46ch;
+  margin: 0 0 2rem;
+  color: var(--appland-muted);
+  font-size: clamp(0.98rem, 1.1vw, 1.08rem);
+  line-height: 1.6;
+}
+
+.hero__highlight {
+  color: var(--appland-primary);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero__actions {
+    flex-wrap: nowrap;
+  }
+
+  .hero__actions .appland-button {
+    white-space: nowrap;
+  }
+}
+
+.hero__actions svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+/**
+ * El boton de conversion del hero va en naranja, mientras el del menu principal se mantiene
+ * en cyan. Los dos comparten la clase global `.appland-button--primary`, asi que la regla se
+ * acota a `.hero__actions`: cambiar la clase global arrastraria tambien al del menu.
+ */
+.hero__actions .appland-button--primary {
+  background: var(--appland-secondary);
+  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
+}
+
+.hero__actions .appland-button--primary:hover {
+  background: var(--appland-secondary-hover);
+}
+
+.hero__visual {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+.hero__laptop {
+  min-width: 0;
+  flex: 1 1 auto;
   width: 100%;
+  max-width: 780px;
   height: auto;
-  max-height: 690px;
-  object-fit: cover;
+  pointer-events: none;
 }
 
-.description {
-  flex-basis: 50%;
-  padding: 20px;
+.hero__cards {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  flex-shrink: 0;
+  gap: 1rem;
+  width: clamp(132px, 11.5vw, 158px);
+}
+
+/* Desktop: the laptop becomes a large background layer that every other
+   hero element overlays, matching the approved reference composition. */
+@media (min-width: 1024px) {
+  .hero__laptop {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 24%;
+    width: clamp(560px, 57vw, 1000px);
+    max-width: none;
+    transform: translateY(-42%);
+  }
+}
+
+.hero__card {
+  padding: 1.15rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--appland-radius);
+  background: linear-gradient(170deg, rgba(30, 40, 53, 0.34), rgba(13, 19, 27, 0.22));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.hero__card--accent {
+  border-color: rgba(20, 184, 196, 0.35);
+  background: linear-gradient(170deg, rgba(20, 184, 196, 0.18), rgba(11, 18, 20, 0.22));
+}
+
+.hero__card p {
+  margin: 0;
+  color: var(--appland-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.hero__card-metric {
+  margin: 0 0 0.15rem !important;
+  color: var(--appland-text) !important;
+  font-size: 1.6rem !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.03em;
+}
+
+.hero__card-icon {
+  display: flex;
+  width: 38px;
+  height: 38px;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+  border-radius: 11px;
 }
 
-.text-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: white;
+.hero__card-icon--primary {
+  border: 1px solid rgba(20, 184, 196, 0.5);
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.42), rgba(20, 184, 196, 0.1));
+  box-shadow:
+    0 0 22px rgba(20, 184, 196, 0.45),
+    inset 0 0 14px rgba(20, 184, 196, 0.3);
 }
 
-.text {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: white;
-  text-align: center;
+.hero__card-icon--primary svg {
+  stroke: #7bf0f8;
+  filter: drop-shadow(0 0 5px rgba(20, 184, 196, 0.9));
 }
 
-@media (max-width: 768px) {
-  .container {
+.hero__card-icon--secondary {
+  border: 1px solid rgba(20, 184, 196, 0.55);
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.5), rgba(20, 184, 196, 0.14));
+  box-shadow:
+    0 0 22px rgba(20, 184, 196, 0.45),
+    inset 0 0 14px rgba(20, 184, 196, 0.3);
+}
+
+.hero__card-icon--secondary svg {
+  stroke: #8fe3ea;
+  filter: drop-shadow(0 0 5px rgba(20, 184, 196, 0.9));
+}
+
+.hero__ghost {
+  position: absolute;
+  z-index: 0;
+  margin: 0;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hero__ghost--top {
+  top: clamp(1.5rem, 6vw, 5rem);
+  left: 45%;
+  right: auto;
+  font-size: clamp(3.2rem, 10vw, 9rem);
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0.52), rgba(245, 247, 250, 0.04));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__ghost--bottom {
+  bottom: clamp(0.15rem, 0.8vw, 0.5rem);
+  left: 50%;
+  transform: translateX(-32%);
+  color: rgba(245, 247, 250, 0.16);
+  font-size: clamp(2.4rem, 6.6vw, 5.6rem);
+}
+
+.hero__ghost--bottom span {
+  color: rgba(20, 184, 196, 0.42);
+}
+
+/* Anchor the ghost word to the same vertical midpoint as the laptop so the
+   laptop always covers roughly the bottom quarter of the letters at every
+   width. The laptop's rendered height is 0.667 of its clamped width, and its
+   visible pixels start 3.6% below its box top. Must come after the base rule. */
+@media (min-width: 1024px) {
+  .hero__ghost--top {
+    top: 50%;
+    transform: translateY(calc(-0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 * clamp(3.2rem, 10vw, 9rem)));
+  }
+}
+
+/* Las tarjetas se centran en la columna derecha y por eso caian dentro de la banda vertical
+   que ocupa "TU VISION", que es absoluta, no hace wrap y se extiende hacia la derecha. Cuanto
+   mas estrecha la ventana, mas se monta la cola del texto sobre ellas: el solape medido va de
+   105px a 1024px hasta 0 a 1920px, donde el texto ya no alcanza la columna. El desplazamiento
+   sigue esa misma pendiente y deja ~15px de aire en el peor caso. Debe ir despues de la regla
+   base de .hero__cards. */
+@media (min-width: 1024px) {
+  .hero__cards {
+    transform: translateY(clamp(0px, 167px - 6.8vw, 98px));
+  }
+}
+
+.hero__wave {
+  position: absolute;
+  z-index: 0;
+  bottom: -2%;
+  left: -6%;
+  width: clamp(280px, 42vw, 620px);
+  height: auto;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.hero__sphere {
+  position: absolute;
+  z-index: 1;
+  right: clamp(0.5rem, 3vw, 3rem);
+  bottom: clamp(1rem, 5vw, 5rem);
+  width: clamp(72px, 9vw, 132px);
+  height: auto;
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 4.5rem;
+  }
+
+  h1 {
+    max-width: 20ch;
+  }
+
+  .hero__visual {
+    justify-content: center;
+  }
+
+  .hero__laptop {
+    margin-inline-start: 0;
+  }
+
+  .hero__ghost--top {
+    font-size: clamp(2.4rem, 9vw, 4.6rem);
+  }
+
+  .hero__sphere {
+    width: clamp(64px, 11vw, 96px);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero__visual {
     flex-direction: column;
-    margin-top: 15%;
-  }
-  .image {
-    order: 2;
-  }
-  .description {
-    order: 1;
+    align-items: stretch;
   }
 
-  .text-title {
-    font-size: 1.5rem;
+  .hero__laptop {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .hero__cards {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .hero__card {
+    flex: 1 1 0;
+  }
+}
+
+@media (max-width: 559px) {
+  .hero__inner {
+    padding-block: 2.5rem 3.5rem;
+  }
+
+  .hero__actions .appland-button {
+    width: 100%;
+  }
+
+  .hero__ghost--top {
+    right: 0.75rem;
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+
+  .hero__ghost--bottom {
+    font-size: clamp(1.5rem, 8vw, 2.2rem);
+  }
+
+  .hero__sphere {
+    width: 62px;
   }
 }

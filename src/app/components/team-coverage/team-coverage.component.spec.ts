@@ -1,0 +1,64 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
+import { TeamCoverageComponent } from './team-coverage.component';
+
+describe('TeamCoverageComponent', () => {
+  let fixture: ComponentFixture<TeamCoverageComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, TeamCoverageComponent],
+    }).compileComponents();
+    fixture = TestBed.createComponent(TeamCoverageComponent);
+    fixture.componentRef.setInput('countries', HOME_CONTENT.countries);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
+    fixture.detectChanges();
+  });
+
+  it('renders every approved country by name, without the role text under each card', () => {
+    expect(fixture.debugElement.queryAll(By.css('.country-card')).length).toBe(HOME_CONTENT.countries.length);
+    HOME_CONTENT.countries.forEach((country) => {
+      expect(fixture.nativeElement.textContent).toContain(country.name);
+    });
+  });
+
+  it('serves every flag from a local asset, never a remote flag service', () => {
+    const flags = fixture.debugElement.queryAll(By.css('.country-card__flag img'));
+    expect(flags.length).toBe(HOME_CONTENT.countries.length);
+    flags.forEach((flag, index) => {
+      const src = flag.attributes['src']!;
+      expect(src.startsWith('assets/')).toBe(true);
+      expect(src).not.toContain('//');
+      expect(flag.attributes['alt']).toBe(HOME_CONTENT.countries[index].flag.alt);
+    });
+  });
+
+  it('has no clocks, timers or remote images', () => {
+    fixture.debugElement.queryAll(By.css('img')).forEach((image) => {
+      expect(image.attributes['src']!.startsWith('assets/')).toBe(true);
+    });
+    expect(
+      (
+        fixture.componentInstance as unknown as {
+          timeInterval?: unknown;
+        }
+      ).timeInterval,
+    ).toBeUndefined();
+    expect(fixture.nativeElement.textContent).not.toContain('24/7');
+  });
+
+  it('keeps the wave and sphere decorations out of the accessibility tree', () => {
+    fixture.debugElement.queryAll(By.css('.team__wave, .team__sphere')).forEach((image) => {
+      expect(image.attributes['alt']).toBe('');
+      expect(image.attributes['aria-hidden']).toBe('true');
+    });
+  });
+
+  it('resolves the contact action to the approved destination', () => {
+    const cta = fixture.debugElement.query(By.css('.team__cta'));
+    expect(cta.nativeElement.textContent.trim()).toContain('Conoce nuestro equipo');
+    expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+  });
+});

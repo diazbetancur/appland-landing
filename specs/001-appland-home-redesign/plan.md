@@ -1,0 +1,503 @@
+# Implementation Plan: APPLAND Home Redesign
+
+**Branch**: 001-appland-home-redesign | **Date**: 2026-08-04 | **Spec**: [spec.md](./spec.md)
+
+**Input**: Feature specification from specs/001-appland-home-redesign/spec.md
+
+> **Post-implementation platform update (2026-08-05):** The repository now runs Angular 21.2 on Node 24.16 while preserving its NgModule architecture. Angular 16 and Node 18 references below document the approved baseline used to implement this feature; they are historical constraints, not current setup instructions. Use [README.md](../../README.md) for the current environment.
+
+## Summary
+
+Implement the approved Spanish APPLAND Home inside the existing Angular 16 NgModule application. HomeComponent remains the ordered orchestrator; existing section components are refactored where their responsibility matches, while only the missing challenges, Home-specific services, conditional products and final CTA components are added.
+
+Business content is separated into a typed, immutable configuration with deny-by-default publication rules. Global header/footer are refactored without adding routes, and navigation uses root fragments so it remains valid from /about and /service. Interactions use Angular state, semantic controls, existing CDK accessibility primitives, native scroll snap and progressive enhancement. No library, framework upgrade, internal page or application code is produced during this planning phase.
+
+## Technical Context
+
+**Language/Version**: TypeScript 5.1.6, HTML5 and SCSS on Angular 16.2.12 / Angular CLI 16.2.15
+
+**Primary Dependencies**: Angular Router 16.2.12, RxJS 7.8.1, Angular Material/CDK 16.2.14, Bootstrap 5.3.3, Font Awesome 6.6.0, ngx-translate 15.0.0
+
+**Storage**: N/A; immutable build-time content configuration and transient component state only
+
+**Testing**: Jasmine 4.6 and Karma 6.4 with ChromeHeadless; manual browser, keyboard, touch, responsive and Lighthouse validation
+
+**Target Platform**: Modern evergreen desktop and mobile browsers supported by the existing Angular 16 build; responsive web at 360 px and above
+
+**Project Type**: Single Angular web application
+
+**Performance Goals**: Hero/navigation/primary CTA usable before lower resources; Lighthouse mobile median ≥90, LCP ≤2.5 s, CLS ≤0.1 and TBT ≤200 ms under the profile defined below; no horizontal page overflow
+
+**Constraints**: Preserve Angular 16 and NgModule; no standalone migration, new UI/carousel/animation libraries, React, support.js, direct reference copy, inline styles, new bilingual behavior, invented content or production placeholders
+
+**Scale/Scope**: One Home route, one global header, ten conditionally applicable Home regions, one global footer, four newly required section components, three small shared behavior primitives, and regression protection for two existing routes
+
+**Runtime note**: The workstation currently exposes Node 24.16.0/npm 11.13.0. Implementation and CI must use a project-approved Node 18.x runtime compatible with the Angular 16.2 toolchain; upgrading Angular is explicitly outside this feature.
+
+## Constitution Check
+
+No .specify/memory/constitution.md or memory/constitution.md exists in the repository. The gate therefore uses the approved feature spec and explicit planning constraints.
+
+### Pre-research gate
+
+| Gate | Status | Evidence |
+|---|---|---|
+| Preserve Angular 16 and NgModule | PASS | Installed Angular 16.2 and AppModule confirmed |
+| No implementation during planning | PASS | Only files under specs/001-appland-home-redesign are created/updated |
+| Respect source hierarchy | PASS | Functional spec, current project, PDF, reference HTML and support runtime are separated |
+| No new pages/routes/dependencies | PASS | Plan retains /, /about and /service and existing dependencies |
+| No invented or provisional public content | PASS | Publication/fallback contract is deny-by-default |
+| Protect /about and /service | PASS | Legacy ServiceComponent remains route-owned; shell smoke coverage is planned |
+
+### Post-design gate
+
+| Gate | Status | Evidence |
+|---|---|---|
+| Technical design resolves every approved behavior | PASS | Component, data and UI contracts cover FR-001 through FR-046 |
+| Optional business inputs do not block the Home | PASS | Products/resources/links use conditional visibility or contacto fallback |
+| Accessibility and reduced motion are first-class | PASS | Menu, tabs, tracks, marquee and reveal contracts define keyboard/fallback behavior |
+| Current budgets remain authoritative | PASS | No budget increase is planned; global tokens prevent duplicated component SCSS |
+| No out-of-scope internal implementation | PASS | /about and /service receive smoke protection only |
+
+There are no constitution violations requiring complexity exceptions.
+
+## Project Structure
+
+### Documentation (this feature)
+
+    specs/001-appland-home-redesign/
+    ├── plan.md
+    ├── research.md
+    ├── data-model.md
+    ├── quickstart.md
+    ├── contracts/
+    │   └── home-ui-contract.md
+    └── checklists/
+        └── requirements.md
+
+No tasks.md is generated by this phase.
+
+### Source code (planned; repository root)
+
+    src/
+    ├── index.html
+    ├── styles.scss
+    ├── styles/
+    │   └── _appland-home-tokens.scss
+    ├── assets/
+    │   └── images/
+    │       └── home/
+    └── app/
+        ├── app.component.{ts,html,scss}
+        ├── app.module.ts
+        ├── app-routing.module.ts
+        ├── components/
+        │   ├── menu/
+        │   ├── banner/
+        │   ├── our-clients/
+        │   ├── home-challenges/
+        │   ├── home-services/
+        │   ├── success-stories/
+        │   ├── ai-solution/
+        │   ├── home-products/
+        │   ├── why/
+        │   ├── team-coverage/
+        │   ├── home-cta/
+        │   └── footer/
+        ├── feature/pages/home/
+        │   ├── home.component.{ts,html,scss}
+        │   ├── home-content.models.ts
+        │   └── home-content.config.ts
+        └── shared/
+            ├── directives/
+            │   ├── horizontal-carousel.directive.ts
+            │   ├── home-section.directive.ts
+            │   └── reveal-on-scroll.directive.ts
+            ├── services/
+            │   └── home-section-observer.service.ts
+            └── utils/
+                └── conversion-destination.util.ts
+
+Focused .spec.ts files are colocated with the changed components, directives, service, utility and Home page, following Angular CLI conventions.
+
+**Structure Decision**: Keep the existing single-project, declarations-based Angular structure. Feature content remains beside HomeComponent; presentation components stay under the existing components directory; only behavior shared by multiple Home sections is placed under shared. Do not introduce a standalone component, new application, backend or feature route.
+
+## Source analysis
+
+### Application shell and routing
+
+- AppComponent always renders MenuComponent, router-outlet and FooterComponent.
+- AppComponent imports or consumes the approved typed site configuration, binds navigation/meeting data to MenuComponent and supplies one complete FooterContent input—including its nested contact information—to FooterComponent; no required shell input is left unbound.
+- Its inline style block and obsolete commented SCSS must be removed when the shell is implemented.
+- AppRoutingModule currently maps /, /about and /service without anchor scrolling, scroll restoration or a wildcard route.
+- Header/footer changes therefore affect all three routes and require explicit smoke validation.
+- index.html currently declares lang="en", has a generic title, loads remote Roboto/Material Icons and applies an inline body background.
+
+### Current Home composition
+
+Active order is Banner, Service, OurClients, ChooseUs, Why and TeamCoverage. AiSolution, SuccessStories and OurTeam are commented out. This order and catalog do not match the approved ten-section flow.
+
+### Reuse/refactor/replace matrix
+
+| Current artifact | Planned treatment | Reason |
+|---|---|---|
+| HomeComponent | Replace legacy composition while preserving the orchestrator class | Remove the old Service/ChooseUs/order/commented alternatives and compose only approved sections |
+| MenuComponent | Refactor in place | Global responsibility matches; current behavior/navigation is defective |
+| BannerComponent | Refactor in place | Responsibility matches Hero |
+| OurClientsComponent | Refactor in place | Responsibility matches; replace broken RAF/ViewChild behavior |
+| ServiceComponent | Preserve for /service | Route coupling makes Home refactor unsafe |
+| CardTemplateComponent | Preserve for /service | Legacy route presentation |
+| ChooseUsComponent | Exclude from Home; preserve declaration | Contains unapproved metrics and overlaps Why |
+| SuccessStoriesComponent | Refactor in place | Responsibility matches cases; current content/assets do not |
+| AiSolutionComponent | Refactor in place | Responsibility matches IA; reduce 7.9 kB stylesheet |
+| WhyComponent | Refactor in place | Responsibility matches approved attributes |
+| TeamCoverageComponent | Replace internals in place | Remove clocks/globe/flag hotlinks and add the sixth country |
+| FooterComponent | Refactor in place | Global responsibility matches; content/destinations require governance |
+| OurTeamComponent | Exclude from Home; preserve declaration | Not present in approved scope |
+| CountUpDirective | Do not use; preserve | New Home has no count-up metrics |
+
+New components are limited to HomeChallengesComponent, HomeServicesComponent, HomeProductsComponent and HomeCtaComponent.
+
+## Target component tree
+
+    AppComponent
+    ├── MenuComponent
+    ├── main / router-outlet
+    │   ├── HomeComponent
+    │   │   ├── BannerComponent                         # inicio
+    │   │   ├── OurClientsComponent [conditional]      # clientes
+    │   │   ├── HomeChallengesComponent                # desafios
+    │   │   ├── HomeServicesComponent                  # servicios
+    │   │   ├── SuccessStoriesComponent                # casos
+    │   │   ├── AiSolutionComponent                    # ia
+    │   │   ├── HomeProductsComponent [conditional]    # productos
+    │   │   ├── WhyComponent                           # por-que-appland
+    │   │   ├── TeamCoverageComponent                  # equipo-global
+    │   │   └── HomeCtaComponent                       # contacto
+    │   ├── AboutComponent                             # unchanged content
+    │   └── ServiceComponent                           # unchanged legacy content
+    └── FooterComponent
+
+## Responsibilities and state ownership
+
+| Owner | Responsibility | State |
+|---|---|---|
+| AppComponent | Global shell; imports shared approved configuration, supplies Menu navigation/meeting inputs and one FooterContent input, and marks the global footer as an observed region | No manually managed scroll state |
+| HomeComponent | Ordered composition and conditional clients/products | Derived visible content only |
+| MenuComponent | Sticky header, compact menu, fragment navigation; consumes activeNavigationFragment from HomeSectionObserverService | open and scrolled locally; active fragment read from shared service |
+| HomeServicesComponent | Accessible service selection | active service id |
+| SuccessStories/HomeProducts | Present typed cards | current manual track position |
+| HorizontalCarouselDirective | Native one-card scroll and boundary calculation | DOM scroll position only |
+| OurClientsComponent | Logo presentation and pause control | running/paused/static |
+| HomeSectionObserverService | Root-scoped registry and Home-only active-section state; arbitrates the 140 px threshold and maps every ObservedRegionId to one header fragment only while the active route is `/` | registered regions, current observed region id (including footer), current-route eligibility and activeNavigationFragment observable |
+| RevealOnScrollDirective | Fail-visible entrance enhancement | pending/revealed |
+| Conversion destination utility | Pure fallback resolution | None |
+
+Business data is immutable. No component writes content back to a service, storage or remote endpoint.
+
+## Planned file changes
+
+### Modify
+
+- src/index.html: set Spanish language, remove inline body style, use approved basic title/description and retain only justified font/icon resource links.
+- src/styles.scss: import tokens, establish global reset/body/focus/skip-link/shell utilities without overriding generic Bootstrap classes.
+- src/app/app.component.ts/html/scss: consume approved navigation/contact configuration, bind Menu navigation/meeting inputs and one FooterContent input, register the global footer as the `footer` observed region, provide the accessible global shell/main landmark/header spacing and remove inline/commented legacy style.
+- src/app/app.module.ts: declare new components/directives and import CDK A11yModule; no standalone imports.
+- src/app/app-routing.module.ts: enable fragment scrolling and scroll restoration; preserve route table.
+- src/app/feature/pages/home/home.component.ts/html/scss: completely replace legacy composition with typed approved order and conditional clients/products; retain no app-service, app-choose-us, app-our-team, alternative commented composition, duplicate component or unapproved metric.
+- Existing Menu, Banner, OurClients, SuccessStories, AiSolution, Why, TeamCoverage and Footer component files: refactor to the contracts above.
+
+### Create
+
+- src/styles/_appland-home-tokens.scss.
+- home-content.models.ts and home-content.config.ts.
+- HomeChallenges, HomeServices, HomeProducts and HomeCta component files.
+- HorizontalCarouselDirective, HomeSectionDirective, RevealOnScrollDirective.
+- HomeSectionObserverService and conversion destination utility.
+- Colocated Jasmine specs for all behavior-bearing artifacts and Home composition.
+- Approved optimized assets under src/assets/images/home only as they become available.
+
+### Preserve unless a demonstrated regression requires a minimal fix
+
+- ServiceComponent and CardTemplateComponent.
+- AboutComponent.
+- ChooseUsComponent, OurTeamComponent and CountUpDirective.
+- Existing i18n files and LanguageService.
+- package.json/package-lock.json, angular.json budgets and installed dependency versions.
+
+## Content strategy
+
+1. Copy the official Spanish text from the functional spec/PDF into typed readonly configuration.
+2. Do not reuse extra business bullets, claims, product descriptions or testimonials found only in the visual reference.
+3. Filter governed content before it reaches templates:
+   - clients require approved local logo and publication permission; zero approved clients omits the entire region including heading/marquee, with no textual names, recreated logos, placeholder or pending message;
+   - cases may render without media and never show “Ver caso” without a destination;
+   - products render only when individually approved; zero approved products removes the section;
+   - social/legal links render only with approved URLs.
+4. Resolve meeting to its approved external URL or contacto.
+5. Resolve WhatsApp to the official number and append no message until one is approved.
+6. Keep configuration Spanish-only while leaving ngx-translate intact for legacy code; remove the ES/EN selector, visible bilingual controls, data-en reference attributes and unused hidden English copy from the new shell/Home.
+
+The full schema and invariants are defined in [data-model.md](./data-model.md), and observable rendering rules in [home-ui-contract.md](./contracts/home-ui-contract.md).
+
+## Navigation strategy
+
+- Router links target / plus a fragment, including from /about and /service.
+- AppRoutingModule enables anchorScrolling and scrollPositionRestoration.
+- CSS scroll-margin-top uses the shared header-height token; a fixed router scroll offset provides a safe fallback.
+- “Nosotros” maps to por-que-appland everywhere, including footer.
+- Header appearance changes from transparent to dark/blurred/bordered after a small scroll threshold through Angular state/class bindings, not querySelector style mutation.
+- HomeSectionObserverService is a shared root-scoped service. HomeSectionDirective registers and unregisters all ten HomeSectionId regions, while AppComponent registers the global footer with ObservedRegionId `footer`.
+- `activeNavigationFragment` is applicable only while the active route is `/`. On `/about`, `/service` or any other non-Home route, the service clears both the active observed region and activeNavigationFragment, ignores the footer for active-link calculation and prevents any fragment-based `aria-current` from remaining in the header.
+- On `/`, the service uses a 140 px activation line, receives region visibility/crossing notifications, maps the most recently crossed region to activeNavigationFragment and falls back to the current router fragment when observation is unavailable. The globally registered footer participates in this calculation only on `/`.
+- MenuComponent consumes activeNavigationFragment directly from the shared service; AppComponent coordinates configuration and shell registration but does not manually relay scroll events.
+- At most one header link is active on `/`. Its visual active class and `aria-current="location"` (or equivalent semantics) are driven from the same activeNavigationFragment value; links that are not active expose no aria-current. Every header link has no fragment-derived active class or aria-current on non-Home routes.
+- A skip link targets the main landmark.
+
+Active-header mapping while the active route is `/`:
+
+| Visible region | Active link |
+|---|---|
+| Hero or clients | Inicio |
+| Challenges, services, IA or products | Servicios |
+| Cases | Casos de éxito |
+| Why APPLAND or global team | Nosotros |
+| Final CTA or footer | Contacto |
+
+## Responsive strategy
+
+Use mobile-first SCSS and the reference thresholds:
+
+- Base/360/390: one-column Hero/cards, full-width or wrapping actions, compact menu, no fixed card widths larger than the viewport.
+- At 559 px and below: hide the duplicate desktop header CTA; conversion remains available in the compact menu and Hero.
+- At exactly 560 px: apply the approved compact-header CTA state without showing competing duplicate controls, layout shift, overlap or horizontal overflow.
+- 560–767: compact menu, flexible action rows and one-column primary sections.
+- 768–1023: compact menu, one-column Hero, two-column card grids where content permits, manual horizontal tracks.
+- 1024 and above: desktop navigation; two-column Hero; wider two/three-column compositions.
+- 1280/1440: content caps at 1280 with 24 px gutters and reference spacing/type clamps.
+
+At exactly 1024 px, the visual reference uses desktop navigation. Every width in 1440, 1280, 1024, 768, 390 and 360 px is a mandatory manual validation point.
+
+Implementation rules:
+
+- min-width: 0 on grid/flex children.
+- Images use max-width: 100%, intrinsic dimensions and aspect ratio.
+- Tracks own horizontal overflow; body/html never do.
+- Long Spanish labels wrap; controls do not depend on a one-line assumption.
+- Fixed header, focus ring and 200% zoom are validated at narrow widths.
+
+## Accessibility strategy
+
+- Set document language to es and provide one h1.
+- Use header/nav/main/section/footer landmarks and labelled regions.
+- Use a visible-on-focus skip link.
+- Compact menu: native toggle/close buttons, aria-expanded/controls, Escape, focus trap, focus restoration and background interaction prevention.
+- Tabs: WAI-ARIA relationships, roving tabindex, Arrow keys, Home/End and non-color active treatment.
+- Carousels: labelled focusable region/track, accessible name, appropriate natural/programmatic focus, identified previous/next controls, current item/position communication when applicable, touch/native scroll, keyboard arrows and no autoplay. Semantic equivalents to role="region", aria-label/aria-labelledby, optional aria-roledescription and tabindex are selected through Angular bindings rather than imposed as literal markup.
+- Marquee: explicit pause/resume plus hover/focus pause; static reduced-motion layout.
+- Motion: global reduced-motion rule; reveal/parallax/spin/float/smooth-scroll enhancements disabled without removing content.
+- Images: meaningful alt for informative assets; empty alt/aria-hidden for decorative visuals.
+- Links: safe new-context attributes and accessible names.
+- Focus: orange focus-visible ring; minimum 44 x 44 CSS-pixel controls.
+- Validate reading order, 200% zoom, keyboard-only tasks and screen-reader state announcements.
+
+CDK A11yModule is already available through the installed CDK package and is the only added module needed for focus trapping. No new accessibility dependency is introduced.
+
+## Interaction and animation strategy
+
+### Header and compact menu
+
+Use HostListener/Router events and component booleans. Angular class/attribute bindings render state. No document.querySelector mutation is retained.
+
+### Service tabs
+
+Use one activeServiceId and stable ids. Panels change through Angular structural/attribute bindings; optional transition is CSS-only and removed under reduced motion.
+
+### Case/product carousels
+
+Use native overflow and scroll-snap. ElementRef access is limited to scrollLeft/clientWidth/scrollBy because these native scrolling operations have no declarative Angular equivalent. No timers, autoplay or dependency.
+
+### Client marquee
+
+Use one CSS animation and a duplicated aria-hidden visual track. An explicit Angular pause state controls animation-play-state. Reduced motion displays a static list.
+
+### Reveals
+
+Base content is visible. RevealOnScrollDirective activates only when IntersectionObserver exists and reduced motion is false; cleanup disconnects every observer. Unsupported APIs fail visible.
+
+### Decorative motion
+
+Use transform/opacity only, avoid layout properties, keep decoration aria-hidden, and eliminate nonessential movement under reduced motion. Do not reproduce the reference parallax unless it passes performance and reduced-motion gates; it is expendable before content or conversion behavior.
+
+## Asset strategy
+
+- Audit every candidate against business approval before import.
+- Reuse current Ficohsa, Grupo Terra, Tigo, Toyota and Avianca logos only after authorization and normalization; Pepsi remains omitted while its official logo is unavailable.
+- Convert/resize approved raster assets to responsive WebP/AVIF as appropriate and retain a suitable fallback only when browser support requires it.
+- Store new production assets locally under src/assets/images/home; no flagcdn or other required-image hotlinks.
+- Add width/height or CSS aspect-ratio to prevent layout shift.
+- Lazy-load below-fold informative media; do not lazy-load the logo or any above-fold essential visual.
+- Avoid the current 1.5–2.3 MB images. Target each normal card image below 150 kB and total above-fold image transfer below 250 kB in the mobile profile, subject to visual quality.
+- Use compact inline SVG only for generic decorative/interface icons when authored for the application; never recreate a client logo.
+- Do not copy mockups from the PDF/reference as production case/product art.
+- Keep font family configurable. Retain inherited remote Roboto and Material Icons temporarily for /about, /service and Angular Material, but add no new remote font request. Use Manrope only from an authorized local asset; otherwise use the approved system fallback. Global removal of inherited font/icon resources is out of scope.
+
+Known broken references are not repaired with invented files; the refactored Home stops referencing them.
+
+## SEO strategy
+
+- Change html language from en to es.
+- Provide an approved Home-oriented title and meta description using only official proposition copy.
+- Keep one h1 and semantic heading order.
+- Use link text that communicates destination.
+- Do not add an unapproved canonical URL, social-preview asset or structured business claim.
+- Preserve valid base href and crawlable anchor links.
+
+## Performance strategy
+
+### Build gates
+
+Keep angular.json budgets unchanged:
+
+- initial bundle warning at 500 kB and error at 1 MB;
+- any component stylesheet warning/error at 6 kB.
+
+The existing AiSolution stylesheet already exceeds 6 kB and must be reduced before the component is activated. Shared tokens and repeated primitives belong in the global partial, not copied to every component.
+
+### Browser profile
+
+Run a production build served locally in current Chrome:
+
+- viewport 390 x 844;
+- DPR 3;
+- cold cache;
+- Fast 4G network;
+- 4x CPU slowdown;
+- three Lighthouse runs, median recorded.
+
+Release targets:
+
+- Lighthouse Performance ≥90.
+- LCP ≤2.5 s.
+- CLS ≤0.1.
+- TBT ≤200 ms.
+- No required lower resource blocks Hero/nav/CTA.
+- No persistent JavaScript timer/RAF for carousel, marquee or team coverage.
+
+At 360 px and 200% zoom, actions must remain stable and operable. Below-fold resource failure must leave usable text and no broken placeholder.
+
+## Test strategy
+
+### Automated Jasmine/Karma
+
+| Area | Assertions |
+|---|---|
+| Home composition — Angular | Rendered DOM excludes legacy app-service/app-choose-us/app-our-team, duplicate components, extra Nosotros and “100K”; approved relative order and conditional clients/products are asserted |
+| Home composition — static source | Controlled review/search of home.component.html confirms no inherited commented block, legacy selector, old metric or alternative composition remains; this is not a Karma assertion |
+| Header desktop/compact | Labels/fragments; full registered-region mapping on `/`; one shared active fragment; exactly one matching visual active class and aria-current="location" on Home; active state clears after navigation from Home to a non-Home route; zero fragment-derived aria-current values on /about and /service; Nosotros mapping; no language selector/data-en/hidden English; open/close/Escape; aria-expanded; focus entry/restoration; scrolled class; explicit 559/560 behavior |
+| Cross-route shell | AppComponent supplies navigation/meeting data to Menu and one FooterContent value—including nested contact—to Footer; registers footer without relaying scroll events; footer participates in active-link calculation only on `/`; no required input is unbound; header/footer render on /, /about and /service; root fragments are generated; /about and /service expose no fragment-derived aria-current; content not hidden by header |
+| CTA resolver | Approved meeting URL, contacto fallback, official WhatsApp with/without approved message, safe target attributes |
+| Service tabs | Five items; click/touch-equivalent activation; ArrowLeft/Right/Home/End; selected state and valid ARIA references |
+| Case/product tracks | Labelled/focusable region, accessible name, identified controls, current position when applicable, keyboard/touch movement, no autoplay and empty products excluded |
+| Publication rules | Missing logo/media/destination/social/legal resource omits only the governed UI |
+| Client marquee | Pause/resume; hover/focus state; reduced motion is static; duplicate track aria-hidden |
+| Reveal | Supported observer reveals; missing observer/reduced motion leaves content visible; cleanup disconnects |
+| Content | Exact entity counts and typed ids; Spanish official copy; no placeholder/testimonial/unapproved metric |
+| Footer | Approved navigation/contact only; current year; conditional links |
+
+Use TestBed, RouterTestingModule, fake matchMedia and deterministic observer/scroll test doubles. Add specs manually because project schematics currently skip test generation.
+
+### Production verification
+
+- npm run build -- --configuration production must pass current budgets.
+- npm test -- --watch=false --browsers=ChromeHeadless must pass.
+- Search built/source output for support.js, React, flagcdn and known broken paths; none may be referenced by the Home.
+- Inspect Network and Performance using the profile above.
+
+### Manual validation
+
+At 1440, 1280, 1024, 768, 390 and 360 px:
+
+- compare structure, palette, hierarchy, spacing, header state and composition with the executable reference;
+- confirm zero page-level horizontal overflow, clipping and overlap;
+- navigate complete Home by keyboard with visible focus;
+- exercise compact menu, tabs, case/product tracks and marquee pause;
+- repeat with prefers-reduced-motion;
+- test touch swiping on a touch-capable emulator/device;
+- verify /about and /service render and their global navigation/footer remain usable;
+- confirm every visible logo, case, product and link has approval evidence.
+
+Automated pixel-perfect visual regression is not introduced.
+
+## Implementation sequence
+
+This is dependency ordering for the future implementation, not tasks output:
+
+1. Establish approved typed configuration, destination/publication rules and global tokens.
+2. Stabilize AppComponent configuration wiring, routing, document language and global header/footer contract.
+3. Replace the legacy Home composition and integrate Hero. HomeCtaComponent can then be created, integrated and validated as the early US1 MVP as soon as shell, Home orchestration and contact configuration exist; this checkpoint does not depend on services, cases, IA, products, benefits, team, active-section enhancement or global closure gates.
+4. Complete the initial clients/challenges increment and establish the shared registered-region/active-header flow for rendered initial regions plus footer, scoped so it publishes active fragments only on `/` and clears them on every non-Home route transition.
+5. Build later section components in parallel where file ownership permits, then integrate and register them in HomeComponent strictly in PDF order; final contacto registration occurs when the complete order is validated.
+6. Add reveal/horizontal-scroll behaviors, integrate approved optimized assets and remove Home hotlinks/broken references.
+7. Run global tests, production gates and the complete six required-width/manual accessibility matrix plus the explicit 559/560 boundary checks.
+
+No step requires an internal page, backend or new dependency.
+
+## Risks and mitigations
+
+| Risk | Impact | Mitigation |
+|---|---|---|
+| Global header/footer regression on /about or /service | Existing route content obscured or navigation broken | Root-fragment links, shell spacing and route smoke tests |
+| Reusing ServiceComponent for Home | Changes the /service catalog and layout | Create isolated HomeServicesComponent |
+| 6 kB component-style budget, especially current IA SCSS | Production build failure | Global tokens/utilities, smaller section styles, inspect stats before merge |
+| 24.2 MB current asset directory and heavy images | Slow load/LCP | Include only approved optimized Home assets; lazy load below fold |
+| Missing logos/mockups/product approval | Empty or misleading UI | Deny-by-default filters; text-complete case/product cards; omit individual assets/actions and omit the full clients/products region when its approved list is empty |
+| Fixed header hides anchor destination | Navigation appears incorrect | Shared header-height offset, scroll-margin and width matrix |
+| Motion causes discomfort or inaccessible content | Fails FR-042/SC-007 | Explicit pause, reduced-motion state, fail-visible reveal |
+| IntersectionObserver unavailable | Active/reveal enhancements fail | Router-fragment fallback and base-visible CSS |
+| Node 24 local runtime differs from Angular 16 baseline | Non-reproducible build/test | Pin project-approved Node 18.x for implementation/CI |
+| No existing unit tests | Low regression confidence | Add focused specs around all new behavior plus route smoke tests |
+| Typography approval arrives late | Visual mismatch or new external request | CSS font token and system/current fallback; integrate approved local font later |
+| Conditional products leave stale navigation | Dead fragment | Derive nav/region visibility from the same visibleProducts selector |
+| Existing global Bootstrap/Material selectors | Style leakage | Feature-scoped class names and regression review |
+
+## Non-blocking business dependencies
+
+- Final approved product list and official product copy.
+- Final meeting URL.
+- Approved WhatsApp message.
+- Official client logos and publication authorizations.
+- Official case/product mockups.
+- Approved case destinations.
+- Official LinkedIn and Instagram URLs.
+- Future privacy and terms URLs.
+- Additional approved business visuals.
+- Final brand typography or approved local font files.
+
+Each dependency already has a visibility or fallback rule; none blocks technical implementation of the remaining Home.
+
+## Definition of Done
+
+The future implementation is technically complete when:
+
+1. Angular remains at 16.x and the application remains NgModule-based.
+2. HomeComponent renders the applicable ten regions in approved relative order with global header/footer.
+3. “Nosotros” targets por-que-appland and no additional Nosotros region/route exists.
+4. All visible business content comes from the approved typed configuration.
+5. Products, logos, media and links obey the publication/fallback contract with zero public placeholders.
+6. Menu, tabs, carousels, marquee and CTA work by mouse, touch and keyboard with communicated state and visible focus.
+7. Reduced motion removes nonessential movement while all content remains available.
+8. Home has one h1, semantic labelled regions, appropriate images and safe external links.
+9. The six required viewport widths show no page overflow, clipping or control overlap.
+10. /about and /service still render under a usable, unobscuring global shell, with no fragment-derived active header item or inherited `aria-current`.
+11. No required Home asset is hotlinked; approved assets are local, sized and optimized.
+12. Production build passes unchanged budgets and component styles remain at or below 6 kB.
+13. Jasmine/Karma tests and the manual validation matrix pass.
+14. Lighthouse median and load/stability targets in this plan pass or any variance is documented and explicitly approved before release.
+15. Source contains no React integration, support.js, copied reference script, new UI/carousel/animation library or inline styles.
+16. AppComponent supplies Menu navigation/meeting inputs and one FooterContent input—including nested contact—on /, /about and /service; the new Home contains no legacy composition, language selector, data-en content or unapproved “100K” metric.
+17. All ten Home regions and the global footer participate in the shared active-section registry on `/`; MenuComponent exposes no more than one matching visual/aria-current active link on Home and exposes none on `/about`, `/service` or any other non-Home route, including immediately after leaving Home.
+
+## Complexity Tracking
+
+Not applicable. The design does not violate a repository constitution or introduce an architecture exception.
