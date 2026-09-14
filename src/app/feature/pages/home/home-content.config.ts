@@ -100,7 +100,7 @@ const contact = {
   },
   phone: {
     kind: 'phone',
-    value: '+50433949211',
+    value: '+50433349211',
     publicationStatus: 'approved',
     newContext: false,
   },
