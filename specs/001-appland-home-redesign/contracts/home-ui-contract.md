@@ -258,7 +258,7 @@ Resolution order is deterministic:
 
 ### WhatsApp
 
-1. Always use the official number 50433949211.
+1. Always use the official number 50433349211.
 2. If approvedMessage is nonempty, URL-encode and append it.
 3. Otherwise open the number without a text query.
 4. A new browsing context uses noopener/noreferrer protection.

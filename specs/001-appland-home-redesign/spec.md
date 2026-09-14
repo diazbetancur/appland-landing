@@ -142,7 +142,7 @@ La experiencia contiene un header global, diez secciones principales y un footer
 10. **¿Listo para transformar tu negocio?**
     - Texto: “Conversemos sobre tu proyecto y descubre cómo la tecnología, la automatización y la inteligencia artificial pueden ayudarte a crecer.”
     - Acciones: “Agendar reunión” y “Escribir por WhatsApp”.
-    - Contacto: hello@applandtech.com y +504 3394-9211.
+    - Contacto: hello@applandtech.com y +504 3334-9211.
     - Redes: LinkedIn e Instagram cuando dispongan de URL aprobada.
 
 11. **Footer global**
@@ -364,7 +364,7 @@ Los perfiles, herramientas y umbrales técnicos para medir carga, estabilidad y 
 - La experiencia inicial muestra contenido únicamente en español.
 - La nueva Home no presenta selector ES/EN, alternancia de idioma ni contenido inglés visible u oculto sin propósito.
 - El footer puede describirse como la región once sin afectar el orden funcional de las diez secciones principales.
-- El correo hello@applandtech.com y el teléfono +504 3394-9211 son datos oficiales. El correo fue corregido por el Product Owner el 2026-08-24; la versión anterior (hello@applandtech.com) queda descartada.
+- El correo hello@applandtech.com y el teléfono +504 3334-9211 son datos oficiales. El correo fue corregido por el Product Owner el 2026-08-24; la versión anterior (hello@applandtech.com) queda descartada.
 - LinkedIn (linkedin.com/company/appland-inc/) e Instagram (instagram.com/appland.inc/) son URLs oficiales recuperadas del footer previo al rediseño y aprobadas para publicación el 2026-08-24.
 - Una URL de agendamiento pendiente usa el bloque final de contacto como destino alternativo.
 - Un mensaje de WhatsApp pendiente no se inventa; se usa el número oficial sin mensaje prellenado hasta recibir aprobación.

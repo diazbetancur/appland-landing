@@ -234,8 +234,8 @@ Compare visible output with the approved spec/PDF:
 Check the exact contact data:
 
 - hello@applandtech.com
-- +504 3394-9211
-- WhatsApp number 50433949211
+- +504 3334-9211
+- WhatsApp number 50433349211
 
 ## 11. Performance validation
 
