@@ -60,7 +60,7 @@
     />
   </div>
 
-  <ul class="team__countries" aria-label="Países con presencia de APPLAND">
+  <ul class="team__countries" [attr.aria-label]="'home.team.countriesLabel' | translate">
     @for (country of countries; track country) {
       <li class="country-card">
         <span class="country-card__flag">

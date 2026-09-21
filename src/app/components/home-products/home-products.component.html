@@ -8,7 +8,7 @@
       <div class="products__controls">
         <button
           type="button"
-          aria-label="Producto anterior"
+          [attr.aria-label]="'home.products.previous' | translate"
           [disabled]="!carousel.canMovePrevious"
           (click)="carousel.movePrevious()"
         >
@@ -16,7 +16,7 @@
         </button>
         <button
           type="button"
-          aria-label="Producto siguiente"
+          [attr.aria-label]="'home.products.next' | translate"
           [disabled]="!carousel.canMoveNext"
           (click)="carousel.moveNext()"
         >
@@ -31,7 +31,7 @@
       [itemCount]="products.length"
       role="region"
       aria-labelledby="productos-title"
-      aria-roledescription="carrusel"
+      [attr.aria-roledescription]="'a11y.carousel' | translate"
       tabindex="0"
     >
       @for (product of products; track product) {

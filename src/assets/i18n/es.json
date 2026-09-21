@@ -37,6 +37,8 @@
     "title-second": "Inteligencia Artificial"
   },
   "a11y": {
+    "brandHome": "APPLAND, inicio",
+    "carousel": "carrusel",
     "skipToContent": "Saltar al contenido principal"
   },
   "chooseUs": "¿Por qué confiar en Appland?",
@@ -116,6 +118,8 @@
       "espresso": {
         "summary": "App de fidelización."
       },
+      "next": "Caso siguiente",
+      "previous": "Caso anterior",
       "telemedicine": {
         "summary": "Unión Europea."
       },
@@ -198,6 +202,8 @@
       "hotels": "Hoteles",
       "labs": "Laboratorios",
       "loyalty": "Programas de Lealtad",
+      "next": "Producto siguiente",
+      "previous": "Producto anterior",
       "restaurants": "Restaurantes",
       "title": "Soluciones listas para acelerar tu operación"
     },
@@ -223,6 +229,8 @@
         "summary": "Alineamos tecnología, estrategia y negocio para impulsar tu crecimiento.",
         "transformation": "Transformación digital"
       },
+      "pause": "Pausar el cambio automático de servicio",
+      "resume": "Reanudar el cambio automático de servicio",
       "software": {
         "enterprise": "Sistemas empresariales",
         "mobile": "Apps móviles",
@@ -238,6 +246,7 @@
         "teams": "Equipos dedicados",
         "ux": "UX/UI"
       },
+      "tablistLabel": "Servicios de APPLAND",
       "title": "Soluciones tecnológicas que impulsan el <span class=\"services__highlight\">crecimiento</span> de tu empresa"
     },
     "team": {
@@ -252,6 +261,7 @@
         "PE": "Perú",
         "SV": "El Salvador"
       },
+      "countriesLabel": "Países con presencia de APPLAND",
       "cta": "Conoce nuestro equipo",
       "flagAlt": "Bandera de {{country}}",
       "lead": "Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.",
@@ -291,6 +301,8 @@
     }
   },
   "menu": {
+    "close": "Cerrar menú",
+    "dialogLabel": "Menú de navegación",
     "language": {
       "en": {
         "code": "EN",
@@ -302,7 +314,9 @@
       },
       "groupLabel": "Idioma"
     },
-    "meetingShort": "Agendar"
+    "meetingShort": "Agendar",
+    "navLabel": "Navegación principal",
+    "open": "Abrir menú"
   },
   "nav": {
     "about": "Nosotros",

@@ -55,7 +55,9 @@ describe('MenuComponent navigation', () => {
     ]);
     expect(links[3].attributes['href']).toContain('#por-que-appland');
     expect(fixture.debugElement.query(By.css('[data-en]'))).toBeNull();
-    expect(fixture.nativeElement.textContent).not.toContain('EN');
+    // Aqui habia una asercion de que el menu no contuviera "EN", guardia contra la interfaz de
+    // idioma de la maqueta, que no estaba aprobada. El usuario la aprobo el 2026-09-21 y ahora
+    // existe: lo que ese selector debe cumplir lo fija menu-language.spec.ts.
   });
 
   it('shows exactly one matching visual and aria-current state on Home', fakeAsync(() => {

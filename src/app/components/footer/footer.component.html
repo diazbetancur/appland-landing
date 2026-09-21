@@ -1,7 +1,7 @@
 <div class="footer appland-container">
   <div class="footer__grid">
     <div class="footer__brand">
-      <a class="footer__logo" [routerLink]="['/']" fragment="inicio" aria-label="APPLAND, inicio">
+      <a class="footer__logo" [routerLink]="['/']" fragment="inicio" [attr.aria-label]="'a11y.brandHome' | translate">
         <img src="assets/images/logo-appland.png" width="215" height="44" alt="" />
       </a>
       <p>{{ content.brandSummaryKey | translate }}</p>

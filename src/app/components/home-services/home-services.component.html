@@ -15,7 +15,7 @@
   </header>
 
   <div class="services__tabbar">
-    <div #tabStrip class="services__tabs" role="tablist" aria-label="Servicios de APPLAND">
+    <div #tabStrip class="services__tabs" role="tablist" [attr.aria-label]="'home.services.tablistLabel' | translate">
       @for (service of services; track service; let index = $index) {
         <button
           #tabButton
@@ -44,9 +44,7 @@
         type="button"
         class="services__pause"
         [attr.aria-pressed]="pausedByControl"
-        [attr.aria-label]="
-          pausedByControl ? 'Reanudar el cambio automático de servicio' : 'Pausar el cambio automático de servicio'
-        "
+        [attr.aria-label]="(pausedByControl ? 'home.services.resume' : 'home.services.pause') | translate"
         (click)="togglePause()"
       >
         <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">

@@ -11,6 +11,7 @@ import { HomeSectionObserverService } from '../../shared/services/home-section-o
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService, SUPPORTED_LANGUAGES, SupportedLanguage } from '../shared/language.service';
 
 @Component({
   selector: 'app-menu',
@@ -21,6 +22,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class MenuComponent implements OnInit, OnDestroy {
   private readonly sectionObserver = inject(HomeSectionObserverService);
   private readonly router = inject(Router);
+  private readonly language = inject(LanguageService);
+
+  /** Los dos idiomas que publica el sitio, en el orden en que los muestra el selector. */
+  readonly languages = SUPPORTED_LANGUAGES;
 
   @Input() items: readonly NavigationItem[] = [];
   @Input() meetingAction!: ConversionAction;
@@ -80,6 +85,21 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   isActive(fragment: HomeSectionId): boolean {
     return this.activeFragment === fragment;
+  }
+
+  isCurrentLanguage(lang: SupportedLanguage): boolean {
+    return this.language.getCurrentLanguage() === lang;
+  }
+
+  /**
+   * El idioma se resuelve del navegador en el arranque, asi que sin esto quien cae en el que
+   * no entiende se queda sin salida. La eleccion se recuerda para la siguiente visita.
+   */
+  selectLanguage(lang: SupportedLanguage): void {
+    if (this.isCurrentLanguage(lang)) {
+      return;
+    }
+    this.language.changeLanguage(lang);
   }
 
   @HostListener('window:scroll')

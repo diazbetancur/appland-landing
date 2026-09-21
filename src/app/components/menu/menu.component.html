@@ -1,6 +1,12 @@
-<nav class="menu" [class.menu--scrolled]="isScrolled" aria-label="Navegación principal">
+<nav class="menu" [class.menu--scrolled]="isScrolled" [attr.aria-label]="'menu.navLabel' | translate">
   <div class="menu__inner appland-container">
-    <a class="menu__brand" [routerLink]="['/']" fragment="inicio" (click)="navigate()" aria-label="APPLAND, inicio">
+    <a
+      class="menu__brand"
+      [routerLink]="['/']"
+      fragment="inicio"
+      (click)="navigate()"
+      [attr.aria-label]="'a11y.brandHome' | translate"
+    >
       <img class="menu__brand-mark" src="assets/images/logo-appland.png" width="215" height="44" alt="" />
     </a>
 
@@ -51,11 +57,31 @@
       </a>
     }
 
+    <div
+      class="menu__language menu__language--desktop"
+      role="radiogroup"
+      [attr.aria-label]="'menu.language.groupLabel' | translate"
+    >
+      @for (lang of languages; track lang) {
+        <button
+          type="button"
+          role="radio"
+          class="menu__language-option"
+          [class.menu__language-option--active]="isCurrentLanguage(lang)"
+          [attr.aria-checked]="isCurrentLanguage(lang)"
+          [attr.aria-label]="'menu.language.' + lang + '.name' | translate"
+          (click)="selectLanguage(lang)"
+        >
+          {{ 'menu.language.' + lang + '.code' | translate }}
+        </button>
+      }
+    </div>
+
     <button
       #menuToggle
       class="menu__toggle"
       type="button"
-      aria-label="Abrir menú"
+      [attr.aria-label]="'menu.open' | translate"
       aria-controls="menu-compacto"
       [attr.aria-expanded]="isMenuOpen"
       (click)="toggleMenu()"
@@ -71,7 +97,7 @@
     class="compact-menu"
     role="dialog"
     aria-modal="true"
-    aria-label="Menú de navegación"
+    [attr.aria-label]="'menu.dialogLabel' | translate"
     cdkTrapFocus
     [cdkTrapFocusAutoCapture]="true"
   >
@@ -79,7 +105,14 @@
       <span class="menu__brand"
         ><img class="menu__brand-mark" src="assets/images/logo-appland.png" width="215" height="44" alt=""
       /></span>
-      <button class="compact-menu__close" type="button" aria-label="Cerrar menú" (click)="closeMenu()">×</button>
+      <button
+        class="compact-menu__close"
+        type="button"
+        [attr.aria-label]="'menu.close' | translate"
+        (click)="closeMenu()"
+      >
+        ×
+      </button>
     </div>
     <div class="compact-menu__body appland-container">
       @for (item of items; track item) {
@@ -113,6 +146,26 @@
           {{ meetingAction.labelKey | translate }}
         </a>
       }
+
+      <div
+        class="menu__language menu__language--compact"
+        role="radiogroup"
+        [attr.aria-label]="'menu.language.groupLabel' | translate"
+      >
+        @for (lang of languages; track lang) {
+          <button
+            type="button"
+            role="radio"
+            class="menu__language-option"
+            [class.menu__language-option--active]="isCurrentLanguage(lang)"
+            [attr.aria-checked]="isCurrentLanguage(lang)"
+            [attr.aria-label]="'menu.language.' + lang + '.name' | translate"
+            (click)="selectLanguage(lang)"
+          >
+            {{ 'menu.language.' + lang + '.code' | translate }}
+          </button>
+        }
+      </div>
     </div>
   </div>
 }

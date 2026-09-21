@@ -10,7 +10,7 @@
     <button
       type="button"
       class="cases__control cases__control--prev"
-      aria-label="Caso anterior"
+      [attr.aria-label]="'home.cases.previous' | translate"
       [disabled]="!carousel.canMovePrevious"
       (click)="carousel.movePrevious()"
     >
@@ -37,7 +37,7 @@
       [loop]="true"
       role="region"
       aria-labelledby="casos-title"
-      aria-roledescription="carrusel"
+      [attr.aria-roledescription]="'a11y.carousel' | translate"
       tabindex="0"
     >
       @for (item of cases; track item; let index = $index) {
@@ -85,7 +85,7 @@
     <button
       type="button"
       class="cases__control cases__control--next"
-      aria-label="Caso siguiente"
+      [attr.aria-label]="'home.cases.next' | translate"
       [disabled]="!carousel.canMoveNext"
       (click)="carousel.moveNext()"
     >

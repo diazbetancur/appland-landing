@@ -37,6 +37,8 @@
     "title-second": "Artificial Intelligence"
   },
   "a11y": {
+    "brandHome": "APPLAND, home",
+    "carousel": "carousel",
     "skipToContent": "Skip to main content"
   },
   "chooseUs": "Why Trust Appland?",
@@ -116,6 +118,8 @@
       "espresso": {
         "summary": "Loyalty app."
       },
+      "next": "Next case",
+      "previous": "Previous case",
       "telemedicine": {
         "summary": "European Union."
       },
@@ -198,6 +202,8 @@
       "hotels": "Hotels",
       "labs": "Laboratories",
       "loyalty": "Loyalty programmes",
+      "next": "Next product",
+      "previous": "Previous product",
       "restaurants": "Restaurants",
       "title": "Ready-made solutions to speed up your operations"
     },
@@ -223,6 +229,8 @@
         "summary": "We align technology, strategy and business to drive your growth.",
         "transformation": "Digital transformation"
       },
+      "pause": "Pause the automatic service change",
+      "resume": "Resume the automatic service change",
       "software": {
         "enterprise": "Enterprise systems",
         "mobile": "Mobile apps",
@@ -238,6 +246,7 @@
         "teams": "Dedicated teams",
         "ux": "UX/UI"
       },
+      "tablistLabel": "APPLAND services",
       "title": "Technology solutions that drive your company’s <span class=\"services__highlight\">growth</span>"
     },
     "team": {
@@ -252,6 +261,7 @@
         "PE": "Peru",
         "SV": "El Salvador"
       },
+      "countriesLabel": "Countries where APPLAND operates",
       "cta": "Meet our team",
       "flagAlt": "Flag of {{country}}",
       "lead": "Specialised talent working from several countries to cover multiple time zones.",
@@ -291,6 +301,8 @@
     }
   },
   "menu": {
+    "close": "Close menu",
+    "dialogLabel": "Navigation menu",
     "language": {
       "en": {
         "code": "EN",
@@ -302,7 +314,9 @@
       },
       "groupLabel": "Language"
     },
-    "meetingShort": "Book"
+    "meetingShort": "Book",
+    "navLabel": "Main navigation",
+    "open": "Open menu"
   },
   "nav": {
     "about": "About us",
