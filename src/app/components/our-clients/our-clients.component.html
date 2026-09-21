@@ -1,6 +1,23 @@
 <div class="clients appland-container">
   <div class="clients__heading">
     <h2 id="clientes-title">{{ 'home.clients.title' | translate }}</h2>
+    @if (pauseControlVisible) {
+      <button
+        type="button"
+        class="clients__pause"
+        [attr.aria-pressed]="paused"
+        [attr.aria-label]="(paused ? 'home.clients.resume' : 'home.clients.pause') | translate"
+        (click)="togglePause()"
+      >
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          @if (paused) {
+            <path d="M8 5v14l11-7z"></path>
+          } @else {
+            <path d="M7 5h3.2v14H7zM13.8 5H17v14h-3.2z"></path>
+          }
+        </svg>
+      </button>
+    }
   </div>
   <div
     class="clients__viewport"

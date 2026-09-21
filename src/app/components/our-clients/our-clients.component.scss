@@ -19,9 +19,13 @@ h2 {
   text-align: center;
 }
 
+/* La cabecera ya reservaba el hueco: es un flex centrado con `gap`. */
 .clients__pause {
+  display: inline-flex;
   min-width: 44px;
   min-height: 44px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--appland-line-strong);
   border-radius: 999px;
   background: transparent;
