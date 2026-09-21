@@ -102,4 +102,43 @@ describe('BannerComponent', () => {
     expect(highlighted).not.toBeNull();
     expect(highlighted.nativeElement.textContent.trim()).toBe('TECNOLOGÍA');
   });
+
+  /**
+   * Guardia del arreglo del texto de fondo.
+   *
+   * Estaba anclado en `left: 45%` con `white-space: nowrap` dentro de un `.hero` con
+   * `overflow: hidden`, asi que su ancho dependia del largo de la copia y su origen era fijo:
+   * cuanto mas larga la frase, mas se perdia por el filo derecho. En espanol quedaba justo al
+   * borde y en ingles, con "YOUR VISION", se perdian 136 px a 1440.
+   *
+   * Estas pruebas corren en Chromium, asi que se comprueba la geometria y no solo la clase.
+   */
+  describe('decorative background text', () => {
+    /**
+     * `getComputedStyle` resuelve `auto` al valor usado, asi que no sirve para distinguir el
+     * anclaje. Lo que si lo distingue es la magnitud: anclado por la derecha, el hueco es el
+     * `clamp(0.75rem, 2vw, 2.5rem)` de la regla, entre 12 y 40 px. Anclado por la izquierda,
+     * ese hueco lo decidia el largo del texto y se iba a negativo al desbordar.
+     */
+    it('holds the top text at a small fixed inset from the right edge', () => {
+      const ghost = fixture.debugElement.query(By.css('.hero__ghost--top')).nativeElement;
+
+      const inset = parseFloat(getComputedStyle(ghost).right);
+
+      expect(inset).toBeGreaterThanOrEqual(12);
+      expect(inset).toBeLessThanOrEqual(40);
+    });
+
+    it('keeps both decorative texts inside the hero', () => {
+      const hero = fixture.debugElement.query(By.css('.hero')).nativeElement.getBoundingClientRect();
+
+      for (const selector of ['.hero__ghost--top', '.hero__ghost--bottom']) {
+        const box = fixture.debugElement.query(By.css(selector)).nativeElement.getBoundingClientRect();
+        expect(Math.round(box.right), `${selector} se sale por la derecha`).toBeLessThanOrEqual(Math.round(hero.right));
+        expect(Math.round(box.left), `${selector} se sale por la izquierda`).toBeGreaterThanOrEqual(
+          Math.round(hero.left),
+        );
+      }
+    });
+  });
 });

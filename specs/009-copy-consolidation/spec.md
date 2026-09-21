@@ -149,6 +149,34 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 - Las rutas `/service` y `/about`, por la justificación de arriba.
 - Los puntos de la auditoría UX/UI. Este spec no arregla ninguno; solo evita que sus arreglos se pierdan.
 
+## Ampliación del 2026-09-21: el texto decorativo del hero
+
+Este spec no iba a tocar nada visual. Se amplió porque **la traducción al inglés empeoró un defecto que ya existía**, y esa parte es responsabilidad de este trabajo.
+
+El texto de fondo del hero estaba anclado en `left: 45%`, con `white-space: nowrap`, dentro de un `.hero` con `overflow: hidden`. Su ancho depende del largo de la frase y su origen era un porcentaje fijo, así que cuanto más larga la copia, más se perdía por el filo derecho. Medido en Chromium:
+
+| Ancho | "TU VISIÓN" | "YOUR VISION" |
+|---|---|---|
+| 1024 | al filo, 0 px fuera | **97 px fuera** |
+| 1280 | al filo, 0 px fuera | **121 px fuera** |
+| 1440 | al filo, 0 px fuera | **136 px fuera** |
+
+En español quedaba justo al borde, que es lo que la auditoría UX/UI describe en su punto 02 como "empieza y termina justo en el filo, sin nada que me diga que fue una decisión". En inglés se salía de verdad.
+
+El usuario eligió anclarlo al borde derecho: el final queda a una distancia fija del borde y lo que crece es el arranque, hacia la izquierda, donde el titular y la laptop lo tapan y el recorte se lee como decisión. Invierte la dependencia, así que deja de importar el largo de la copia de cada idioma.
+
+**No se toca el `font-size`,** y eso es lo que mantiene válidas las dos reglas que dependen de él: la que alinea el fantasma con la laptop repite ese valor en su fórmula, y la que desplaza las tarjetas del hero se calculó sobre la geometría del lado derecho, que es justo la que este cambio deja igual.
+
+El segundo texto de fondo no se ancla por la derecha: está centrado sobre la laptop y anclarlo lo correría unos 250 px en pantallas anchas, que es composición aprobada. Ahí el arreglo fue acotar su cuerpo para que su ancho nunca pase de la proporción que su centrado admite, y **quitar el mínimo del clamp**: con un mínimo, por debajo de cierto ancho es él quien decide el cuerpo y el `vw` deja de acotar nada, así que el recorte reaparecía —a 560 px con `2.4rem`, a 320 px con `2.3rem`. Perseguir el número solo mueve el ancho en el que falla.
+
+### Requisitos añadidos
+
+- **FR-014**: El texto decorativo del hero no debe recortarse contra ningún borde, en ningún idioma, entre 320 y 2560 px de ancho.
+- **FR-015**: El anclaje no debe depender del largo de la copia.
+- **SC-012**: Verificado en Chromium en 42 combinaciones de ancho e idioma, de 320 a 2560 px: cero recorte.
+
+Fuera de esta ampliación: por debajo de 320 px el `.hero` mide 320 px por un mínimo que ya existía, así que la página entera desborda y el recorte del fantasma es consecuencia de eso. 320 px es el ancho real más chico.
+
 ## Requirements
 
 ### Functional Requirements
@@ -177,7 +205,7 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 - **NFR-002**: `npm run lint` debe terminar en 0.
 - **NFR-003**: `npm run format:check` debe terminar en 0.
 - **NFR-004**: `npm run build` debe terminar en 0.
-- **NFR-005**: Ningún elemento existente debe cambiar de aspecto, tamaño ni posición a ningún ancho. La única incorporación visual permitida es el selector.
+- **NFR-005**: Ningún elemento existente debe cambiar de aspecto, tamaño ni posición a ningún ancho, con dos excepciones aprobadas: el selector de idioma, que es una incorporación, y el texto decorativo del hero, por la razón que explica la sección siguiente.
 - **NFR-006**: La carga de traducciones no debe introducir un parpadeo de texto sin traducir en el primer render.
 
 ## Success Criteria

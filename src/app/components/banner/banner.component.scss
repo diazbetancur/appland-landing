@@ -209,10 +209,26 @@ h1 {
   white-space: nowrap;
 }
 
+/**
+ * El texto se ancla al borde derecho y crece hacia la izquierda.
+ *
+ * Antes arrancaba en `left: 45%` y crecia hacia la derecha, con `white-space: nowrap` dentro de
+ * un `.hero` con `overflow: hidden`: su ancho depende del largo de la copia y su origen era un
+ * porcentaje fijo, asi que cuanto mas larga la frase mas se salia por el filo derecho. En
+ * espanol quedaba justo al borde y en ingles, con "YOUR VISION", se perdian 136 px a 1440.
+ *
+ * Anclarlo por la derecha invierte esa dependencia: el final queda a una distancia fija del
+ * borde y lo que crece es el arranque, hacia la izquierda, donde el titular y la laptop lo
+ * tapan y el recorte se lee como decision y no como desborde.
+ *
+ * No se toca el `font-size` a proposito. La regla que alinea el fantasma con la laptop repite
+ * ese valor en su formula, y la que desplaza las tarjetas se calculo sobre la geometria del
+ * lado derecho, que es justo la que este cambio deja igual.
+ */
 .hero__ghost--top {
   top: clamp(1.5rem, 6vw, 5rem);
-  left: 45%;
-  right: auto;
+  left: auto;
+  right: clamp(0.75rem, 2vw, 2.5rem);
   font-size: clamp(3.2rem, 10vw, 9rem);
   background: linear-gradient(180deg, rgba(245, 247, 250, 0.52), rgba(245, 247, 250, 0.04));
   -webkit-background-clip: text;
@@ -220,12 +236,30 @@ h1 {
   color: transparent;
 }
 
+/**
+ * Este no se ancla por la derecha: esta centrado sobre la laptop con un tiro fijo de -32%, y
+ * anclarlo lo correria unos 250 px a la derecha en pantallas anchas, que es composicion
+ * aprobada y no un defecto.
+ *
+ * Su recorte depende de la proporcion entre el ancho del texto y el de la ventana. Con el tiro
+ * de -32%, el borde derecho cae en `0.5 * vw + 0.68 * ancho`, asi que entra mientras el ancho
+ * no pase de `0.735 * vw`. El ancho de esta frase mide 11.2 veces su cuerpo, de donde el cuerpo
+ * no puede pasar de `0.735 / 11.2 = 6.57vw`. Estaba en 6.6vw, tres centesimas por encima: de
+ * ahi los 2 y 3 px que se perdian entre 768 y 1280. Se baja a 6.4vw, que deja holgura.
+ *
+ * Y desaparece el minimo del clamp. Con un minimo, por debajo de cierto ancho es el quien
+ * decide el cuerpo y el `vw` deja de acotar nada, asi que el recorte vuelve: pasaba a 560 px
+ * con 2.4rem y a 320 px con 2.3rem. Perseguir el numero solo mueve el ancho en el que falla.
+ * Es texto decorativo: en una ventana angosta corresponde que sea pequeno.
+ *
+ * Por encima de 1400 px manda el maximo del clamp, asi que ahi no cambia nada.
+ */
 .hero__ghost--bottom {
   bottom: clamp(0.15rem, 0.8vw, 0.5rem);
   left: 50%;
   transform: translateX(-32%);
   color: rgba(245, 247, 250, 0.16);
-  font-size: clamp(2.4rem, 6.6vw, 5.6rem);
+  font-size: min(6.4vw, 5.6rem);
 }
 
 .hero__ghost--bottom span {
@@ -335,12 +369,12 @@ h1 {
   }
 
   .hero__ghost--top {
-    right: 0.75rem;
     font-size: clamp(2rem, 11vw, 2.8rem);
   }
 
+  /* Misma cota y mismo motivo que la regla base: 8vw dejaba 42 px fuera a 390 px de ancho. */
   .hero__ghost--bottom {
-    font-size: clamp(1.5rem, 8vw, 2.2rem);
+    font-size: min(6.4vw, 2.2rem);
   }
 
   .hero__sphere {

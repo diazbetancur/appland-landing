@@ -119,14 +119,28 @@ Verificado en Chromium sobre el sitio levantado, a 390, 768, 1024 y 1440 px, en 
 El selector cambia el idioma en caliente en los dos sentidos, recuerda la eleccion en
 `localStorage` y queda fuera de la barra por debajo de 1024 px, dentro del panel desplegable.
 
+## Phase 7 - Ampliacion: el texto decorativo del hero
+
+Anadida el 2026-09-21, despues de cerrar la fase 6, al medir que la traduccion al ingles
+empeoraba un defecto que ya existia.
+
+- [x] T047 Medir el recorte en Chromium en los dos idiomas, de 1024 a 1920 px. Resultado: espanol al filo, ingles hasta 136 px fuera.
+- [x] T048 Anclar el texto superior al borde derecho, sin tocar su cuerpo, para no invalidar las dos reglas que dependen de el. Resultado: FR-014, FR-015.
+- [x] T049 Acotar el cuerpo del texto inferior a la proporcion que admite su centrado. Resultado: FR-014.
+- [x] T050 Quitar el minimo de su clamp, que era lo que devolvia el recorte por debajo de 560 px. Resultado: FR-014.
+- [x] T051 Escribir las dos pruebas de geometria y demostrar que fallan sin el arreglo. Resultado: SC-011.
+- [x] T052 Verificar 42 combinaciones de ancho e idioma, de 320 a 2560 px. Resultado: SC-012, cero recorte.
+
 ### Anotado para despues
 
 - La ruta `/about` sirve `<p>about works!</p>` en produccion.
 - Las 17 claves heredadas de `es.json` solo las usa `/service`, a la que no enlaza nadie.
 - `docs/appland-home-reference.dc.html` sigue pudiendo divergir del sitio. Este spec quito la
   copia de las plantillas y del config, pero no ata la maqueta a las traducciones.
-- El texto de fondo del hero se corta contra los bordes, y en ingles se corta mas porque
-  "YOUR VISION" es mas largo que "TU VISION". Es el punto 02 de la auditoria UX/UI, fuera de
-  este spec.
+- El punto 02 de la auditoria pedia ademas bajarle la opacidad al texto de fondo, porque
+  compite con el titular: sigue siendo mas grande que el. Eso quedo fuera, es una decision de
+  diseno.
+- Por debajo de 320 px el `.hero` mide 320 px por un minimo que ya existia, asi que la pagina
+  entera desborda 40 px. No lo causa el fantasma.
 - `core.autocrlf` esta en `true` y `.prettierrc.json` pide `endOfLine: "lf"`, sin
   `.gitattributes`. Tras cada checkout, `format:check` falla en archivos que nadie toco.
