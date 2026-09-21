@@ -198,7 +198,13 @@
   color: var(--appland-primary);
 }
 
+/**
+ * El panel compacto es una columna que estira a sus hijos, asi que sin esto la pildora del
+ * selector se extenderia de borde a borde y se leeria como una barra, no como un control de
+ * dos opciones.
+ */
 .menu__language--compact {
+  align-self: flex-start;
   margin-top: 1.5rem;
 }
 

@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-21
 
-**Status**: Approved — decisiones cerradas el 2026-09-21
+**Status**: Implementado el 2026-09-21. 187 pruebas. Ver el resultado en `tasks.md`.
 
 **Input**: Decisión del usuario durante la ronda 3, a raíz de la auditoría UX/UI de septiembre 2026 y del bug del titular de clientes: consolidar la copia suelta del Home en los archivos `es.json` / `en.json`.
 
@@ -173,7 +173,7 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 
 ### Non-Functional Requirements
 
-- **NFR-001**: Las 152 pruebas actuales deben seguir pasando; el total no debe bajar de 152.
+- **NFR-001**: Las 152 pruebas actuales deben seguir pasando; el total no debe bajar de 152. Quedo en 187.
 - **NFR-002**: `npm run lint` debe terminar en 0.
 - **NFR-003**: `npm run format:check` debe terminar en 0.
 - **NFR-004**: `npm run build` debe terminar en 0.
