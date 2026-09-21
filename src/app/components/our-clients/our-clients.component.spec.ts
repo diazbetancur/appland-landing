@@ -29,6 +29,16 @@ describe('OurClientsComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * El titular esta escrito en la plantilla y no en `home-content.config.ts`, asi que nada lo
+   * ataba a la copia aprobada: el commit 925fa29 corrigio el tiempo verbal en la maqueta de
+   * referencia y el componente se quedo con el anterior sin que ninguna prueba lo notara.
+   */
+  it('renders the approved client trust statement', () => {
+    const heading = fixture.debugElement.query(By.css('#clientes-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Empresas que confían en nosotros');
+  });
+
   it('renders intrinsic logo semantics and an aria-hidden duplicate', () => {
     const images = fixture.debugElement.queryAll(By.css('img'));
     expect(images.length).toBe(2);
