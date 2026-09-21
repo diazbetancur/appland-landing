@@ -3,14 +3,20 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { TeamCoverageComponent } from './team-coverage.component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('TeamCoverageComponent', () => {
   let fixture: ComponentFixture<TeamCoverageComponent>;
+  let translate: TranslateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, TeamCoverageComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
+    translate = TestBed.inject(TranslateService);
     fixture = TestBed.createComponent(TeamCoverageComponent);
     fixture.componentRef.setInput('countries', HOME_CONTENT.countries);
     fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
@@ -20,7 +26,7 @@ describe('TeamCoverageComponent', () => {
   it('renders every approved country by name, without the role text under each card', () => {
     expect(fixture.debugElement.queryAll(By.css('.country-card')).length).toBe(HOME_CONTENT.countries.length);
     HOME_CONTENT.countries.forEach((country) => {
-      expect(fixture.nativeElement.textContent).toContain(country.name);
+      expect(fixture.nativeElement.textContent).toContain(translate.instant(country.nameKey));
     });
   });
 
@@ -31,7 +37,9 @@ describe('TeamCoverageComponent', () => {
       const src = flag.attributes['src']!;
       expect(src.startsWith('assets/')).toBe(true);
       expect(src).not.toContain('//');
-      expect(flag.attributes['alt']).toBe(HOME_CONTENT.countries[index].flag.alt);
+      // Todas las banderas comparten la clave y la plantilla le pasa el pais ya traducido.
+      const country = HOME_CONTENT.countries[index];
+      expect(flag.attributes['alt']).toBe(`Bandera de ${translate.instant(country.nameKey)}`);
     });
   });
 
@@ -60,5 +68,33 @@ describe('TeamCoverageComponent', () => {
     const cta = fixture.debugElement.query(By.css('.team__cta'));
     expect(cta.nativeElement.textContent.trim()).toContain('Conoce nuestro equipo');
     expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+  });
+
+  it('renders the approved heading, lead and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#equipo-global-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Equipo distribuido internacionalmente');
+    expect(heading.query(By.css('.team__highlight')).nativeElement.textContent.trim()).toBe('internacionalmente');
+    expect(fixture.debugElement.query(By.css('.team__lead')).nativeElement.textContent.trim()).toBe(
+      'Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.',
+    );
+    expect(fixture.nativeElement.textContent).toContain('Conoce nuestro equipo');
+  });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#equipo-global-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.team__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
   });
 });

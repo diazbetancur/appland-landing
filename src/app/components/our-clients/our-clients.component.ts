@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Client } from '../../feature/pages/home/home-content.models';
 
 @Component({
   selector: 'app-our-clients',
   templateUrl: './our-clients.component.html',
   styleUrls: ['./our-clients.component.scss'],
+  imports: [TranslatePipe],
 })
 export class OurClientsComponent implements OnInit {
   @Input() clients: readonly Client[] = [];

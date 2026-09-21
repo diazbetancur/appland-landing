@@ -1,6 +1,6 @@
 <div class="hero">
-  <p class="hero__ghost hero__ghost--top" aria-hidden="true">TU VISIÓN</p>
-  <p class="hero__ghost hero__ghost--bottom" aria-hidden="true">NUESTRA <span>TECNOLOGÍA</span></p>
+  <p class="hero__ghost hero__ghost--top" aria-hidden="true">{{ 'home.hero.ghostTop' | translate }}</p>
+  <p class="hero__ghost hero__ghost--bottom" aria-hidden="true" [innerHTML]="'home.hero.ghostBottom' | translate"></p>
 
   <img class="hero__wave" src="assets/images/home/hero/wave.png" width="700" height="233" alt="" aria-hidden="true" />
   <img
@@ -15,14 +15,15 @@
   <div class="hero__inner appland-container">
     <div class="hero__content">
       <h1 id="hero-title">
-        {{ content.titleLead }}<span class="hero__highlight">{{ content.titleHighlight }}</span>
+        {{ content.titleLeadKey | translate
+        }}<span class="hero__highlight">{{ content.titleHighlightKey | translate }}</span>
       </h1>
-      <p class="hero__subtitle">{{ content.subtitle }}</p>
+      <p class="hero__subtitle">{{ content.subtitleKey | translate }}</p>
 
       <div class="hero__actions">
         @if (primaryAction.kind === 'router') {
           <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="primaryAction.fragment">
-            {{ content.primaryAction.label }}
+            {{ content.primaryAction.labelKey | translate }}
             <svg
               aria-hidden="true"
               width="15"
@@ -43,7 +44,7 @@
             [target]="primaryAction.target"
             [rel]="primaryAction.rel"
           >
-            {{ content.primaryAction.label }}
+            {{ content.primaryAction.labelKey | translate }}
             <svg
               aria-hidden="true"
               width="15"
@@ -60,7 +61,7 @@
         }
 
         <a class="appland-button appland-button--secondary" [routerLink]="['/']" [fragment]="servicesAction.fragment">
-          {{ content.servicesAction.label }}
+          {{ content.servicesAction.labelKey | translate }}
           <svg
             aria-hidden="true"
             width="15"
@@ -106,7 +107,7 @@
               <circle cx="12" cy="10.5" r="2"></circle>
             </svg>
           </span>
-          <p>Soluciones<br />a la medida</p>
+          <p [innerHTML]="'home.hero.cardSolutions' | translate"></p>
         </article>
 
         <article class="hero__card hero__card--accent">
@@ -125,8 +126,8 @@
               <circle cx="12" cy="12" r="1"></circle>
             </svg>
           </span>
-          <p class="hero__card-metric">100%</p>
-          <p>enfocadas en tu negocio</p>
+          <p class="hero__card-metric">{{ 'home.hero.cardMetric' | translate }}</p>
+          <p>{{ 'home.hero.cardMetricCaption' | translate }}</p>
         </article>
       </div>
     </div>

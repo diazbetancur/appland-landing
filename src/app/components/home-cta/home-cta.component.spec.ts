@@ -3,14 +3,20 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { HomeCtaComponent } from './home-cta.component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeCtaComponent', () => {
   let fixture: ComponentFixture<HomeCtaComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HomeCtaComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(HomeCtaComponent);
     fixture.componentRef.setInput('content', HOME_CONTENT.contact);
     fixture.detectChanges();
@@ -18,7 +24,7 @@ describe('HomeCtaComponent', () => {
 
   it('renders official title, body, email and phone', () => {
     expect(fixture.nativeElement.textContent).toContain('¿Listo para transformar tu negocio?');
-    expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.contact.body);
+    expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.contact.bodyKey));
     expect(fixture.debugElement.query(By.css('a[href^="mailto:"]')).attributes['href']).toBe(
       'mailto:hello@applandtech.com',
     );
@@ -65,7 +71,7 @@ describe('HomeCtaComponent', () => {
       expect(approved.publicationStatus).toBe('approved');
       expect(link.attributes['href']).toBe(approved.value);
       expect(link.attributes['rel']).toBe('noopener noreferrer');
-      expect(link.nativeElement.textContent.trim()).toContain(approved.label);
+      expect(link.nativeElement.textContent.trim()).toContain(t(approved.labelKey));
     });
   });
 
@@ -82,5 +88,29 @@ describe('HomeCtaComponent', () => {
     const decor = fixture.debugElement.query(By.css('.contact__decor'));
     expect(decor.attributes['aria-hidden']).toBe('true');
     expect(decor.nativeElement.textContent.trim()).toBe('');
+  });
+
+  it('keeps the highlighted word of the contact heading', () => {
+    const heading = fixture.debugElement.query(By.css('#contacto-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('¿Listo para transformar tu negocio?');
+    expect(heading.query(By.css('.contact__highlight')).nativeElement.textContent.trim()).toBe('transformar');
+  });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#contacto-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.contact__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
   });
 });

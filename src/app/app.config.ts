@@ -4,6 +4,8 @@ import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDete
 import { InMemoryScrollingOptions, provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { catchError, of } from 'rxjs';
+import { LanguageService } from './components/shared/language.service';
 import { routes } from './app.routes';
 
 /**
@@ -47,10 +49,32 @@ export const appConfig: ApplicationConfig = {
       inject(ViewportScroller).setOffset(SECTION_SCROLL_OFFSET);
     }),
     provideHttpClient(withInterceptorsFromDi()),
+    /**
+     * No se fija `lang` aqui. Ese literal era lo que mantenia el sitio en espanol para todo
+     * el mundo: el idioma lo resuelve el inicializador de abajo a partir de lo que el
+     * visitante eligio antes y, si no hay nada, de su navegador.
+     *
+     * `fallbackLang` si se queda en espanol. Es la red para una clave que falte en ingles:
+     * antes de mostrar la clave cruda, se muestra el texto en espanol.
+     */
     provideTranslateService({
       fallbackLang: 'es',
-      lang: 'es',
       loader: provideTranslateHttpLoader(),
     }),
+    /**
+     * Resuelve el idioma y espera a que su traduccion este cargada antes del primer render.
+     *
+     * Las traducciones llegan por HTTP, asi que sin esta espera la primera pintura mostraria
+     * las claves crudas y el texto aparecerian un instante despues.
+     *
+     * Un fallo de carga no impide arrancar. Si `es.json` no llega, el sitio se pinta con las
+     * claves, que es malo pero legible; dejar que el error propague dejaria la pagina en
+     * blanco, que es peor.
+     */
+    provideAppInitializer(() =>
+      inject(LanguageService)
+        .initialize()
+        .pipe(catchError(() => of({}))),
+    ),
   ],
 };

@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { Service } from '../../feature/pages/home/home-content.models';
+import { TranslatePipe } from '@ngx-translate/core';
 
 /** Intervalo aprobado por el usuario entre un servicio y el siguiente. */
 const ROTATION_INTERVAL_MS = 6000;
@@ -25,6 +26,7 @@ const ROTATION_INTERVAL_MS = 6000;
   selector: 'app-home-services',
   templateUrl: './home-services.component.html',
   styleUrls: ['./home-services.component.scss'],
+  imports: [TranslatePipe],
 })
 export class HomeServicesComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() services: readonly Service[] = [];

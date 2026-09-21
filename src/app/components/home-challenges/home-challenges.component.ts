@@ -2,12 +2,13 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { Challenge, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-challenges',
   templateUrl: './home-challenges.component.html',
   styleUrls: ['./home-challenges.component.scss'],
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
 })
 export class HomeChallengesComponent implements OnChanges {
   @Input() challenges: readonly Challenge[] = [];

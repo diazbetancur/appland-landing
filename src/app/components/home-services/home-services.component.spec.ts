@@ -6,9 +6,13 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
 import { HOME_CONTENT, SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { HomeServicesComponent } from './home-services.component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeServicesComponent', () => {
   let fixture: ComponentFixture<HomeServicesComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
   let component: HomeServicesComponent;
 
   beforeEach(async () => {
@@ -16,8 +20,9 @@ describe('HomeServicesComponent', () => {
       imports: [HomeServicesComponent],
       // El componente lee el parametro de consulta que selecciona la pestana, asi que
       // necesita un router desde el spec 006 en adelante.
-      providers: [provideRouter([]), provideLocationMocks()],
+      providers: [provideRouter([]), provideLocationMocks(), provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(HomeServicesComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('services', HOME_CONTENT.services);
@@ -49,7 +54,7 @@ describe('HomeServicesComponent', () => {
     const labels = fixture.debugElement
       .queryAll(By.css('.services__highlight-label'))
       .map((node) => node.nativeElement.textContent.trim());
-    expect(labels).toEqual(service.highlights!.map((highlight) => highlight.label));
+    expect(labels).toEqual(service.highlights!.map((highlight) => t(highlight.labelKey)));
   });
 
   /**
@@ -65,18 +70,32 @@ describe('HomeServicesComponent', () => {
    * la barrera que el guardia original buscaba.
    */
   const APPROVED_HIGHLIGHTS: Readonly<Record<string, readonly string[]>> = {
-    software: ['Apps móviles', 'Plataformas web', 'Sistemas empresariales'],
-    'artificial-intelligence': ['Agentes IA', 'Automatización', 'Asistentes de voz', 'Asistentes de chat'],
-    'staff-augmentation': ['Desarrolladores', 'QA', 'UX/UI', 'Equipos dedicados'],
-    'process-automation': ['Optimización operativa', 'IA aplicada', 'Integraciones'],
-    'technology-consulting': ['Transformación digital', 'Arquitectura tecnológica'],
+    software: ['home.services.software.mobile', 'home.services.software.web', 'home.services.software.enterprise'],
+    'artificial-intelligence': [
+      'home.services.ai.agents',
+      'home.services.ai.automation',
+      'home.services.ai.voice',
+      'home.services.ai.chat',
+    ],
+    'staff-augmentation': [
+      'home.services.staff.devs',
+      'home.services.staff.qa',
+      'home.services.staff.ux',
+      'home.services.staff.teams',
+    ],
+    'process-automation': [
+      'home.services.automation.operations',
+      'home.services.automation.ai',
+      'home.services.automation.integrations',
+    ],
+    'technology-consulting': ['home.services.consulting.transformation', 'home.services.consulting.architecture'],
   };
 
   it('exposes only approved capability labels on the service icons', () => {
     expect(HOME_CONTENT.services.map((service) => service.id).sort()).toEqual(Object.keys(APPROVED_HIGHLIGHTS).sort());
 
     HOME_CONTENT.services.forEach((service) => {
-      expect(service.highlights?.map((highlight) => highlight.label)).toEqual(APPROVED_HIGHLIGHTS[service.id]);
+      expect(service.highlights?.map((highlight) => highlight.labelKey)).toEqual(APPROVED_HIGHLIGHTS[service.id]);
     });
   });
 
@@ -457,8 +476,10 @@ describe('HomeServicesComponent', () => {
           provide: ActivatedRoute,
           useValue: { queryParamMap: of(convertToParamMap({ [SERVICE_QUERY_PARAM]: requestedId })) },
         },
+        provideTranslateService({ fallbackLang: 'es' }),
       ],
     }).compileComponents();
+    await useTranslations();
 
     const requested = TestBed.createComponent(HomeServicesComponent);
     requested.componentRef.setInput('services', HOME_CONTENT.services);
@@ -481,8 +502,10 @@ describe('HomeServicesComponent', () => {
           provide: ActivatedRoute,
           useValue: { queryParamMap: of(convertToParamMap({ [SERVICE_QUERY_PARAM]: HOME_CONTENT.services[2].id })) },
         },
+        provideTranslateService({ fallbackLang: 'es' }),
       ],
     }).compileComponents();
+    await useTranslations();
 
     const requested = TestBed.createComponent(HomeServicesComponent);
     requested.componentRef.setInput('services', HOME_CONTENT.services);
@@ -492,5 +515,31 @@ describe('HomeServicesComponent', () => {
     requested.detectChanges();
 
     expect(requested.componentInstance.activeServiceId).toBe(HOME_CONTENT.services[4].id);
+  });
+
+  it('renders the approved section heading with its highlighted word', () => {
+    const heading = fixture.debugElement.query(By.css('#servicios-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe(
+      'Soluciones tecnológicas que impulsan el crecimiento de tu empresa',
+    );
+    expect(heading.query(By.css('.services__highlight')).nativeElement.textContent.trim()).toBe('crecimiento');
+  });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#servicios-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.services__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
   });
 });

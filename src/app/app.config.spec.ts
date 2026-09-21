@@ -3,6 +3,9 @@ import { provideLocationMocks } from '@angular/common/testing';
 import { ApplicationInitStatus } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
+import { LanguageService } from './components/shared/language.service';
 import { AboutComponent } from './components/about/about.component';
 import { ServiceComponent } from './components/service/service.component';
 import { HomeComponent } from './feature/pages/home/home.component';
@@ -72,6 +75,54 @@ describe('Application configuration contract', () => {
     it('keeps anchor scrolling and scroll position restoration enabled', () => {
       expect(IN_MEMORY_SCROLLING.anchorScrolling).toBe('enabled');
       expect(IN_MEMORY_SCROLLING.scrollPositionRestoration).toBe('enabled');
+    });
+  });
+
+  /**
+   * Guardia del spec 009.
+   *
+   * `LanguageService` existia desde antes pero nadie lo inyectaba, asi que su resolucion de
+   * idioma nunca se ejecutaba y el sitio quedaba en el `lang: 'es'` fijado aqui. Estas pruebas
+   * verifican el efecto contrario: que el arranque si lo llama, y que nadie vuelva a fijar el
+   * idioma en la configuracion.
+   */
+  describe('language configuration', () => {
+    it('resolves the visitor language at startup', async () => {
+      const initialize = vi.fn().mockReturnValue(of({}));
+      TestBed.configureTestingModule({
+        providers: [
+          ...appConfig.providers,
+          provideLocationMocks(),
+          { provide: LanguageService, useValue: { initialize } as unknown as LanguageService },
+        ],
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+
+      expect(initialize).toHaveBeenCalled();
+    });
+
+    /**
+     * Un fallo al cargar el archivo de traducciones no debe impedir arrancar: con las claves
+     * crudas el sitio es feo pero legible, y con el arranque roto es una pagina en blanco.
+     */
+    it('starts up even when the translation file fails to load', async () => {
+      const initialize = vi.fn().mockReturnValue(throwError(() => new Error('404')));
+      TestBed.configureTestingModule({
+        providers: [
+          ...appConfig.providers,
+          provideLocationMocks(),
+          { provide: LanguageService, useValue: { initialize } as unknown as LanguageService },
+        ],
+      });
+
+      await expect(TestBed.inject(ApplicationInitStatus).donePromise).resolves.toBeUndefined();
+    });
+
+    it('falls back to Spanish for a key missing in another language', () => {
+      TestBed.configureTestingModule({ providers: [...appConfig.providers, provideLocationMocks()] });
+
+      expect(TestBed.inject(TranslateService).getFallbackLang()).toBe('es');
     });
   });
 });
