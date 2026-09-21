@@ -1,9 +1,7 @@
 <div class="appland-container">
   <div class="cases__heading">
     <div>
-      <h2 id="casos-title" class="appland-heading">
-        Algunos <span class="cases__highlight">proyectos</span> desarrollados
-      </h2>
+      <h2 id="casos-title" class="appland-heading" [innerHTML]="'home.cases.title' | translate"></h2>
       <span class="cases__rule" aria-hidden="true"></span>
     </div>
   </div>
@@ -58,7 +56,7 @@
             }
             @if (destinationHref(item.destination); as href) {
               <a [href]="href" target="_blank" rel="noopener noreferrer">
-                Ver caso
+                {{ 'home.cases.viewCase' | translate }}
                 <svg
                   aria-hidden="true"
                   width="15"

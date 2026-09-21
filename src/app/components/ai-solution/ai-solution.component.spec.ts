@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { AiSolutionComponent } from './ai-solution.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('AiSolutionComponent', () => {
   let fixture: ComponentFixture<AiSolutionComponent>;
@@ -10,7 +12,9 @@ describe('AiSolutionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, AiSolutionComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(AiSolutionComponent);
     fixture.componentRef.setInput('applications', HOME_CONTENT.aiApplications);
     fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
@@ -52,5 +56,17 @@ describe('AiSolutionComponent', () => {
 
   it('exposes the applications as one semantic list', () => {
     expect(fixture.debugElement.queryAll(By.css('.ai__grid > li')).length).toBe(HOME_CONTENT.aiApplications.length);
+  });
+
+  it('renders the approved heading, lead and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#ia-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Inteligencia Artificial aplicada a negocios');
+    expect(heading.query(By.css('.ai__highlight')).nativeElement.textContent.trim()).toBe('negocios');
+    expect(fixture.debugElement.query(By.css('.ai__lead')).nativeElement.textContent.trim()).toBe(
+      'Soluciones de IA que automatizan procesos, mejoran la experiencia del cliente y potencian resultados.',
+    );
+    expect(fixture.debugElement.query(By.css('.ai__cta')).nativeElement.textContent.trim()).toBe(
+      'Descubre cómo la IA puede ayudarte',
+    );
   });
 });

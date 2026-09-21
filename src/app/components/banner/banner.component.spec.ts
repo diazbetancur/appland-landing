@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { BannerComponent } from './banner.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('BannerComponent', () => {
   let fixture: ComponentFixture<BannerComponent>;
@@ -10,7 +12,9 @@ describe('BannerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, BannerComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(BannerComponent);
     fixture.componentRef.setInput('content', HOME_CONTENT.hero);
     fixture.detectChanges();
@@ -73,5 +77,25 @@ describe('BannerComponent', () => {
     const lines = accentCard.queryAll(By.css('p')).map((paragraph) => paragraph.nativeElement.textContent.trim());
 
     expect(lines).toEqual(['100%', 'enfocadas en tu negocio']);
+  });
+
+  /**
+   * Los textos de fondo y las tarjetas del hero no pasaban por ningun archivo de contenido y
+   * ninguna prueba los cubria. Desde el spec 009 salen de las traducciones.
+   */
+  it('renders the approved decorative and card copy', () => {
+    const text = (selector: string) => fixture.debugElement.query(By.css(selector)).nativeElement.textContent.trim();
+    expect(text('.hero__ghost--top')).toBe('TU VISIÓN');
+    expect(text('.hero__ghost--bottom')).toBe('NUESTRA TECNOLOGÍA');
+    expect(text('.hero__card-metric')).toBe('100%');
+    expect(fixture.nativeElement.textContent).toContain('a la medida');
+    expect(fixture.nativeElement.textContent).toContain('enfocadas en tu negocio');
+  });
+
+  /** El tramo resaltado del texto de fondo se pinta con un span; si se pierde, se pierde el color. */
+  it('keeps the highlighted fragment of the bottom decorative text', () => {
+    const highlighted = fixture.debugElement.query(By.css('.hero__ghost--bottom span'));
+    expect(highlighted).not.toBeNull();
+    expect(highlighted.nativeElement.textContent.trim()).toBe('TECNOLOGÍA');
   });
 });

@@ -2,12 +2,13 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { HeroContent, ResolvedAction } from '../../feature/pages/home/home-content.models';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-banner',
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss'],
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
 })
 export class BannerComponent implements OnChanges {
   @Input() content!: HeroContent;

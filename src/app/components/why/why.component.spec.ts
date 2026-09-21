@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { WhyComponent } from './why.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('WhyComponent', () => {
   let fixture: ComponentFixture<WhyComponent>;
@@ -10,7 +12,9 @@ describe('WhyComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, WhyComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(WhyComponent);
     fixture.componentRef.setInput('benefits', HOME_CONTENT.benefits);
     fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
@@ -54,5 +58,12 @@ describe('WhyComponent', () => {
 
     expect(mentions.length).toBe(1);
     expect(fixture.debugElement.query(By.css('.why__grid')).nativeElement.textContent).toContain('13 años');
+  });
+
+  it('renders the approved heading and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#por-que-appland-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Por qué empresas eligen trabajar con nosotros');
+    expect(heading.query(By.css('.why__highlight')).nativeElement.textContent.trim()).toBe('trabajar');
+    expect(fixture.nativeElement.textContent).toContain('Conversemos sobre tu proyecto');
   });
 });

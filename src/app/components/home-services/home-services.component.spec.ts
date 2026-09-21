@@ -6,6 +6,8 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
 import { HOME_CONTENT, SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { HomeServicesComponent } from './home-services.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeServicesComponent', () => {
   let fixture: ComponentFixture<HomeServicesComponent>;
@@ -16,8 +18,9 @@ describe('HomeServicesComponent', () => {
       imports: [HomeServicesComponent],
       // El componente lee el parametro de consulta que selecciona la pestana, asi que
       // necesita un router desde el spec 006 en adelante.
-      providers: [provideRouter([]), provideLocationMocks()],
+      providers: [provideRouter([]), provideLocationMocks(), provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(HomeServicesComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('services', HOME_CONTENT.services);
@@ -457,8 +460,10 @@ describe('HomeServicesComponent', () => {
           provide: ActivatedRoute,
           useValue: { queryParamMap: of(convertToParamMap({ [SERVICE_QUERY_PARAM]: requestedId })) },
         },
+        provideTranslateService({ fallbackLang: 'es' }),
       ],
     }).compileComponents();
+    await useTranslations();
 
     const requested = TestBed.createComponent(HomeServicesComponent);
     requested.componentRef.setInput('services', HOME_CONTENT.services);
@@ -481,8 +486,10 @@ describe('HomeServicesComponent', () => {
           provide: ActivatedRoute,
           useValue: { queryParamMap: of(convertToParamMap({ [SERVICE_QUERY_PARAM]: HOME_CONTENT.services[2].id })) },
         },
+        provideTranslateService({ fallbackLang: 'es' }),
       ],
     }).compileComponents();
+    await useTranslations();
 
     const requested = TestBed.createComponent(HomeServicesComponent);
     requested.componentRef.setInput('services', HOME_CONTENT.services);
@@ -492,5 +499,13 @@ describe('HomeServicesComponent', () => {
     requested.detectChanges();
 
     expect(requested.componentInstance.activeServiceId).toBe(HOME_CONTENT.services[4].id);
+  });
+
+  it('renders the approved section heading with its highlighted word', () => {
+    const heading = fixture.debugElement.query(By.css('#servicios-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe(
+      'Soluciones tecnológicas que impulsan el crecimiento de tu empresa',
+    );
+    expect(heading.query(By.css('.services__highlight')).nativeElement.textContent.trim()).toBe('crecimiento');
   });
 });

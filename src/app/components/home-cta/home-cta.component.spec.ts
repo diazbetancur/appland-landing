@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { HomeCtaComponent } from './home-cta.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeCtaComponent', () => {
   let fixture: ComponentFixture<HomeCtaComponent>;
@@ -10,7 +12,9 @@ describe('HomeCtaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HomeCtaComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(HomeCtaComponent);
     fixture.componentRef.setInput('content', HOME_CONTENT.contact);
     fixture.detectChanges();
@@ -82,5 +86,11 @@ describe('HomeCtaComponent', () => {
     const decor = fixture.debugElement.query(By.css('.contact__decor'));
     expect(decor.attributes['aria-hidden']).toBe('true');
     expect(decor.nativeElement.textContent.trim()).toBe('');
+  });
+
+  it('keeps the highlighted word of the contact heading', () => {
+    const heading = fixture.debugElement.query(By.css('#contacto-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('¿Listo para transformar tu negocio?');
+    expect(heading.query(By.css('.contact__highlight')).nativeElement.textContent.trim()).toBe('transformar');
   });
 });

@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { HomeChallengesComponent } from './home-challenges.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeChallengesComponent', () => {
   let fixture: ComponentFixture<HomeChallengesComponent>;
@@ -10,7 +12,9 @@ describe('HomeChallengesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HomeChallengesComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(HomeChallengesComponent);
     fixture.componentRef.setInput('challenges', HOME_CONTENT.challenges);
     fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
@@ -52,5 +56,17 @@ describe('HomeChallengesComponent', () => {
       expect(image.attributes['alt']).toBe('');
       expect(image.attributes['aria-hidden']).toBe('true');
     });
+  });
+
+  it('renders the approved heading, lead and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#desafios-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('¿Qué desafíos podemos ayudarte a resolver?');
+    expect(heading.query(By.css('.challenges__highlight')).nativeElement.textContent.trim()).toBe('resolver?');
+    expect(fixture.debugElement.query(By.css('.challenges__lead')).nativeElement.textContent.trim()).toBe(
+      'Identificamos los retos que frenan tu crecimiento y desarrollamos soluciones tecnológicas a la medida.',
+    );
+    expect(fixture.debugElement.query(By.css('.challenges__cta')).nativeElement.textContent.trim()).toBe(
+      'Hablemos de tu proyecto',
+    );
   });
 });

@@ -6,9 +6,11 @@
   (focusout)="setInteractionPause(false)"
 >
   <header class="services__header">
-    <h2 id="servicios-title" class="appland-heading services__title">
-      Soluciones tecnológicas que impulsan el <span class="services__highlight">crecimiento</span> de tu empresa
-    </h2>
+    <h2
+      id="servicios-title"
+      class="appland-heading services__title"
+      [innerHTML]="'home.services.title' | translate"
+    ></h2>
     <span class="services__rule" aria-hidden="true"></span>
   </header>
 

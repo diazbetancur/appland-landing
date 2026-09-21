@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { TeamCoverageComponent } from './team-coverage.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('TeamCoverageComponent', () => {
   let fixture: ComponentFixture<TeamCoverageComponent>;
@@ -10,7 +12,9 @@ describe('TeamCoverageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, TeamCoverageComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(TeamCoverageComponent);
     fixture.componentRef.setInput('countries', HOME_CONTENT.countries);
     fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
@@ -60,5 +64,15 @@ describe('TeamCoverageComponent', () => {
     const cta = fixture.debugElement.query(By.css('.team__cta'));
     expect(cta.nativeElement.textContent.trim()).toContain('Conoce nuestro equipo');
     expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+  });
+
+  it('renders the approved heading, lead and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#equipo-global-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Equipo distribuido internacionalmente');
+    expect(heading.query(By.css('.team__highlight')).nativeElement.textContent.trim()).toBe('internacionalmente');
+    expect(fixture.debugElement.query(By.css('.team__lead')).nativeElement.textContent.trim()).toBe(
+      'Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.',
+    );
+    expect(fixture.nativeElement.textContent).toContain('Conoce nuestro equipo');
   });
 });

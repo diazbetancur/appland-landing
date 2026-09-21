@@ -8,9 +8,11 @@
 
     <div class="contact__body">
       <span class="contact__rule" aria-hidden="true"></span>
-      <h2 id="contacto-title" class="appland-heading contact__title">
-        ¿Listo para <span class="contact__highlight">transformar</span> tu negocio?
-      </h2>
+      <h2
+        id="contacto-title"
+        class="appland-heading contact__title"
+        [innerHTML]="'home.contact.title' | translate"
+      ></h2>
       <p class="contact__lead">{{ content.body }}</p>
 
       <div class="contact__actions">

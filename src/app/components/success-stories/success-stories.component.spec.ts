@@ -3,6 +3,8 @@ import { By } from '@angular/platform-browser';
 import { selectVisibleCases } from '../../feature/pages/home/home-content.config';
 import { HorizontalCarouselDirective } from '../../shared/directives/horizontal-carousel.directive';
 import { SuccessStoriesComponent } from './success-stories.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('SuccessStoriesComponent', () => {
   let fixture: ComponentFixture<SuccessStoriesComponent>;
@@ -10,7 +12,9 @@ describe('SuccessStoriesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SuccessStoriesComponent, HorizontalCarouselDirective],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(SuccessStoriesComponent);
     fixture.componentInstance.cases = selectVisibleCases();
     fixture.detectChanges();
@@ -55,5 +59,11 @@ describe('SuccessStoriesComponent', () => {
     expect(position.attributes['aria-live']).toBe('polite');
     expect(position.nativeElement.classList).toContain('appland-visually-hidden');
     expect(position.nativeElement.textContent.trim()).toMatch(/^\d+ de \d+$/);
+  });
+
+  it('renders the approved section heading with its highlighted word', () => {
+    const heading = fixture.debugElement.query(By.css('#casos-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Algunos proyectos desarrollados');
+    expect(heading.query(By.css('.cases__highlight')).nativeElement.textContent.trim()).toBe('proyectos');
   });
 });
