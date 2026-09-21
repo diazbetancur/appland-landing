@@ -95,4 +95,22 @@ describe('HomeCtaComponent', () => {
     expect(heading.nativeElement.textContent.trim()).toBe('¿Listo para transformar tu negocio?');
     expect(heading.query(By.css('.contact__highlight')).nativeElement.textContent.trim()).toBe('transformar');
   });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#contacto-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.contact__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
 });

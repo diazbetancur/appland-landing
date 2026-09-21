@@ -262,10 +262,6 @@ h1 {
   font-size: min(6.4vw, 5.6rem);
 }
 
-.hero__ghost--bottom span {
-  color: rgba(20, 184, 196, 0.42);
-}
-
 /* Anchor the ghost word to the same vertical midpoint as the laptop so the
    laptop always covers roughly the bottom quarter of the letters at every
    width. The laptop's rendered height is 0.667 of its clamped width, and its
