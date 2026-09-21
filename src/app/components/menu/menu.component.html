@@ -30,7 +30,7 @@
         [routerLink]="['/']"
         [fragment]="meetingDestination.fragment"
       >
-        Agendar
+        {{ 'menu.meetingShort' | translate }}
       </a>
     } @else {
       <a
@@ -47,7 +47,7 @@
         [target]="meetingDestination.target"
         [rel]="meetingDestination.rel"
       >
-        Agendar
+        {{ 'menu.meetingShort' | translate }}
       </a>
     }
 

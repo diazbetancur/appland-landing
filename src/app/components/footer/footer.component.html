@@ -15,7 +15,7 @@
     </div>
 
     <div>
-      <h2>Navegación</h2>
+      <h2>{{ 'footer.navigation' | translate }}</h2>
       <ul>
         @for (item of content.navigation; track item) {
           <li>
@@ -26,7 +26,7 @@
     </div>
 
     <div>
-      <h2>Servicios</h2>
+      <h2>{{ 'footer.services' | translate }}</h2>
       <ul>
         @for (item of content.services; track item) {
           <li>
@@ -37,7 +37,7 @@
     </div>
 
     <div>
-      <h2>Contacto</h2>
+      <h2>{{ 'footer.contact' | translate }}</h2>
       <ul>
         <li>
           <a [href]="destinationHref(content.contact.email)">{{ content.contact.email.value }}</a>
@@ -46,14 +46,16 @@
           <a [href]="destinationHref(content.contact.phone)">+504 3334-9211</a>
         </li>
         <li>
-          <a href="https://wa.me/50433349211" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <a href="https://wa.me/50433349211" target="_blank" rel="noopener noreferrer">{{
+            'footer.whatsapp' | translate
+          }}</a>
         </li>
       </ul>
     </div>
   </div>
 
   <div class="footer__bottom">
-    <p>© {{ currentYear }} {{ content.copyrightOwner }}. Todos los derechos reservados.</p>
+    <p>© {{ currentYear }} {{ content.copyrightOwner }}. {{ 'footer.rights' | translate }}</p>
     @if (content.legalLinks.length) {
       <div>
         @for (link of content.legalLinks; track link) {

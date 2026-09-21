@@ -12,6 +12,8 @@ import {
   NavigationItem,
   ObservedRegionId,
 } from './feature/pages/home/home-content.models';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from './shared/i18n/translations.testing';
 
 @Component({
   selector: 'app-menu',
@@ -46,12 +48,14 @@ describe('AppComponent shell', () => {
     // declararlos en el TestBed para que ganaran; ahora hay que sustituirlos explicitamente.
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, MenuStubComponent, FooterStubComponent, HomeSectionStubDirective, AppComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     });
     TestBed.overrideComponent(AppComponent, {
       remove: { imports: [MenuComponent, FooterComponent, HomeSectionDirective] },
       add: { imports: [MenuStubComponent, FooterStubComponent, HomeSectionStubDirective] },
     });
     await TestBed.compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
   });
@@ -70,7 +74,11 @@ describe('AppComponent shell', () => {
   });
 
   it('renders skip link and header/main/footer landmarks', () => {
-    expect(fixture.debugElement.query(By.css('.skip-link')).attributes['href']).toBe('#contenido-principal');
+    const skipLink = fixture.debugElement.query(By.css('.skip-link'));
+    expect(skipLink.attributes['href']).toBe('#contenido-principal');
+    // El texto se comprueba porque es lo unico que lee quien navega con teclado antes de
+    // cualquier otra cosa de la pagina: una clave sin traducir aqui pasa desapercibida.
+    expect(skipLink.nativeElement.textContent.trim()).toBe('Saltar al contenido principal');
     expect(fixture.debugElement.query(By.css('header'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('main#contenido-principal'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('footer'))).not.toBeNull();

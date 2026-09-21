@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { A11yModule } from '@angular/cdk/a11y';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { MenuComponent } from './menu.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 @Component({
   template: '',
@@ -24,7 +26,9 @@ describe('MenuComponent accessibility', () => {
         MenuComponent,
         AccessibilityRouteStubComponent,
       ],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('items', HOME_CONTENT.navigation);
@@ -60,6 +64,15 @@ describe('MenuComponent accessibility', () => {
     expect(fixture.debugElement.queryAll(By.css('.compact-menu__cta')).length).toBe(1);
     expect(fixture.nativeElement.textContent).not.toContain('English');
     expect(fixture.debugElement.query(By.css('select'))).toBeNull();
+  });
+
+  /** El boton compacto usa una etiqueta corta propia, distinta de la de la accion. */
+  it('labels the compact meeting button with its own short copy', () => {
+    const compact = fixture.debugElement.queryAll(By.css('.menu__meeting--compact'));
+    expect(compact.length).toBeGreaterThan(0);
+    for (const button of compact) {
+      expect(button.nativeElement.textContent.trim()).toBe('Agendar');
+    }
   });
 
   it('exposes the brand name via aria-label since the logo image is decorative', () => {

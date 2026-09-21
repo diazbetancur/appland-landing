@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Client } from '../../feature/pages/home/home-content.models';
 import { OurClientsComponent } from './our-clients.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 const client: Client = {
   id: 'approved-client',
@@ -22,7 +24,11 @@ describe('OurClientsComponent', () => {
   let component: OurClientsComponent;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [OurClientsComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [OurClientsComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
+    }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(OurClientsComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('clients', [client]);

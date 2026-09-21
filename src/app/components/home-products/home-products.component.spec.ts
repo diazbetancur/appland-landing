@@ -4,6 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Product } from '../../feature/pages/home/home-content.models';
 import { HorizontalCarouselDirective } from '../../shared/directives/horizontal-carousel.directive';
 import { HomeProductsComponent } from './home-products.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 const approvedProducts: readonly Product[] = [
   {
@@ -26,7 +28,9 @@ describe('HomeProductsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HomeProductsComponent, HorizontalCarouselDirective],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
     }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(HomeProductsComponent);
   });
 
@@ -34,6 +38,15 @@ describe('HomeProductsComponent', () => {
     fixture.componentInstance.products = [];
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('#productos-title'))).toBeNull();
+  });
+
+  it('renders the approved section heading', () => {
+    fixture.componentInstance.products = approvedProducts;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.appland-eyebrow')).nativeElement.textContent.trim()).toBe('Productos');
+    expect(fixture.debugElement.query(By.css('#productos-title')).nativeElement.textContent.trim()).toBe(
+      'Soluciones listas para acelerar tu operación',
+    );
   });
 
   it('renders an identifiable manual carousel and contact fallback for approved products', () => {

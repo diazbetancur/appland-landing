@@ -10,12 +10,13 @@ import {
 import { HomeSectionObserverService } from '../../shared/services/home-section-observer.service';
 import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  imports: [RouterLink, CdkTrapFocus],
+  imports: [RouterLink, CdkTrapFocus, TranslatePipe],
 })
 export class MenuComponent implements OnInit, OnDestroy {
   private readonly sectionObserver = inject(HomeSectionObserverService);
