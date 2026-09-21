@@ -29,6 +29,9 @@ Medido sobre `origin/develop` en el commit `7f34842`, antes de escribir este spe
 | Medida | Valor |
 |---|---|
 | Textos escritos directo en plantillas del Home | 29, en 13 componentes |
+| Textos visibles dentro de `home-content.config.ts` | 126 |
+| De esos, nombres propios que no se traducen | ~16 (Toyota, Dilo, Ficohsa, Avianca, Tigo…) |
+| **Total que necesita inglés** | **~139** |
 | Textos que sí pasan por `home-content.config.ts` | La mayoría del contenido de datos (servicios, casos, desafíos, países, beneficios) |
 | Claves en `es.json` / `en.json` | 17, idénticas en ambos |
 | Componentes del Home que consumen esas claves | **0** |
@@ -71,7 +74,7 @@ Dos casos aparte, del mismo patrón pero sobre datos que **ya están centralizad
 | Idioma fijado a `es` al arrancar | `app.config.ts:49-52`, `provideTranslateService({ fallbackLang: 'es', lang: 'es' })` |
 | Contenido estructurado con estado de aprobación | `home-content.config.ts` |
 
-`home-content.config.ts` no desaparece. Sigue siendo el dueño de los **datos** (qué servicios existen, qué casos están aprobados, qué países). Este spec mueve los **textos de interfaz**, que hoy no están en ningún lado.
+`home-content.config.ts` no desaparece, pero cambia de papel. Sigue declarando **qué existe** — qué servicios, qué casos están aprobados, qué países, con qué imágenes y a qué destinos apuntan — y deja de contener **el texto**. Sus campos de copia pasan a guardar la clave de traducción en vez de la frase.
 
 ### El hallazgo que condiciona el alcance
 
@@ -129,6 +132,8 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 ## In Scope
 
 - Mover los 29 textos de interfaz del Home desde las plantillas a `es.json`.
+- Mover los ~110 textos traducibles de `home-content.config.ts` a `es.json`, dejando en el config la clave en lugar de la frase.
+- Conservar sin traducir los nombres propios: clientes, proyectos y marcas.
 - Poblar `en.json` con las traducciones que la maqueta ya documenta en `data-en`.
 - Conectar los 13 componentes a ngx-translate.
 - Una prueba por componente que fije el texto renderizado, de modo que un desfase entre la copia aprobada y lo publicado falle en CI.
@@ -141,7 +146,6 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 
 - Cambiar cualquier texto en español. El sitio en español queda idéntico, carácter por carácter.
 - Cambiar estilos, maquetación o lógica de componentes, con una sola excepción: el selector de idioma, que es markup y estilo nuevos. Ningún otro elemento existente cambia de aspecto ni de posición.
-- Los textos que viven en `home-content.config.ts`, que ya están centralizados.
 - Las rutas `/service` y `/about`, por la justificación de arriba.
 - Los puntos de la auditoría UX/UI. Este spec no arregla ninguno; solo evita que sus arreglos se pierdan.
 
@@ -150,7 +154,10 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 ### Functional Requirements
 
 - **FR-001**: Los 29 textos de interfaz del inventario deben residir en `es.json`, cada uno bajo una clave propia.
-- **FR-002**: Ninguna plantilla del Home debe contener texto en español escrito a mano.
+- **FR-001b**: Los textos traducibles de `home-content.config.ts` deben residir en `es.json`. El config guarda la clave, no la frase.
+- **FR-001c**: Los nombres propios de clientes, proyectos y marcas se mantienen tal cual, sin clave de traducción.
+- **FR-001d**: Los textos alternativos de las imágenes son contenido visible para quien usa lector de pantalla, así que también se traducen.
+- **FR-002**: Ni las plantillas del Home ni `home-content.config.ts` deben contener frases en español, salvo los nombres propios de FR-001c.
 - **FR-003**: Cada clave de `es.json` debe tener su equivalente en `en.json`, y viceversa. Los dos archivos deben tener exactamente el mismo conjunto de claves.
 - **FR-004**: El texto renderizado en español debe ser idéntico, carácter por carácter, al de `7f34842`.
 - **FR-005**: Las traducciones al inglés deben partir de los `data-en` de la maqueta cuando existan, y escribirse cuando no.
@@ -176,16 +183,22 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 ## Success Criteria
 
 - **SC-001**: El Home en español se ve idéntico al de `7f34842`, verificado texto por texto contra el inventario.
-- **SC-002**: Una búsqueda de texto en español dentro de las plantillas del Home no devuelve resultados.
+- **SC-002**: Una búsqueda de frases en español dentro de `src/app/**/*.html` y de `home-content.config.ts` solo devuelve nombres propios.
 - **SC-003**: Una prueba compara los conjuntos de claves de `es.json` y `en.json` y falla si difieren.
 - **SC-004**: Cada componente tocado tiene al menos una prueba que falla si su texto cambia sin actualizar el archivo de traducción.
-- **SC-005**: Con el navegador en inglés, el Home se ve en inglés, completo, sin claves crudas ni huecos.
+- **SC-005**: Con el navegador en inglés, el Home se ve en inglés **de principio a fin**: titulares, servicios, desafíos, proyectos, beneficios, botones y textos alternativos. Sin claves crudas, sin huecos y sin frases en español.
 - **SC-006**: Con el navegador en español, el Home se ve en español.
 - **SC-007**: El selector es alcanzable con Tab, se opera con Enter o Espacio y anuncia el idioma activo.
 - **SC-008**: El selector no altera la maquetación del menú a 390, 768, 1024 ni 1440 px.
 - **SC-009**: El inglés se lee natural. Verificado leyendo cada cadena completa, no palabra por palabra.
 - **SC-010**: `npm run test:ci`, `lint`, `format:check` y `build` terminan en 0.
 - **SC-011**: Cada prueba nueva se demuestra capaz de fallar antes de implementar lo que cubre.
+
+## Corrección de alcance del 2026-09-21
+
+La primera versión de este spec dejaba `home-content.config.ts` fuera, con el argumento de que su contenido "ya está centralizado". Estar centralizado y estar traducido son cosas distintas: ese archivo tiene 126 textos visibles, entre ellos los nombres y resúmenes de los cinco servicios, los cinco desafíos, las nueve aplicaciones de IA, los siete beneficios y el título del hero.
+
+Con el alcance original, el Home en inglés habría salido en español en cerca de un 80%, con el selector de idioma encendido mostrándolo. El usuario aprobó el alcance completo.
 
 ## Risks
 
@@ -194,4 +207,6 @@ Queda una esquina que la decisión 4 no cubre: qué ve alguien cuyo navegador no
 - **R-003**: Un visitante con navegador en inglés pasa a ver el Home en inglés, cosa que hoy no ocurre porque el idioma está fijado a `es` en `app.config.ts`. Es el comportamiento pedido en la decisión 4, no un efecto colateral. Mitigación de su lado incómodo: el selector de FR-009.
 - **R-004**: El selector desacomoda el menú en algún ancho. Mitigación: NFR-005 y SC-008, que fijan los cuatro anchos de comprobación.
 - **R-005**: Las traducciones cargan por HTTP, así que puede verse la clave cruda antes de que lleguen. Recogido en NFR-006.
+- **R-007**: Renombrar los campos de copia del config rompe en compilación cada plantilla, componente y prueba que los lee. Es mucho diff a la vez. Mitigación: el compilador de TypeScript y las 152 pruebas señalan cada punto; se hace por tandas con la suite entre medias.
+- **R-008**: Un nombre propio traducido por error cambiaría el nombre de un cliente. Mitigación: FR-001c los deja fuera de forma explícita y la revisión final los recorre uno por uno.
 - **R-006**: El inglés de la maqueta es de un diseñador, no de un traductor, y puede tener sus propios problemas. Mitigación: FR-006 y SC-009 lo someten a la misma vara que el texto nuevo, en vez de copiarlo a ciegas.

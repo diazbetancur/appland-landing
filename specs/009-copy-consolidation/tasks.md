@@ -57,6 +57,27 @@ Un componente por tarea, y la suite entre medias, para que un fallo señale su c
 - [ ] T034 Buscar texto en español en `src/app/**/*.html` y confirmar que no queda ninguno. Depende de: T033. Resultado: FR-002, SC-002.
 - [ ] T035 Recorrer el inventario completo del spec contra la referencia de T002, texto por texto. Depende de: T034. Resultado: SC-001.
 
+## Phase 4b — Migración del contenido de `home-content.config.ts`
+
+El diff más grande. Una tanda por modelo, con la suite entre medias, según R-007.
+
+- [ ] T035a Renombrar en `home-content.models.ts` los campos de copia con sufijo `Key`, según TD-009, dejando fuera los nombres propios de TD-010. Depende de: T035. Resultado: FR-001b, TD-009.
+- [ ] T035b Ejecutar `npm run build` y recoger la lista completa de errores de compilación. Esa lista es el inventario de puntos a tocar. Depende de: T035a. Resultado: mitigación de R-007.
+- [ ] T035c Tanda 1, acciones y navegación: `ConversionAction`, `NavigationItem`, `FragmentLink`, `LabeledDestination`. Claves, config, plantillas y pruebas. Depende de: T035b.
+- [ ] T035d Ejecutar la suite. Depende de: T035c.
+- [ ] T035e Tanda 2, servicios: `Service.nameKey`, `.summaryKey`, `ServiceHighlight.labelKey`. Depende de: T035d.
+- [ ] T035f Ejecutar la suite. Depende de: T035e.
+- [ ] T035g Tanda 3, desafíos y beneficios: `Challenge.problemKey` y `.responseKey`, `Benefit.statementKey` y `.descriptionKey`. Depende de: T035f.
+- [ ] T035h Ejecutar la suite. Depende de: T035g.
+- [ ] T035i Tanda 4, IA y proyectos: `AiApplication.labelKey` y `.descriptionKey`, `CaseStudy.summaryKey` y `.descriptionKey`. Los nombres de proyecto no se tocan. Depende de: T035h.
+- [ ] T035j Ejecutar la suite. Depende de: T035i.
+- [ ] T035k Tanda 5, hero, contacto, pie y países: `HeroContent`, `ContactContent`, `FooterContent.brandSummaryKey`, `CountryPresence.nameKey`, `Product.summaryKey`. Depende de: T035j.
+- [ ] T035l Ejecutar la suite. Depende de: T035k.
+- [ ] T035m Tanda 6, textos alternativos: `ApprovedAsset.altKey` en los assets no decorativos, según TD-011. Depende de: T035l. Resultado: FR-001d.
+- [ ] T035n Ejecutar la suite. Depende de: T035m.
+- [ ] T035o Confirmar que en `home-content.config.ts` no queda ninguna frase en español salvo los nombres propios de FR-001c. Depende de: T035n. Resultado: FR-002, SC-002.
+- [ ] T035p Recorrer los nombres propios uno por uno y confirmar que ninguno se convirtió en clave. Depende de: T035o. Resultado: FR-001c, R-008.
+
 ## Phase 5 — Selector de idioma
 
 - [ ] T036 Escribir las pruebas del selector: alterna el idioma, marca el activo con `aria-checked`, es operable por teclado y persiste la elección. Depende de: T035. Resultado: FR-009 a FR-011, SC-007.
@@ -69,7 +90,8 @@ Un componente por tarea, y la suite entre medias, para que un fallo señale su c
 ## Phase 6 — Verificación final
 
 - [ ] T042 Recorrer el Home en español y compararlo con `7f34842`. Depende de: T041. Resultado: SC-001.
-- [ ] T043 Recorrer el Home en inglés y confirmar que no hay claves crudas, huecos ni texto en español. Depende de: T042. Resultado: SC-005.
+- [ ] T043 Recorrer el Home en inglés sección por sección — hero, clientes, servicios, desafíos, proyectos, IA, beneficios, equipo, contacto, pie — y confirmar que no hay claves crudas, huecos ni frases en español. Depende de: T042. Resultado: SC-005.
+- [ ] T043b Revisar los textos alternativos en inglés con el inspector, que no se ven a simple vista. Depende de: T043. Resultado: FR-001d.
 - [ ] T044 Recorrer el Home con el navegador en español y confirmar que sale en español. Depende de: T043. Resultado: SC-006.
 - [ ] T045 Ejecutar `npm run test:ci`, `lint`, `format:check` y `build`, y comparar con la línea base de T001. Depende de: T044. Resultado: NFR-001 a NFR-004, SC-010.
 - [ ] T046 Anotar en el spec el conteo final de pruebas. Depende de: T045.

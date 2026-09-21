@@ -8,7 +8,7 @@
 
 ## Summary
 
-Mover 29 textos de interfaz desde 13 plantillas a `es.json` y `en.json`, conectar los componentes a ngx-translate, activar la resolución de idioma que hoy existe pero no se ejecuta, y añadir un selector visible. El español queda idéntico carácter por carácter; el inglés pasa a existir.
+Mover ~139 textos a `es.json` y `en.json`: los 29 escritos en las plantillas y los ~110 traducibles de `home-content.config.ts`. Conectar los componentes a ngx-translate, activar la resolución de idioma que hoy existe pero no se ejecuta, y añadir un selector visible. El español queda idéntico carácter por carácter; el inglés pasa a existir completo.
 
 ## Technical Context
 
@@ -93,6 +93,41 @@ FR-006 y SC-009. Reglas concretas:
 Cada prueba de componente registra las claves de ese componente en el `TestBed` con sus valores reales de `es.json`, y comprueba el texto renderizado. Una prueba contra un doble que devuelve la clave verificaría que el pipe está puesto, no que la copia es la correcta, y este spec existe precisamente porque nadie verificaba la copia.
 
 Se añade además una prueba de archivo que compara los conjuntos de claves de `es.json` y `en.json` (SC-003).
+
+### TD-009: El config guarda claves, y sus campos de copia se renombran con sufijo `Key`
+
+`home-content.config.ts` pasa de contener frases a contener claves. La pregunta es si el campo sigue llamándose igual.
+
+```ts
+// Antes
+{ id: 'software', name: 'Desarrollo de Software', summary: 'Tecnología a la medida…' }
+
+// Opción descartada: mismo nombre, contenido distinto
+{ id: 'software', name: 'home.services.software.name' }
+
+// Decidido
+{ id: 'software', nameKey: 'home.services.software.name', summaryKey: 'home.services.software.summary' }
+```
+
+Dejar el campo llamándose `name` conteniendo una clave hace que el modelo mienta sobre lo que guarda, y este archivo es el contrato del contenido: quien lo lea dentro de seis meses tiene que poder saber qué hay dentro sin abrir el JSON. El sufijo `Key` lo dice.
+
+El coste es un diff grande de golpe: cada plantilla, componente y prueba que lee esos campos deja de compilar. Es también la mitigación, porque el compilador señala todos los puntos y no queda ninguno al azar. Se hace por tandas, con la suite entre medias (R-007).
+
+Los campos afectados, por modelo: `ConversionAction.label`, `NavigationItem.label`, `FragmentLink.label`, `LabeledDestination.label`, `ServiceHighlight.label`, `AiApplication.label` y `.description`, `Service.name` y `.summary`, `Challenge.problem` y `.response`, `Benefit.statement` y `.description`, `CaseStudy.summary` y `.description`, `Product.summary`, `CountryPresence.name`, `ContactContent.title` y `.body`, `HeroContent.titleLead`, `.titleHighlight` y `.subtitle`, `FooterContent.brandSummary`, `ApprovedAsset.alt` y `ConversionAction.approvedMessage`.
+
+### TD-010: Los nombres propios no llevan clave
+
+`Client.name`, `CaseStudy.name` y `Product.name` guardan nombres de empresa y de producto: Toyota, Dilo, Ficohsa, Espresso Americano. Se quedan como texto literal, sin clave (FR-001c). Traducirlos sería cambiarle el nombre a un cliente.
+
+`CountryPresence.name` sí lleva clave: "México" es "Mexico" y "Perú" es "Peru" en inglés.
+
+Los nombres de producto del catálogo pendiente ("Restaurantes", "Clínicas") sí llevan clave: son categorías, no marcas.
+
+### TD-011: El texto alternativo de las imágenes también se traduce
+
+`ApprovedAsset.alt` es lo único que recibe quien navega con lector de pantalla. Dejarlo en español en la versión inglesa sería dejar esa parte del sitio sin traducir para justo esas personas. Lleva clave (FR-001d).
+
+Las imágenes decorativas tienen `alt` vacío y `decorative: true`. Esas no llevan clave: no hay nada que traducir.
 
 ## Verification
 
