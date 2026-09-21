@@ -42,7 +42,10 @@ describe('HomeSectionObserverService', () => {
       'servicios',
       'contacto',
     ]);
-    expect(service.activationThresholdPx).toBe(140);
+    // La linea de activacion es porcentual desde el spec de la ronda 4: en pixeles fijos la
+    // banda quedaba mas baja que cualquier seccion y no se activaba ninguna.
+    expect(service.activationLinePercent).toBe(25);
+    expect(service.activationBandPercent).toBe(1);
   });
 
   it('keeps only the most recently crossing registered region active on Home', fakeAsync(() => {
