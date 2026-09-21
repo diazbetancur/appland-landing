@@ -12,7 +12,7 @@
           [attr.aria-current]="!isMenuOpen && isActive(item.fragment) ? 'location' : null"
           [routerLink]="['/']"
           [fragment]="item.fragment"
-          >{{ item.label }}</a
+          >{{ item.labelKey | translate }}</a
         >
       }
     </div>
@@ -23,7 +23,7 @@
         [routerLink]="['/']"
         [fragment]="meetingDestination.fragment"
       >
-        {{ meetingAction.label }}
+        {{ meetingAction.labelKey | translate }}
       </a>
       <a
         class="appland-button appland-button--primary menu__meeting menu__meeting--compact"
@@ -39,7 +39,7 @@
         [target]="meetingDestination.target"
         [rel]="meetingDestination.rel"
       >
-        {{ meetingAction.label }}
+        {{ meetingAction.labelKey | translate }}
       </a>
       <a
         class="appland-button appland-button--primary menu__meeting menu__meeting--compact"
@@ -90,7 +90,7 @@
           [routerLink]="['/']"
           [fragment]="item.fragment"
           (click)="navigate()"
-          >{{ item.label }}</a
+          >{{ item.labelKey | translate }}</a
         >
       }
       @if (meetingDestination.kind === 'router') {
@@ -100,7 +100,7 @@
           [fragment]="meetingDestination.fragment"
           (click)="navigate()"
         >
-          {{ meetingAction.label }}
+          {{ meetingAction.labelKey | translate }}
         </a>
       } @else {
         <a
@@ -110,7 +110,7 @@
           [rel]="meetingDestination.rel"
           (click)="navigate()"
         >
-          {{ meetingAction.label }}
+          {{ meetingAction.labelKey | translate }}
         </a>
       }
     </div>

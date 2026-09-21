@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { WhyComponent } from './why.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('WhyComponent', () => {
   let fixture: ComponentFixture<WhyComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,8 +27,8 @@ describe('WhyComponent', () => {
     expect(fixture.debugElement.query(By.css('#por-que-appland-title'))).not.toBeNull();
     expect(fixture.debugElement.queryAll(By.css('.why__grid li')).length).toBe(7);
     HOME_CONTENT.benefits.forEach((benefit) => {
-      expect(fixture.nativeElement.textContent).toContain(benefit.statement);
-      expect(fixture.nativeElement.textContent).toContain(benefit.description);
+      expect(fixture.nativeElement.textContent).toContain(t(benefit.statementKey));
+      expect(fixture.nativeElement.textContent).toContain(t(benefit.descriptionKey));
     });
   });
 

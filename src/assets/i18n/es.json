@@ -110,6 +110,7 @@
       "dilo": {
         "alt": "Pantalla principal de la app financiera Dilo mostrando el saldo disponible.",
         "description": "Plataforma digital para gestionar dinero, pagos, recargas y servicios financieros desde un solo lugar.",
+        "name": "Dilo",
         "summary": "Aplicación financiera."
       },
       "espresso": {
@@ -127,6 +128,7 @@
       "toyota": {
         "alt": "Pantalla principal de la app móvil de Toyota con menú de servicios.",
         "description": "Plataforma móvil que centraliza servicios, productos, promociones y atención al cliente de Toyota.",
+        "name": "Toyota",
         "summary": "App móvil para clientes."
       },
       "tvAzteca": {
@@ -172,6 +174,10 @@
     },
     "contact": {
       "body": "Conversemos sobre tu proyecto y descubre cómo la tecnología, la automatización y la inteligencia artificial pueden ayudarte a crecer.",
+      "social": {
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn"
+      },
       "title": "¿Listo para <span class=\"contact__highlight\">transformar</span> tu negocio?"
     },
     "hero": {

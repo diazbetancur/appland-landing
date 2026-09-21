@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { BannerComponent } from './banner.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('BannerComponent', () => {
   let fixture: ComponentFixture<BannerComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,9 +26,9 @@ describe('BannerComponent', () => {
     const headings = fixture.debugElement.queryAll(By.css('h1'));
     expect(headings.length).toBe(1);
     expect(headings[0].nativeElement.textContent.trim()).toBe(
-      HOME_CONTENT.hero.titleLead + HOME_CONTENT.hero.titleHighlight,
+      (t(HOME_CONTENT.hero.titleLeadKey) + t(HOME_CONTENT.hero.titleHighlightKey)).trim(),
     );
-    expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.hero.subtitle);
+    expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.hero.subtitleKey));
   });
 
   it('routes meeting to contacto and services to servicios', () => {
@@ -42,8 +44,10 @@ describe('BannerComponent', () => {
     const h1 = fixture.debugElement.query(By.css('h1'));
     const highlight = fixture.debugElement.query(By.css('.hero__highlight'));
     expect(highlight.nativeElement.textContent.trim()).toBe('con tecnología inteligente.');
-    expect(HOME_CONTENT.hero.titleHighlight.length).toBeGreaterThan(0);
-    expect(h1.nativeElement.textContent.trim()).toBe(HOME_CONTENT.hero.titleLead + HOME_CONTENT.hero.titleHighlight);
+    expect(t(HOME_CONTENT.hero.titleHighlightKey).length).toBeGreaterThan(0);
+    expect(h1.nativeElement.textContent.trim()).toBe(
+      (t(HOME_CONTENT.hero.titleLeadKey) + t(HOME_CONTENT.hero.titleHighlightKey)).trim(),
+    );
   });
 
   it('keeps every hero visual decorative and out of the accessibility tree', () => {

@@ -57,6 +57,72 @@ describe('Translation files', () => {
   });
 
   /**
+   * Guardia contra textos sin traducir.
+   *
+   * Una clave cuyo valor en ingles es identico al espanol casi siempre significa que alguien
+   * anadio copia nueva y solo la escribio en un idioma. Las excepciones legitimas se declaran
+   * aqui una por una, asi que sumar una nueva obliga a justificarla.
+   */
+  it('has no untranslated leftovers between Spanish and English', async () => {
+    /** Nombres propios, codigos, siglas y cifras: iguales en los dos idiomas a proposito. */
+    const IDENTICAL_ON_PURPOSE = new Set([
+      'footer.whatsapp',
+      'home.cases.dilo.name',
+      'home.cases.toyota.name',
+      'home.contact.social.instagram',
+      'home.contact.social.linkedin',
+      'home.hero.cardMetric',
+      'home.products.ecommerce',
+      'home.services.staff.name',
+      'home.services.staff.qa',
+      'home.services.staff.ux',
+      'home.team.countries.AR',
+      'home.team.countries.CO',
+      'home.team.countries.EC',
+      'home.team.countries.GT',
+      'home.team.countries.HN',
+      'home.team.countries.SV',
+      // El nombre de cada idioma va en su propio idioma en las dos versiones, para que quien
+      // cayo en el que no entiende reconozca el suyo.
+      'menu.language.en.code',
+      'menu.language.en.name',
+      'menu.language.es.code',
+      'menu.language.es.name',
+    ]);
+
+    const [spanish, english] = await Promise.all([load('es'), load('en')]);
+
+    const untranslated = [...spanish.keys()]
+      .filter((key) => key.includes('.'))
+      .filter((key) => !IDENTICAL_ON_PURPOSE.has(key))
+      .filter((key) => spanish.get(key) === english.get(key));
+
+    expect(untranslated, 'claves con el mismo texto en los dos idiomas').toEqual([]);
+  });
+
+  /**
+   * Fija la copia aprobada del hero en espanol.
+   *
+   * Venia de `home-content.config.spec.ts`, donde el texto vivia antes del spec 009. El
+   * proposito es el mismo: que un cambio de redaccion sea deliberado y no un descuido.
+   *
+   * El subtitulo dice "SaaS Automatizacion" sin coma. Esta fijado tal cual a proposito: es el
+   * punto 03 de la auditoria UX/UI y no esta resuelto, asi que cambiarlo tiene que ser una
+   * decision, no un arreglo de paso.
+   */
+  it('pins the approved Spanish hero copy', async () => {
+    const spanish = await load('es');
+
+    expect(spanish.get('home.hero.titleLead')).toBe('Impulsamos tu negocio ');
+    expect(spanish.get('home.hero.titleHighlight')).toBe('con tecnología inteligente.');
+    expect(spanish.get('home.hero.subtitle')).toBe(
+      'Desarrollo de software, Inteligencia Artificial, SaaS Automatización y Staff Augmentation ' +
+        'para empresas que buscan crecer mejor y más rápido.',
+    );
+    expect(spanish.get('home.actions.services')).toBe('Nuestros servicios');
+  });
+
+  /**
    * El titulo del hero se pinta partido en dos campos porque el tramo final va en cian. Si uno
    * de los dos quedara vacio en un idioma, ese idioma perderia media frase o el resaltado.
    */

@@ -19,9 +19,17 @@ function fragmentAction(fragment: ConversionAction['fallbackFragment']): Resolve
   return { kind: 'router', fragment: fragment ?? 'contacto' };
 }
 
-export function resolveConversionAction(action: ConversionAction): ResolvedAction {
+/**
+ * @param approvedMessage Mensaje ya traducido que se precarga en WhatsApp.
+ *
+ * Se recibe resuelto en vez de leerse aqui porque esta es una funcion pura, sin inyeccion: la
+ * clave vive en `action.approvedMessageKey` y la traduce el componente, que si tiene acceso al
+ * servicio. Quien abre el chat desde la version inglesa del sitio no deberia encontrarse un
+ * mensaje en espanol ya escrito.
+ */
+export function resolveConversionAction(action: ConversionAction, approvedMessage?: string): ResolvedAction {
   if (action.intent === 'whatsapp') {
-    const message = action.approvedMessage?.trim();
+    const message = approvedMessage?.trim();
     const suffix = message ? `?text=${encodeURIComponent(message)}` : '';
     return {
       kind: 'href',

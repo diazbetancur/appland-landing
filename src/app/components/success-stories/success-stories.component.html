@@ -44,15 +44,21 @@
         <article class="case-card">
           @if (item.media; as media) {
             <div class="case-card__media">
-              <img [src]="media.src" [alt]="media.alt" [width]="media.width" [height]="media.height" loading="lazy" />
+              <img
+                [src]="media.src"
+                [alt]="media.altKey | translate"
+                [width]="media.width"
+                [height]="media.height"
+                loading="lazy"
+              />
             </div>
           }
           <div class="case-card__body">
             <p class="case-card__number">0{{ index + 1 }}</p>
             <h3>{{ item.name }}</h3>
-            <p class="case-card__category">{{ item.summary }}</p>
-            @if (item.description) {
-              <p class="case-card__description">{{ item.description }}</p>
+            <p class="case-card__category">{{ item.summaryKey | translate }}</p>
+            @if (item.descriptionKey) {
+              <p class="case-card__description">{{ item.descriptionKey | translate }}</p>
             }
             @if (destinationHref(item.destination); as href) {
               <a [href]="href" target="_blank" rel="noopener noreferrer">

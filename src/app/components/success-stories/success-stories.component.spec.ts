@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { selectVisibleCases } from '../../feature/pages/home/home-content.config';
 import { HorizontalCarouselDirective } from '../../shared/directives/horizontal-carousel.directive';
 import { SuccessStoriesComponent } from './success-stories.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('SuccessStoriesComponent', () => {
   let fixture: ComponentFixture<SuccessStoriesComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,7 +32,7 @@ describe('SuccessStoriesComponent', () => {
     cards.forEach((card, index) => {
       const img = card.query(By.css('img')).nativeElement;
       expect(img.src).toContain(visible[index].media?.src);
-      expect(img.alt).toBe(visible[index].media?.alt);
+      expect(img.alt).toBe(t(visible[index].media!.altKey));
     });
     expect(fixture.debugElement.query(By.css('.case-card a'))).toBeNull();
   });

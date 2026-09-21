@@ -17,13 +17,15 @@ describe('HOME_CONTENT', () => {
     ]);
   });
 
-  it('pins the approved hero copy so any wording change is deliberate', () => {
-    expect(HOME_CONTENT.hero.titleLead).toBe('Impulsamos tu negocio ');
-    expect(HOME_CONTENT.hero.titleHighlight).toBe('con tecnología inteligente.');
-    expect(HOME_CONTENT.hero.subtitle).toBe(
-      'Desarrollo de software, Inteligencia Artificial, SaaS Automatización y Staff Augmentation para empresas que buscan crecer mejor y más rápido.',
-    );
-    expect(HOME_CONTENT.hero.servicesAction.label).toBe('Nuestros servicios');
+  /**
+   * Desde el spec 009 el contenido guarda claves, asi que aqui se fija a que claves apunta el
+   * hero. El texto en si lo fija `translation-files.spec.ts`, que es donde ahora vive.
+   */
+  it('pins the approved hero copy keys so any rewiring is deliberate', () => {
+    expect(HOME_CONTENT.hero.titleLeadKey).toBe('home.hero.titleLead');
+    expect(HOME_CONTENT.hero.titleHighlightKey).toBe('home.hero.titleHighlight');
+    expect(HOME_CONTENT.hero.subtitleKey).toBe('home.hero.subtitle');
+    expect(HOME_CONTENT.hero.servicesAction.labelKey).toBe('home.actions.services');
   });
 
   it('keeps the page-wide contact shortcut separate from the contact section button', () => {
@@ -33,10 +35,10 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.contactAction.fallbackFragment).toBe('contacto');
 
     expect(HOME_CONTENT.contact.meetingAction.intent).toBe('whatsapp');
-    expect(HOME_CONTENT.contact.meetingAction.approvedMessage).toBe('Hola, quiero agendar una reunión.');
+    expect(HOME_CONTENT.contact.meetingAction.approvedMessageKey).toBe('home.actions.whatsappMeetingMessage');
     expect(HOME_CONTENT.contact.meetingAction.fallbackFragment).toBeUndefined();
 
-    expect(HOME_CONTENT.contact.whatsappAction.approvedMessage).toBeUndefined();
+    expect(HOME_CONTENT.contact.whatsappAction.approvedMessageKey).toBeUndefined();
   });
 
   /**
@@ -46,20 +48,22 @@ describe('HOME_CONTENT', () => {
    * que pasan con la lista que sea: ninguna detecta que se anada, quite o renombre un pais.
    * Anclarla aqui obliga a editar esta lista a proposito, que es la barrera que faltaba.
    */
-  const APPROVED_COUNTRIES: readonly { code: string; name: string }[] = [
-    { code: 'HN', name: 'Honduras' },
-    { code: 'AR', name: 'Argentina' },
-    { code: 'CO', name: 'Colombia' },
-    { code: 'PA', name: 'Panamá' },
-    { code: 'GT', name: 'Guatemala' },
-    { code: 'MX', name: 'México' },
-    { code: 'SV', name: 'El Salvador' },
-    { code: 'PE', name: 'Perú' },
-    { code: 'EC', name: 'Ecuador' },
+  // Desde el spec 009 el config guarda la clave del nombre, no el nombre: Mexico, Panama y
+  // Peru cambian de forma en ingles. El texto lo comprueba la prueba de la seccion.
+  const APPROVED_COUNTRIES: readonly { code: string; nameKey: string }[] = [
+    { code: 'HN', nameKey: 'home.team.countries.HN' },
+    { code: 'AR', nameKey: 'home.team.countries.AR' },
+    { code: 'CO', nameKey: 'home.team.countries.CO' },
+    { code: 'PA', nameKey: 'home.team.countries.PA' },
+    { code: 'GT', nameKey: 'home.team.countries.GT' },
+    { code: 'MX', nameKey: 'home.team.countries.MX' },
+    { code: 'SV', nameKey: 'home.team.countries.SV' },
+    { code: 'PE', nameKey: 'home.team.countries.PE' },
+    { code: 'EC', nameKey: 'home.team.countries.EC' },
   ];
 
   it('publishes exactly the approved countries, in the approved order', () => {
-    expect(HOME_CONTENT.countries.map(({ code, name }) => ({ code, name }))).toEqual(APPROVED_COUNTRIES);
+    expect(HOME_CONTENT.countries.map(({ code, nameKey }) => ({ code, nameKey }))).toEqual(APPROVED_COUNTRIES);
   });
 
   /**
@@ -69,7 +73,8 @@ describe('HOME_CONTENT', () => {
   it('points every flag at the local asset named after its own country code', () => {
     HOME_CONTENT.countries.forEach((country) => {
       expect(country.flag.src).toBe(`assets/images/home/flags/${country.code.toLowerCase()}.svg`);
-      expect(country.flag.alt).toBe(`Bandera de ${country.name}`);
+      // Todas las banderas comparten una clave con parametro; el pais lo pone la plantilla.
+      expect(country.flag.altKey).toBe('home.team.flagAlt');
       expect(country.flag.publicationStatus).toBe('approved');
     });
   });
@@ -84,7 +89,7 @@ describe('HOME_CONTENT', () => {
   });
 
   it('maps Nosotros only to por-que-appland', () => {
-    const about = HOME_CONTENT.navigation.find((item) => item.label === 'Nosotros');
+    const about = HOME_CONTENT.navigation.find((item) => item.labelKey === 'nav.about');
     expect(about?.fragment).toBe('por-que-appland');
   });
 
@@ -129,8 +134,8 @@ describe('HOME_CONTENT', () => {
         continue;
       }
 
-      const summary = service.summary.toLowerCase();
-      const echoed = highlights.filter((highlight) => summary.includes(highlight.label.toLowerCase()));
+      const summary = service.summaryKey.toLowerCase();
+      const echoed = highlights.filter((highlight) => summary.includes(highlight.labelKey.toLowerCase()));
 
       expect(echoed.length).toBeLessThan(highlights.length);
     }

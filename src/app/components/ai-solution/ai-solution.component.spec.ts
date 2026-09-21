@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { AiSolutionComponent } from './ai-solution.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('AiSolutionComponent', () => {
   let fixture: ComponentFixture<AiSolutionComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,12 +27,12 @@ describe('AiSolutionComponent', () => {
     const labels = fixture.debugElement
       .queryAll(By.css('.ai-card h3'))
       .map((item) => item.nativeElement.textContent.trim());
-    expect(labels).toEqual(HOME_CONTENT.aiApplications.map((item) => item.label));
+    expect(labels).toEqual(HOME_CONTENT.aiApplications.map((item) => t(item.labelKey)));
 
     const descriptions = fixture.debugElement
       .queryAll(By.css('.ai-card p'))
       .map((item) => item.nativeElement.textContent.trim());
-    expect(descriptions).toEqual(HOME_CONTENT.aiApplications.map((item) => item.description));
+    expect(descriptions).toEqual(HOME_CONTENT.aiApplications.map((item) => t(item.descriptionKey)));
   });
 
   it('uses the approved contact fallback', () => {

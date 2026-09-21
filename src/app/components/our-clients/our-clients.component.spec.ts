@@ -13,7 +13,7 @@ const client: Client = {
     src: 'assets/images/home/clients/approved.png',
     width: 200,
     height: 80,
-    alt: 'Logo de Cliente aprobado',
+    altKey: 'Logo de Cliente aprobado',
     decorative: false,
     publicationStatus: 'approved',
   },
@@ -48,7 +48,7 @@ describe('OurClientsComponent', () => {
   it('renders intrinsic logo semantics and an aria-hidden duplicate', () => {
     const images = fixture.debugElement.queryAll(By.css('img'));
     expect(images.length).toBe(2);
-    expect(images[0].attributes['alt']).toBe(client.logo.alt);
+    expect(images[0].attributes['alt']).toBe(client.logo.altKey);
     expect(images[0].attributes['width']).toBe('200');
     expect(images[0].attributes['height']).toBe('80');
     expect(images[1].attributes['alt']).toBe('');

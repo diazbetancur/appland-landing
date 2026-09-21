@@ -4,11 +4,13 @@
       <a class="footer__logo" [routerLink]="['/']" fragment="inicio" aria-label="APPLAND, inicio">
         <img src="assets/images/logo-appland.png" width="215" height="44" alt="" />
       </a>
-      <p>{{ content.brandSummary }}</p>
+      <p>{{ content.brandSummaryKey | translate }}</p>
       @if (content.socialLinks.length) {
         <div class="footer__social">
           @for (link of content.socialLinks; track link) {
-            <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+            <a [href]="destinationHref(link)" target="_blank" rel="noopener noreferrer">{{
+              link.labelKey | translate
+            }}</a>
           }
         </div>
       }
@@ -19,7 +21,7 @@
       <ul>
         @for (item of content.navigation; track item) {
           <li>
-            <a [routerLink]="['/']" [fragment]="item.fragment">{{ item.label }}</a>
+            <a [routerLink]="['/']" [fragment]="item.fragment">{{ item.labelKey | translate }}</a>
           </li>
         }
       </ul>
@@ -30,7 +32,9 @@
       <ul>
         @for (item of content.services; track item) {
           <li>
-            <a [routerLink]="['/']" [fragment]="item.fragment" [queryParams]="item.queryParams">{{ item.label }}</a>
+            <a [routerLink]="['/']" [fragment]="item.fragment" [queryParams]="item.queryParams">{{
+              item.labelKey | translate
+            }}</a>
           </li>
         }
       </ul>
@@ -43,7 +47,7 @@
           <a [href]="destinationHref(content.contact.email)">{{ content.contact.email.value }}</a>
         </li>
         <li>
-          <a [href]="destinationHref(content.contact.phone)">+504 3334-9211</a>
+          <a [href]="destinationHref(content.contact.phone)">{{ content.contact.phone.displayValue }}</a>
         </li>
         <li>
           <a href="https://wa.me/50433349211" target="_blank" rel="noopener noreferrer">{{
@@ -59,7 +63,7 @@
     @if (content.legalLinks.length) {
       <div>
         @for (link of content.legalLinks; track link) {
-          <a [href]="destinationHref(link)">{{ link.label }}</a>
+          <a [href]="destinationHref(link)">{{ link.labelKey | translate }}</a>
         }
       </div>
     }

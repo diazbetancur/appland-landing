@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT, SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { FooterComponent } from './footer.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('FooterComponent', () => {
   let fixture: ComponentFixture<FooterComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,7 +31,7 @@ describe('FooterComponent', () => {
   });
 
   it('renders approved root fragments and nested contact information', () => {
-    expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.footer.brandSummary);
+    expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.footer.brandSummaryKey));
     expect(fixture.debugElement.query(By.css('a[href^="mailto:"]'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('a[href^="tel:"]'))).not.toBeNull();
     expect(fixture.debugElement.query(By.css('a[href*="#por-que-appland"]'))).not.toBeNull();

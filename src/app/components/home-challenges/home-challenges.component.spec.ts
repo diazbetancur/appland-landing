@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { HomeChallengesComponent } from './home-challenges.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeChallengesComponent', () => {
   let fixture: ComponentFixture<HomeChallengesComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,8 +27,8 @@ describe('HomeChallengesComponent', () => {
     const cards = fixture.debugElement.queryAll(By.css('.challenge'));
     expect(cards.length).toBe(5);
     HOME_CONTENT.challenges.forEach((challenge) => {
-      expect(fixture.nativeElement.textContent).toContain(challenge.problem);
-      expect(fixture.nativeElement.textContent).toContain(challenge.response);
+      expect(fixture.nativeElement.textContent).toContain(t(challenge.problemKey));
+      expect(fixture.nativeElement.textContent).toContain(t(challenge.responseKey));
     });
     expect(fixture.debugElement.queryAll(By.css('h2')).length).toBe(1);
     expect(fixture.debugElement.queryAll(By.css('h3')).length).toBe(5);
@@ -38,7 +40,7 @@ describe('HomeChallengesComponent', () => {
     images.forEach((image, index) => {
       const media = HOME_CONTENT.challenges[index].media!;
       expect(image.attributes['src']).toContain(media.src);
-      expect(image.attributes['alt']).toBe(media.alt);
+      expect(image.attributes['alt']).toBe(t(media.altKey));
       expect(image.attributes['alt']).not.toBe('');
       expect(image.attributes['loading']).toBe('lazy');
     });

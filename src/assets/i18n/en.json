@@ -110,6 +110,7 @@
       "dilo": {
         "alt": "The home screen of the Dilo finance app showing the available balance.",
         "description": "A digital platform for managing money, payments, top-ups and financial services from a single place.",
+        "name": "Dilo",
         "summary": "Financial application."
       },
       "espresso": {
@@ -127,6 +128,7 @@
       "toyota": {
         "alt": "The home screen of the Toyota mobile app with its services menu.",
         "description": "A mobile platform bringing Toyota’s services, products, promotions and customer support together in one place.",
+        "name": "Toyota",
         "summary": "Mobile app for customers."
       },
       "tvAzteca": {
@@ -172,6 +174,10 @@
     },
     "contact": {
       "body": "Let’s talk about your project and see how technology, automation and artificial intelligence can help you grow.",
+      "social": {
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn"
+      },
       "title": "Ready to <span class=\"contact__highlight\">transform</span> your business?"
     },
     "hero": {

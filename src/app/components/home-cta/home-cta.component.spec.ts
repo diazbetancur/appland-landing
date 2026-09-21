@@ -3,11 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 import { HomeCtaComponent } from './home-cta.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeCtaComponent', () => {
   let fixture: ComponentFixture<HomeCtaComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -22,7 +24,7 @@ describe('HomeCtaComponent', () => {
 
   it('renders official title, body, email and phone', () => {
     expect(fixture.nativeElement.textContent).toContain('¿Listo para transformar tu negocio?');
-    expect(fixture.nativeElement.textContent).toContain(HOME_CONTENT.contact.body);
+    expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.contact.bodyKey));
     expect(fixture.debugElement.query(By.css('a[href^="mailto:"]')).attributes['href']).toBe(
       'mailto:hello@applandtech.com',
     );
@@ -69,7 +71,7 @@ describe('HomeCtaComponent', () => {
       expect(approved.publicationStatus).toBe('approved');
       expect(link.attributes['href']).toBe(approved.value);
       expect(link.attributes['rel']).toBe('noopener noreferrer');
-      expect(link.nativeElement.textContent.trim()).toContain(approved.label);
+      expect(link.nativeElement.textContent.trim()).toContain(t(approved.labelKey));
     });
   });
 

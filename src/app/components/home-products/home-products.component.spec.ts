@@ -10,12 +10,13 @@ import { useTranslations } from '../../shared/i18n/translations.testing';
 const approvedProducts: readonly Product[] = [
   {
     id: 'approved-product',
-    name: 'Producto aprobado',
-    summary: 'Contenido aprobado',
+    // Claves reales, no textos: asi la prueba recorre el camino de traduccion completo.
+    nameKey: 'home.products.restaurants',
+    summaryKey: 'home.products.title',
     publicationStatus: 'approved',
     inquiryAction: {
       id: 'inquiry',
-      label: 'Solicitar información',
+      labelKey: 'Solicitar información',
       intent: 'inquiry',
       fallbackFragment: 'contacto',
     },

@@ -15,14 +15,15 @@
   <div class="hero__inner appland-container">
     <div class="hero__content">
       <h1 id="hero-title">
-        {{ content.titleLead }}<span class="hero__highlight">{{ content.titleHighlight }}</span>
+        {{ content.titleLeadKey | translate
+        }}<span class="hero__highlight">{{ content.titleHighlightKey | translate }}</span>
       </h1>
-      <p class="hero__subtitle">{{ content.subtitle }}</p>
+      <p class="hero__subtitle">{{ content.subtitleKey | translate }}</p>
 
       <div class="hero__actions">
         @if (primaryAction.kind === 'router') {
           <a class="appland-button appland-button--primary" [routerLink]="['/']" [fragment]="primaryAction.fragment">
-            {{ content.primaryAction.label }}
+            {{ content.primaryAction.labelKey | translate }}
             <svg
               aria-hidden="true"
               width="15"
@@ -43,7 +44,7 @@
             [target]="primaryAction.target"
             [rel]="primaryAction.rel"
           >
-            {{ content.primaryAction.label }}
+            {{ content.primaryAction.labelKey | translate }}
             <svg
               aria-hidden="true"
               width="15"
@@ -60,7 +61,7 @@
         }
 
         <a class="appland-button appland-button--secondary" [routerLink]="['/']" [fragment]="servicesAction.fragment">
-          {{ content.servicesAction.label }}
+          {{ content.servicesAction.labelKey | translate }}
           <svg
             aria-hidden="true"
             width="15"

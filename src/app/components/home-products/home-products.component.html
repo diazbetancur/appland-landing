@@ -39,24 +39,24 @@
           @if (product.media) {
             <img
               [src]="product.media.src"
-              [alt]="product.media.alt"
+              [alt]="product.media.altKey | translate"
               [width]="product.media.width"
               [height]="product.media.height"
               loading="lazy"
             />
           }
-          <h3>{{ product.name }}</h3>
-          @if (product.summary) {
-            <p>{{ product.summary }}</p>
+          <h3>{{ product.nameKey | translate }}</h3>
+          @if (product.summaryKey) {
+            <p>{{ product.summaryKey | translate }}</p>
           }
           @if (inquiryAction(product); as action) {
             @if (action.kind === 'router') {
               <a class="product-card__action" [routerLink]="['/']" [fragment]="action.fragment">{{
-                product.inquiryAction.label
+                product.inquiryAction.labelKey | translate
               }}</a>
             } @else {
               <a class="product-card__action" [href]="action.href" [target]="action.target" [rel]="action.rel">{{
-                product.inquiryAction.label
+                product.inquiryAction.labelKey | translate
               }}</a>
             }
           }

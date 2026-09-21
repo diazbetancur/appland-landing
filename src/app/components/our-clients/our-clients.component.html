@@ -14,7 +14,7 @@
         @for (client of clients; track client) {
           <img
             [src]="client.logo.src"
-            [alt]="client.logo.alt"
+            [alt]="client.logo.altKey | translate: { name: client.name }"
             [width]="client.logo.width"
             [height]="client.logo.height"
             loading="lazy"

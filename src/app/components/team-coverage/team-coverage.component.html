@@ -66,13 +66,13 @@
         <span class="country-card__flag">
           <img
             [src]="country.flag.src"
-            [alt]="country.flag.alt"
+            [alt]="country.flag.altKey | translate: { country: country.nameKey | translate }"
             [width]="country.flag.width"
             [height]="country.flag.height"
             loading="lazy"
           />
         </span>
-        <h3>{{ country.name }}</h3>
+        <h3>{{ country.nameKey | translate }}</h3>
         <span class="country-card__rule" aria-hidden="true"></span>
       </li>
     }

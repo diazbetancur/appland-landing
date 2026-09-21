@@ -6,11 +6,13 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
 import { HOME_CONTENT, SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { HomeServicesComponent } from './home-services.component';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
 describe('HomeServicesComponent', () => {
   let fixture: ComponentFixture<HomeServicesComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
   let component: HomeServicesComponent;
 
   beforeEach(async () => {
@@ -52,7 +54,7 @@ describe('HomeServicesComponent', () => {
     const labels = fixture.debugElement
       .queryAll(By.css('.services__highlight-label'))
       .map((node) => node.nativeElement.textContent.trim());
-    expect(labels).toEqual(service.highlights!.map((highlight) => highlight.label));
+    expect(labels).toEqual(service.highlights!.map((highlight) => t(highlight.labelKey)));
   });
 
   /**
@@ -68,18 +70,32 @@ describe('HomeServicesComponent', () => {
    * la barrera que el guardia original buscaba.
    */
   const APPROVED_HIGHLIGHTS: Readonly<Record<string, readonly string[]>> = {
-    software: ['Apps móviles', 'Plataformas web', 'Sistemas empresariales'],
-    'artificial-intelligence': ['Agentes IA', 'Automatización', 'Asistentes de voz', 'Asistentes de chat'],
-    'staff-augmentation': ['Desarrolladores', 'QA', 'UX/UI', 'Equipos dedicados'],
-    'process-automation': ['Optimización operativa', 'IA aplicada', 'Integraciones'],
-    'technology-consulting': ['Transformación digital', 'Arquitectura tecnológica'],
+    software: ['home.services.software.mobile', 'home.services.software.web', 'home.services.software.enterprise'],
+    'artificial-intelligence': [
+      'home.services.ai.agents',
+      'home.services.ai.automation',
+      'home.services.ai.voice',
+      'home.services.ai.chat',
+    ],
+    'staff-augmentation': [
+      'home.services.staff.devs',
+      'home.services.staff.qa',
+      'home.services.staff.ux',
+      'home.services.staff.teams',
+    ],
+    'process-automation': [
+      'home.services.automation.operations',
+      'home.services.automation.ai',
+      'home.services.automation.integrations',
+    ],
+    'technology-consulting': ['home.services.consulting.transformation', 'home.services.consulting.architecture'],
   };
 
   it('exposes only approved capability labels on the service icons', () => {
     expect(HOME_CONTENT.services.map((service) => service.id).sort()).toEqual(Object.keys(APPROVED_HIGHLIGHTS).sort());
 
     HOME_CONTENT.services.forEach((service) => {
-      expect(service.highlights?.map((highlight) => highlight.label)).toEqual(APPROVED_HIGHLIGHTS[service.id]);
+      expect(service.highlights?.map((highlight) => highlight.labelKey)).toEqual(APPROVED_HIGHLIGHTS[service.id]);
     });
   });
 

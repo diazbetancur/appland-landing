@@ -20,7 +20,16 @@ export interface ApprovedAsset {
   readonly src: string;
   readonly width: number;
   readonly height: number;
-  readonly alt: string;
+  /**
+   * Clave de traduccion del texto alternativo, no el texto.
+   *
+   * Es contenido visible: lo unico que recibe quien navega con lector de pantalla. Dejarlo
+   * en espanol en la version inglesa seria dejar el sitio sin traducir justo para esas
+   * personas.
+   *
+   * Vacia en las imagenes decorativas, que no tienen nada que describir.
+   */
+  readonly altKey: string;
   readonly decorative: boolean;
   readonly publicationStatus: PublicationStatus;
 }
@@ -28,25 +37,36 @@ export interface ApprovedAsset {
 export interface ApprovedDestination {
   readonly kind: 'fragment' | 'external' | 'email' | 'phone' | 'whatsapp';
   readonly value: string;
+  /**
+   * Texto con el que se muestra el destino, cuando no coincide con el valor.
+   *
+   * Un telefono se marca como `+50433349211` y se lee como `+504 3334-9211`. Antes la version
+   * legible estaba escrita a mano en las dos plantillas que la pintan, asi que corregir el
+   * numero en un sitio dejaba el otro desactualizado: es lo que paso en el commit f1ed2ba,
+   * que cambio el valor del config y las plantillas siguieron con el numero anterior.
+   *
+   * No lleva clave de traduccion: un numero de telefono no se traduce.
+   */
+  readonly displayValue?: string;
   readonly publicationStatus: PublicationStatus;
   readonly newContext: boolean;
 }
 
 export interface LabeledDestination extends ApprovedDestination {
   readonly id: string;
-  readonly label: string;
+  readonly labelKey: string;
 }
 
 export interface NavigationItem {
   readonly id: string;
-  readonly label: string;
+  readonly labelKey: string;
   readonly fragment: HomeSectionId;
   readonly prominent: boolean;
 }
 
 export interface FragmentLink {
   readonly id: string;
-  readonly label: string;
+  readonly labelKey: string;
   readonly fragment: HomeSectionId;
   /**
    * Parametros de consulta del enlace. La seccion de servicios es un componente de pestanas
@@ -58,11 +78,15 @@ export interface FragmentLink {
 
 export interface ConversionAction {
   readonly id: string;
-  readonly label: string;
+  readonly labelKey: string;
   readonly intent: 'meeting' | 'whatsapp' | 'services' | 'inquiry';
   readonly destination?: ApprovedDestination;
   readonly fallbackFragment?: HomeSectionId;
-  readonly approvedMessage?: string;
+  /**
+   * Clave del mensaje que se precarga en WhatsApp. Se traduce: quien escribe desde la version
+   * inglesa del sitio no deberia abrir el chat con un mensaje en espanol ya escrito.
+   */
+  readonly approvedMessageKey?: string;
 }
 
 export interface HeroContent {
@@ -71,9 +95,9 @@ export interface HeroContent {
    * Antes esa particion se deducia buscando una palabra literal dentro del titulo, asi que
    * cualquier cambio de copia que no la contuviera apagaba el resaltado sin avisar.
    */
-  readonly titleLead: string;
-  readonly titleHighlight: string;
-  readonly subtitle: string;
+  readonly titleLeadKey: string;
+  readonly titleHighlightKey: string;
+  readonly subtitleKey: string;
   readonly primaryAction: ConversionAction;
   readonly servicesAction: ConversionAction;
   readonly whatsappAction?: ConversionAction;
@@ -82,6 +106,7 @@ export interface HeroContent {
 
 export interface Client {
   readonly id: string;
+  /** Nombre propio de la empresa. Sin clave: traducirlo seria renombrar al cliente. */
   readonly name: string;
   readonly logo: ApprovedAsset;
   readonly publicationStatus: PublicationStatus;
@@ -89,22 +114,22 @@ export interface Client {
 
 export interface Challenge {
   readonly id: string;
-  readonly problem: string;
-  readonly response: string;
+  readonly problemKey: string;
+  readonly responseKey: string;
   readonly visualKey?: string;
   readonly media?: ApprovedAsset;
 }
 
 export interface ServiceHighlight {
   readonly id: string;
-  readonly label: string;
+  readonly labelKey: string;
   readonly iconKey: string;
 }
 
 export interface Service {
   readonly id: string;
-  readonly name: string;
-  readonly summary: string;
+  readonly nameKey: string;
+  readonly summaryKey: string;
   readonly visualKey?: string;
   readonly media?: ApprovedAsset;
   /** Derived from the approved summary; never new business copy. */
@@ -113,9 +138,10 @@ export interface Service {
 
 export interface CaseStudy {
   readonly id: string;
+  /** Nombre propio del proyecto. Sin clave: traducirlo seria renombrar el trabajo. */
   readonly name: string;
-  readonly summary?: string;
-  readonly description?: string;
+  readonly summaryKey?: string;
+  readonly descriptionKey?: string;
   readonly media?: ApprovedAsset;
   readonly destination?: ApprovedDestination;
   readonly publicationStatus: PublicationStatus;
@@ -123,15 +149,16 @@ export interface CaseStudy {
 
 export interface AiApplication {
   readonly id: string;
-  readonly label: string;
-  readonly description: string;
+  readonly labelKey: string;
+  readonly descriptionKey: string;
   readonly visualKey?: string;
 }
 
 export interface Product {
   readonly id: string;
-  readonly name: string;
-  readonly summary?: string;
+  /** Categoria de negocio, no marca: "Restaurantes" es "Restaurants" en ingles. */
+  readonly nameKey: string;
+  readonly summaryKey?: string;
   readonly media?: ApprovedAsset;
   readonly publicationStatus: PublicationStatus;
   readonly inquiryAction: ConversionAction;
@@ -139,8 +166,8 @@ export interface Product {
 
 export interface Benefit {
   readonly id: string;
-  readonly statement: string;
-  readonly description: string;
+  readonly statementKey: string;
+  readonly descriptionKey: string;
   readonly visualKey?: string;
 }
 
@@ -150,13 +177,14 @@ export interface Benefit {
  */
 export interface CountryPresence {
   readonly code: 'HN' | 'AR' | 'CO' | 'PA' | 'GT' | 'MX' | 'SV' | 'PE' | 'EC';
-  readonly name: string;
+  /** Lleva clave: Mexico, Panama y Peru cambian de forma en ingles. */
+  readonly nameKey: string;
   readonly flag: ApprovedAsset;
 }
 
 export interface ContactContent {
-  readonly title: string;
-  readonly body: string;
+  readonly titleKey: string;
+  readonly bodyKey: string;
   readonly meetingAction: ConversionAction;
   readonly whatsappAction: ConversionAction;
   readonly email: ApprovedDestination;
@@ -165,7 +193,7 @@ export interface ContactContent {
 }
 
 export interface FooterContent {
-  readonly brandSummary: string;
+  readonly brandSummaryKey: string;
   readonly navigation: readonly NavigationItem[];
   readonly services: readonly FragmentLink[];
   readonly cases: readonly FragmentLink[];
