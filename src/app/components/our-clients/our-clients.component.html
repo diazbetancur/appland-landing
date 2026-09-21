@@ -1,6 +1,6 @@
 <div class="clients appland-container">
   <div class="clients__heading">
-    <h2 id="clientes-title">Empresas que confían en nosotros</h2>
+    <h2 id="clientes-title">{{ 'home.clients.title' | translate }}</h2>
   </div>
   <div
     class="clients__viewport"
@@ -14,7 +14,7 @@
         @for (client of clients; track client) {
           <img
             [src]="client.logo.src"
-            [alt]="client.logo.alt"
+            [alt]="client.logo.altKey | translate: { name: client.name }"
             [width]="client.logo.width"
             [height]="client.logo.height"
             loading="lazy"

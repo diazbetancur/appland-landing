@@ -5,7 +5,7 @@ describe('resolveConversionAction', () => {
   it('uses an approved meeting URL safely', () => {
     const action: ConversionAction = {
       id: 'meeting',
-      label: 'Agendar',
+      labelKey: 'Agendar',
       intent: 'meeting',
       fallbackFragment: 'contacto',
       destination: {
@@ -25,23 +25,33 @@ describe('resolveConversionAction', () => {
 
   it('falls back to contacto without an approved meeting URL', () => {
     expect(
-      resolveConversionAction({ id: 'meeting', label: 'Agendar', intent: 'meeting', fallbackFragment: 'contacto' }),
+      resolveConversionAction({
+        id: 'meeting',
+        labelKey: 'home.actions.meeting',
+        intent: 'meeting',
+        fallbackFragment: 'contacto',
+      }),
     ).toEqual({ kind: 'router', fragment: 'contacto' });
   });
 
   it('uses the official WhatsApp number without inventing a message', () => {
-    expect(resolveConversionAction({ id: 'wa', label: 'WhatsApp', intent: 'whatsapp' }).href).toBe(
+    expect(resolveConversionAction({ id: 'wa', labelKey: 'home.actions.whatsapp', intent: 'whatsapp' }).href).toBe(
       'https://wa.me/50433349211',
     );
   });
 
   it('encodes only an explicitly approved WhatsApp message', () => {
-    const resolved = resolveConversionAction({
-      id: 'wa',
-      label: 'WhatsApp',
-      intent: 'whatsapp',
-      approvedMessage: 'Hola APPLAND',
-    });
+    // El mensaje llega ya traducido: la clave la resuelve el componente, que tiene acceso al
+    // servicio, y esta funcion es pura.
+    const resolved = resolveConversionAction(
+      {
+        id: 'wa',
+        labelKey: 'home.actions.whatsapp',
+        intent: 'whatsapp',
+        approvedMessageKey: 'home.actions.whatsappMeetingMessage',
+      },
+      'Hola APPLAND',
+    );
     expect(resolved.href).toBe('https://wa.me/50433349211?text=Hola%20APPLAND');
   });
 
@@ -49,7 +59,7 @@ describe('resolveConversionAction', () => {
     expect(
       resolveConversionAction({
         id: 'product',
-        label: 'Solicitar información',
+        labelKey: 'Solicitar información',
         intent: 'inquiry',
         fallbackFragment: 'contacto',
       }),

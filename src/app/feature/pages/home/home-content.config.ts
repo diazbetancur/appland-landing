@@ -9,8 +9,8 @@ import { ApprovedAsset, ApprovedDestination, CaseStudy, Client, HomeContent, Pro
  */
 export const SERVICE_QUERY_PARAM = 'servicio';
 
-function approvedAsset(src: string, width: number, height: number, alt: string, decorative = false): ApprovedAsset {
-  return { src, width, height, alt, decorative, publicationStatus: 'approved' };
+function approvedAsset(src: string, width: number, height: number, altKey: string, decorative = false): ApprovedAsset {
+  return { src, width, height, altKey, decorative, publicationStatus: 'approved' };
 }
 
 /**
@@ -20,20 +20,20 @@ function approvedAsset(src: string, width: number, height: number, alt: string, 
  * See `src/assets/images/home/flags/ATTRIBUTION.md`. The square source matches the circular
  * mask the cards apply, so the flag fills it without being cropped.
  */
-function countryFlag(slug: string, country: string): ApprovedAsset {
-  return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 60, `Bandera de ${country}`);
+function countryFlag(slug: string): ApprovedAsset {
+  return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 60, 'home.team.flagAlt');
 }
 
 const meetingAction = {
   id: 'meeting',
-  label: 'Agendar una reunión',
+  labelKey: 'home.actions.meeting',
   intent: 'meeting',
   fallbackFragment: 'contacto',
 } as const;
 
 const whatsappAction = {
   id: 'whatsapp',
-  label: 'Escribir por WhatsApp',
+  labelKey: 'home.actions.whatsapp',
   intent: 'whatsapp',
 } as const;
 
@@ -45,39 +45,39 @@ const whatsappAction = {
  * terminaba enlazando consigo mismo y no llevaba a ninguna parte. Son dos acciones
  * distintas y se declaran por separado.
  */
-const contactAction = { ...meetingAction, label: 'Agendar reunión' } as const;
+const contactAction = { ...meetingAction, labelKey: 'home.actions.meetingShort' } as const;
 
 const navigation = [
-  { id: 'nav-inicio', label: 'Inicio', fragment: 'inicio', prominent: false },
+  { id: 'nav-inicio', labelKey: 'nav.home', fragment: 'inicio', prominent: false },
   {
     id: 'nav-servicios',
-    label: 'Servicios',
+    labelKey: 'nav.services',
     fragment: 'servicios',
     prominent: false,
   },
   {
     id: 'nav-casos',
-    label: 'Casos de éxito',
+    labelKey: 'nav.cases',
     fragment: 'casos',
     prominent: false,
   },
   {
     id: 'nav-nosotros',
-    label: 'Nosotros',
+    labelKey: 'nav.about',
     fragment: 'por-que-appland',
     prominent: false,
   },
   {
     id: 'nav-contacto',
-    label: 'Contacto',
+    labelKey: 'nav.contact',
     fragment: 'contacto',
     prominent: false,
   },
 ] as const;
 
 const contact = {
-  title: '¿Listo para transformar tu negocio?',
-  body: 'Conversemos sobre tu proyecto y descubre cómo la tecnología, la automatización y la inteligencia artificial pueden ayudarte a crecer.',
+  titleKey: 'home.contact.title',
+  bodyKey: 'home.contact.body',
   /**
    * El boton de la propia seccion de contacto abre WhatsApp, no un fragmento: un enlace al
    * fragmento `contacto` desde dentro de la seccion `contacto` no lleva a ningun sitio.
@@ -87,9 +87,9 @@ const contact = {
    */
   meetingAction: {
     id: 'contact-meeting',
-    label: 'Agendar reunión',
+    labelKey: 'home.actions.meetingShort',
     intent: 'whatsapp',
-    approvedMessage: 'Hola, quiero agendar una reunión.',
+    approvedMessageKey: 'home.actions.whatsappMeetingMessage',
   },
   whatsappAction,
   email: {
@@ -101,6 +101,9 @@ const contact = {
   phone: {
     kind: 'phone',
     value: '+50433349211',
+    // Antes esta version legible estaba escrita a mano en las plantillas del pie y de la
+    // seccion de contacto, asi que corregir el numero aqui dejaba las dos desactualizadas.
+    displayValue: '+504 3334-9211',
     publicationStatus: 'approved',
     newContext: false,
   },
@@ -109,7 +112,7 @@ const contact = {
   socialLinks: [
     {
       id: 'linkedin',
-      label: 'LinkedIn',
+      labelKey: 'home.contact.social.linkedin',
       kind: 'external',
       value: 'https://www.linkedin.com/company/appland-inc/',
       publicationStatus: 'approved',
@@ -117,7 +120,7 @@ const contact = {
     },
     {
       id: 'instagram',
-      label: 'Instagram',
+      labelKey: 'home.contact.social.instagram',
       kind: 'external',
       value: 'https://www.instagram.com/appland.inc/',
       publicationStatus: 'approved',
@@ -140,27 +143,31 @@ const approvedClients: readonly Client[] = [
     src: `assets/images/clients/${file}`,
     width: Number(width),
     height: Number(height),
-    alt: `Logo de ${name}`,
+    altKey: 'home.clients.logoAlt',
     decorative: false,
     publicationStatus: 'approved',
   },
 }));
 
+/**
+ * Los nombres son categorias de negocio, no marcas, asi que llevan clave: "Restaurantes" es
+ * "Restaurants" en ingles.
+ */
 const productCandidates: readonly Product[] = [
-  'Restaurantes',
-  'Clínicas',
-  'Hoteles',
-  'Gimnasios',
-  'Laboratorios',
-  'Programas de Lealtad',
-  'E-commerce',
-].map((name, index) => ({
+  'home.products.restaurants',
+  'home.products.clinics',
+  'home.products.hotels',
+  'home.products.gyms',
+  'home.products.labs',
+  'home.products.loyalty',
+  'home.products.ecommerce',
+].map((nameKey, index) => ({
   id: `producto-${index + 1}`,
-  name,
+  nameKey,
   publicationStatus: 'pending',
   inquiryAction: {
     id: `consulta-producto-${index + 1}`,
-    label: 'Solicitar información',
+    labelKey: 'home.actions.productInquiry',
     intent: 'inquiry',
     fallbackFragment: 'contacto',
   },
@@ -170,14 +177,13 @@ export const HOME_CONTENT: HomeContent = {
   navigation,
   contactAction,
   hero: {
-    titleLead: 'Impulsamos tu negocio ',
-    titleHighlight: 'con tecnología inteligente.',
-    subtitle:
-      'Desarrollo de software, Inteligencia Artificial, SaaS Automatización y Staff Augmentation para empresas que buscan crecer mejor y más rápido.',
+    titleLeadKey: 'home.hero.titleLead',
+    titleHighlightKey: 'home.hero.titleHighlight',
+    subtitleKey: 'home.hero.subtitle',
     primaryAction: meetingAction,
     servicesAction: {
       id: 'services',
-      label: 'Nuestros servicios',
+      labelKey: 'home.actions.services',
       intent: 'services',
       fallbackFragment: 'servicios',
     },
@@ -187,144 +193,123 @@ export const HOME_CONTENT: HomeContent = {
   challenges: [
     {
       id: 'manual',
-      problem: 'Procesos manuales que consumen tiempo',
-      response: 'Automatizamos tareas repetitivas para aumentar productividad.',
+      problemKey: 'home.challenges.manual.problem',
+      responseKey: 'home.challenges.manual.response',
       visualKey: 'automation',
-      media: approvedAsset(
-        'assets/images/home/challenges/manual.jpg',
-        560,
-        373,
-        'Persona trabajando en una laptop con un panel de automatización de tareas.',
-      ),
+      media: approvedAsset('assets/images/home/challenges/manual.jpg', 560, 373, 'home.challenges.manual.alt'),
     },
     {
       id: 'disconnected',
-      problem: 'Sistemas desconectados',
-      response: 'Integramos plataformas, ERPs, CRMs y APIs.',
+      problemKey: 'home.challenges.disconnected.problem',
+      responseKey: 'home.challenges.disconnected.response',
       visualKey: 'integration',
       media: approvedAsset(
         'assets/images/home/challenges/disconnected.jpg',
         560,
         373,
-        'Íconos de servidores, base de datos, usuarios y configuración conectados a una nube central.',
+        'home.challenges.disconnected.alt',
       ),
     },
     {
       id: 'overloaded',
-      problem: 'Equipos tecnológicos saturados',
-      response: 'Incorporamos talento especializado rápidamente.',
+      problemKey: 'home.challenges.overloaded.problem',
+      responseKey: 'home.challenges.overloaded.response',
       visualKey: 'team',
-      media: approvedAsset(
-        'assets/images/home/challenges/overloaded.jpg',
-        560,
-        280,
-        'Desarrollador trabajando frente a dos monitores con código en una oficina.',
-      ),
+      media: approvedAsset('assets/images/home/challenges/overloaded.jpg', 560, 280, 'home.challenges.overloaded.alt'),
     },
     {
       id: 'support',
-      problem: 'Atención al cliente ineficiente',
-      response: 'Implementamos agentes de IA que operan 24/7.',
+      problemKey: 'home.challenges.support.problem',
+      responseKey: 'home.challenges.support.response',
       visualKey: 'support',
-      media: approvedAsset(
-        'assets/images/home/challenges/support.jpg',
-        560,
-        373,
-        'Persona sosteniendo un teléfono con una conversación de asistente de IA en pantalla.',
-      ),
+      media: approvedAsset('assets/images/home/challenges/support.jpg', 560, 373, 'home.challenges.support.alt'),
     },
     {
       id: 'platform',
-      problem: 'Necesidad de lanzar una plataforma',
-      response: 'Diseñamos y desarrollamos soluciones escalables.',
+      problemKey: 'home.challenges.platform.problem',
+      responseKey: 'home.challenges.platform.response',
       visualKey: 'platform',
-      media: approvedAsset(
-        'assets/images/home/challenges/platform.jpg',
-        560,
-        373,
-        'Laptop y teléfono mostrando el panel de una plataforma con métricas de usuarios y ventas.',
-      ),
+      media: approvedAsset('assets/images/home/challenges/platform.jpg', 560, 373, 'home.challenges.platform.alt'),
     },
   ],
   services: [
     {
       id: 'software',
-      name: 'Desarrollo de Software',
-      summary: 'Tecnología a la medida para resolver desafíos reales de tu negocio.',
+      nameKey: 'home.services.software.name',
+      summaryKey: 'home.services.software.summary',
       visualKey: 'code',
       media: approvedAsset('assets/images/home/services/software.png', 428, 380, '', true),
       highlights: [
-        { id: 'software-mobile', label: 'Apps móviles', iconKey: 'mobile' },
-        { id: 'software-web', label: 'Plataformas web', iconKey: 'web' },
+        { id: 'software-mobile', labelKey: 'home.services.software.mobile', iconKey: 'mobile' },
+        { id: 'software-web', labelKey: 'home.services.software.web', iconKey: 'web' },
         {
           id: 'software-enterprise',
-          label: 'Sistemas empresariales',
+          labelKey: 'home.services.software.enterprise',
           iconKey: 'stack',
         },
       ],
     },
     {
       id: 'artificial-intelligence',
-      name: 'Inteligencia Artificial',
-      summary: 'Soluciones inteligentes que automatizan procesos y mejoran la experiencia de tus clientes.',
+      nameKey: 'home.services.ai.name',
+      summaryKey: 'home.services.ai.summary',
       visualKey: 'ai',
       media: approvedAsset('assets/images/home/services/artificial-intelligence.png', 480, 256, '', true),
       highlights: [
-        { id: 'ai-agents', label: 'Agentes IA', iconKey: 'chip' },
-        { id: 'ai-automation', label: 'Automatización', iconKey: 'gear' },
-        { id: 'ai-voice', label: 'Asistentes de voz', iconKey: 'mic' },
-        { id: 'ai-chat', label: 'Asistentes de chat', iconKey: 'chat' },
+        { id: 'ai-agents', labelKey: 'home.services.ai.agents', iconKey: 'chip' },
+        { id: 'ai-automation', labelKey: 'home.services.ai.automation', iconKey: 'gear' },
+        { id: 'ai-voice', labelKey: 'home.services.ai.voice', iconKey: 'mic' },
+        { id: 'ai-chat', labelKey: 'home.services.ai.chat', iconKey: 'chat' },
       ],
     },
     {
       id: 'staff-augmentation',
-      name: 'Staff Augmentation',
-      summary: 'Incorpora talento especializado a tu equipo, cuando lo necesitas.',
+      nameKey: 'home.services.staff.name',
+      summaryKey: 'home.services.staff.summary',
       visualKey: 'people',
       media: approvedAsset('assets/images/home/services/staff-augmentation.png', 304, 380, '', true),
       highlights: [
-        { id: 'staff-devs', label: 'Desarrolladores', iconKey: 'web' },
-        { id: 'staff-qa', label: 'QA', iconKey: 'check' },
-        { id: 'staff-ux', label: 'UX/UI', iconKey: 'pen' },
-        { id: 'staff-teams', label: 'Equipos dedicados', iconKey: 'people' },
+        { id: 'staff-devs', labelKey: 'home.services.staff.devs', iconKey: 'web' },
+        { id: 'staff-qa', labelKey: 'home.services.staff.qa', iconKey: 'check' },
+        { id: 'staff-ux', labelKey: 'home.services.staff.ux', iconKey: 'pen' },
+        { id: 'staff-teams', labelKey: 'home.services.staff.teams', iconKey: 'people' },
       ],
     },
     {
       id: 'process-automation',
-      name: 'Automatización de Procesos',
-      summary:
-        'Convertimos tareas repetitivas en procesos más ágiles mediante optimización operativa, IA e integraciones conectadas.',
+      nameKey: 'home.services.automation.name',
+      summaryKey: 'home.services.automation.summary',
       visualKey: 'flow',
       media: approvedAsset('assets/images/home/services/process-automation.png', 480, 320, '', true),
       highlights: [
         {
           id: 'automation-operations',
-          label: 'Optimización operativa',
+          labelKey: 'home.services.automation.operations',
           iconKey: 'gear',
         },
-        { id: 'automation-ai', label: 'IA aplicada', iconKey: 'chip' },
+        { id: 'automation-ai', labelKey: 'home.services.automation.ai', iconKey: 'chip' },
         {
           id: 'automation-integrations',
-          label: 'Integraciones',
+          labelKey: 'home.services.automation.integrations',
           iconKey: 'nodes',
         },
       ],
     },
     {
       id: 'technology-consulting',
-      name: 'Consultoría Tecnológica',
-      summary: 'Alineamos tecnología, estrategia y negocio para impulsar tu crecimiento.',
+      nameKey: 'home.services.consulting.name',
+      summaryKey: 'home.services.consulting.summary',
       visualKey: 'strategy',
       media: approvedAsset('assets/images/home/services/technology-consulting.png', 317, 380, '', true),
       highlights: [
         {
           id: 'consulting-transformation',
-          label: 'Transformación digital',
+          labelKey: 'home.services.consulting.transformation',
           iconKey: 'chart',
         },
         {
           id: 'consulting-architecture',
-          label: 'Arquitectura tecnológica',
+          labelKey: 'home.services.consulting.architecture',
           iconKey: 'stack',
         },
       ],
@@ -334,14 +319,14 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'toyota',
       name: 'Toyota',
-      summary: 'App móvil para clientes.',
-      description: 'Plataforma móvil que centraliza servicios, productos, promociones y atención al cliente de Toyota.',
+      summaryKey: 'home.cases.toyota.summary',
+      descriptionKey: 'home.cases.toyota.description',
       publicationStatus: 'approved',
       media: {
         src: 'assets/images/home/cases/toyota.jpg',
         width: 640,
         height: 800,
-        alt: 'Pantalla principal de la app móvil de Toyota con menú de servicios.',
+        altKey: 'home.cases.toyota.alt',
         decorative: false,
         publicationStatus: 'approved',
       },
@@ -349,15 +334,14 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'dilo',
       name: 'Dilo',
-      summary: 'Aplicación financiera.',
-      description:
-        'Plataforma digital para gestionar dinero, pagos, recargas y servicios financieros desde un solo lugar.',
+      summaryKey: 'home.cases.dilo.summary',
+      descriptionKey: 'home.cases.dilo.description',
       publicationStatus: 'approved',
       media: {
         src: 'assets/images/home/cases/dilo.png',
         width: 640,
         height: 800,
-        alt: 'Pantalla principal de la app financiera Dilo mostrando el saldo disponible.',
+        altKey: 'home.cases.dilo.alt',
         decorative: false,
         publicationStatus: 'approved',
       },
@@ -365,15 +349,14 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'tengo',
       name: 'Go',
-      summary: 'Aplicación móvil financiera.',
-      description:
-        'Una experiencia móvil diseñada para gestionar servicios financieros de forma rápida, sencilla y segura.',
+      summaryKey: 'home.cases.tengo.summary',
+      descriptionKey: 'home.cases.tengo.description',
       publicationStatus: 'approved',
       media: {
         src: 'assets/images/home/cases/tengo.jpg',
         width: 640,
         height: 800,
-        alt: 'Pantalla de inicio de sesión de la app Tengo con Ficohsa.',
+        altKey: 'home.cases.tengo.alt',
         decorative: false,
         publicationStatus: 'approved',
       },
@@ -381,15 +364,14 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'tv-azteca',
       name: 'TV Azteca Honduras',
-      summary: 'Plataforma web de noticias.',
-      description:
-        'Portal digital de noticias diseñado para ofrecer contenido nacional y de actualidad de forma dinámica y accesible.',
+      summaryKey: 'home.cases.tvAzteca.summary',
+      descriptionKey: 'home.cases.tvAzteca.description',
       publicationStatus: 'approved',
       media: {
         src: 'assets/images/home/cases/tv-azteca.jpg',
         width: 800,
         height: 449,
-        alt: 'Portal de noticias de TV Azteca Honduras.',
+        altKey: 'home.cases.tvAzteca.alt',
         decorative: false,
         publicationStatus: 'approved',
       },
@@ -397,75 +379,75 @@ export const HOME_CONTENT: HomeContent = {
     {
       id: 'avianca',
       name: 'Avianca',
-      summary: 'Plataforma de gestión.',
+      summaryKey: 'home.cases.avianca.summary',
       publicationStatus: 'pending',
     },
     {
       id: 'telemedicine',
       name: 'Telemedicine Platform',
-      summary: 'Unión Europea.',
+      summaryKey: 'home.cases.telemedicine.summary',
       publicationStatus: 'pending',
     },
     {
       id: 'espresso-americano',
       name: 'Espresso Americano',
-      summary: 'App de fidelización.',
+      summaryKey: 'home.cases.espresso.summary',
       publicationStatus: 'pending',
     },
   ],
   aiApplications: [
     {
       id: 'conversational',
-      label: 'Agentes conversacionales',
-      description: 'Asistentes inteligentes que entienden y responden a tus clientes.',
+      labelKey: 'home.ai.conversational.label',
+      descriptionKey: 'home.ai.conversational.description',
       visualKey: 'chat',
     },
     {
       id: 'reception',
-      label: 'Recepción de clientes',
-      description: 'Automatizamos la atención inicial y gestión de consultas al instante.',
+      labelKey: 'home.ai.reception.label',
+      descriptionKey: 'home.ai.reception.description',
       visualKey: 'reception',
     },
     {
       id: 'call-center',
-      label: 'Call Center IA',
-      description: 'Atención automatizada de llamadas con respuestas precisas y naturales.',
+      labelKey: 'home.ai.callCenter.label',
+      descriptionKey: 'home.ai.callCenter.description',
       visualKey: 'phone',
     },
     {
       id: 'whatsapp-ai',
-      label: 'WhatsApp IA',
-      description: 'Responde, gestiona y convierte clientes directamente desde WhatsApp.',
+      labelKey: 'home.ai.whatsapp.label',
+      descriptionKey: 'home.ai.whatsapp.description',
       visualKey: 'message',
     },
     {
       id: 'leads',
-      label: 'Generación de Leads',
-      description: 'Captura y califica leads de forma automática y eficiente.',
+      labelKey: 'home.ai.leads.label',
+      descriptionKey: 'home.ai.leads.description',
       visualKey: 'leads',
     },
     {
       id: 'appointments',
-      label: 'Agendamiento de citas',
-      description: 'Agenda citas automáticamente y reduce ausencias con recordatorios.',
+      labelKey: 'home.ai.appointments.label',
+      descriptionKey: 'home.ai.appointments.description',
       visualKey: 'calendar',
     },
     {
       id: 'support',
-      label: 'Soporte 24/7',
-      description: 'Brinda soporte continuo con agentes de IA disponibles todo el tiempo.',
+      labelKey: 'home.ai.support.label',
+      descriptionKey: 'home.ai.support.description',
       visualKey: 'support',
     },
     {
       id: 'documents',
-      label: 'Automatización documental',
-      description: 'Extrae, procesa y organiza documentos sin intervención humana.',
+      labelKey: 'home.ai.documents.label',
+      descriptionKey: 'home.ai.documents.description',
       visualKey: 'document',
     },
     {
       id: 'analytics',
-      label: 'Análisis inteligente',
-      description: 'Convierte datos en insights accionables para tomar mejores decisiones.',
+      labelKey: 'home.ai.analytics.label',
+      descriptionKey: 'home.ai.analytics.description',
       visualKey: 'chart',
     },
   ],
@@ -473,134 +455,133 @@ export const HOME_CONTENT: HomeContent = {
   benefits: [
     {
       id: 'experience',
-      statement: 'Más de 13 años de experiencia',
-      description: 'Solidez y conocimiento que se traducen en resultados.',
+      statementKey: 'home.why.experience.statement',
+      descriptionKey: 'home.why.experience.description',
       visualKey: 'calendar',
     },
     {
       id: 'bilingual',
-      statement: 'Equipo bilingüe',
-      description: 'Comunicación clara y efectiva en tu idioma durante todo el proyecto.',
+      statementKey: 'home.why.bilingual.statement',
+      descriptionKey: 'home.why.bilingual.description',
       visualKey: 'language',
     },
     {
       id: 'international',
-      statement: 'Presencia internacional',
-      description: 'Trabajamos con clientes en diferentes países y entendemos sus mercados.',
+      statementKey: 'home.why.international.statement',
+      descriptionKey: 'home.why.international.description',
       visualKey: 'world',
     },
     {
       id: 'timezones',
-      statement: 'Cobertura multizona horaria',
-      description: 'Disponibilidad y coordinación sin importar la ubicación.',
+      statementKey: 'home.why.timezones.statement',
+      descriptionKey: 'home.why.timezones.description',
       visualKey: 'clock',
     },
     {
       id: 'industries',
-      statement: 'Experiencia en fintech, salud, retail y consumo masivo',
-      description: 'Entendemos tu industria y sus desafíos específicos.',
+      statementKey: 'home.why.industries.statement',
+      descriptionKey: 'home.why.industries.description',
       visualKey: 'industries',
     },
     {
       id: 'agile',
-      statement: 'Metodologías ágiles',
-      description: 'Entregamos valor de forma iterativa, rápida y eficiente.',
+      statementKey: 'home.why.agile.statement',
+      descriptionKey: 'home.why.agile.description',
       visualKey: 'agile',
     },
     {
       id: 'scalable',
-      statement: 'Soluciones escalables',
-      description: 'Desarrollamos tecnología preparada para crecer junto a tu negocio.',
+      statementKey: 'home.why.scalable.statement',
+      descriptionKey: 'home.why.scalable.description',
       visualKey: 'scale',
     },
   ],
   countries: [
     {
       code: 'HN',
-      name: 'Honduras',
-      flag: countryFlag('hn', 'Honduras'),
+      nameKey: 'home.team.countries.HN',
+      flag: countryFlag('hn'),
     },
     {
       code: 'AR',
-      name: 'Argentina',
-      flag: countryFlag('ar', 'Argentina'),
+      nameKey: 'home.team.countries.AR',
+      flag: countryFlag('ar'),
     },
     {
       code: 'CO',
-      name: 'Colombia',
-      flag: countryFlag('co', 'Colombia'),
+      nameKey: 'home.team.countries.CO',
+      flag: countryFlag('co'),
     },
     {
       code: 'PA',
-      name: 'Panamá',
-      flag: countryFlag('pa', 'Panamá'),
+      nameKey: 'home.team.countries.PA',
+      flag: countryFlag('pa'),
     },
     {
       code: 'GT',
-      name: 'Guatemala',
-      flag: countryFlag('gt', 'Guatemala'),
+      nameKey: 'home.team.countries.GT',
+      flag: countryFlag('gt'),
     },
     {
       code: 'MX',
-      name: 'México',
-      flag: countryFlag('mx', 'México'),
+      nameKey: 'home.team.countries.MX',
+      flag: countryFlag('mx'),
     },
     {
       code: 'SV',
-      name: 'El Salvador',
-      flag: countryFlag('sv', 'El Salvador'),
+      nameKey: 'home.team.countries.SV',
+      flag: countryFlag('sv'),
     },
     {
       code: 'PE',
-      name: 'Perú',
-      flag: countryFlag('pe', 'Perú'),
+      nameKey: 'home.team.countries.PE',
+      flag: countryFlag('pe'),
     },
     {
       code: 'EC',
-      name: 'Ecuador',
-      flag: countryFlag('ec', 'Ecuador'),
+      nameKey: 'home.team.countries.EC',
+      flag: countryFlag('ec'),
     },
   ],
   contact,
   footer: {
-    brandSummary:
-      'Desarrollo de software, Inteligencia Artificial, Automatización y Staff Augmentation para empresas que buscan crecer más rápido.',
+    brandSummaryKey: 'footer.brandSummary',
     navigation,
     services: [
       {
         id: 'footer-software',
         queryParams: { [SERVICE_QUERY_PARAM]: 'software' },
-        label: 'Desarrollo de Software',
+        labelKey: 'home.services.software.name',
         fragment: 'servicios',
       },
       {
         id: 'footer-ai',
         queryParams: { [SERVICE_QUERY_PARAM]: 'artificial-intelligence' },
-        label: 'Inteligencia Artificial',
+        labelKey: 'home.services.ai.name',
         fragment: 'ia',
       },
       {
         id: 'footer-staff',
         queryParams: { [SERVICE_QUERY_PARAM]: 'staff-augmentation' },
-        label: 'Staff Augmentation',
+        labelKey: 'home.services.staff.name',
         fragment: 'servicios',
       },
       {
         id: 'footer-automation',
         queryParams: { [SERVICE_QUERY_PARAM]: 'process-automation' },
-        label: 'Automatización de Procesos',
+        labelKey: 'home.services.automation.name',
         fragment: 'servicios',
       },
       {
         id: 'footer-consulting',
         queryParams: { [SERVICE_QUERY_PARAM]: 'technology-consulting' },
-        label: 'Consultoría Tecnológica',
+        labelKey: 'home.services.consulting.name',
         fragment: 'servicios',
       },
     ],
     cases: [
-      { id: 'footer-toyota', label: 'Toyota', fragment: 'casos' },
-      { id: 'footer-dilo', label: 'Dilo', fragment: 'casos' },
+      { id: 'footer-toyota', labelKey: 'home.cases.toyota.name', fragment: 'casos' },
+      { id: 'footer-dilo', labelKey: 'home.cases.dilo.name', fragment: 'casos' },
     ],
     contact,
     socialLinks: [],

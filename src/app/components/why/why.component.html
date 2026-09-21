@@ -1,8 +1,6 @@
 <div class="appland-container why">
   <header class="why__intro">
-    <h2 id="por-que-appland-title" class="appland-heading why__title">
-      Por qué empresas eligen <span class="why__highlight">trabajar</span> con nosotros
-    </h2>
+    <h2 id="por-que-appland-title" class="appland-heading why__title" [innerHTML]="'home.why.title' | translate"></h2>
   </header>
 
   <div class="why__panel">
@@ -116,8 +114,8 @@
             }
           </span>
           <div class="why__text">
-            <h3>{{ benefit.statement }}</h3>
-            <p>{{ benefit.description }}</p>
+            <h3>{{ benefit.statementKey | translate }}</h3>
+            <p>{{ benefit.descriptionKey | translate }}</p>
           </div>
         </li>
       }
@@ -128,7 +126,7 @@
     <div class="why__cta-row">
       @if (action.kind === 'router') {
         <a class="appland-button why__cta" [routerLink]="['/']" [fragment]="action.fragment">
-          Conversemos sobre tu proyecto
+          {{ 'home.why.cta' | translate }}
           <svg
             aria-hidden="true"
             width="15"
@@ -144,7 +142,7 @@
         </a>
       } @else {
         <a class="appland-button why__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
-          Conversemos sobre tu proyecto
+          {{ 'home.why.cta' | translate }}
           <svg
             aria-hidden="true"
             width="15"

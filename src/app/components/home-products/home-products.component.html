@@ -2,13 +2,13 @@
   <div class="appland-container">
     <div class="products__heading">
       <div>
-        <p class="appland-eyebrow">Productos</p>
-        <h2 id="productos-title" class="appland-heading">Soluciones listas para acelerar tu operación</h2>
+        <p class="appland-eyebrow">{{ 'home.products.eyebrow' | translate }}</p>
+        <h2 id="productos-title" class="appland-heading">{{ 'home.products.title' | translate }}</h2>
       </div>
       <div class="products__controls">
         <button
           type="button"
-          aria-label="Producto anterior"
+          [attr.aria-label]="'home.products.previous' | translate"
           [disabled]="!carousel.canMovePrevious"
           (click)="carousel.movePrevious()"
         >
@@ -16,7 +16,7 @@
         </button>
         <button
           type="button"
-          aria-label="Producto siguiente"
+          [attr.aria-label]="'home.products.next' | translate"
           [disabled]="!carousel.canMoveNext"
           (click)="carousel.moveNext()"
         >
@@ -31,7 +31,7 @@
       [itemCount]="products.length"
       role="region"
       aria-labelledby="productos-title"
-      aria-roledescription="carrusel"
+      [attr.aria-roledescription]="'a11y.carousel' | translate"
       tabindex="0"
     >
       @for (product of products; track product) {
@@ -39,24 +39,24 @@
           @if (product.media) {
             <img
               [src]="product.media.src"
-              [alt]="product.media.alt"
+              [alt]="product.media.altKey | translate"
               [width]="product.media.width"
               [height]="product.media.height"
               loading="lazy"
             />
           }
-          <h3>{{ product.name }}</h3>
-          @if (product.summary) {
-            <p>{{ product.summary }}</p>
+          <h3>{{ product.nameKey | translate }}</h3>
+          @if (product.summaryKey) {
+            <p>{{ product.summaryKey | translate }}</p>
           }
           @if (inquiryAction(product); as action) {
             @if (action.kind === 'router') {
               <a class="product-card__action" [routerLink]="['/']" [fragment]="action.fragment">{{
-                product.inquiryAction.label
+                product.inquiryAction.labelKey | translate
               }}</a>
             } @else {
               <a class="product-card__action" [href]="action.href" [target]="action.target" [rel]="action.rel">{{
-                product.inquiryAction.label
+                product.inquiryAction.labelKey | translate
               }}</a>
             }
           }

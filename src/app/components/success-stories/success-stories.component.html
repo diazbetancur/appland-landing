@@ -1,9 +1,7 @@
 <div class="appland-container">
   <div class="cases__heading">
     <div>
-      <h2 id="casos-title" class="appland-heading">
-        Algunos <span class="cases__highlight">proyectos</span> desarrollados
-      </h2>
+      <h2 id="casos-title" class="appland-heading" [innerHTML]="'home.cases.title' | translate"></h2>
       <span class="cases__rule" aria-hidden="true"></span>
     </div>
   </div>
@@ -12,7 +10,7 @@
     <button
       type="button"
       class="cases__control cases__control--prev"
-      aria-label="Caso anterior"
+      [attr.aria-label]="'home.cases.previous' | translate"
       [disabled]="!carousel.canMovePrevious"
       (click)="carousel.movePrevious()"
     >
@@ -39,26 +37,32 @@
       [loop]="true"
       role="region"
       aria-labelledby="casos-title"
-      aria-roledescription="carrusel"
+      [attr.aria-roledescription]="'a11y.carousel' | translate"
       tabindex="0"
     >
       @for (item of cases; track item; let index = $index) {
         <article class="case-card">
           @if (item.media; as media) {
             <div class="case-card__media">
-              <img [src]="media.src" [alt]="media.alt" [width]="media.width" [height]="media.height" loading="lazy" />
+              <img
+                [src]="media.src"
+                [alt]="media.altKey | translate"
+                [width]="media.width"
+                [height]="media.height"
+                loading="lazy"
+              />
             </div>
           }
           <div class="case-card__body">
             <p class="case-card__number">0{{ index + 1 }}</p>
             <h3>{{ item.name }}</h3>
-            <p class="case-card__category">{{ item.summary }}</p>
-            @if (item.description) {
-              <p class="case-card__description">{{ item.description }}</p>
+            <p class="case-card__category">{{ item.summaryKey | translate }}</p>
+            @if (item.descriptionKey) {
+              <p class="case-card__description">{{ item.descriptionKey | translate }}</p>
             }
             @if (destinationHref(item.destination); as href) {
               <a [href]="href" target="_blank" rel="noopener noreferrer">
-                Ver caso
+                {{ 'home.cases.viewCase' | translate }}
                 <svg
                   aria-hidden="true"
                   width="15"
@@ -81,7 +85,7 @@
     <button
       type="button"
       class="cases__control cases__control--next"
-      aria-label="Caso siguiente"
+      [attr.aria-label]="'home.cases.next' | translate"
       [disabled]="!carousel.canMoveNext"
       (click)="carousel.moveNext()"
     >

@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Client } from '../../feature/pages/home/home-content.models';
 import { OurClientsComponent } from './our-clients.component';
+import { provideTranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
 
 const client: Client = {
   id: 'approved-client',
@@ -11,7 +13,7 @@ const client: Client = {
     src: 'assets/images/home/clients/approved.png',
     width: 200,
     height: 80,
-    alt: 'Logo de Cliente aprobado',
+    altKey: 'Logo de Cliente aprobado',
     decorative: false,
     publicationStatus: 'approved',
   },
@@ -22,7 +24,11 @@ describe('OurClientsComponent', () => {
   let component: OurClientsComponent;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [OurClientsComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [OurClientsComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
+    }).compileComponents();
+    await useTranslations();
     fixture = TestBed.createComponent(OurClientsComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('clients', [client]);
@@ -42,7 +48,7 @@ describe('OurClientsComponent', () => {
   it('renders intrinsic logo semantics and an aria-hidden duplicate', () => {
     const images = fixture.debugElement.queryAll(By.css('img'));
     expect(images.length).toBe(2);
-    expect(images[0].attributes['alt']).toBe(client.logo.alt);
+    expect(images[0].attributes['alt']).toBe(client.logo.altKey);
     expect(images[0].attributes['width']).toBe('200');
     expect(images[0].attributes['height']).toBe('80');
     expect(images[1].attributes['alt']).toBe('');

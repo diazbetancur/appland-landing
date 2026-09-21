@@ -192,3 +192,37 @@ textarea {
     transform: none;
   }
 }
+
+/**
+ * Resaltados de los titulares, y por que viven aqui y no en cada componente.
+ *
+ * Desde el spec 009 estos titulares se pintan con `[innerHTML]` a partir del texto traducido,
+ * porque en ingles la palabra resaltada se desplaza dentro de la frase y partirla en fragmentos
+ * impondria el orden de palabras del espanol. Los nodos que crea `[innerHTML]` no pasan por el
+ * compilador de plantillas, asi que no reciben el atributo de encapsulacion de Angular y los
+ * estilos del componente no les aplican: el `<span>` quedaba en su sitio, con su palabra, y sin
+ * color.
+ *
+ * Son parte del contrato del contenido, no interioridades de un componente: las clases estan
+ * escritas dentro de los archivos de traduccion. Aqui son globales y por tanto inmunes a la
+ * encapsulacion.
+ *
+ * El de servicios va en naranja y el resto en cian, igual que antes del spec 009.
+ */
+.services__highlight {
+  color: var(--appland-secondary);
+}
+
+.challenges__highlight,
+.cases__highlight,
+.ai__highlight,
+.why__highlight,
+.team__highlight,
+.contact__highlight {
+  color: var(--appland-primary);
+}
+
+/* El tramo resaltado del texto decorativo del hero, tenue como el resto de esa frase. */
+.hero__ghost--bottom span {
+  color: rgba(20, 184, 196, 0.42);
+}

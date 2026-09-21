@@ -6,14 +6,16 @@
   (focusout)="setInteractionPause(false)"
 >
   <header class="services__header">
-    <h2 id="servicios-title" class="appland-heading services__title">
-      Soluciones tecnológicas que impulsan el <span class="services__highlight">crecimiento</span> de tu empresa
-    </h2>
+    <h2
+      id="servicios-title"
+      class="appland-heading services__title"
+      [innerHTML]="'home.services.title' | translate"
+    ></h2>
     <span class="services__rule" aria-hidden="true"></span>
   </header>
 
   <div class="services__tabbar">
-    <div #tabStrip class="services__tabs" role="tablist" aria-label="Servicios de APPLAND">
+    <div #tabStrip class="services__tabs" role="tablist" [attr.aria-label]="'home.services.tablistLabel' | translate">
       @for (service of services; track service; let index = $index) {
         <button
           #tabButton
@@ -28,7 +30,7 @@
           (click)="select(service)"
           (keydown)="onTabKeydown($event, index)"
         >
-          {{ service.name }}
+          {{ service.nameKey | translate }}
         </button>
       }
     </div>
@@ -42,9 +44,7 @@
         type="button"
         class="services__pause"
         [attr.aria-pressed]="pausedByControl"
-        [attr.aria-label]="
-          pausedByControl ? 'Reanudar el cambio automático de servicio' : 'Pausar el cambio automático de servicio'
-        "
+        [attr.aria-label]="(pausedByControl ? 'home.services.resume' : 'home.services.pause') | translate"
         (click)="togglePause()"
       >
         <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -75,9 +75,9 @@
       </div>
 
       <div class="services__content">
-        <h3>{{ service.name }}</h3>
+        <h3>{{ service.nameKey | translate }}</h3>
         <span class="services__rule services__rule--left" aria-hidden="true"></span>
-        <p class="services__summary">{{ service.summary }}</p>
+        <p class="services__summary">{{ service.summaryKey | translate }}</p>
 
         @if (service.highlights?.length) {
           <ul class="services__highlights">
@@ -261,7 +261,7 @@
                     }
                   }
                 </span>
-                <span class="services__highlight-label">{{ highlight.label }}</span>
+                <span class="services__highlight-label">{{ highlight.labelKey | translate }}</span>
               </li>
             }
           </ul>

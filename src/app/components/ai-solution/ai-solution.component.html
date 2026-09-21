@@ -20,16 +20,12 @@
 
   <div class="ai__intro">
     <span class="ai__rule" aria-hidden="true"></span>
-    <h2 id="ia-title" class="appland-heading">
-      Inteligencia Artificial aplicada a <span class="ai__highlight">negocios</span>
-    </h2>
-    <p class="ai__lead">
-      Soluciones de IA que automatizan procesos, mejoran la experiencia del cliente y potencian resultados.
-    </p>
+    <h2 id="ia-title" class="appland-heading" [innerHTML]="'home.ai.title' | translate"></h2>
+    <p class="ai__lead">{{ 'home.ai.lead' | translate }}</p>
 
     @if (resolvedContactAction.kind === 'router') {
       <a class="appland-button ai__cta" [routerLink]="['/']" [fragment]="resolvedContactAction.fragment">
-        Descubre cómo la IA puede ayudarte
+        {{ 'home.ai.cta' | translate }}
         <svg
           aria-hidden="true"
           width="15"
@@ -50,7 +46,7 @@
         [target]="resolvedContactAction.target"
         [rel]="resolvedContactAction.rel"
       >
-        Descubre cómo la IA puede ayudarte
+        {{ 'home.ai.cta' | translate }}
         <svg
           aria-hidden="true"
           width="15"
@@ -205,8 +201,8 @@
             }
           }
         </span>
-        <h3>{{ application.label }}</h3>
-        <p>{{ application.description }}</p>
+        <h3>{{ application.labelKey | translate }}</h3>
+        <p>{{ application.descriptionKey | translate }}</p>
       </li>
     }
   </ul>

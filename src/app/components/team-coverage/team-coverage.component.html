@@ -1,17 +1,13 @@
 <div class="appland-container team">
   <div class="team__content">
     <span class="team__rule" aria-hidden="true"></span>
-    <h2 id="equipo-global-title" class="appland-heading">
-      Equipo distribuido <span class="team__highlight">internacionalmente</span>
-    </h2>
-    <p class="team__lead">
-      Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.
-    </p>
+    <h2 id="equipo-global-title" class="appland-heading" [innerHTML]="'home.team.title' | translate"></h2>
+    <p class="team__lead">{{ 'home.team.lead' | translate }}</p>
 
     @if (resolvedContactAction; as action) {
       @if (action.kind === 'router') {
         <a class="appland-button team__cta" [routerLink]="['/']" [fragment]="action.fragment">
-          Conoce nuestro equipo
+          {{ 'home.team.cta' | translate }}
           <svg
             aria-hidden="true"
             width="15"
@@ -27,7 +23,7 @@
         </a>
       } @else {
         <a class="appland-button team__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
-          Conoce nuestro equipo
+          {{ 'home.team.cta' | translate }}
           <svg
             aria-hidden="true"
             width="15"
@@ -64,19 +60,19 @@
     />
   </div>
 
-  <ul class="team__countries" aria-label="Países con presencia de APPLAND">
+  <ul class="team__countries" [attr.aria-label]="'home.team.countriesLabel' | translate">
     @for (country of countries; track country) {
       <li class="country-card">
         <span class="country-card__flag">
           <img
             [src]="country.flag.src"
-            [alt]="country.flag.alt"
+            [alt]="country.flag.altKey | translate: { country: country.nameKey | translate }"
             [width]="country.flag.width"
             [height]="country.flag.height"
             loading="lazy"
           />
         </span>
-        <h3>{{ country.name }}</h3>
+        <h3>{{ country.nameKey | translate }}</h3>
         <span class="country-card__rule" aria-hidden="true"></span>
       </li>
     }

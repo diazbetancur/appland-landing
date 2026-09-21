@@ -156,8 +156,61 @@
   margin-top: 2rem;
 }
 
+/**
+ * Selector de idioma.
+ *
+ * Solo usa variables que el menu ya tenia, asi que no introduce ningun color nuevo. Su hueco
+ * sale del `gap` que ya existe en la barra: ningun elemento existente cambia de posicion.
+ */
+.menu__language {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--appland-line);
+  border-radius: 999px;
+}
+
+.menu__language-option {
+  min-width: 34px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--appland-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.menu__language-option:hover {
+  color: var(--appland-text);
+}
+
+/* El estado activo no se distingue solo por color: tambien cambia el fondo. */
+.menu__language-option--active {
+  background: var(--appland-primary-soft);
+  color: var(--appland-primary);
+}
+
+/**
+ * El panel compacto es una columna que estira a sus hijos, asi que sin esto la pildora del
+ * selector se extenderia de borde a borde y se leeria como una barra, no como un control de
+ * dos opciones.
+ */
+.menu__language--compact {
+  align-self: flex-start;
+  margin-top: 1.5rem;
+}
+
 @media (max-width: 1023px) {
   .menu__desktop-links,
+  .menu__language--desktop,
   .menu__meeting--desktop {
     display: none;
   }
@@ -187,6 +240,7 @@
 @media (prefers-reduced-motion: reduce) {
   .menu,
   .menu__link,
+  .menu__language-option,
   .compact-menu {
     transition: none;
   }
