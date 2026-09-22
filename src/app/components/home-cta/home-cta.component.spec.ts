@@ -54,6 +54,30 @@ describe('HomeCtaComponent', () => {
   });
 
   /**
+   * El mensaje precargado sigue al idioma que el visitante elige.
+   *
+   * La etiqueta del boton la pinta el pipe `| translate`, que si esta suscrito a los cambios de
+   * idioma, pero el mensaje del `href` se resolvia con `instant()` desde `ngOnChanges`, que solo
+   * se dispara cuando cambia `@Input() content`. Cambiar de idioma no lo toca, asi que el enlace
+   * quedaba congelado con el idioma del primer render: quien entraba en espanol y pasaba a
+   * ingles abria WhatsApp con un mensaje en espanol ya escrito, debajo de un boton en ingles.
+   *
+   * La prueba anterior leia el `href` una sola vez, asi que no podia verlo.
+   */
+  it('rewrites the preloaded message when the visitor changes language', async () => {
+    const mensaje = () =>
+      decodeURIComponent(fixture.debugElement.query(By.css('.contact__actions a')).attributes['href'] ?? '');
+
+    expect(mensaje()).toContain('Hola, quiero agendar una reunión.');
+
+    await useTranslations('en');
+    fixture.detectChanges();
+
+    expect(mensaje()).toContain('Hello, I would like to book a meeting.');
+    expect(mensaje()).not.toContain('agendar');
+  });
+
+  /**
    * Regresion del bug reportado en la ronda 2.
    *
    * El boton de agendar caia al `fallbackFragment` de la accion, que es `contacto`, es decir
