@@ -120,6 +120,38 @@ describe('Translation files', () => {
         'para empresas que buscan crecer mejor y más rápido.',
     );
     expect(spanish.get('home.actions.services')).toBe('Nuestros servicios');
+    expect(spanish.get('home.actions.meeting')).toBe('Conversemos sobre tu proyecto');
+  });
+
+  /**
+   * Ninguna etiqueta puede prometer una agenda que no existe.
+   *
+   * Los botones decian "Agendar una reunion", "Agendar reunion" y "Agendar", y ninguno agenda:
+   * `intent: 'meeting'` no tiene destino aprobado, asi que `resolveConversionAction` cae al
+   * `fallbackFragment` y lo unico que hace el boton es bajar a la seccion de contacto. Quien
+   * lo pulsaba esperando un calendario encontraba un ancla.
+   *
+   * Esta prueba es la que impide que la promesa vuelva por descuido. Cuando exista agenda real
+   * se quita, y tiene que ser una decision: es el mismo motivo por el que la coma del subtitulo
+   * estuvo fijada tres rondas.
+   */
+  it('never promises scheduling on a button that only scrolls', async () => {
+    const PROMESAS = /agendar|agenda|book a meeting|schedule/i;
+
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const entries = await load(lang);
+      const labels = [...entries].filter(([key]) => key.startsWith('home.actions.') || key === 'menu.meetingShort');
+
+      expect(labels.length, `no se encontraron etiquetas de accion en ${lang}`).toBeGreaterThan(0);
+
+      const prometen = labels
+        // El texto que se precarga en WhatsApp lo escribe quien visita, no es una promesa del sitio.
+        .filter(([key]) => key !== 'home.actions.whatsappMeetingMessage')
+        .filter(([, value]) => typeof value === 'string' && PROMESAS.test(value))
+        .map(([key]) => key);
+
+      expect(prometen, `etiquetas que prometen agenda en ${lang}`).toEqual([]);
+    }
   });
 
   /**

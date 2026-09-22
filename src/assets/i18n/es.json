@@ -57,8 +57,7 @@
   "globalTeamDescription": "desde múltiples países para ofrecer cobertura continua",
   "home": {
     "actions": {
-      "meeting": "Agendar una reunión",
-      "meetingShort": "Agendar reunión",
+      "meeting": "Conversemos sobre tu proyecto",
       "productInquiry": "Solicitar información",
       "services": "Nuestros servicios",
       "whatsapp": "Escribir por WhatsApp",
@@ -316,7 +315,7 @@
       },
       "groupLabel": "Idioma"
     },
-    "meetingShort": "Agendar",
+    "meetingShort": "Conversemos",
     "navLabel": "Navegación principal",
     "open": "Abrir menú"
   },
