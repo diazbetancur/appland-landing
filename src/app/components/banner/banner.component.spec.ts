@@ -1,3 +1,4 @@
+import { page } from 'vitest/browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -138,6 +139,45 @@ describe('BannerComponent', () => {
         expect(Math.round(box.left), `${selector} se sale por la izquierda`).toBeGreaterThanOrEqual(
           Math.round(hero.left),
         );
+      }
+    });
+
+    /**
+     * El recorte solo aparecia en pantallas anchas, y ninguna prueba lo miraba.
+     *
+     * El viewport por defecto de Vitest en modo navegador es 414x896, asi que todo este bloque
+     * corria a ancho de telefono, donde la regla de `@media (min-width: 1024px)` que provoca el
+     * fallo ni siquiera se aplica. Las pruebas de arriba estaban en verde con el texto
+     * decapitado en produccion.
+     *
+     * El texto se ancla al centro optico de la laptop para que esta le tape el cuarto inferior
+     * de las letras, pero nada lo frenaba contra el borde superior del `.hero`, que recorta con
+     * `overflow: hidden`. Pasados los ~1600 px la laptop y la tipografia tocan el techo de sus
+     * `clamp()` mientras el alto del hero deja de crecer, el desplazamiento calculado lo saca
+     * por arriba y se perdian 22 px de las letras: a "TU VISION" le faltaba la cabeza y la
+     * tilde de la O desaparecia entera.
+     *
+     * Se comprueban dos anchos del rango afectado, 1920 y 2560, porque el fallo depende
+     * de que los `clamp()` esten saturados y no de un ancho concreto.
+     */
+    describe('on wide screens', () => {
+      /** El viewport del iframe sobrevive a la prueba que lo cambia, asi que se devuelve. */
+      const original = { width: window.innerWidth, height: window.innerHeight };
+      afterEach(async () => {
+        await page.viewport(original.width, original.height);
+      });
+
+      for (const width of [1920, 2560]) {
+        it(`keeps the top decorative text inside the hero at ${width}px`, async () => {
+          await page.viewport(width, 900);
+
+          const hero = fixture.debugElement.query(By.css('.hero')).nativeElement.getBoundingClientRect();
+          const ghost = fixture.debugElement.query(By.css('.hero__ghost--top')).nativeElement.getBoundingClientRect();
+
+          expect(Math.round(ghost.top), 'el texto decorativo se sale por arriba').toBeGreaterThanOrEqual(
+            Math.round(hero.top),
+          );
+        });
       }
     });
   });

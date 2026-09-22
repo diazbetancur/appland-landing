@@ -280,11 +280,21 @@ h1 {
 /* Anchor the ghost word to the same vertical midpoint as the laptop so the
    laptop always covers roughly the bottom quarter of the letters at every
    width. The laptop's rendered height is 0.667 of its clamped width, and its
-   visible pixels start 3.6% below its box top. Must come after the base rule. */
+   visible pixels start 3.6% below its box top. Must come after the base rule.
+
+   El `max()` es el suelo que faltaba. El anclaje de arriba solo mira a la
+   laptop, y el `.hero` recorta con `overflow: hidden`: pasados los ~1700 px la
+   laptop y la tipografia tocan el techo de sus `clamp()` mientras el alto del
+   hero deja de crecer, la posicion calculada se iba a negativa y al texto se le
+   cortaba la cabeza, 22 px a 1920. Ahora no puede subir por encima del borde
+   pase lo que pase con la copia, el idioma o el ancho.
+
+   El suelo son 2rem y no 0 porque con `line-height: 1` los trazos desbordan la
+   caja del elemento por arriba: a 144 px se salen 24, asi que una caja pegada
+   al borde seguiria perdiendo tinta. */
 @media (min-width: 1024px) {
   .hero__ghost--top {
-    top: 50%;
-    transform: translateY(calc(-0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 * clamp(3.2rem, 10vw, 9rem)));
+    top: max(2rem, 50% - 0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 * clamp(3.2rem, 10vw, 9rem));
   }
 }
 
