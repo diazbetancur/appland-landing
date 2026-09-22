@@ -230,7 +230,22 @@ h1 {
   left: auto;
   right: clamp(0.75rem, 2vw, 2.5rem);
   font-size: clamp(3.2rem, 10vw, 9rem);
-  background: linear-gradient(180deg, rgba(245, 247, 250, 0.52), rgba(245, 247, 250, 0.04));
+  /*
+   * Opacidad rebajada a menos de la mitad, del 0.52 al 0.24 en su punto mas alto.
+   *
+   * Punto 02 de la auditoria UX/UI: "en la misma pantalla hay dos frases grandes, el mensaje y
+   * la del fondo, y la decoracion es mas grande que el mensaje". Con 144 px contra los 47 del
+   * titular, el tamano no se puede igualar sin romper la composicion; lo que si se puede es
+   * que no compita en peso.
+   *
+   * Medido en Chromium aislando el trazo, que es la unica forma de medirlo: el recuadro del
+   * texto se solapa con la laptop, asi que el pixel mas claro de la zona es de la imagen y no
+   * de la letra. Comparando la captura con el texto visible contra la misma con el texto
+   * oculto, su aporte de luminancia baja de 120 a 55.
+   *
+   * Queda en la misma franja que el texto decorativo de abajo, que ya se leia como textura.
+   */
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0.24), rgba(245, 247, 250, 0.02));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

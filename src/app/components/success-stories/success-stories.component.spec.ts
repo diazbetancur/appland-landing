@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { selectVisibleCases } from '../../feature/pages/home/home-content.config';
+import { HOME_CONTENT, selectVisibleCases } from '../../feature/pages/home/home-content.config';
 import { HorizontalCarouselDirective } from '../../shared/directives/horizontal-carousel.directive';
 import { SuccessStoriesComponent } from './success-stories.component';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
@@ -85,5 +85,37 @@ describe('SuccessStoriesComponent', () => {
     const highlighted = fixture.debugElement.query(By.css('.cases__highlight')).nativeElement;
 
     expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
+
+  /**
+   * El antetitulo que la maqueta documenta y el sitio no tenia.
+   *
+   * Punto 09 de la auditoria UX/UI: el menu promete "Casos de exito" y la seccion a la que
+   * lleva se titula "Algunos proyectos desarrollados". No son sinonimos, y quien hace clic
+   * llega esperando mas de lo que hay. La maqueta ya resolvia eso con un antetitulo encima del
+   * titular, que se perdio al implementar.
+   *
+   * Sale de la misma clave que la entrada del menu, no de una copia: es la unica forma de que
+   * no vuelvan a divergir, que es justo lo que el punto 09 reporta.
+   */
+  describe('section eyebrow', () => {
+    const menuLabel = (): string => {
+      const entry = HOME_CONTENT.navigation.find((item) => item.fragment === 'casos')!;
+      return t(entry.labelKey);
+    };
+
+    it('announces the section with the same name the menu uses', () => {
+      const eyebrow = fixture.debugElement.query(By.css('.appland-eyebrow'));
+
+      expect(eyebrow).not.toBeNull();
+      expect(eyebrow.nativeElement.textContent.trim()).toBe(menuLabel());
+    });
+
+    it('places it above the heading, not after it', () => {
+      const container = fixture.debugElement.query(By.css('.cases__heading')).nativeElement as HTMLElement;
+      const order = [...container.querySelectorAll('.appland-eyebrow, h2')].map((el) => el.tagName);
+
+      expect(order[0]).not.toBe('H2');
+    });
   });
 });

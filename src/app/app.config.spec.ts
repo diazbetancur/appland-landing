@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { LanguageService } from './components/shared/language.service';
-import { AboutComponent } from './components/about/about.component';
 import { ServiceComponent } from './components/service/service.component';
 import { HomeComponent } from './feature/pages/home/home.component';
 import { IN_MEMORY_SCROLLING, SECTION_SCROLL_OFFSET, appConfig } from './app.config';
@@ -27,9 +26,25 @@ describe('Application configuration contract', () => {
 
     expect(configured.map((route) => route.path)).toEqual(['', 'about', 'service']);
     expect(configured[0].component).toBe(HomeComponent);
-    expect(configured[1].component).toBe(AboutComponent);
     expect(configured[2].component).toBe(ServiceComponent);
     expect(configured).toEqual(routes);
+  });
+
+  /**
+   * `/about` servia `<p>about works!</p>`, el placeholder del scaffold de Angular, en
+   * produccion. Ninguna plantilla enlazaba a esa ruta: solo se llegaba tecleandola.
+   *
+   * Se conserva la direccion en vez de borrarla, por si alguien la compartio alguna vez, y
+   * pasa a llevar adonde el menu manda su entrada "Nosotros": la seccion por-que-appland de
+   * la Home.
+   */
+  it('sends the leftover About address to the section the menu calls Nosotros', async () => {
+    TestBed.configureTestingModule({ providers: [...appConfig.providers, provideLocationMocks()] });
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/about');
+
+    expect(router.url).toBe('/#por-que-appland');
   });
 
   describe('scroll configuration', () => {

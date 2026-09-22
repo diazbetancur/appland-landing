@@ -72,4 +72,54 @@ describe('OurClientsComponent', () => {
     expect(component.paused).toBe(true);
     expect(fixture.debugElement.query(By.css('.clients__pause'))).toBeNull();
   });
+
+  /**
+   * El control de pausa existia en el componente y en los estilos desde el rediseno, con su
+   * area tactil de 44 px y su hueco reservado en la cabecera, pero la plantilla nunca lo
+   * pinto: `togglePause()` solo lo llamaba esta misma prueba. O sea que el carrusel no se
+   * podia detener, y en tactil no hay puntero que lo pause al pasar por encima.
+   */
+  describe('pause control', () => {
+    const control = () => fixture.debugElement.query(By.css('.clients__pause'));
+
+    it('offers a control to stop the carousel', () => {
+      expect(control()).not.toBeNull();
+      expect(control().nativeElement.tagName).toBe('BUTTON');
+      expect(control().nativeElement.type).toBe('button');
+    });
+
+    it('stops and resumes the carousel, and reports its state', () => {
+      expect(component.paused).toBe(false);
+      expect(control().attributes['aria-pressed']).toBe('false');
+
+      control().nativeElement.click();
+      fixture.detectChanges();
+
+      expect(component.paused).toBe(true);
+      expect(control().attributes['aria-pressed']).toBe('true');
+
+      control().nativeElement.click();
+      fixture.detectChanges();
+
+      expect(component.paused).toBe(false);
+    });
+
+    /** Quien no ve la pantalla necesita saber que hace el boton, y cambia segun el estado. */
+    it('names the action it performs in each state', () => {
+      expect(control().attributes['aria-label']).toBe('Pausar el desplazamiento de logotipos');
+
+      control().nativeElement.click();
+      fixture.detectChanges();
+
+      expect(control().attributes['aria-label']).toBe('Reanudar el desplazamiento de logotipos');
+    });
+
+    /** Sin animacion no hay nada que gobernar: el control sobra y ya lo cubria una prueba. */
+    it('disappears when there is no motion to control', () => {
+      component.reducedMotion = true;
+      fixture.detectChanges();
+
+      expect(control()).toBeNull();
+    });
+  });
 });

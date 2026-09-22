@@ -61,4 +61,18 @@ describe('FooterComponent', () => {
     const requested = links.map((link) => new URL(link.nativeElement.href).searchParams.get(SERVICE_QUERY_PARAM));
     expect(requested).toEqual(HOME_CONTENT.services.map((service) => service.id));
   });
+
+  /**
+   * El parametro elige la pestana y el fragmento elige adonde se baja, asi que tienen que
+   * apuntar al mismo sitio. `footer-ai` pedia la pestana de Inteligencia Artificial y bajaba a
+   * la seccion de IA, dos secciones mas abajo: cambiaba una pestana que el visitante no llegaba
+   * a ver. La prueba anterior solo miraba el parametro y por eso no lo detectaba.
+   */
+  it('lands every service link on the services section, the one its tab lives in', () => {
+    const links = fixture.debugElement.queryAll(By.css('a[href*="servicio="]'));
+
+    const fragments = links.map((link) => new URL(link.nativeElement.href).hash);
+
+    expect(fragments).toEqual(links.map(() => '#servicios'));
+  });
 });
