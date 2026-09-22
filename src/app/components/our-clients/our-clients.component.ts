@@ -23,6 +23,17 @@ export class OurClientsComponent implements OnInit {
     return this.reducedMotion || this.pausedByUser || this.pausedByInteraction;
   }
 
+  /**
+   * Sin animacion no hay nada que gobernar, asi que el control sobra.
+   *
+   * No se exige un numero minimo de logotipos: la marquesina duplica el grupo y se desplaza
+   * igual con uno solo. Es distinto del control de la seccion de servicios, que si lo exige
+   * porque rotar entre un unico servicio no comunica nada.
+   */
+  get pauseControlVisible(): boolean {
+    return !this.reducedMotion;
+  }
+
   togglePause(): void {
     this.pausedByUser = !this.pausedByUser;
   }

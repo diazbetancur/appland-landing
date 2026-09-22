@@ -17,17 +17,27 @@ export class HomeSectionDirective implements AfterViewInit, OnDestroy {
       return;
     }
 
+    /**
+     * La raiz se estrecha hasta dejar una linea, asi que intersectarla es cruzarla.
+     *
+     * Antes la banda medía unos 130 px y la condicion se comprobaba a mano comparando `top` y
+     * `bottom` contra la linea. Esa comprobacion no se cumplia nunca: con `threshold: 0` el
+     * observador solo avisa al entrar y al salir de la banda, y una seccion mas alta que ella
+     * entra con el borde superior por debajo de la linea y sale con el inferior por encima.
+     * Nunca hay un aviso en el instante en que la cruza, que era el unico que la activaba.
+     *
+     * Con una linea, los dos avisos que interesan llegan solos: uno con `isIntersecting` en
+     * falso para la seccion que deja de cruzarla y otro en cierto para la que empieza.
+     */
+    const { activationLinePercent: line, activationBandPercent: band } = this.sectionObserver;
+
     this.observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          const crossesLine =
-            entry.isIntersecting &&
-            entry.boundingClientRect.top <= this.sectionObserver.activationThresholdPx &&
-            entry.boundingClientRect.bottom > this.sectionObserver.activationThresholdPx;
-          this.sectionObserver.notifyRegionVisibility(this.regionId, crossesLine);
+          this.sectionObserver.notifyRegionVisibility(this.regionId, entry.isIntersecting);
         }
       },
-      { rootMargin: '-140px 0px -70% 0px', threshold: 0 },
+      { rootMargin: `-${line}% 0px -${100 - line - band}% 0px`, threshold: 0 },
     );
     this.observer.observe(this.elementRef.nativeElement);
   }

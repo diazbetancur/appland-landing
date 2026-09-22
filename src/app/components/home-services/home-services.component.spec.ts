@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { provideLocationMocks } from '@angular/common/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
@@ -541,5 +541,62 @@ describe('HomeServicesComponent', () => {
     const highlighted = fixture.debugElement.query(By.css('.services__highlight')).nativeElement;
 
     expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
+
+  /**
+   * La seccion es un componente de pestanas con un solo anclaje, asi que ya sabia **leer** un
+   * `?servicio=` de la URL: lo usan los enlaces del pie. Lo que faltaba era lo inverso, que al
+   * elegir una pestana la URL lo reflejara. Sin eso el enlace directo existe pero nadie puede
+   * copiarlo de la barra de direcciones, que es el punto 04 de la auditoria UX/UI.
+   */
+  describe('URL of the selected service', () => {
+    const currentParam = (): string | null =>
+      TestBed.inject(Router).parseUrl(TestBed.inject(Router).url).queryParams[SERVICE_QUERY_PARAM] ?? null;
+
+    it('writes the chosen service into the address', async () => {
+      const chosen = HOME_CONTENT.services[3];
+
+      component.select(chosen);
+      await fixture.whenStable();
+
+      expect(currentParam()).toBe(chosen.id);
+    });
+
+    it('replaces the parameter when another tab is chosen', async () => {
+      component.select(HOME_CONTENT.services[1]);
+      await fixture.whenStable();
+      component.select(HOME_CONTENT.services[4]);
+      await fixture.whenStable();
+
+      expect(currentParam()).toBe(HOME_CONTENT.services[4].id);
+    });
+
+    /**
+     * La direccion refleja lo que la persona pidio, no por donde va el carrusel solo. Si el
+     * avance automatico la reescribiera, copiar la URL daria un servicio al azar segun el
+     * segundo en que se copio.
+     */
+    it('leaves the address alone while the section rotates on its own', async () => {
+      expect(currentParam()).toBeNull();
+
+      component.setInView(true);
+      vi.useFakeTimers();
+      vi.advanceTimersByTime(6500);
+      vi.useRealTimers();
+      await fixture.whenStable();
+
+      expect(currentParam()).toBeNull();
+    });
+
+    it('keeps the selection and the address agreeing with each other', async () => {
+      const chosen = HOME_CONTENT.services[2];
+
+      component.select(chosen);
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(component.activeServiceId).toBe(chosen.id);
+      expect(currentParam()).toBe(chosen.id);
+    });
   });
 });

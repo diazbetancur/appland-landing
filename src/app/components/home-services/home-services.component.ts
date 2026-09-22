@@ -13,7 +13,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
 import { Service } from '../../feature/pages/home/home-content.models';
@@ -60,6 +60,7 @@ export class HomeServicesComponent implements OnInit, AfterViewInit, OnChanges, 
   tabsOverflowing = false;
 
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly ngZone = inject(NgZone);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly subscriptions = new Subscription();
@@ -174,11 +175,38 @@ export class HomeServicesComponent implements OnInit, AfterViewInit, OnChanges, 
   select(service: Service): void {
     this.stoppedPermanently = true;
     this.clearRotation();
-    // Una seleccion manual manda sobre lo que pidiera la URL: si no se olvidara, el
-    // parametro volveria a imponerse en la siguiente deteccion de cambios.
-    this.requestedServiceId = null;
     this.activeServiceId = service.id;
     this.keepActiveTabVisible();
+    this.publishSelection(service.id);
+  }
+
+  /**
+   * Escribe en la direccion el servicio elegido.
+   *
+   * El componente ya sabia leer este parametro, que es como los enlaces del pie abren un
+   * servicio concreto, pero nadie lo escribia: elegir una pestana no cambiaba la URL, asi que
+   * el enlace directo existia y no habia forma de copiarlo de la barra de direcciones.
+   *
+   * `requestedServiceId` se pone al mismo valor en vez de olvidarse. Antes se olvidaba para
+   * que el parametro de la URL no volviera a imponerse sobre la eleccion manual; ahora los dos
+   * dicen lo mismo, asi que no hay nada que se imponga sobre nada.
+   *
+   * Se reemplaza la entrada del historial en vez de apilar una nueva: cambiar de pestana no es
+   * una navegacion que nadie espere deshacer con el boton de atras, y apilarlas obligaria a
+   * pulsarlo una vez por pestana visitada para salir de la pagina.
+   *
+   * El fragmento se conserva para no perder la seccion en la que esta el visitante, y los
+   * demas parametros se fusionan para no pisar los que pudiera haber.
+   */
+  private publishSelection(serviceId: string): void {
+    this.requestedServiceId = serviceId;
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { [SERVICE_QUERY_PARAM]: serviceId },
+      queryParamsHandling: 'merge',
+      preserveFragment: true,
+      replaceUrl: true,
+    });
   }
 
   setInView(inView: boolean): void {

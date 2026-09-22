@@ -1,6 +1,13 @@
 <div class="appland-container">
   <div class="cases__heading">
     <div>
+      <!--
+        Antetitulo de la seccion. Sale de la misma clave que la entrada del menu, no de una
+        copia: el menu prometia "Casos de exito" y esta seccion se titula "Algunos proyectos
+        desarrollados", que no son sinonimos, y quien hacia clic llegaba esperando mas de lo
+        que hay. Compartir la clave es lo unico que impide que vuelvan a separarse.
+      -->
+      <p class="appland-eyebrow">{{ 'nav.cases' | translate }}</p>
       <h2 id="casos-title" class="appland-heading" [innerHTML]="'home.cases.title' | translate"></h2>
       <span class="cases__rule" aria-hidden="true"></span>
     </div>

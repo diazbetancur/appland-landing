@@ -558,7 +558,10 @@ export const HOME_CONTENT: HomeContent = {
         id: 'footer-ai',
         queryParams: { [SERVICE_QUERY_PARAM]: 'artificial-intelligence' },
         labelKey: 'home.services.ai.name',
-        fragment: 'ia',
+        // `servicios` y no `ia`: el parametro de arriba elige una pestana de la seccion de
+        // servicios, asi que bajar a la seccion de IA cambiaba una pestana que el visitante
+        // no llegaba a ver. La seccion de IA es otra cosa y tiene su propio enlace.
+        fragment: 'servicios',
       },
       {
         id: 'footer-staff',
