@@ -103,8 +103,38 @@ describe('HOME_CONTENT', () => {
 
   it('shows only cases with approved copy and media, in approved order', () => {
     const visible = selectVisibleCases();
-    expect(visible.map((item) => item.name)).toEqual(['Toyota', 'Dilo', 'Go', 'TV Azteca Honduras']);
+    expect(visible.map((item) => item.name)).toEqual(['Dilo', 'Toyota', 'Tengo', 'TV Azteca Honduras']);
     expect(visible.every((item) => Boolean(item.media))).toBe(true);
+  });
+
+  /**
+   * Dilo y Tengo son las dos aplicaciones financieras y se parecen: mismo mockup de telefono y
+   * resumenes casi identicos, "Aplicacion financiera" y "Aplicacion movil financiera". Puestas
+   * una al lado de la otra el carrusel parecia repetir la misma tarjeta, asi que Toyota va
+   * entre ellas. La prueba fija el motivo, no la posicion: lo que no puede volver a pasar es
+   * que queden contiguas.
+   */
+  it('never places the two finance apps side by side', () => {
+    const ids = selectVisibleCases().map((item) => item.id);
+    const dilo = ids.indexOf('dilo');
+    const tengo = ids.indexOf('tengo');
+
+    expect(dilo, 'Dilo no esta publicado').toBeGreaterThanOrEqual(0);
+    expect(tengo, 'Tengo no esta publicado').toBeGreaterThanOrEqual(0);
+    expect(Math.abs(dilo - tengo), 'Dilo y Tengo quedaron contiguas').toBeGreaterThan(1);
+  });
+
+  /**
+   * El nombre que se pinta es un literal del contenido, no una clave, asi que nada lo ataba al
+   * caso que describe: el commit 4a500ca lo cambio de "Tengo" a "Go" al aprobar el caso y el
+   * sitio llevaba una ronda entera anunciando una marca que no es la de la app. El texto
+   * alternativo de la captura, que si venia de traduccion, decia "Tengo" todo el tiempo.
+   */
+  it('names each case the same way its own screenshot describes it', () => {
+    const tengo = selectVisibleCases().find((item) => item.id === 'tengo');
+
+    expect(tengo?.name).toBe('Tengo');
+    expect(tengo?.media?.altKey).toBe('home.cases.tengo.alt');
   });
 
   it('contains no testimonial or provisional public copy', () => {
