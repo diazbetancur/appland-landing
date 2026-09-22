@@ -31,21 +31,26 @@ describe('HomeCtaComponent', () => {
     expect(fixture.debugElement.query(By.css('a[href^="tel:"]')).attributes['href']).toBe('tel:+50433349211');
   });
 
-  it('sends both conversion actions to the official WhatsApp number', () => {
-    const meeting = fixture.debugElement.query(By.css('.contact__meeting'));
-    const whatsapp = fixture.debugElement.query(By.css('.contact__whatsapp'));
+  /**
+   * La seccion de cierre ofrece un solo siguiente paso.
+   *
+   * Tenia dos botones, "Agendar reunion" y "Escribir por WhatsApp", y los dos abrian el mismo
+   * chat del mismo numero: lo unico que los diferenciaba era que uno precargaba un texto y el
+   * otro no. Dos botones que hacen lo mismo no son dos opciones, son una decision de mas
+   * puesta encima de quien ya decidio escribir. Punto 06 de la ronda 4.
+   *
+   * Sobrevive el que lleva el mensaje aprobado, porque conserva la intencion de reunion que
+   * anuncia la etiqueta.
+   */
+  it('offers a single conversion action, with the approved message preloaded', () => {
+    const actions = fixture.debugElement.queryAll(By.css('.contact__actions a'));
 
-    // Solo el de agendar lleva texto precargado, y es el aprobado por el usuario: es lo unico
-    // que distingue dos botones que de otro modo apuntarian al mismo sitio.
-    expect(meeting.attributes['href']).toBe(
+    expect(actions.length).toBe(1);
+    expect(actions[0].attributes['href']).toBe(
       'https://wa.me/50433349211?text=Hola%2C%20quiero%20agendar%20una%20reuni%C3%B3n.',
     );
-    expect(whatsapp.attributes['href']).toBe('https://wa.me/50433349211');
-
-    [meeting, whatsapp].forEach((link) => {
-      expect(link.attributes['target']).toBe('_blank');
-      expect(link.attributes['rel']).toBe('noopener noreferrer');
-    });
+    expect(actions[0].attributes['target']).toBe('_blank');
+    expect(actions[0].attributes['rel']).toBe('noopener noreferrer');
   });
 
   /**

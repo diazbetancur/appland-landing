@@ -82,8 +82,9 @@ const contact = {
    * El boton de la propia seccion de contacto abre WhatsApp, no un fragmento: un enlace al
    * fragmento `contacto` desde dentro de la seccion `contacto` no lleva a ningun sitio.
    *
-   * El mensaje precargado lo aprobo el usuario y es lo unico que lo distingue del boton de
-   * WhatsApp contiguo, que abre el chat vacio a proposito.
+   * Es el unico boton de la seccion. Hasta la ronda 4 lo acompanaba un segundo boton de
+   * WhatsApp que abria el chat vacio del mismo numero, asi que ofrecia una eleccion que no lo
+   * era. El mensaje precargado, aprobado por el usuario, conserva la intencion de reunion.
    */
   meetingAction: {
     id: 'contact-meeting',
@@ -91,7 +92,6 @@ const contact = {
     intent: 'whatsapp',
     approvedMessageKey: 'home.actions.whatsappMeetingMessage',
   },
-  whatsappAction,
   email: {
     kind: 'email',
     value: 'hello@applandtech.com',

@@ -186,7 +186,6 @@ export interface ContactContent {
   readonly titleKey: string;
   readonly bodyKey: string;
   readonly meetingAction: ConversionAction;
-  readonly whatsappAction: ConversionAction;
   readonly email: ApprovedDestination;
   readonly phone: ApprovedDestination;
   readonly socialLinks: readonly LabeledDestination[];

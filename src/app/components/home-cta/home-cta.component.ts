@@ -14,19 +14,17 @@ export class HomeCtaComponent implements OnChanges {
   @Input() content!: ContactContent;
 
   meetingAction!: ResolvedAction;
-  whatsappAction!: ResolvedAction;
   readonly destinationHref = destinationHref;
 
   private readonly translate = inject(TranslateService);
 
   ngOnChanges(): void {
     this.meetingAction = resolveConversionAction(this.content.meetingAction, this.approvedMessage());
-    this.whatsappAction = resolveConversionAction(this.content.whatsappAction);
   }
 
   /**
-   * El boton de esta seccion abre WhatsApp con un mensaje precargado, y es lo unico que lo
-   * distingue del boton de WhatsApp contiguo, que abre el chat vacio a proposito.
+   * El unico boton de la seccion abre WhatsApp con este mensaje ya escrito, que es lo que
+   * conserva la intencion de reunion que anuncia su etiqueta.
    */
   private approvedMessage(): string | undefined {
     const key = this.content.meetingAction.approvedMessageKey;

@@ -37,8 +37,6 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.contact.meetingAction.intent).toBe('whatsapp');
     expect(HOME_CONTENT.contact.meetingAction.approvedMessageKey).toBe('home.actions.whatsappMeetingMessage');
     expect(HOME_CONTENT.contact.meetingAction.fallbackFragment).toBeUndefined();
-
-    expect(HOME_CONTENT.contact.whatsappAction.approvedMessageKey).toBeUndefined();
   });
 
   /**
