@@ -39,6 +39,7 @@
   "a11y": {
     "brandHome": "APPLAND, inicio",
     "carousel": "carrusel",
+    "carouselPosition": "{{current}} de {{total}}",
     "skipToContent": "Saltar al contenido principal"
   },
   "chooseUs": "¿Por qué confiar en Appland?",

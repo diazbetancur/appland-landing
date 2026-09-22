@@ -39,6 +39,7 @@
   "a11y": {
     "brandHome": "APPLAND, home",
     "carousel": "carousel",
+    "carouselPosition": "{{current}} of {{total}}",
     "skipToContent": "Skip to main content"
   },
   "chooseUs": "Why Trust Appland?",
