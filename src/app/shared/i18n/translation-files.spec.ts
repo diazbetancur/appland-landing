@@ -106,9 +106,9 @@ describe('Translation files', () => {
    * Venia de `home-content.config.spec.ts`, donde el texto vivia antes del spec 009. El
    * proposito es el mismo: que un cambio de redaccion sea deliberado y no un descuido.
    *
-   * El subtitulo dice "SaaS Automatizacion" sin coma. Esta fijado tal cual a proposito: es el
-   * punto 03 de la auditoria UX/UI y no esta resuelto, asi que cambiarlo tiene que ser una
-   * decision, no un arreglo de paso.
+   * El subtitulo enumera cinco cosas y "SaaS Automatizacion" iba sin coma, asi que se leia como
+   * un solo servicio inexistente en vez de dos. Era el punto 03 de la auditoria UX/UI, quedo
+   * fijado sin resolver a la espera de una decision, y la ronda 4 la dio: lleva coma.
    */
   it('pins the approved Spanish hero copy', async () => {
     const spanish = await load('es');
@@ -116,10 +116,24 @@ describe('Translation files', () => {
     expect(spanish.get('home.hero.titleLead')).toBe('Impulsamos tu negocio ');
     expect(spanish.get('home.hero.titleHighlight')).toBe('con tecnología inteligente.');
     expect(spanish.get('home.hero.subtitle')).toBe(
-      'Desarrollo de software, Inteligencia Artificial, SaaS Automatización y Staff Augmentation ' +
+      'Desarrollo de software, Inteligencia Artificial, SaaS, Automatización y Staff Augmentation ' +
         'para empresas que buscan crecer mejor y más rápido.',
     );
     expect(spanish.get('home.actions.services')).toBe('Nuestros servicios');
+  });
+
+  /**
+   * La coma tiene que estar en los dos idiomas.
+   *
+   * La prueba de arriba solo fija el espanol, asi que una correccion aplicada a medias pasaba
+   * inadvertida: es exactamente el fallo que dio origen al spec 009, una copia aprobada que se
+   * aplico en un sitio y no en el otro.
+   */
+  it('separates every service of the hero subtitle in every language', async () => {
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const entries = await load(lang);
+      expect(entries.get('home.hero.subtitle'), `"SaaS" sin separar en ${lang}`).not.toMatch(/SaaS\s+Automat/i);
+    }
   });
 
   /**
