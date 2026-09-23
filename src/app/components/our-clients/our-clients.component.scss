@@ -73,6 +73,48 @@ img {
   }
 }
 
+/**
+ * Los cinco logotipos entran juntos en una pantalla de escritorio, de modo que la marquesina
+ * solo les quitaba legibilidad: pasaban de largo y el degradado de los bordes los cortaba a
+ * la entrada y a la salida.
+ *
+ * Las columnas se reparten el ancho disponible en vez de medirse contra la ventana, asi que
+ * la fila entra completa a cualquier ancho de escritorio -- con `clamp(120px, 14vw, 190px)`
+ * se quedaba a un par de pixeles de desbordarse a 1024 px con la barra de scroll a la vista --
+ * y admite un logotipo mas sin volver a recortarse.
+ *
+ * El limite es el mismo que declara `CLIENTS_MARQUEE_VIEWPORT` en el componente, que es quien
+ * decide si el control de pausa tiene algo que gobernar.
+ */
+@media (min-width: 1024px) {
+  .clients__viewport {
+    mask-image: none;
+  }
+
+  .clients__track {
+    width: 100%;
+    animation: none;
+  }
+
+  .clients__group {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    width: 100%;
+    justify-items: center;
+    padding-right: 0;
+  }
+
+  .clients__group[aria-hidden='true'] {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    max-width: 190px;
+  }
+}
+
 @media (max-width: 559px) {
   .clients__heading {
     flex-direction: column;
