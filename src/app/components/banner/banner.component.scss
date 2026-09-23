@@ -2,7 +2,22 @@
   display: block;
 }
 
+/**
+ * El cuerpo del texto decorativo y el ancho de la laptop se leen desde dos reglas cada uno: la
+ * que los pinta y la formula que alinea el fantasma con el centro optico de la laptop. Estaban
+ * copiados literalmente en ambas, asi que cambiar uno obligaba a acordarse del otro y cada
+ * ronda lo rompia por el lado que no se habia tocado. Aqui viven una sola vez.
+ *
+ * El cuerpo baja de `10vw / 9rem` a `9vw / 8rem`: de 144 px a 128 a 1440. Es un ajuste corto a
+ * proposito. El punto 02 de la auditoria pedia que la decoracion dejara de pesar mas que el
+ * mensaje, y se probo bajarla al doble exacto del titular -- 93 px --, pero a ese tamano la
+ * frase deja de leerse como el telon de fondo que sostiene la composicion y se descarto. El
+ * grueso de la correccion lo hace la tinta, que era la otra via que el propio reporte proponia.
+ */
 .hero {
+  --hero-ghost-size: clamp(3.2rem, 9vw, 8rem);
+  --hero-laptop-width: clamp(560px, 57vw, 1000px);
+
   position: relative;
   z-index: 0;
   overflow: hidden;
@@ -118,13 +133,31 @@ h1 {
 
 /* Desktop: the laptop becomes a large background layer that every other
    hero element overlays, matching the approved reference composition. */
+/**
+ * La franja de suelo que deja ver "NUESTRA TECNOLOGIA".
+ *
+ * El equipo es absoluto desde 1024 px y crece hasta 1000 px de ancho, o sea 667 de alto sobre
+ * un hero de 684: se comia esa frase entera -- el 78% de su ancho a 1440 y el 86% a 1920 --
+ * porque las dos ocupaban la misma banda.
+ *
+ * El relleno va en `.hero` y no en `.hero__inner` a proposito, y esa es toda la idea: el equipo
+ * se posiciona respecto al segundo, asi que crecer el primero abre suelo por debajo sin moverlo
+ * ni un pixel. Metido en `.hero__inner`, el equipo baja con el relleno y no se gana nada; medido,
+ * hacian falta 36rem ahi para el mismo efecto que 12 aqui, con el hero en 1084 px.
+ *
+ * La frase de abajo cuelga de `.hero`, de modo que cae dentro de la franja nueva.
+ */
 @media (min-width: 1024px) {
+  .hero {
+    padding-block: 5rem clamp(10rem, 11vw, 13rem);
+  }
+
   .hero__laptop {
     position: absolute;
     z-index: 0;
     top: 50%;
     left: 24%;
-    width: clamp(560px, 57vw, 1000px);
+    width: var(--hero-laptop-width);
     max-width: none;
     transform: translateY(-42%);
   }
@@ -221,80 +254,73 @@ h1 {
  * borde y lo que crece es el arranque, hacia la izquierda, donde el titular y la laptop lo
  * tapan y el recorte se lee como decision y no como desborde.
  *
- * No se toca el `font-size` a proposito. La regla que alinea el fantasma con la laptop repite
- * ese valor en su formula, y la que desplaza las tarjetas se calculo sobre la geometria del
- * lado derecho, que es justo la que este cambio deja igual.
+ * El hueco contra ese borde tampoco es simbolico. Con los 29 px que dejaba `2vw` a 1440 el
+ * texto entraba entero pero sin aire, y un remate pegado al filo se lee como desborde aunque
+ * no falte un pixel: es la queja que volvio en la auditoria despues de que el recorte real ya
+ * estuviera corregido. El margen actual da 58 px a 1440 y 72 a 1920.
  */
 .hero__ghost--top {
   top: clamp(1.5rem, 6vw, 5rem);
   left: auto;
-  right: clamp(0.75rem, 2vw, 2.5rem);
-  font-size: clamp(3.2rem, 10vw, 9rem);
+  right: clamp(1rem, 4vw, 4.5rem);
+  font-size: var(--hero-ghost-size);
   /*
-   * Opacidad rebajada a menos de la mitad, del 0.52 al 0.24 en su punto mas alto.
+   * Opacidad rebajada del 0.52 original al 0.24, y de ahi al 0.16 actual.
    *
    * Punto 02 de la auditoria UX/UI: "en la misma pantalla hay dos frases grandes, el mensaje y
-   * la del fondo, y la decoracion es mas grande que el mensaje". Con 144 px contra los 47 del
-   * titular, el tamano no se puede igualar sin romper la composicion; lo que si se puede es
-   * que no compita en peso.
-   *
-   * Medido en Chromium aislando el trazo, que es la unica forma de medirlo: el recuadro del
-   * texto se solapa con la laptop, asi que el pixel mas claro de la zona es de la imagen y no
-   * de la letra. Comparando la captura con el texto visible contra la misma con el texto
-   * oculto, su aporte de luminancia baja de 120 a 55.
-   *
-   * Queda en la misma franja que el texto decorativo de abajo, que ya se leia como textura.
+   * la del fondo, y la decoracion es mas grande que el mensaje". El tamano se conserva, asi que
+   * la unica palanca que queda es el peso: 0.16 en su punto mas alto, degradando a 0.02, contra
+   * el 0.2 plano del texto decorativo de abajo. Las dos frases quedan en la misma franja de
+   * tinta y se leen como una sola textura.
    */
-  background: linear-gradient(180deg, rgba(245, 247, 250, 0.24), rgba(245, 247, 250, 0.02));
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0.16), rgba(245, 247, 250, 0.02));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 /**
- * Este no se ancla por la derecha: esta centrado sobre la laptop con un tiro fijo de -32%, y
- * anclarlo lo correria unos 250 px a la derecha en pantallas anchas, que es composicion
- * aprobada y no un defecto.
+ * La franja de abajo de la composicion: va centrada sobre el eje del equipo y por debajo de el,
+ * nunca a su costado ni encima.
  *
- * Su recorte depende de la proporcion entre el ancho del texto y el de la ventana. Con el tiro
- * de -32%, el borde derecho cae en `0.5 * vw + 0.68 * ancho`, asi que entra mientras el ancho
- * no pase de `0.735 * vw`. El ancho de esta frase mide 11.2 veces su cuerpo, de donde el cuerpo
- * no puede pasar de `0.735 / 11.2 = 6.57vw`. Estaba en 6.6vw, tres centesimas por encima: de
- * ahi los 2 y 3 px que se perdian entre 768 y 1280. Se baja a 6.4vw, que deja holgura.
+ * Se apoya en el pie del hero en vez de calcularse contra el equipo, que es lo que le permite
+ * quedar debajo sin formula: quien le abre el suelo es el relleno inferior de `.hero`, y quien
+ * la separa del canto es este hueco, que subio de `2vw` a `2.6vw` para despegarla del pie.
  *
- * Y desaparece el minimo del clamp. Con un minimo, por debajo de cierto ancho es el quien
- * decide el cuerpo y el `vw` deja de acotar nada, asi que el recorte vuelve: pasaba a 560 px
- * con 2.4rem y a 320 px con 2.3rem. Perseguir el numero solo mueve el ancho en el que falla.
- * Es texto decorativo: en una ventana angosta corresponde que sea pequeno.
- *
- * Por encima de 1400 px manda el maximo del clamp, asi que ahi no cambia nada.
+ * El cuerpo no lleva minimo a proposito: con un `clamp` con minimo, por debajo de cierto ancho
+ * es el quien manda y el `vw` deja de acotar nada, asi que el recorte volvia a 560 px con
+ * 2.4rem y a 320 con 2.3rem. Es texto decorativo: en una ventana angosta corresponde que sea
+ * pequeno.
  */
 .hero__ghost--bottom {
-  bottom: clamp(0.15rem, 0.8vw, 0.5rem);
+  bottom: clamp(0.75rem, 2.6vw, 3rem);
   left: 50%;
   transform: translateX(-32%);
-  color: rgba(245, 247, 250, 0.16);
+  color: rgba(245, 247, 250, 0.2);
   font-size: min(6.4vw, 5.6rem);
 }
 
-/* Anchor the ghost word to the same vertical midpoint as the laptop so the
-   laptop always covers roughly the bottom quarter of the letters at every
-   width. The laptop's rendered height is 0.667 of its clamped width, and its
-   visible pixels start 3.6% below its box top. Must come after the base rule.
-
-   El `max()` es el suelo que faltaba. El anclaje de arriba solo mira a la
-   laptop, y el `.hero` recorta con `overflow: hidden`: pasados los ~1700 px la
-   laptop y la tipografia tocan el techo de sus `clamp()` mientras el alto del
-   hero deja de crecer, la posicion calculada se iba a negativa y al texto se le
-   cortaba la cabeza, 22 px a 1920. Ahora no puede subir por encima del borde
-   pase lo que pase con la copia, el idioma o el ancho.
-
-   El suelo son 2rem y no 0 porque con `line-height: 1` los trazos desbordan la
-   caja del elemento por arriba: a 144 px se salen 24, asi que una caja pegada
-   al borde seguiria perdiendo tinta. */
+/**
+ * El texto se apoya por encima del borde superior visible del equipo, despejado.
+ *
+ * `50% - 0.384 * 0.667 * ancho` es ese borde: el alto renderizado del equipo es 0.667 de su
+ * ancho, su caja sube un 42% desde el centro y sus pixeles visibles arrancan un 3.6% por debajo
+ * del borde de la caja. Restarle 1.6 veces el cuerpo lo levanta por encima con aire de sobra:
+ * una vez por el alto de su caja, y el resto por los trazos que `line-height: 1` desborda hacia
+ * arriba mas el hueco que lo separa tanto del equipo como de las tarjetas.
+ *
+ * El 1.6 y el `padding-top` de arriba se calibraron juntos y no se tocan por separado: sin ese
+ * techo, el multiplicador saca la frase por el borde del hero y el `max()` la devuelve a donde
+ * estaba, detras del equipo. Con el 0.75 original el equipo le tapaba el cuarto inferior de las
+ * letras a proposito, y las tarjetas se le montaban encima 46 px mas.
+ *
+ * El `max()` es el suelo contra el borde del hero, que recorta con `overflow: hidden`. Sin el,
+ * pasados los ~1700 px la posicion calculada se iba a negativa y al texto se le cortaba la
+ * cabeza: 22 px a 1920, la tilde de la O entera. Debe ir despues de la regla base.
+ */
 @media (min-width: 1024px) {
   .hero__ghost--top {
-    top: max(2rem, 50% - 0.384 * 0.667 * clamp(560px, 57vw, 1000px) - 0.75 * clamp(3.2rem, 10vw, 9rem));
+    top: max(1rem, 50% - 0.384 * 0.667 * var(--hero-laptop-width) - 1.6 * var(--hero-ghost-size));
   }
 }
 
@@ -350,8 +376,10 @@ h1 {
     margin-inline-start: 0;
   }
 
-  .hero__ghost--top {
-    font-size: clamp(2.4rem, 9vw, 4.6rem);
+  /* Se cambia el token y no el `font-size`, para que la formula que alinea el fantasma con la
+     laptop siga leyendo el mismo valor que se pinta. */
+  .hero {
+    --hero-ghost-size: clamp(2.4rem, 9vw, 4.6rem);
   }
 
   .hero__sphere {

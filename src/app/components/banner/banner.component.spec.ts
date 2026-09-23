@@ -118,16 +118,20 @@ describe('BannerComponent', () => {
     /**
      * `getComputedStyle` resuelve `auto` al valor usado, asi que no sirve para distinguir el
      * anclaje. Lo que si lo distingue es la magnitud: anclado por la derecha, el hueco es el
-     * `clamp(0.75rem, 2vw, 2.5rem)` de la regla, entre 12 y 40 px. Anclado por la izquierda,
-     * ese hueco lo decidia el largo del texto y se iba a negativo al desbordar.
+     * `clamp(1rem, 4vw, 4.5rem)` de la regla, entre 16 y 72 px. Anclado por la izquierda, ese
+     * hueco lo decidia el largo del texto y se iba a negativo al desbordar.
+     *
+     * Solo aplica al de arriba. El de abajo va centrado sobre el equipo, que es la composicion
+     * aprobada: anclarlo al mismo borde lo sacaba a un costado de la laptop, y el texto
+     * decorativo va por encima y por debajo del equipo, no a su lado.
      */
-    it('holds the top text at a small fixed inset from the right edge', () => {
+    it('holds the top text at a fixed inset from the right edge', () => {
       const ghost = fixture.debugElement.query(By.css('.hero__ghost--top')).nativeElement;
 
       const inset = parseFloat(getComputedStyle(ghost).right);
 
-      expect(inset).toBeGreaterThanOrEqual(12);
-      expect(inset).toBeLessThanOrEqual(40);
+      expect(inset).toBeGreaterThanOrEqual(16);
+      expect(inset).toBeLessThanOrEqual(72);
     });
 
     it('keeps both decorative texts inside the hero', () => {
@@ -179,6 +183,121 @@ describe('BannerComponent', () => {
           );
         });
       }
+    });
+
+    /**
+     * Las dos frases quedan despejadas: "TU VISION" por encima del equipo y de las tarjetas,
+     * "NUESTRA TECNOLOGIA" entera por debajo del equipo.
+     *
+     * El equipo crece hasta 1000 px de ancho, o sea 667 de alto sobre un hero que median 684:
+     * ocupaban la misma banda y se comia las dos -- el 78% del ancho de la de abajo a 1440 y el
+     * 86% a 1920, y a la de arriba le tapaba 96 px mas las tarjetas otros 46.
+     *
+     * El sitio lo abre el relleno de `.hero`, no el de `.hero__inner`, y esa distincion es la
+     * prueba: el equipo se posiciona respecto al segundo, asi que mover el relleno alli lo empuja
+     * con el y no se gana nada. Medido, hacian falta 36rem alli para lo que aqui hacen 13.
+     *
+     * Se mide el borde visible del equipo y no su caja: sus pixeles arrancan un 3.6% por debajo
+     * del borde superior de la caja, y contra la caja esto pasaria con el texto ya montado.
+     */
+    describe('both decorative texts clear the laptop', () => {
+      /** El viewport del iframe sobrevive a la prueba que lo cambia, asi que se devuelve. */
+      const original = { width: window.innerWidth, height: window.innerHeight };
+      afterEach(async () => {
+        await page.viewport(original.width, original.height);
+      });
+
+      const rect = (selector: string): DOMRect =>
+        fixture.debugElement.query(By.css(selector)).nativeElement.getBoundingClientRect();
+
+      /** Debajo de 1024 px el equipo vuelve al flujo normal y no tapa nada. */
+      for (const width of [1100, 1440, 1920]) {
+        it(`leaves both phrases clear at ${width}px`, async () => {
+          await page.viewport(width, 900);
+
+          const hero = rect('.hero');
+          const laptop = rect('.hero__laptop');
+          const cards = rect('.hero__cards');
+          const top = rect('.hero__ghost--top');
+          const bottom = rect('.hero__ghost--bottom');
+          const laptopInk = laptop.top + 0.036 * laptop.height;
+
+          expect(
+            Math.round(laptopInk - top.bottom),
+            '"TU VISION" vuelve a quedar tras el equipo',
+          ).toBeGreaterThanOrEqual(0);
+          expect(
+            Math.round(cards.top - top.bottom),
+            '"TU VISION" vuelve a quedar tras las tarjetas',
+          ).toBeGreaterThanOrEqual(0);
+          expect(Math.round(top.top - hero.top), 'al texto de arriba se le corta la cabeza').toBeGreaterThanOrEqual(0);
+          expect(
+            Math.round(bottom.top - laptop.bottom),
+            '"NUESTRA TECNOLOGIA" vuelve a quedar bajo el equipo',
+          ).toBeGreaterThanOrEqual(0);
+          expect(
+            Math.round(hero.bottom - bottom.bottom),
+            'la frase de abajo se apoya en el pie',
+          ).toBeGreaterThanOrEqual(8);
+        });
+      }
+
+      /**
+       * El equipo conserva su tamano: es la pieza que da escala al encabezado. Se probo encogerlo
+       * para que las dos frases lo esquivaran y se descarto, asi que la prueba fija el suelo.
+       */
+      it('keeps the laptop at full size', async () => {
+        await page.viewport(1920, 900);
+
+        expect(Math.round(rect('.hero__laptop').width)).toBeGreaterThanOrEqual(900);
+      });
+    });
+
+    /**
+     * El equipo es lo que da escala a la composicion, y el texto decorativo la sostiene por
+     * encima y por debajo. Si alguien lo achica buscando que "entre completo", deja de cumplir
+     * esa funcion: se probo y se descarto. Esta prueba fija el suelo.
+     */
+    it('keeps the decoration at backdrop scale, well above the headline', () => {
+      const bodySize = (selector: string): number =>
+        parseFloat(getComputedStyle(fixture.debugElement.query(By.css(selector)).nativeElement).fontSize);
+
+      expect(bodySize('.hero__ghost--top')).toBeGreaterThan(bodySize('h1'));
+      expect(bodySize('.hero__ghost--bottom')).toBeGreaterThan(bodySize('.hero__subtitle'));
+    });
+
+    /**
+     * El tramo resaltado iba en 0.42 mientras su propia linea iba en 0.16: dos veces y media
+     * mas presente que el texto que lo contiene, y el elemento de mas tinta del hero por
+     * delante del titular. Se compara contra su linea y no contra un valor fijo, que es la
+     * relacion que estaba rota.
+     */
+    it('keeps the decorative text and its highlight at texture level', () => {
+      const alphaOf = (color: string): number => {
+        const channels = color.match(/rgba?\(([^)]+)\)/);
+        const parts = channels ? channels[1].split(',') : [];
+        return parts.length === 4 ? parseFloat(parts[3]) : 1;
+      };
+      const ghost = fixture.debugElement.query(By.css('.hero__ghost--bottom')).nativeElement;
+      const highlight = fixture.debugElement.query(By.css('.hero__ghost--bottom span')).nativeElement;
+
+      const line = alphaOf(getComputedStyle(ghost).color);
+      const accent = alphaOf(getComputedStyle(highlight).color);
+
+      expect(line).toBeLessThanOrEqual(0.25);
+      expect(accent).toBeLessThanOrEqual(line * 1.5);
+    });
+
+    /** El de arriba no lleva `color`: se pinta con un degradado recortado al trazo. */
+    it('paints the top text as a faint gradient rather than solid ink', () => {
+      const ghost = fixture.debugElement.query(By.css('.hero__ghost--top')).nativeElement;
+
+      const alphas = [...getComputedStyle(ghost).backgroundImage.matchAll(/rgba\([^)]*?,\s*([\d.]+)\)/g)].map((match) =>
+        parseFloat(match[1]),
+      );
+
+      expect(alphas.length).toBeGreaterThan(0);
+      expect(Math.max(...alphas)).toBeLessThanOrEqual(0.2);
     });
   });
 
