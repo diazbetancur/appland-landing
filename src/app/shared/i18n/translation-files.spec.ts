@@ -1,4 +1,5 @@
 import { SUPPORTED_LANGUAGES } from '../../components/shared/language.service';
+import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
 
 /**
  * Contrato de los archivos de traduccion.
@@ -106,9 +107,18 @@ describe('Translation files', () => {
    * Venia de `home-content.config.spec.ts`, donde el texto vivia antes del spec 009. El
    * proposito es el mismo: que un cambio de redaccion sea deliberado y no un descuido.
    *
-   * El subtitulo enumera cinco cosas y "SaaS Automatizacion" iba sin coma, asi que se leia como
-   * un solo servicio inexistente en vez de dos. Era el punto 03 de la auditoria UX/UI, quedo
-   * fijado sin resolver a la espera de una decision, y la ronda 4 la dio: lleva coma.
+   * El subtitulo enumera los cinco servicios que mas abajo listan las pestanas, mas SaaS.
+   *
+   * "SaaS Automatizacion" iba sin coma y se leia como un solo servicio inexistente; esa parte
+   * del punto 03 de la auditoria UX/UI se resolvio antes. Lo que quedaba era que la enumeracion
+   * no cuadraba con las pestanas: "software" en minuscula contra "Desarrollo de Software",
+   * "Automatizacion" a secas contra "Automatizacion de Procesos", y Consultoria Tecnologica
+   * directamente ausente. Quien llegaba al bloque de servicios contaba cinco donde el
+   * encabezado habia prometido cuatro.
+   *
+   * SaaS se queda aunque no tenga pestana: los siete productos de `home.products` son
+   * justamente eso y siguen en `pending`, asi que es oferta real sin seccion publicada, no un
+   * servicio inventado.
    */
   it('pins the approved Spanish hero copy', async () => {
     const spanish = await load('es');
@@ -116,7 +126,8 @@ describe('Translation files', () => {
     expect(spanish.get('home.hero.titleLead')).toBe('Impulsamos tu negocio ');
     expect(spanish.get('home.hero.titleHighlight')).toBe('con tecnología inteligente.');
     expect(spanish.get('home.hero.subtitle')).toBe(
-      'Desarrollo de software, Inteligencia Artificial, SaaS, Automatización y Staff Augmentation ' +
+      'Desarrollo de Software, Inteligencia Artificial, SaaS, Staff Augmentation, ' +
+        'Automatización de Procesos y Consultoría Tecnológica ' +
         'para empresas que buscan crecer mejor y más rápido.',
     );
     expect(spanish.get('home.actions.services')).toBe('Nuestros servicios');
@@ -165,6 +176,35 @@ describe('Translation files', () => {
     for (const lang of SUPPORTED_LANGUAGES) {
       const entries = await load(lang);
       expect(entries.get('home.hero.subtitle'), `"SaaS" sin separar en ${lang}`).not.toMatch(/SaaS\s+Automat/i);
+    }
+  });
+
+  /**
+   * La bajada del encabezado nombra todos los servicios que mas abajo listan las pestanas.
+   *
+   * Es la primera frase que lee quien no conoce la empresa, y hasta la ronda 4 prometia menos
+   * de lo que el sitio ofrece: le faltaba Consultoria Tecnologica y llamaba "Automatizacion" a
+   * "Automatizacion de Procesos". Punto 03 de la auditoria UX/UI.
+   *
+   * La lista vive escrita a mano en las traducciones mientras los nombres de las pestanas viven
+   * en `home-content.config.ts`: son la misma informacion en dos sitios y por eso derivo. No se
+   * unificaron a proposito -- la copia del hero se aprueba a mano y generarla se descarto --,
+   * asi que esta prueba es lo unico que impide que vuelva a separarse, y en los dos idiomas.
+   *
+   * SaaS no se comprueba: esta en la bajada a proposito y no tiene pestana.
+   */
+  it('names every service tab in the hero subtitle, in every language', async () => {
+    const nameKeys = HOME_CONTENT.services.map((service) => service.nameKey);
+
+    expect(nameKeys.length, 'no se encontraron servicios en el contenido').toBeGreaterThan(0);
+
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const entries = await load(lang);
+      const subtitle = String(entries.get('home.hero.subtitle'));
+
+      const ausentes = nameKeys.map((key) => String(entries.get(key))).filter((name) => !subtitle.includes(name));
+
+      expect(ausentes, `servicios que la bajada no nombra en ${lang}`).toEqual([]);
     }
   });
 
