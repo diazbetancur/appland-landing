@@ -209,6 +209,51 @@ describe('Translation files', () => {
   });
 
   /**
+   * La seccion de proyectos se llama igual en la barra, en el antetitulo y en el titular.
+   *
+   * La barra decia "Casos de exito" y el titular "Algunos proyectos desarrollados". No son
+   * sinonimos: un caso de exito promete un antes y un despues, un proyecto desarrollado promete
+   * que se hizo, y quien hacia clic llegaba esperando mas de lo que hay. Punto 09 de la
+   * auditoria UX/UI.
+   *
+   * El antetitulo ya comparte la clave con el menu, asi que esos dos no pueden separarse. El
+   * titular es una copia aparte y si podia, que es exactamente lo que paso. Se comprueba que lo
+   * contenga, no que sea identico: el titular es una frase y la entrada del menu una etiqueta.
+   */
+  it('calls the projects section the same thing in the menu and in its heading', async () => {
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const entries = await load(lang);
+      const etiqueta = String(entries.get('nav.cases'));
+      const titular = String(entries.get('home.cases.title')).replace(/<[^>]+>/g, '');
+
+      expect(etiqueta.length, `nav.cases vacia en ${lang}`).toBeGreaterThan(0);
+      expect(titular.toLowerCase(), `el titular no nombra "${etiqueta}" en ${lang}`).toContain(etiqueta.toLowerCase());
+    }
+  });
+
+  /**
+   * La cifra de la primera pantalla tiene que salir de un dato que el sitio ya sostiene.
+   *
+   * Era "100 %", un porcentaje sin nada contra que compararse: ninguna empresa anuncia que esta
+   * enfocada a medias. Ocupaba el lugar donde se espera informacion sin informar. Punto 07 de la
+   * auditoria UX/UI.
+   *
+   * Ahora son los anos de experiencia, que ya estaban escritos en la seccion "por que Appland".
+   * La prueba ata la cifra del hero a esa frase: cambiar una sin la otra deja al sitio diciendo
+   * dos numeros distintos sobre lo mismo, que es peor que el porcentaje vacio.
+   */
+  it('backs the hero figure with a claim the site already makes', async () => {
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const entries = await load(lang);
+      const cifra = String(entries.get('home.hero.cardMetric')).replace(/\D/g, '');
+      const respaldo = String(entries.get('home.why.experience.statement'));
+
+      expect(cifra, `la cifra del hero no tiene numero en ${lang}`).not.toBe('');
+      expect(respaldo, `la cifra ${cifra} del hero no aparece en el dato aprobado en ${lang}`).toContain(cifra);
+    }
+  });
+
+  /**
    * El titulo del hero se pinta partido en dos campos porque el tramo final va en cian. Si uno
    * de los dos quedara vacio en un idioma, ese idioma perderia media frase o el resaltado.
    */

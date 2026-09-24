@@ -50,7 +50,7 @@ describe('MenuComponent navigation', () => {
     expect(links.map((link) => link.nativeElement.textContent.trim())).toEqual([
       'Inicio',
       'Servicios',
-      'Casos de éxito',
+      'Proyectos',
       'Nosotros',
       'Contacto',
     ]);
@@ -69,7 +69,7 @@ describe('MenuComponent navigation', () => {
     fixture.detectChanges();
     const active = fixture.debugElement.queryAll(By.css('.menu__desktop-links [aria-current="location"]'));
     expect(active.length).toBe(1);
-    expect(active[0].nativeElement.textContent.trim()).toBe('Casos de éxito');
+    expect(active[0].nativeElement.textContent.trim()).toBe('Proyectos');
     expect(active[0].classes['menu__link--active']).toBe(true);
 
     fixture.componentInstance.openMenu();
