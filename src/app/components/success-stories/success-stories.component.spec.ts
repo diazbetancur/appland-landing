@@ -1,3 +1,4 @@
+import { page } from 'vitest/browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HOME_CONTENT, selectVisibleCases } from '../../feature/pages/home/home-content.config';
@@ -37,6 +38,12 @@ describe('SuccessStoriesComponent', () => {
     expect(fixture.debugElement.query(By.css('.case-card a'))).toBeNull();
   });
 
+  /**
+   * El viewport por defecto del navegador de pruebas esta por debajo de 1024 px, asi que este
+   * caso describe el modo carrusel. El modo cuadricula se comprueba mas abajo fijando el ancho:
+   * las dos formas coexisten y ninguna prueba puede dar por supuesto el ancho en el que corre,
+   * que es como el recorte llego a produccion con las pruebas en verde.
+   */
   it('exposes a labelled, focusable manual carousel without autoplay', () => {
     const track = fixture.debugElement.query(By.css('[aria-roledescription="carrusel"]'));
     expect(track.attributes['aria-labelledby']).toBe('casos-title');
@@ -85,6 +92,80 @@ describe('SuccessStoriesComponent', () => {
     const highlighted = fixture.debugElement.query(By.css('.cases__highlight')).nativeElement;
 
     expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
+
+  /**
+   * Los proyectos publicados son cuatro y solo entraban tres.
+   *
+   * La regla de escritorio fijaba `calc((100% - 3rem) / 3)`, tres columnas contadas a mano, asi
+   * que la cuarta ficha quedaba fuera: asomaba un 36% a 1024 px y un 17% a 1920, lo justo para
+   * leerse como un borde. Quien no usaba la flecha se iba con tres de cuatro. Punto 10 de la
+   * auditoria UX/UI.
+   *
+   * No se comprueba que haya cuatro columnas sino que entren todas las fichas publicadas, sean
+   * las que sean: la regla reparte el ancho con `minmax(0, 1fr)` y un quinto proyecto tiene que
+   * acomodarse sin tocar nada.
+   */
+  describe('on desktop', () => {
+    /** El viewport del iframe sobrevive a la prueba que lo cambia, asi que se devuelve. */
+    const original = { width: window.innerWidth, height: window.innerHeight };
+    afterEach(async () => {
+      await page.viewport(original.width, original.height);
+    });
+
+    /**
+     * El componente resuelve el modo al crearse, asi que la ficha se monta despues de fijar el
+     * ancho y no antes. Cambiar el viewport sobre una ficha ya montada dejaba la prueba a merced
+     * de cuando el navegador despacha el evento de la media query: pasaba aislada y fallaba en la
+     * suite completa. El oyente de cambios se comprueba aparte, con la consulta simulada.
+     */
+    const settle = async (width: number): Promise<void> => {
+      await page.viewport(width, 900);
+      fixture = TestBed.createComponent(SuccessStoriesComponent);
+      fixture.componentInstance.cases = selectVisibleCases();
+      fixture.detectChanges();
+      await fixture.whenStable();
+    };
+
+    for (const width of [1100, 1440, 1920]) {
+      it(`shows every published case at once, with nothing left to scroll at ${width}px`, async () => {
+        await settle(width);
+
+        const track = fixture.debugElement.query(By.css('.cases__track')).nativeElement as HTMLElement;
+        const cards = [...track.querySelectorAll('.case-card')];
+        const box = track.getBoundingClientRect();
+
+        expect(cards.length).toBe(selectVisibleCases().length);
+        expect(track.scrollWidth - track.clientWidth, 'quedo carrusel escondido').toBeLessThanOrEqual(1);
+
+        for (const card of cards) {
+          const rect = card.getBoundingClientRect();
+          const visible = Math.min(rect.right, box.right) - Math.max(rect.left, box.left);
+          const name = card.querySelector('h3')!.textContent!.trim();
+          expect(Math.round(visible), `${name} se ve cortada`).toBeGreaterThanOrEqual(Math.round(rect.width) - 1);
+        }
+      });
+    }
+
+    /** Sin nada que desplazar, las flechas y el anuncio de posicion gobiernan un carrusel que no existe. */
+    it('drops the arrows and the carousel semantics', async () => {
+      await settle(1440);
+
+      const track = fixture.debugElement.query(By.css('.cases__track')).nativeElement as HTMLElement;
+
+      expect(fixture.debugElement.queryAll(By.css('.cases__control')).length).toBe(0);
+      expect(track.getAttribute('aria-roledescription')).toBeNull();
+      expect(track.getAttribute('tabindex')).toBeNull();
+      expect(fixture.debugElement.query(By.css('.cases__position'))).toBeNull();
+    });
+
+    /** Y por debajo del umbral siguen estando, porque ahi si hay algo que desplazar. */
+    it('keeps them below the threshold', async () => {
+      await settle(900);
+
+      expect(fixture.debugElement.queryAll(By.css('.cases__control')).length).toBe(2);
+      expect(fixture.debugElement.query(By.css('.cases__position'))).not.toBeNull();
+    });
   });
 
   /**

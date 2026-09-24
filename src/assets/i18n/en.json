@@ -39,6 +39,7 @@
   "a11y": {
     "brandHome": "APPLAND, home",
     "carousel": "carousel",
+    "carouselPosition": "{{current}} of {{total}}",
     "skipToContent": "Skip to main content"
   },
   "chooseUs": "Why Trust Appland?",
@@ -57,8 +58,7 @@
   "globalTeamDescription": "from multiple countries to provide continuous coverage",
   "home": {
     "actions": {
-      "meeting": "Book a meeting",
-      "meetingShort": "Book a meeting",
+      "meeting": "Let’s discuss your project",
       "productInquiry": "Request information",
       "services": "Our services",
       "whatsapp": "Message us on WhatsApp",
@@ -192,7 +192,7 @@
       "cardSolutions": "Tailor-made<br />solutions",
       "ghostBottom": "OUR <span>TECHNOLOGY</span>",
       "ghostTop": "YOUR VISION",
-      "subtitle": "Software development, Artificial Intelligence, SaaS Automation and Staff Augmentation for companies looking to grow better and faster.",
+      "subtitle": "Software Development, Artificial Intelligence, SaaS, Staff Augmentation, Process Automation and Technology Consulting for companies looking to grow better and faster.",
       "titleHighlight": "with intelligent technology.",
       "titleLead": "We move your business forward "
     },
@@ -316,7 +316,7 @@
       },
       "groupLabel": "Language"
     },
-    "meetingShort": "Book",
+    "meetingShort": "Let’s talk",
     "navLabel": "Main navigation",
     "open": "Open menu"
   },

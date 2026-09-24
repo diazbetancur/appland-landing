@@ -49,6 +49,10 @@
   gap: 0.15rem;
 }
 
+/* `white-space: nowrap` porque la barra mide 84 px de alto y una etiqueta partida no cabe:
+   sin el, al apretar el espacio horizontal el navegador rompia el texto donde fuera y "Casos
+   de exito" caia en tres renglones a 1024. El sitio es bilingue y las etiquetas inglesas no
+   miden lo mismo, asi que dejarlo al azar del ancho disponible no era una opcion. */
 .menu__link {
   min-height: 44px;
   display: inline-flex;
@@ -58,6 +62,7 @@
   color: var(--appland-muted);
   font-size: 0.9rem;
   font-weight: 650;
+  white-space: nowrap;
 }
 
 .menu__link:hover,

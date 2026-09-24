@@ -1,14 +1,16 @@
 import type { Mock } from 'vitest';
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { HorizontalCarouselDirective } from './horizontal-carousel.directive';
+import { useTranslations } from '../i18n/translations.testing';
 
 describe('HorizontalCarouselDirective', () => {
   let element: HTMLElement;
   let directive: HorizontalCarouselDirective;
   let scrollBy: Mock;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     element = document.createElement('div');
     const card = document.createElement('article');
     element.appendChild(card);
@@ -22,8 +24,14 @@ describe('HorizontalCarouselDirective', () => {
     // La directiva obtiene ElementRef con inject() desde el spec 006, asi que se instancia
     // dentro de un contexto de inyeccion con el elemento de prueba como proveedor.
     TestBed.configureTestingModule({
-      providers: [{ provide: ElementRef, useValue: new ElementRef(element) }],
+      providers: [
+        { provide: ElementRef, useValue: new ElementRef(element) },
+        provideTranslateService({ fallbackLang: 'es' }),
+      ],
     });
+    // La directiva traduce la etiqueta de posicion, asi que necesita las traducciones reales
+    // cargadas antes de instanciarse, igual que las pruebas de los componentes.
+    await useTranslations();
     directive = TestBed.runInInjectionContext(() => new HorizontalCarouselDirective());
     directive.itemCount = 3;
   });
@@ -47,6 +55,29 @@ describe('HorizontalCarouselDirective', () => {
     expect(directive.positionLabel).toBe('3 de 3');
     expect(directive.canMovePrevious).toBe(true);
     expect(directive.canMoveNext).toBe(false);
+  });
+
+  /**
+   * La posicion se anuncia en el idioma activo.
+   *
+   * El texto se armaba en TypeScript con la palabra "de" escrita a mano, sin pasar por las
+   * traducciones, y alimenta dos regiones `aria-live`: los carruseles de proyectos y de
+   * productos. En ingles un lector de pantalla anunciaba "3 de 3".
+   *
+   * Al no entrar nunca a los archivos de traduccion, la prueba de paridad de claves no podia
+   * verlo, y la prueba de esta misma directiva fijaba el texto en espanol, asi que congelaba el
+   * fallo en vez de detectarlo. Solo lo escuchaba quien navega sin ver la pantalla, que es
+   * justo quien depende de el.
+   */
+  it('announces the position in the active language', async () => {
+    element.scrollLeft = 600;
+    directive.updateState();
+
+    expect(directive.positionLabel).toBe('3 de 3');
+
+    await useTranslations('en');
+
+    expect(directive.positionLabel).toBe('3 of 3');
   });
 
   it('supports arrow keys and prevents accidental page scrolling', () => {

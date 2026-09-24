@@ -199,9 +199,26 @@
  * utilidad, porque Angular anade especificidad extra a los estilos de componente.
  */
 
+/**
+ * Desde 1024 px las fichas dejan de desplazarse y se reparten el ancho.
+ *
+ * Con `calc((100% - 3rem) / 3)` cabian tres, y los proyectos publicados son cuatro: la cuarta
+ * asomaba el 36% a 1024 px y solo el 17% a 1920, lo justo para leerse como un borde y no como
+ * un proyecto, y quien no usaba la flecha se iba con tres de cuatro.
+ *
+ * Las columnas no se cuentan a mano: `minmax(0, 1fr)` las reparte, asi que entran las que haya.
+ * Si entra un quinto proyecto, la fila lo acomoda sin tocar esta regla.
+ *
+ * Tambien se va el desplazamiento. El relleno lateral existia para apartar las fichas de las
+ * flechas, y sumado al ancho de las columnas empujaba el `scrollWidth` por encima del visible:
+ * dejarlo habria mantenido 400 px de scroll fantasma con las cuatro ya visibles.
+ */
 @media (min-width: 1024px) {
   .cases__track {
-    grid-auto-columns: calc((100% - 3rem) / 3);
+    grid-auto-columns: minmax(0, 1fr);
+    overflow: visible;
+    padding-inline: 0;
+    scroll-snap-type: none;
   }
 
   /* With fewer cards than columns the track would leave a large gap on the

@@ -222,7 +222,9 @@ textarea {
   color: var(--appland-primary);
 }
 
-/* El tramo resaltado del texto decorativo del hero, tenue como el resto de esa frase. */
+/* El tramo resaltado del texto decorativo del hero, tenue como el resto de esa frase.
+   Estaba en 0.42 contra el 0.16 de su propia linea, dos veces y media mas presente: era el
+   elemento mas fuerte del hero, por delante del titular. */
 .hero__ghost--bottom span {
-  color: rgba(20, 184, 196, 0.42);
+  color: rgba(20, 184, 196, 0.28);
 }
