@@ -187,8 +187,8 @@
       "title": "Ready to <span class=\"contact__highlight\">transform</span> your business?"
     },
     "hero": {
-      "cardMetric": "100%",
-      "cardMetricCaption": "focused on your business",
+      "cardMetric": "+13",
+      "cardMetricCaption": "years of experience",
       "cardSolutions": "Tailor-made<br />solutions",
       "ghostBottom": "OUR <span>TECHNOLOGY</span>",
       "ghostTop": "YOUR VISION",
@@ -322,7 +322,7 @@
   },
   "nav": {
     "about": "About us",
-    "cases": "Case studies",
+    "cases": "Projects",
     "contact": "Contact",
     "home": "Home",
     "services": "Services"
