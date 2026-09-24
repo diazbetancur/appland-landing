@@ -1,0 +1,89 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
+import { WhyComponent } from './why.component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
+
+describe('WhyComponent', () => {
+  let fixture: ComponentFixture<WhyComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, WhyComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
+    }).compileComponents();
+    await useTranslations();
+    fixture = TestBed.createComponent(WhyComponent);
+    fixture.componentRef.setInput('benefits', HOME_CONTENT.benefits);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
+    fixture.detectChanges();
+  });
+
+  it('renders the seven official attributes with descriptions at the Nosotros destination', () => {
+    expect(fixture.debugElement.query(By.css('#por-que-appland-title'))).not.toBeNull();
+    expect(fixture.debugElement.queryAll(By.css('.why__grid li')).length).toBe(7);
+    HOME_CONTENT.benefits.forEach((benefit) => {
+      expect(fixture.nativeElement.textContent).toContain(t(benefit.statementKey));
+      expect(fixture.nativeElement.textContent).toContain(t(benefit.descriptionKey));
+    });
+  });
+
+  it('resolves the contact action to the approved destination', () => {
+    const cta = fixture.debugElement.query(By.css('.why__cta'));
+    expect(cta.nativeElement.textContent.trim()).toContain('Conversemos sobre tu proyecto');
+    expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+  });
+
+  it('gives every attribute a decorative icon that adds no accessible text', () => {
+    const icons = fixture.debugElement.queryAll(By.css('.why__icon'));
+    expect(icons.length).toBe(HOME_CONTENT.benefits.length);
+    icons.forEach((icon) => {
+      expect(icon.attributes['aria-hidden']).toBe('true');
+      expect(icon.query(By.css('svg'))).not.toBeNull();
+    });
+  });
+
+  it('contains no testimonial content', () => {
+    expect(fixture.nativeElement.textContent.toLowerCase()).not.toContain('testimonio');
+    expect(fixture.debugElement.query(By.css('[class*="testimonial"]'))).toBeNull();
+  });
+
+  it('states the years-of-experience claim once, inside the attribute list', () => {
+    // El subtitulo de la seccion repetia una afirmacion que el primer atributo ya hace.
+    // La prueba fija que aparezca una sola vez, en vez de asserear la ausencia de un
+    // elemento eliminado, que es una condicion que ya no podria fallar.
+    const mentions = fixture.nativeElement.textContent.match(/13 años/g) ?? [];
+
+    expect(mentions.length).toBe(1);
+    expect(fixture.debugElement.query(By.css('.why__grid')).nativeElement.textContent).toContain('13 años');
+  });
+
+  it('renders the approved heading and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#por-que-appland-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Por qué empresas eligen trabajar con nosotros');
+    expect(heading.query(By.css('.why__highlight')).nativeElement.textContent.trim()).toBe('trabajar');
+    expect(fixture.nativeElement.textContent).toContain('Conversemos sobre tu proyecto');
+  });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#por-que-appland-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.why__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
+});

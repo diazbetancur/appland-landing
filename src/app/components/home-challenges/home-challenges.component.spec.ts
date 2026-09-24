@@ -1,0 +1,92 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
+import { HomeChallengesComponent } from './home-challenges.component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
+
+describe('HomeChallengesComponent', () => {
+  let fixture: ComponentFixture<HomeChallengesComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HomeChallengesComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
+    }).compileComponents();
+    await useTranslations();
+    fixture = TestBed.createComponent(HomeChallengesComponent);
+    fixture.componentRef.setInput('challenges', HOME_CONTENT.challenges);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
+    fixture.detectChanges();
+  });
+
+  it('renders five semantic challenge and response cards', () => {
+    const cards = fixture.debugElement.queryAll(By.css('.challenge'));
+    expect(cards.length).toBe(5);
+    HOME_CONTENT.challenges.forEach((challenge) => {
+      expect(fixture.nativeElement.textContent).toContain(t(challenge.problemKey));
+      expect(fixture.nativeElement.textContent).toContain(t(challenge.responseKey));
+    });
+    expect(fixture.debugElement.queryAll(By.css('h2')).length).toBe(1);
+    expect(fixture.debugElement.queryAll(By.css('h3')).length).toBe(5);
+  });
+
+  it('renders each approved challenge photo with its own informative alt text', () => {
+    const images = fixture.debugElement.queryAll(By.css('.challenge__media img'));
+    expect(images.length).toBe(5);
+    images.forEach((image, index) => {
+      const media = HOME_CONTENT.challenges[index].media!;
+      expect(image.attributes['src']).toContain(media.src);
+      expect(image.attributes['alt']).toBe(t(media.altKey));
+      expect(image.attributes['alt']).not.toBe('');
+      expect(image.attributes['loading']).toBe('lazy');
+    });
+  });
+
+  it('exposes one contact action that resolves to the approved destination', () => {
+    const cta = fixture.debugElement.query(By.css('.challenges__cta'));
+    expect(cta).not.toBeNull();
+    expect(cta.nativeElement.textContent.trim()).toContain('Hablemos de tu proyecto');
+    expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+  });
+
+  it('keeps the decorative graphics out of the accessibility tree', () => {
+    fixture.debugElement.queryAll(By.css('.challenges__wave, .challenges__sphere')).forEach((image) => {
+      expect(image.attributes['alt']).toBe('');
+      expect(image.attributes['aria-hidden']).toBe('true');
+    });
+  });
+
+  it('renders the approved heading, lead and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#desafios-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('¿Qué desafíos podemos ayudarte a resolver?');
+    expect(heading.query(By.css('.challenges__highlight')).nativeElement.textContent.trim()).toBe('resolver?');
+    expect(fixture.debugElement.query(By.css('.challenges__lead')).nativeElement.textContent.trim()).toBe(
+      'Identificamos los retos que frenan tu crecimiento y desarrollamos soluciones tecnológicas a la medida.',
+    );
+    expect(fixture.debugElement.query(By.css('.challenges__cta')).nativeElement.textContent.trim()).toBe(
+      'Hablemos de tu proyecto',
+    );
+  });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#desafios-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.challenges__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
+});

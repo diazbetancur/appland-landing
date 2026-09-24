@@ -1,61 +1,432 @@
-.container {
-  display: flex;
-  flex-direction: row;
-  background-size: cover;
-  background-position: center;
-  height: 100vh; /* ajusta el alto según sea necesario */
+:host {
+  display: block;
 }
 
-.image {
-  flex-basis: 50%;
-  display: flex;
-  justify-content: center;
+/**
+ * El cuerpo del texto decorativo y el ancho de la laptop se leen desde dos reglas cada uno: la
+ * que los pinta y la formula que alinea el fantasma con el centro optico de la laptop. Estaban
+ * copiados literalmente en ambas, asi que cambiar uno obligaba a acordarse del otro y cada
+ * ronda lo rompia por el lado que no se habia tocado. Aqui viven una sola vez.
+ *
+ * El cuerpo baja de `10vw / 9rem` a `9vw / 8rem`: de 144 px a 128 a 1440. Es un ajuste corto a
+ * proposito. El punto 02 de la auditoria pedia que la decoracion dejara de pesar mas que el
+ * mensaje, y se probo bajarla al doble exacto del titular -- 93 px --, pero a ese tamano la
+ * frase deja de leerse como el telon de fondo que sostiene la composicion y se descarto. El
+ * grueso de la correccion lo hace la tinta, que era la otra via que el propio reporte proponia.
+ */
+.hero {
+  --hero-ghost-size: clamp(3.2rem, 9vw, 8rem);
+  --hero-laptop-width: clamp(560px, 57vw, 1000px);
+
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 24%, rgba(20, 184, 196, 0.14), transparent 32rem),
+    radial-gradient(circle at 8% 82%, rgba(20, 184, 196, 0.1), transparent 30rem), var(--appland-bg);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-block: clamp(1rem, 3.25vw, 1rem) clamp(5rem, 16vw, 14rem);
 }
 
-.image img {
+.hero__content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.hero__visual {
+  min-width: 0;
+}
+
+h1 {
+  max-width: 16ch;
+  margin: 0 0 1.15rem;
+  font-size: clamp(1.8rem, 3.24vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.hero__subtitle {
+  max-width: 46ch;
+  margin: 0 0 2rem;
+  color: var(--appland-muted);
+  font-size: clamp(0.98rem, 1.1vw, 1.08rem);
+  line-height: 1.6;
+}
+
+.hero__highlight {
+  color: var(--appland-primary);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero__actions {
+    flex-wrap: nowrap;
+  }
+
+  .hero__actions .appland-button {
+    white-space: nowrap;
+  }
+}
+
+.hero__actions svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+/**
+ * El boton de conversion del hero va en naranja, mientras el del menu principal se mantiene
+ * en cyan. Los dos comparten la clase global `.appland-button--primary`, asi que la regla se
+ * acota a `.hero__actions`: cambiar la clase global arrastraria tambien al del menu.
+ */
+.hero__actions .appland-button--primary {
+  background: var(--appland-secondary);
+  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
+}
+
+.hero__actions .appland-button--primary:hover {
+  background: var(--appland-secondary-hover);
+}
+
+.hero__visual {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+.hero__laptop {
+  min-width: 0;
+  flex: 1 1 auto;
   width: 100%;
+  max-width: 780px;
   height: auto;
-  max-height: 690px;
-  object-fit: cover;
+  pointer-events: none;
 }
 
-.description {
-  flex-basis: 50%;
-  padding: 20px;
+.hero__cards {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  flex-shrink: 0;
+  gap: 1rem;
+  width: clamp(132px, 11.5vw, 158px);
+}
+
+/* Desktop: the laptop becomes a large background layer that every other
+   hero element overlays, matching the approved reference composition. */
+/**
+ * La franja de suelo que deja ver "NUESTRA TECNOLOGIA".
+ *
+ * El equipo es absoluto desde 1024 px y crece hasta 1000 px de ancho, o sea 667 de alto sobre
+ * un hero de 684: se comia esa frase entera -- el 78% de su ancho a 1440 y el 86% a 1920 --
+ * porque las dos ocupaban la misma banda.
+ *
+ * El relleno va en `.hero` y no en `.hero__inner` a proposito, y esa es toda la idea: el equipo
+ * se posiciona respecto al segundo, asi que crecer el primero abre suelo por debajo sin moverlo
+ * ni un pixel. Metido en `.hero__inner`, el equipo baja con el relleno y no se gana nada; medido,
+ * hacian falta 36rem ahi para el mismo efecto que 12 aqui, con el hero en 1084 px.
+ *
+ * La frase de abajo cuelga de `.hero`, de modo que cae dentro de la franja nueva.
+ */
+@media (min-width: 1024px) {
+  .hero {
+    padding-block: 5rem clamp(10rem, 11vw, 13rem);
+  }
+
+  .hero__laptop {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 24%;
+    width: var(--hero-laptop-width);
+    max-width: none;
+    transform: translateY(-42%);
+  }
+}
+
+.hero__card {
+  padding: 1.15rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--appland-radius);
+  background: linear-gradient(170deg, rgba(30, 40, 53, 0.34), rgba(13, 19, 27, 0.22));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.hero__card--accent {
+  border-color: rgba(20, 184, 196, 0.35);
+  background: linear-gradient(170deg, rgba(20, 184, 196, 0.18), rgba(11, 18, 20, 0.22));
+}
+
+.hero__card p {
+  margin: 0;
+  color: var(--appland-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.hero__card-metric {
+  margin: 0 0 0.15rem !important;
+  color: var(--appland-text) !important;
+  font-size: 1.6rem !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.03em;
+}
+
+.hero__card-icon {
+  display: flex;
+  width: 38px;
+  height: 38px;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+  border-radius: 11px;
 }
 
-.text-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: white;
+.hero__card-icon--primary {
+  border: 1px solid rgba(20, 184, 196, 0.5);
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.42), rgba(20, 184, 196, 0.1));
+  box-shadow:
+    0 0 22px rgba(20, 184, 196, 0.45),
+    inset 0 0 14px rgba(20, 184, 196, 0.3);
 }
 
-.text {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: white;
-  text-align: center;
+.hero__card-icon--primary svg {
+  stroke: #7bf0f8;
+  filter: drop-shadow(0 0 5px rgba(20, 184, 196, 0.9));
 }
 
-@media (max-width: 768px) {
-  .container {
+.hero__card-icon--secondary {
+  border: 1px solid rgba(20, 184, 196, 0.55);
+  background: radial-gradient(circle at 50% 40%, rgba(20, 184, 196, 0.5), rgba(20, 184, 196, 0.14));
+  box-shadow:
+    0 0 22px rgba(20, 184, 196, 0.45),
+    inset 0 0 14px rgba(20, 184, 196, 0.3);
+}
+
+.hero__card-icon--secondary svg {
+  stroke: #8fe3ea;
+  filter: drop-shadow(0 0 5px rgba(20, 184, 196, 0.9));
+}
+
+.hero__ghost {
+  position: absolute;
+  z-index: 0;
+  margin: 0;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/**
+ * El texto se ancla al borde derecho y crece hacia la izquierda.
+ *
+ * Antes arrancaba en `left: 45%` y crecia hacia la derecha, con `white-space: nowrap` dentro de
+ * un `.hero` con `overflow: hidden`: su ancho depende del largo de la copia y su origen era un
+ * porcentaje fijo, asi que cuanto mas larga la frase mas se salia por el filo derecho. En
+ * espanol quedaba justo al borde y en ingles, con "YOUR VISION", se perdian 136 px a 1440.
+ *
+ * Anclarlo por la derecha invierte esa dependencia: el final queda a una distancia fija del
+ * borde y lo que crece es el arranque, hacia la izquierda, donde el titular y la laptop lo
+ * tapan y el recorte se lee como decision y no como desborde.
+ *
+ * El hueco contra ese borde tampoco es simbolico. Con los 29 px que dejaba `2vw` a 1440 el
+ * texto entraba entero pero sin aire, y un remate pegado al filo se lee como desborde aunque
+ * no falte un pixel: es la queja que volvio en la auditoria despues de que el recorte real ya
+ * estuviera corregido. El margen actual da 58 px a 1440 y 72 a 1920.
+ */
+.hero__ghost--top {
+  top: clamp(1.5rem, 6vw, 5rem);
+  left: auto;
+  right: clamp(1rem, 4vw, 4.5rem);
+  font-size: var(--hero-ghost-size);
+  /*
+   * Opacidad rebajada del 0.52 original al 0.24, y de ahi al 0.16 actual.
+   *
+   * Punto 02 de la auditoria UX/UI: "en la misma pantalla hay dos frases grandes, el mensaje y
+   * la del fondo, y la decoracion es mas grande que el mensaje". El tamano se conserva, asi que
+   * la unica palanca que queda es el peso: 0.16 en su punto mas alto, degradando a 0.02, contra
+   * el 0.2 plano del texto decorativo de abajo. Las dos frases quedan en la misma franja de
+   * tinta y se leen como una sola textura.
+   */
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0.16), rgba(245, 247, 250, 0.02));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/**
+ * La franja de abajo de la composicion: va centrada sobre el eje del equipo y por debajo de el,
+ * nunca a su costado ni encima.
+ *
+ * Se apoya en el pie del hero en vez de calcularse contra el equipo, que es lo que le permite
+ * quedar debajo sin formula: quien le abre el suelo es el relleno inferior de `.hero`, y quien
+ * la separa del canto es este hueco, que subio de `2vw` a `2.6vw` para despegarla del pie.
+ *
+ * El cuerpo no lleva minimo a proposito: con un `clamp` con minimo, por debajo de cierto ancho
+ * es el quien manda y el `vw` deja de acotar nada, asi que el recorte volvia a 560 px con
+ * 2.4rem y a 320 con 2.3rem. Es texto decorativo: en una ventana angosta corresponde que sea
+ * pequeno.
+ */
+.hero__ghost--bottom {
+  bottom: clamp(0.75rem, 2.6vw, 3rem);
+  left: 50%;
+  transform: translateX(-32%);
+  color: rgba(245, 247, 250, 0.2);
+  font-size: min(6.4vw, 5.6rem);
+}
+
+/**
+ * El texto se apoya por encima del borde superior visible del equipo, despejado.
+ *
+ * `50% - 0.384 * 0.667 * ancho` es ese borde: el alto renderizado del equipo es 0.667 de su
+ * ancho, su caja sube un 42% desde el centro y sus pixeles visibles arrancan un 3.6% por debajo
+ * del borde de la caja. Restarle 1.6 veces el cuerpo lo levanta por encima con aire de sobra:
+ * una vez por el alto de su caja, y el resto por los trazos que `line-height: 1` desborda hacia
+ * arriba mas el hueco que lo separa tanto del equipo como de las tarjetas.
+ *
+ * El 1.6 y el `padding-top` de arriba se calibraron juntos y no se tocan por separado: sin ese
+ * techo, el multiplicador saca la frase por el borde del hero y el `max()` la devuelve a donde
+ * estaba, detras del equipo. Con el 0.75 original el equipo le tapaba el cuarto inferior de las
+ * letras a proposito, y las tarjetas se le montaban encima 46 px mas.
+ *
+ * El `max()` es el suelo contra el borde del hero, que recorta con `overflow: hidden`. Sin el,
+ * pasados los ~1700 px la posicion calculada se iba a negativa y al texto se le cortaba la
+ * cabeza: 22 px a 1920, la tilde de la O entera. Debe ir despues de la regla base.
+ */
+@media (min-width: 1024px) {
+  .hero__ghost--top {
+    top: max(1rem, 50% - 0.384 * 0.667 * var(--hero-laptop-width) - 1.6 * var(--hero-ghost-size));
+  }
+}
+
+/* Las tarjetas se centran en la columna derecha y por eso caian dentro de la banda vertical
+   que ocupa "TU VISION", que es absoluta, no hace wrap y se extiende hacia la derecha. Cuanto
+   mas estrecha la ventana, mas se monta la cola del texto sobre ellas: el solape medido va de
+   105px a 1024px hasta 0 a 1920px, donde el texto ya no alcanza la columna. El desplazamiento
+   sigue esa misma pendiente y deja ~15px de aire en el peor caso. Debe ir despues de la regla
+   base de .hero__cards. */
+@media (min-width: 1024px) {
+  .hero__cards {
+    transform: translateY(clamp(0px, 167px - 6.8vw, 98px));
+  }
+}
+
+.hero__wave {
+  position: absolute;
+  z-index: 0;
+  bottom: -2%;
+  left: -6%;
+  width: clamp(280px, 42vw, 620px);
+  height: auto;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.hero__sphere {
+  position: absolute;
+  z-index: 1;
+  right: clamp(0.5rem, 3vw, 3rem);
+  bottom: clamp(1rem, 5vw, 5rem);
+  width: clamp(72px, 9vw, 132px);
+  height: auto;
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 4.5rem;
+  }
+
+  h1 {
+    max-width: 20ch;
+  }
+
+  .hero__visual {
+    justify-content: center;
+  }
+
+  .hero__laptop {
+    margin-inline-start: 0;
+  }
+
+  /* Se cambia el token y no el `font-size`, para que la formula que alinea el fantasma con la
+     laptop siga leyendo el mismo valor que se pinta. */
+  .hero {
+    --hero-ghost-size: clamp(2.4rem, 9vw, 4.6rem);
+  }
+
+  .hero__sphere {
+    width: clamp(64px, 11vw, 96px);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero__visual {
     flex-direction: column;
-    margin-top: 15%;
-  }
-  .image {
-    order: 2;
-  }
-  .description {
-    order: 1;
+    align-items: stretch;
   }
 
-  .text-title {
-    font-size: 1.5rem;
+  .hero__laptop {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .hero__cards {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .hero__card {
+    flex: 1 1 0;
+  }
+}
+
+@media (max-width: 559px) {
+  .hero__inner {
+    padding-block: 2.5rem 3.5rem;
+  }
+
+  .hero__actions .appland-button {
+    width: 100%;
+  }
+
+  .hero__ghost--top {
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+
+  /* Misma cota y mismo motivo que la regla base: 8vw dejaba 42 px fuera a 390 px de ancho. */
+  .hero__ghost--bottom {
+    font-size: min(6.4vw, 2.2rem);
+  }
+
+  .hero__sphere {
+    width: 62px;
   }
 }

@@ -1,46 +1,80 @@
-<div class="global-team-container">
-  <!-- Header Section -->
-  <div class="header-section">
-    <div class="animated-globe">
-      <div
-        class="globe-ring"
-        [style.transform]="'rotate(' + globeRotation + 'deg)'"
-      ></div>
-      <div class="globe-core">🌍</div>
-    </div>
-    <h2 class="main-title">
-      <span class="gradient-text">{{ "globalTeam" | translate }} </span>
-    </h2>
-    <p class="subtitle">
-      {{ "operation" | translate }} <span class="highlight">24/7</span>
-      {{ "globalTeamDescription" | translate }}
-    </p>
+<div class="appland-container team">
+  <div class="team__content">
+    <span class="team__rule" aria-hidden="true"></span>
+    <h2 id="equipo-global-title" class="appland-heading" [innerHTML]="'home.team.title' | translate"></h2>
+    <p class="team__lead">{{ 'home.team.lead' | translate }}</p>
+
+    @if (resolvedContactAction; as action) {
+      @if (action.kind === 'router') {
+        <a class="appland-button team__cta" [routerLink]="['/']" [fragment]="action.fragment">
+          {{ 'home.team.cta' | translate }}
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      } @else {
+        <a class="appland-button team__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
+          {{ 'home.team.cta' | translate }}
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      }
+    }
+
+    <img
+      class="team__wave"
+      src="assets/images/home/hero/wave.png"
+      width="700"
+      height="233"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    />
+    <img
+      class="team__sphere"
+      src="assets/images/home/hero/sphere.png"
+      width="260"
+      height="241"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    />
   </div>
-  <!-- Country Cards -->
-  <div class="countries-grid">
-    <div
-      *ngFor="let country of countries; let i = index"
-      class="country-card"
-      [style.animation-delay]="i * 0.1 + 's'"
-      (click)="selectCountry(country)"
-      [class.selected]="selectedCountry?.name === country.name"
-      onkeypress
-    >
-      <div class="card-header">
-        <!-- <span class="flag-large">{{ country.flag }}</span> -->
-        <img
-          [src]="'https://flagcdn.com/64x48/' + country.flag + '.png'"
-          alt
-          class="flag-img"
-        />
-        <div class="country-info">
-          <h3>{{ country.name }}</h3>
-          <div class="live-time">
-            <div class="time-indicator"></div>
-            {{ country.currentTime }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <ul class="team__countries" [attr.aria-label]="'home.team.countriesLabel' | translate">
+    @for (country of countries; track country) {
+      <li class="country-card">
+        <span class="country-card__flag">
+          <img
+            [src]="country.flag.src"
+            [alt]="country.flag.altKey | translate: { country: country.nameKey | translate }"
+            [width]="country.flag.width"
+            [height]="country.flag.height"
+            loading="lazy"
+          />
+        </span>
+        <h3>{{ country.nameKey | translate }}</h3>
+        <span class="country-card__rule" aria-hidden="true"></span>
+      </li>
+    }
+  </ul>
 </div>

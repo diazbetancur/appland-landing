@@ -1,0 +1,92 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
+import { AiSolutionComponent } from './ai-solution.component';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { useTranslations } from '../../shared/i18n/translations.testing';
+
+describe('AiSolutionComponent', () => {
+  let fixture: ComponentFixture<AiSolutionComponent>;
+  /** Traduce una clave del contenido para comparar contra el texto que se pinta. */
+  const t = (key: string): string => TestBed.inject(TranslateService).instant(key);
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, AiSolutionComponent],
+      providers: [provideTranslateService({ fallbackLang: 'es' })],
+    }).compileComponents();
+    await useTranslations();
+    fixture = TestBed.createComponent(AiSolutionComponent);
+    fixture.componentRef.setInput('applications', HOME_CONTENT.aiApplications);
+    fixture.componentRef.setInput('contactAction', HOME_CONTENT.contactAction);
+    fixture.detectChanges();
+  });
+
+  it('renders exactly the nine approved AI applications with their descriptions', () => {
+    const labels = fixture.debugElement
+      .queryAll(By.css('.ai-card h3'))
+      .map((item) => item.nativeElement.textContent.trim());
+    expect(labels).toEqual(HOME_CONTENT.aiApplications.map((item) => t(item.labelKey)));
+
+    const descriptions = fixture.debugElement
+      .queryAll(By.css('.ai-card p'))
+      .map((item) => item.nativeElement.textContent.trim());
+    expect(descriptions).toEqual(HOME_CONTENT.aiApplications.map((item) => t(item.descriptionKey)));
+  });
+
+  it('uses the approved contact fallback', () => {
+    const action = fixture.debugElement.query(By.css('.ai__intro a'));
+    expect(action.attributes['href']).toContain('#contacto');
+  });
+
+  it('keeps the wave and sphere decorations out of the accessibility tree', () => {
+    fixture.debugElement.queryAll(By.css('.ai__wave, .ai__sphere')).forEach((image) => {
+      expect(image.attributes['alt']).toBe('');
+      expect(image.attributes['aria-hidden']).toBe('true');
+    });
+  });
+
+  it('gives every application a decorative icon that adds no accessible text', () => {
+    const icons = fixture.debugElement.queryAll(By.css('.ai-card__icon'));
+    expect(icons.length).toBe(HOME_CONTENT.aiApplications.length);
+    icons.forEach((icon) => {
+      expect(icon.attributes['aria-hidden']).toBe('true');
+      expect(icon.query(By.css('svg'))).not.toBeNull();
+    });
+  });
+
+  it('exposes the applications as one semantic list', () => {
+    expect(fixture.debugElement.queryAll(By.css('.ai__grid > li')).length).toBe(HOME_CONTENT.aiApplications.length);
+  });
+
+  it('renders the approved heading, lead and call to action', () => {
+    const heading = fixture.debugElement.query(By.css('#ia-title'));
+    expect(heading.nativeElement.textContent.trim()).toBe('Inteligencia Artificial aplicada a negocios');
+    expect(heading.query(By.css('.ai__highlight')).nativeElement.textContent.trim()).toBe('negocios');
+    expect(fixture.debugElement.query(By.css('.ai__lead')).nativeElement.textContent.trim()).toBe(
+      'Soluciones de IA que automatizan procesos, mejoran la experiencia del cliente y potencian resultados.',
+    );
+    expect(fixture.debugElement.query(By.css('.ai__cta')).nativeElement.textContent.trim()).toBe(
+      'Descubre cómo la IA puede ayudarte',
+    );
+  });
+
+  /**
+   * El resaltado tiene que distinguirse del resto del titular.
+   *
+   * Comprobar que el `<span>` existe con su palabra no alcanza, y el spec 009 lo demostro: al
+   * pasar el titular a `[innerHTML]`, el nodo deja de recibir el atributo de encapsulacion de
+   * Angular, los estilos del componente dejan de aplicarle y el resaltado quedaba en el color
+   * del titular. El span seguia ahi, con su texto, y las pruebas en verde.
+   *
+   * Se compara contra el color del propio titular en vez de contra un valor fijo, para que la
+   * prueba siga valiendo si cambia la paleta.
+   */
+  it('paints the highlighted fragment in its own colour', () => {
+    const heading = fixture.debugElement.query(By.css('#ia-title')).nativeElement;
+    const highlighted = fixture.debugElement.query(By.css('.ai__highlight')).nativeElement;
+
+    expect(getComputedStyle(highlighted).color).not.toBe(getComputedStyle(heading).color);
+  });
+});
