@@ -13,27 +13,35 @@
     </div>
   </div>
 
+  <!--
+    Las flechas, la semantica de carrusel y el anuncio de posicion solo existen mientras haya
+    carrusel. Desde 1024 px las fichas entran juntas y no queda nada que desplazar: dejarlas
+    pintadas repetiria el error del boton de pausa de los logotipos, un control que no gobierna
+    nada, y anunciaria "3 de 4" sobre una cuadricula donde se ven las cuatro.
+  -->
   <div class="cases__carousel">
-    <button
-      type="button"
-      class="cases__control cases__control--prev"
-      [attr.aria-label]="'home.cases.previous' | translate"
-      [disabled]="!carousel.canMovePrevious"
-      (click)="carousel.movePrevious()"
-    >
-      <svg
-        aria-hidden="true"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+    @if (carouselActive) {
+      <button
+        type="button"
+        class="cases__control cases__control--prev"
+        [attr.aria-label]="'home.cases.previous' | translate"
+        [disabled]="!carousel.canMovePrevious"
+        (click)="carousel.movePrevious()"
       >
-        <path d="M15 5l-7 7 7 7"></path>
-      </svg>
-    </button>
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M15 5l-7 7 7 7"></path>
+        </svg>
+      </button>
+    }
 
     <div
       #carousel="appHorizontalCarousel"
@@ -42,10 +50,10 @@
       appHorizontalCarousel
       [itemCount]="cases.length"
       [loop]="true"
-      role="region"
-      aria-labelledby="casos-title"
-      [attr.aria-roledescription]="'a11y.carousel' | translate"
-      tabindex="0"
+      [attr.role]="carouselActive ? 'region' : null"
+      [attr.aria-labelledby]="carouselActive ? 'casos-title' : null"
+      [attr.aria-roledescription]="carouselActive ? ('a11y.carousel' | translate) : null"
+      [attr.tabindex]="carouselActive ? 0 : null"
     >
       @for (item of cases; track item; let index = $index) {
         <article class="case-card">
@@ -89,32 +97,37 @@
       }
     </div>
 
-    <button
-      type="button"
-      class="cases__control cases__control--next"
-      [attr.aria-label]="'home.cases.next' | translate"
-      [disabled]="!carousel.canMoveNext"
-      (click)="carousel.moveNext()"
-    >
-      <svg
-        aria-hidden="true"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+    @if (carouselActive) {
+      <button
+        type="button"
+        class="cases__control cases__control--next"
+        [attr.aria-label]="'home.cases.next' | translate"
+        [disabled]="!carousel.canMoveNext"
+        (click)="carousel.moveNext()"
       >
-        <path d="M9 5l7 7-7 7"></path>
-      </svg>
-    </button>
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    }
   </div>
+
   <!--
     El recorrido es circular y no lleva indicador de posicion visible: los extremos dejaron de
     existir, asi que las flechas bastan. La posicion si se mantiene para tecnologia asistiva,
     en una region aria-live oculta visualmente, porque quien navega sin ver la pantalla no
     tiene otra forma de saber por donde va.
   -->
-  <p class="cases__position appland-visually-hidden" aria-live="polite">{{ carousel.positionLabel }}</p>
+  @if (carouselActive) {
+    <p class="cases__position appland-visually-hidden" aria-live="polite">{{ carousel.positionLabel }}</p>
+  }
 </div>

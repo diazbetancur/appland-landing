@@ -9,6 +9,7 @@ import {
   Output,
   inject,
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
   selector: '[appHorizontalCarousel]',
@@ -16,6 +17,7 @@ import {
 })
 export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly translate = inject(TranslateService);
 
   @Input() itemCount = 0;
 
@@ -37,8 +39,26 @@ export class HorizontalCarouselDirective implements AfterViewInit, OnDestroy {
   private atEnd = false;
   private destroyed = false;
 
+  /**
+   * Este texto se anuncia en una region `aria-live` y es lo unico que dice por donde va el
+   * carrusel a quien no ve la pantalla, asi que tiene que estar en su idioma.
+   *
+   * Antes se armaba aqui con la palabra "de" escrita a mano y nunca pasaba por las
+   * traducciones: en ingles se anunciaba "3 de 3". Al no existir como clave, la prueba de
+   * paridad entre idiomas tampoco podia verlo.
+   *
+   * Se traduce en el getter, que la plantilla reevalua en cada deteccion de cambios, y un
+   * cambio de idioma la dispara porque los pipes `| translate` de esa misma plantilla marcan
+   * la vista como sucia.
+   */
   get positionLabel(): string {
-    return this.itemCount ? `${this.currentIndex + 1} de ${this.itemCount}` : '';
+    if (!this.itemCount) {
+      return '';
+    }
+    return this.translate.instant('a11y.carouselPosition', {
+      current: this.currentIndex + 1,
+      total: this.itemCount,
+    });
   }
 
   ngAfterViewInit(): void {

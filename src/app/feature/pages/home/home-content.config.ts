@@ -44,8 +44,10 @@ const whatsappAction = {
  * Como ese objeto resuelve al fragmento `contacto`, el boton de la seccion de contacto
  * terminaba enlazando consigo mismo y no llevaba a ninguna parte. Son dos acciones
  * distintas y se declaran por separado.
+ *
+ * Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee la de aqui.
  */
-const contactAction = { ...meetingAction, labelKey: 'home.actions.meetingShort' } as const;
+const contactAction = { ...meetingAction } as const;
 
 const navigation = [
   { id: 'nav-inicio', labelKey: 'nav.home', fragment: 'inicio', prominent: false },
@@ -82,16 +84,16 @@ const contact = {
    * El boton de la propia seccion de contacto abre WhatsApp, no un fragmento: un enlace al
    * fragmento `contacto` desde dentro de la seccion `contacto` no lleva a ningun sitio.
    *
-   * El mensaje precargado lo aprobo el usuario y es lo unico que lo distingue del boton de
-   * WhatsApp contiguo, que abre el chat vacio a proposito.
+   * Es el unico boton de la seccion. Hasta la ronda 4 lo acompanaba un segundo boton de
+   * WhatsApp que abria el chat vacio del mismo numero, asi que ofrecia una eleccion que no lo
+   * era. El mensaje precargado, aprobado por el usuario, conserva la intencion de reunion.
    */
   meetingAction: {
     id: 'contact-meeting',
-    labelKey: 'home.actions.meetingShort',
+    labelKey: 'home.actions.meeting',
     intent: 'whatsapp',
     approvedMessageKey: 'home.actions.whatsappMeetingMessage',
   },
-  whatsappAction,
   email: {
     kind: 'email',
     value: 'hello@applandtech.com',
@@ -317,21 +319,6 @@ export const HOME_CONTENT: HomeContent = {
   ],
   cases: [
     {
-      id: 'toyota',
-      name: 'Toyota',
-      summaryKey: 'home.cases.toyota.summary',
-      descriptionKey: 'home.cases.toyota.description',
-      publicationStatus: 'approved',
-      media: {
-        src: 'assets/images/home/cases/toyota.jpg',
-        width: 640,
-        height: 800,
-        altKey: 'home.cases.toyota.alt',
-        decorative: false,
-        publicationStatus: 'approved',
-      },
-    },
-    {
       id: 'dilo',
       name: 'Dilo',
       summaryKey: 'home.cases.dilo.summary',
@@ -347,8 +334,23 @@ export const HOME_CONTENT: HomeContent = {
       },
     },
     {
+      id: 'toyota',
+      name: 'Toyota',
+      summaryKey: 'home.cases.toyota.summary',
+      descriptionKey: 'home.cases.toyota.description',
+      publicationStatus: 'approved',
+      media: {
+        src: 'assets/images/home/cases/toyota.jpg',
+        width: 640,
+        height: 800,
+        altKey: 'home.cases.toyota.alt',
+        decorative: false,
+        publicationStatus: 'approved',
+      },
+    },
+    {
       id: 'tengo',
-      name: 'Go',
+      name: 'Tengo',
       summaryKey: 'home.cases.tengo.summary',
       descriptionKey: 'home.cases.tengo.description',
       publicationStatus: 'approved',

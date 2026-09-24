@@ -1,3 +1,4 @@
+import { page } from 'vitest/browser';
 import { Component } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -88,5 +89,68 @@ describe('MenuComponent navigation', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('[aria-current="location"]')).length).toBe(0);
     }));
+  });
+  /**
+   * Las etiquetas del menu no se parten por la mitad.
+   *
+   * `.menu__link` no fijaba `white-space`, asi que cuando el espacio horizontal apretaba el
+   * navegador partia el texto donde cupiera: a 1024 "Casos de exito" caia en tres renglones
+   * dentro de una barra de 84 px de alto y quedaba ilegible. Estaba latente desde antes, y lo
+   * destapo el boton de conversion al pasar de "Agendar una reunion" a "Conversemos sobre tu
+   * proyecto", que ocupa 68 px mas.
+   *
+   * Acortar el boton habria escondido el fallo en vez de arreglarlo: la barra seguiria
+   * partiendo la siguiente etiqueta que creciera, en este idioma o en ingles.
+   *
+   * Se mide a 1024, que es el ancho mas estrecho en el que la barra de escritorio se pinta:
+   * un pixel menos y manda el boton compacto.
+   */
+  it('never breaks a navigation label across lines at the narrowest desktop width', async () => {
+    await page.viewport(1024, 800);
+
+    const links = fixture.debugElement.queryAll(By.css('.menu__link'));
+    expect(links.length).toBeGreaterThan(0);
+
+    for (const link of links) {
+      const range = document.createRange();
+      range.selectNodeContents(link.nativeElement);
+      const renglones = range.getClientRects().length;
+      expect(renglones, `"${link.nativeElement.textContent.trim()}" se parte en ${renglones} renglones`).toBe(1);
+    }
+
+    await page.viewport(414, 896);
+  });
+
+  /**
+   * Nada de la barra se sale por el filo.
+   *
+   * La prueba de arriba impide que una etiqueta se parta, pero no que el contenido desborde: al
+   * pasar el boton de conversion de "Agendar una reunion" a "Conversemos sobre tu proyecto" la
+   * barra crecio 68 px y empujo el selector de idioma fuera del contenedor, 81 px a 1024. Toda
+   * la suite seguia en verde porque ninguna prueba miraba la geometria de la barra.
+   *
+   * Por eso el boton del encabezado usa la etiqueta corta y el texto completo vive en el hero,
+   * la seccion de contacto y el dialogo del menu, que si tienen sitio.
+   *
+   * Se mide a 1024, el ancho mas estrecho en el que la barra de escritorio se pinta.
+   */
+  it('keeps every desktop header control inside the bar at the narrowest desktop width', async () => {
+    await page.viewport(1024, 800);
+
+    const inner = fixture.debugElement.query(By.css('.menu__inner')).nativeElement.getBoundingClientRect();
+    const controles = ['.menu__brand', '.menu__desktop-links', '.menu__meeting--desktop', '.menu__language--desktop'];
+
+    for (const selector of controles) {
+      const elemento = fixture.debugElement.query(By.css(selector));
+      expect(elemento, `no se encontro ${selector}`).not.toBeNull();
+
+      const caja = elemento.nativeElement.getBoundingClientRect();
+      expect(Math.round(caja.right), `${selector} se sale por la derecha`).toBeLessThanOrEqual(Math.round(inner.right));
+      expect(Math.round(caja.left), `${selector} se sale por la izquierda`).toBeGreaterThanOrEqual(
+        Math.round(inner.left),
+      );
+    }
+
+    await page.viewport(414, 896);
   });
 });

@@ -71,7 +71,7 @@ describe('MenuComponent accessibility', () => {
     const compact = fixture.debugElement.queryAll(By.css('.menu__meeting--compact'));
     expect(compact.length).toBeGreaterThan(0);
     for (const button of compact) {
-      expect(button.nativeElement.textContent.trim()).toBe('Agendar');
+      expect(button.nativeElement.textContent.trim()).toBe('Conversemos');
     }
   });
 
