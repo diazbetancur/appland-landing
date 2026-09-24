@@ -72,7 +72,16 @@ describe('BannerComponent', () => {
     expect(fixture.debugElement.query(By.css('.hero__capabilities'))).toBeNull();
   });
 
-  it('states the approved business-focus claim on the accent card', () => {
+  /**
+   * El unico numero de la primera pantalla era "100 % enfocadas en tu negocio". Un porcentaje
+   * funciona porque compara, y ese no tenia contra que compararse: ninguna empresa anuncia que
+   * esta enfocada a medias. Ocupaba el lugar donde se espera informacion sin informar.
+   *
+   * La cifra que lo reemplaza no se invento: "mas de 13 anos de experiencia" ya estaba escrita
+   * en el contenido, y aparecia recien en la septima pantalla entre otros seis puntos. Punto 07
+   * de la auditoria UX/UI.
+   */
+  it('states a verifiable figure on the accent card', () => {
     const accentCard = fixture.debugElement.query(By.css('.hero__card--accent'));
 
     expect(accentCard).not.toBeNull();
@@ -81,7 +90,7 @@ describe('BannerComponent', () => {
     // concatenar su texto: entre ellos no hay nodo de texto que los separe.
     const lines = accentCard.queryAll(By.css('p')).map((paragraph) => paragraph.nativeElement.textContent.trim());
 
-    expect(lines).toEqual(['100%', 'enfocadas en tu negocio']);
+    expect(lines).toEqual(['+13', 'años de experiencia']);
   });
 
   /**
@@ -92,9 +101,9 @@ describe('BannerComponent', () => {
     const text = (selector: string) => fixture.debugElement.query(By.css(selector)).nativeElement.textContent.trim();
     expect(text('.hero__ghost--top')).toBe('TU VISIÓN');
     expect(text('.hero__ghost--bottom')).toBe('NUESTRA TECNOLOGÍA');
-    expect(text('.hero__card-metric')).toBe('100%');
+    expect(text('.hero__card-metric')).toBe('+13');
     expect(fixture.nativeElement.textContent).toContain('a la medida');
-    expect(fixture.nativeElement.textContent).toContain('enfocadas en tu negocio');
+    expect(fixture.nativeElement.textContent).toContain('años de experiencia');
   });
 
   /** El tramo resaltado del texto de fondo se pinta con un span; si se pierde, se pierde el color. */
