@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  overflow: clip;
+  background: var(--appland-bg);
+}
+
+.home-region {
+  min-width: 0;
+  scroll-margin-top: calc(var(--appland-header-height) + 20px);
+}
+
+.home-region--contact {
+  padding-inline: var(--appland-gutter);
+}

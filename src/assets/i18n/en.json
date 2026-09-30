@@ -1,6 +1,334 @@
 {
-  "startTittle": "Empowering Your Ideas",
-  "startDescription": "With over 13 years of experience, at Appland we turn challenges into opportunities through Software Development, eCommerce, Mobile Apps, Systems, and Web Platforms. We also integrate cutting-edge technologies like Artificial Intelligence. Our team of experts stays ahead of the curve, mastering multiple technologies to build high-quality, efficient, secure, and results-driven products. Whether you're launching a startup or scaling your business, Appland is your strategic partner in building the digital future of your company.",
+  "Experience": "Years of Experience",
+  "IAServices": {
+    "services": [
+      {
+        "key": "1",
+        "icon": "📟",
+        "title": "Personalized Recommendations",
+        "description": "We suggest products based on past purchases and user preferences."
+      },
+      {
+        "key": "2",
+        "icon": "🤖",
+        "title": "Customer Support Chatbot",
+        "description": "Automates frequent inquiries and enhances customer experience."
+      },
+      {
+        "key": "3",
+        "icon": "📈",
+        "title": "Sentiment Analysis",
+        "description": "We identify emotions in reviews and customer feedback."
+      },
+      {
+        "key": "4",
+        "icon": "📦",
+        "title": "Inventory Optimization",
+        "description": "AI forecasts demand and recommends optimal stock levels."
+      },
+      {
+        "key": "5",
+        "icon": "🌟",
+        "title": "Tailored Promotions",
+        "description": "Smart offers driven by user behavior and engagement patterns."
+      }
+    ],
+    "title": "Solutions with",
+    "title-second": "Artificial Intelligence"
+  },
+  "a11y": {
+    "brandHome": "APPLAND, home",
+    "carousel": "carousel",
+    "carouselPosition": "{{current}} of {{total}}",
+    "skipToContent": "Skip to main content"
+  },
+  "chooseUs": "Why Trust Appland?",
+  "chooseUsDescription": "Because we bring over 13 years of experience backed by a professional, dynamic, and highly creative team that transforms ideas into real solutions. At Appland, we don’t just develop software we craft technological experiences that drive results. Our multicultural team operates from various countries, allowing us to cover multiple time zones and serve clients around the world with agility and precision. Companies across industries and regions already trust us and with good reason: we're more than just a service provider, we're a strategic partner committed to your growth.",
+  "contact": "Contact Us",
+  "contactDescription": "Let us help you transform your business with innovative technology solutions. Let's talk about how we can work together!",
+  "footer": {
+    "brandSummary": "Software development, Artificial Intelligence, Automation and Staff Augmentation for companies looking to grow faster.",
+    "contact": "Contact",
+    "navigation": "Navigation",
+    "rights": "All rights reserved.",
+    "services": "Services",
+    "whatsapp": "WhatsApp"
+  },
+  "globalTeam": "Our Global Team",
+  "globalTeamDescription": "from multiple countries to provide continuous coverage",
+  "home": {
+    "actions": {
+      "meeting": "Let’s discuss your project",
+      "productInquiry": "Request information",
+      "services": "Our services",
+      "whatsapp": "Message us on WhatsApp",
+      "whatsappMeetingMessage": "Hello, I would like to book a meeting."
+    },
+    "ai": {
+      "analytics": {
+        "description": "Turn data into insights you can act on and make better decisions.",
+        "label": "Intelligent analysis"
+      },
+      "appointments": {
+        "description": "Book appointments automatically and cut no-shows with reminders.",
+        "label": "Appointment scheduling"
+      },
+      "callCenter": {
+        "description": "Automated call handling with accurate, natural answers.",
+        "label": "AI call centre"
+      },
+      "conversational": {
+        "description": "Intelligent assistants that understand your customers and answer them.",
+        "label": "Conversational agents"
+      },
+      "cta": "Discover how AI can help you",
+      "documents": {
+        "description": "Extract, process and organise documents with no human intervention.",
+        "label": "Document automation"
+      },
+      "lead": "AI solutions that automate processes, improve the customer experience and lift results.",
+      "leads": {
+        "description": "Capture and qualify leads automatically and efficiently.",
+        "label": "Lead generation"
+      },
+      "reception": {
+        "description": "We automate the first response and handle enquiries instantly.",
+        "label": "Customer reception"
+      },
+      "support": {
+        "description": "Offer continuous support with AI agents available around the clock.",
+        "label": "24/7 support"
+      },
+      "title": "Artificial Intelligence applied to <span class=\"ai__highlight\">business</span>",
+      "whatsapp": {
+        "description": "Reply, manage and convert customers straight from WhatsApp.",
+        "label": "AI on WhatsApp"
+      }
+    },
+    "cases": {
+      "avianca": {
+        "summary": "Management platform."
+      },
+      "dilo": {
+        "alt": "The home screen of the Dilo finance app showing the available balance.",
+        "description": "A digital platform for managing money, payments, top-ups and financial services from a single place.",
+        "name": "Dilo",
+        "summary": "Financial application."
+      },
+      "espresso": {
+        "summary": "Loyalty app."
+      },
+      "next": "Next case",
+      "previous": "Previous case",
+      "telemedicine": {
+        "summary": "European Union."
+      },
+      "tengo": {
+        "alt": "The Tengo app sign-in screen with Ficohsa.",
+        "description": "A mobile experience built to handle financial services quickly, simply and securely.",
+        "summary": "Mobile finance application."
+      },
+      "title": "A selection of <span class=\"cases__highlight\">projects</span> we have built",
+      "toyota": {
+        "alt": "The home screen of the Toyota mobile app with its services menu.",
+        "description": "A mobile platform bringing Toyota’s services, products, promotions and customer support together in one place.",
+        "name": "Toyota",
+        "summary": "Mobile app for customers."
+      },
+      "tvAzteca": {
+        "alt": "The TV Azteca Honduras news portal.",
+        "description": "A digital news portal built to deliver national and current affairs coverage in a dynamic, accessible way.",
+        "summary": "Web news platform."
+      },
+      "viewCase": "View case"
+    },
+    "challenges": {
+      "cta": "Let’s talk about your project",
+      "disconnected": {
+        "alt": "Server, database, user and settings icons connected to a central cloud.",
+        "problem": "Disconnected systems",
+        "response": "We integrate platforms, ERPs, CRMs and APIs."
+      },
+      "lead": "We pinpoint what is holding your growth back and build technology to match.",
+      "manual": {
+        "alt": "A person working on a laptop showing a task automation dashboard.",
+        "problem": "Manual processes that eat up time",
+        "response": "We automate repetitive tasks to increase productivity."
+      },
+      "overloaded": {
+        "alt": "A developer working at two monitors showing code in an office.",
+        "problem": "Overloaded technology teams",
+        "response": "We bring in specialised talent quickly."
+      },
+      "platform": {
+        "alt": "A laptop and phone showing a platform dashboard with user and sales metrics.",
+        "problem": "A platform waiting to be launched",
+        "response": "We design and build scalable solutions."
+      },
+      "support": {
+        "alt": "A person holding a phone showing a conversation with an AI assistant.",
+        "problem": "Inefficient customer service",
+        "response": "We deploy AI agents that operate 24/7."
+      },
+      "title": "What challenges can we help you <span class=\"challenges__highlight\">solve?</span>"
+    },
+    "clients": {
+      "logoAlt": "{{name}} logo",
+      "pause": "Pause the logo carousel",
+      "resume": "Resume the logo carousel",
+      "title": "Companies that trust us"
+    },
+    "contact": {
+      "body": "Let’s talk about your project and see how technology, automation and artificial intelligence can help you grow.",
+      "social": {
+        "instagram": "Instagram",
+        "linkedin": "LinkedIn"
+      },
+      "title": "Ready to <span class=\"contact__highlight\">transform</span> your business?"
+    },
+    "hero": {
+      "cardMetric": "+13",
+      "cardMetricCaption": "years of experience",
+      "cardSolutions": "Tailor-made<br />solutions",
+      "ghostBottom": "OUR <span>TECHNOLOGY</span>",
+      "ghostTop": "YOUR VISION",
+      "subtitle": "Software Development, Artificial Intelligence, SaaS, Staff Augmentation, Process Automation and Technology Consulting for companies looking to grow better and faster.",
+      "titleHighlight": "with intelligent technology.",
+      "titleLead": "We move your business forward "
+    },
+    "products": {
+      "clinics": "Clinics",
+      "ecommerce": "E-commerce",
+      "eyebrow": "Products",
+      "gyms": "Gyms",
+      "hotels": "Hotels",
+      "labs": "Laboratories",
+      "loyalty": "Loyalty programmes",
+      "next": "Next product",
+      "previous": "Previous product",
+      "restaurants": "Restaurants",
+      "title": "Ready-made solutions to speed up your operations"
+    },
+    "services": {
+      "ai": {
+        "agents": "AI agents",
+        "automation": "Automation",
+        "chat": "Chat assistants",
+        "name": "Artificial Intelligence",
+        "summary": "Intelligent solutions that automate processes and improve your customers’ experience.",
+        "voice": "Voice assistants"
+      },
+      "automation": {
+        "ai": "Applied AI",
+        "integrations": "Integrations",
+        "name": "Process Automation",
+        "operations": "Operational optimisation",
+        "summary": "We turn repetitive tasks into leaner processes through operational optimisation, AI and connected integrations."
+      },
+      "consulting": {
+        "architecture": "Technology architecture",
+        "name": "Technology Consulting",
+        "summary": "We align technology, strategy and business to drive your growth.",
+        "transformation": "Digital transformation"
+      },
+      "pause": "Pause the automatic service change",
+      "resume": "Resume the automatic service change",
+      "software": {
+        "enterprise": "Enterprise systems",
+        "mobile": "Mobile apps",
+        "name": "Software Development",
+        "summary": "Tailor-made technology that solves real business problems.",
+        "web": "Web platforms"
+      },
+      "staff": {
+        "devs": "Developers",
+        "name": "Staff Augmentation",
+        "qa": "QA",
+        "summary": "Add specialised talent to your team, exactly when you need it.",
+        "teams": "Dedicated teams",
+        "ux": "UX/UI"
+      },
+      "tablistLabel": "APPLAND services",
+      "title": "Technology solutions that drive your company’s <span class=\"services__highlight\">growth</span>"
+    },
+    "team": {
+      "countries": {
+        "AR": "Argentina",
+        "CO": "Colombia",
+        "EC": "Ecuador",
+        "GT": "Guatemala",
+        "HN": "Honduras",
+        "MX": "Mexico",
+        "PA": "Panama",
+        "PE": "Peru",
+        "SV": "El Salvador"
+      },
+      "countriesLabel": "Countries where APPLAND operates",
+      "cta": "Meet our team",
+      "flagAlt": "Flag of {{country}}",
+      "lead": "Specialised talent working from several countries to cover multiple time zones.",
+      "title": "An <span class=\"team__highlight\">internationally</span> distributed team"
+    },
+    "why": {
+      "agile": {
+        "description": "We deliver value iteratively, quickly and efficiently.",
+        "statement": "Agile methodologies"
+      },
+      "bilingual": {
+        "description": "Clear, effective communication in your language throughout the project.",
+        "statement": "A bilingual team"
+      },
+      "cta": "Let’s discuss your project",
+      "experience": {
+        "description": "Depth and know-how that translate into results.",
+        "statement": "More than 13 years of experience"
+      },
+      "industries": {
+        "description": "We understand your industry and the problems specific to it.",
+        "statement": "Experience in fintech, health, retail and consumer goods"
+      },
+      "international": {
+        "description": "We work with clients across several countries and understand their markets.",
+        "statement": "International presence"
+      },
+      "scalable": {
+        "description": "We build technology ready to grow alongside your business.",
+        "statement": "Scalable solutions"
+      },
+      "timezones": {
+        "description": "Availability and coordination wherever you are.",
+        "statement": "Multi-time-zone coverage"
+      },
+      "title": "Why companies choose to <span class=\"why__highlight\">work</span> with us"
+    }
+  },
+  "menu": {
+    "close": "Close menu",
+    "dialogLabel": "Navigation menu",
+    "language": {
+      "en": {
+        "code": "EN",
+        "name": "English"
+      },
+      "es": {
+        "code": "ES",
+        "name": "Español"
+      },
+      "groupLabel": "Language"
+    },
+    "meetingShort": "Let’s talk",
+    "navLabel": "Main navigation",
+    "open": "Open menu"
+  },
+  "nav": {
+    "about": "About us",
+    "cases": "Projects",
+    "contact": "Contact",
+    "home": "Home",
+    "services": "Services"
+  },
+  "operation": "We operate",
+  "ourClients": "they trust us",
   "ourService": "Our Services",
   "ourServiceDescription": [
     {
@@ -41,7 +369,7 @@
     },
     {
       "key": "Fintech",
-      "image": "develop.jpg",
+      "image": "develop.png",
       "title": "Fintech:",
       "description": "We build agile and secure digital financial solutions with a focus on user experience. Driving innovation in the financial sector."
     },
@@ -58,65 +386,22 @@
       "description": "Engage, reward, and retain your customers through personalized and effective loyalty systems."
     }
   ],
+  "proyects": "Completed Projects",
+  "startDescription": "With over 13 years of experience, at Appland we turn challenges into opportunities through Software Development, eCommerce, Mobile Apps, Systems, and Web Platforms. We also integrate cutting-edge technologies like Artificial Intelligence. Our team of experts stays ahead of the curve, mastering multiple technologies to build high-quality, efficient, secure, and results-driven products. Whether you're launching a startup or scaling your business, Appland is your strategic partner in building the digital future of your company.",
+  "startTittle": "Empowering Your Ideas",
   "whyAppland": "Why Choose Appland",
   "whyApplandDescription": {
+    "attention": {
+      "description": "Every client is unique, and we focus on delivering tailor-made solutions.",
+      "title": "Personalized Attention:"
+    },
     "experience": {
-      "title": "Proven Experience:",
-      "description": "Over a decade of experience in software development."
+      "description": "Over a decade of experience in software development.",
+      "title": "Proven Experience:"
     },
     "solutions": {
-      "title": "Scalable Solutions:",
-      "description": "We ensure our solutions grow alongside your business."
-    },
-    "attention": {
-      "title": "Personalized Attention:",
-      "description": "Every client is unique, and we focus on delivering tailor-made solutions."
+      "description": "We ensure our solutions grow alongside your business.",
+      "title": "Scalable Solutions:"
     }
-  },
-  "contact": "Contact Us",
-  "contactDescription": "Let us help you transform your business with innovative technology solutions. Let's talk about how we can work together!",
-  "ourClients": "they trust us",
-  "IAServices": {
-    "title": "Solutions with",
-    "title-second": "Artificial Intelligence",
-    "services": [
-      {
-        "key": "1",
-        "icon": "📟",
-        "title": "Personalized Recommendations",
-        "description": "We suggest products based on past purchases and user preferences."
-      },
-      {
-        "key": "2",
-        "icon": "🤖",
-        "title": "Customer Support Chatbot",
-        "description": "Automates frequent inquiries and enhances customer experience."
-      },
-      {
-        "key": "3",
-        "icon": "📈",
-        "title": "Sentiment Analysis",
-        "description": "We identify emotions in reviews and customer feedback."
-      },
-      {
-        "key": "4",
-        "icon": "📦",
-        "title": "Inventory Optimization",
-        "description": "AI forecasts demand and recommends optimal stock levels."
-      },
-      {
-        "key": "5",
-        "icon": "🌟",
-        "title": "Tailored Promotions",
-        "description": "Smart offers driven by user behavior and engagement patterns."
-      }
-    ]
-  },
-  "globalTeam": "Our Global Team",
-  "globalTeamDescription": "from multiple countries to provide continuous coverage",
-  "operation": "We operate",
-  "chooseUs": "Why Trust Appland?",
-  "chooseUsDescription": "Because we bring over 13 years of experience backed by a professional, dynamic, and highly creative team that transforms ideas into real solutions. At Appland, we don’t just develop software we craft technological experiences that drive results. Our multicultural team operates from various countries, allowing us to cover multiple time zones and serve clients around the world with agility and precision. Companies across industries and regions already trust us and with good reason: we're more than just a service provider, we're a strategic partner committed to your growth.",
-  "proyects": "Completed Projects",
-  "Experience": "Years of Experience"
+  }
 }

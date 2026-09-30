@@ -1,13 +1,54 @@
-<div class="title-info">
-  <h2>{{ "ourClients" | translate }}</h2>
-  <section class="logo-carousel">
-    <div class="logo-group">
-      <img
-        *ngFor="let logo of logos.concat(logos)"
-        [src]="'assets/images/clients/' + logo"
-        alt
-        class="logo-img"
-      />
+<div class="clients appland-container">
+  <div class="clients__heading">
+    <h2 id="clientes-title">{{ 'home.clients.title' | translate }}</h2>
+    @if (pauseControlVisible) {
+      <button
+        type="button"
+        class="clients__pause"
+        [attr.aria-pressed]="paused"
+        [attr.aria-label]="(paused ? 'home.clients.resume' : 'home.clients.pause') | translate"
+        (click)="togglePause()"
+      >
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          @if (paused) {
+            <path d="M8 5v14l11-7z"></path>
+          } @else {
+            <path d="M7 5h3.2v14H7zM13.8 5H17v14h-3.2z"></path>
+          }
+        </svg>
+      </button>
+    }
+  </div>
+  <div
+    class="clients__viewport"
+    (mouseenter)="setInteractionPause(true)"
+    (mouseleave)="setInteractionPause(false)"
+    (focusin)="setInteractionPause(true)"
+    (focusout)="setInteractionPause(false)"
+  >
+    <div class="clients__track" [class.clients__track--paused]="paused">
+      <div class="clients__group">
+        @for (client of clients; track client) {
+          <img
+            [src]="client.logo.src"
+            [alt]="client.logo.altKey | translate: { name: client.name }"
+            [width]="client.logo.width"
+            [height]="client.logo.height"
+            loading="lazy"
+          />
+        }
+      </div>
+      <div class="clients__group" aria-hidden="true">
+        @for (client of clients; track client) {
+          <img
+            [src]="client.logo.src"
+            alt=""
+            [width]="client.logo.width"
+            [height]="client.logo.height"
+            loading="lazy"
+          />
+        }
+      </div>
     </div>
-  </section>
+  </div>
 </div>

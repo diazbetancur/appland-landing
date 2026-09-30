@@ -1,0 +1,22 @@
+# Finales de linea.
+#
+# `core.autocrlf` vale `true` en los equipos de Windows del proyecto, asi que el checkout
+# escribe CRLF en disco. `.prettierrc.json` pide `endOfLine: "lf"`, de modo que despues de cada
+# checkout `npm run format:check` fallaba en decenas de archivos que nadie habia tocado, y la
+# unica salida era normalizarlos a mano.
+#
+# Con esto el arbol de trabajo queda en LF y las dos herramientas dejan de contradecirse. En git
+# el contenido no cambia: los blobs ya estaban en LF.
+* text=auto eol=lf
+
+# Binarios: nunca se convierten.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
