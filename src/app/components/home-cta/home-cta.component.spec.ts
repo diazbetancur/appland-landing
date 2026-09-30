@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { environment } from '../../../environments/environment';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HOME_CONTENT } from '../../feature/pages/home/home-content.config';
@@ -26,9 +27,11 @@ describe('HomeCtaComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('¿Listo para transformar tu negocio?');
     expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.contact.bodyKey));
     expect(fixture.debugElement.query(By.css('a[href^="mailto:"]')).attributes['href']).toBe(
-      'mailto:hello@applandtech.com',
+      `mailto:${environment.contactEmail}`,
     );
-    expect(fixture.debugElement.query(By.css('a[href^="tel:"]')).attributes['href']).toBe('tel:+50433349211');
+    expect(fixture.debugElement.query(By.css('a[href^="tel:"]')).attributes['href']).toBe(
+      `tel:${environment.contactPhone}`,
+    );
   });
 
   /**
@@ -47,7 +50,7 @@ describe('HomeCtaComponent', () => {
 
     expect(actions.length).toBe(1);
     expect(actions[0].attributes['href']).toBe(
-      'https://wa.me/50433349211?text=Hola%2C%20quiero%20agendar%20una%20reuni%C3%B3n.',
+      `https://wa.me/${environment.whatsappNumber}?text=Hola%2C%20quiero%20agendar%20una%20reuni%C3%B3n.`,
     );
     expect(actions[0].attributes['target']).toBe('_blank');
     expect(actions[0].attributes['rel']).toBe('noopener noreferrer');
