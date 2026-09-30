@@ -1,3 +1,4 @@
+import { environment } from '../../../../environments/environment';
 import { ApprovedAsset, ApprovedDestination, CaseStudy, Client, HomeContent, Product } from './home-content.models';
 
 /**
@@ -24,10 +25,23 @@ function countryFlag(slug: string): ApprovedAsset {
   return approvedAsset(`assets/images/home/flags/${slug}.svg`, 60, 60, 'home.team.flagAlt');
 }
 
+/**
+ * Boton principal del hero y del menu: abre la agenda de citas de Google Calendar.
+ *
+ * Google aloja la pagina de reserva, revisa la disponibilidad y crea el evento con Meet, asi
+ * que el sitio no necesita backend. Si el destino dejara de estar aprobado, el boton vuelve a
+ * bajar a la seccion de contacto.
+ */
 const meetingAction = {
   id: 'meeting',
   labelKey: 'home.actions.meeting',
   intent: 'meeting',
+  destination: {
+    kind: 'external',
+    value: environment.bookingUrl,
+    publicationStatus: 'approved',
+    newContext: true,
+  },
   fallbackFragment: 'contacto',
 } as const;
 
@@ -46,8 +60,15 @@ const whatsappAction = {
  * distintas y se declaran por separado.
  *
  * Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee la de aqui.
+ *
+ * No copia `meetingAction`: ese boton abre la agenda, y estos atajos bajan a contacto.
  */
-const contactAction = { ...meetingAction } as const;
+const contactAction = {
+  id: 'contact',
+  labelKey: 'home.actions.meeting',
+  intent: 'meeting',
+  fallbackFragment: 'contacto',
+} as const;
 
 const navigation = [
   { id: 'nav-inicio', labelKey: 'nav.home', fragment: 'inicio', prominent: false },
@@ -96,16 +117,16 @@ const contact = {
   },
   email: {
     kind: 'email',
-    value: 'hello@applandtech.com',
+    value: environment.contactEmail,
     publicationStatus: 'approved',
     newContext: false,
   },
   phone: {
     kind: 'phone',
-    value: '+50433349211',
+    value: environment.contactPhone,
     // Antes esta version legible estaba escrita a mano en las plantillas del pie y de la
     // seccion de contacto, asi que corregir el numero aqui dejaba las dos desactualizadas.
-    displayValue: '+504 3334-9211',
+    displayValue: environment.contactPhoneDisplay,
     publicationStatus: 'approved',
     newContext: false,
   },

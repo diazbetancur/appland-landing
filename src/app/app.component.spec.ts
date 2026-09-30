@@ -1,4 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
+import { environment } from '../environments/environment';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -69,7 +70,7 @@ describe('AppComponent shell', () => {
   it('binds one complete FooterContent object including nested contact', () => {
     const footer = fixture.debugElement.query(By.directive(FooterStubComponent))
       .componentInstance as FooterStubComponent;
-    expect(footer.content.contact.email.value).toBe('hello@applandtech.com');
+    expect(footer.content.contact.email.value).toBe(environment.contactEmail);
     expect(footer.content.navigation.length).toBe(5);
   });
 

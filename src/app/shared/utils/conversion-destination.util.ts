@@ -1,6 +1,12 @@
+import { environment } from '../../../environments/environment';
 import { ApprovedDestination, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
 
-const OFFICIAL_WHATSAPP_NUMBER = '50433349211';
+/** Enlace al chat de WhatsApp oficial, con el mensaje precargado si viene uno. */
+export function whatsappHref(message?: string): string {
+  const text = message?.trim();
+  const suffix = text ? `?text=${encodeURIComponent(text)}` : '';
+  return `https://wa.me/${environment.whatsappNumber}${suffix}`;
+}
 
 function isApproved(destination: ApprovedDestination | undefined): destination is ApprovedDestination {
   return Boolean(destination?.publicationStatus === 'approved' && destination.value.trim());
@@ -29,11 +35,9 @@ function fragmentAction(fragment: ConversionAction['fallbackFragment']): Resolve
  */
 export function resolveConversionAction(action: ConversionAction, approvedMessage?: string): ResolvedAction {
   if (action.intent === 'whatsapp') {
-    const message = approvedMessage?.trim();
-    const suffix = message ? `?text=${encodeURIComponent(message)}` : '';
     return {
       kind: 'href',
-      href: `https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}${suffix}`,
+      href: whatsappHref(approvedMessage),
       target: '_blank',
       rel: 'noopener noreferrer',
     };

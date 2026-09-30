@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FooterContent } from '../../feature/pages/home/home-content.models';
-import { destinationHref } from '../../shared/utils/conversion-destination.util';
+import { destinationHref, whatsappHref } from '../../shared/utils/conversion-destination.util';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -14,4 +14,5 @@ export class FooterComponent {
   @Input() content!: FooterContent;
   readonly currentYear = new Date().getFullYear();
   readonly destinationHref = destinationHref;
+  readonly whatsappHref = whatsappHref();
 }

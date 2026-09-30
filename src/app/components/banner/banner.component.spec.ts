@@ -1,4 +1,5 @@
 import { page } from 'vitest/browser';
+import { environment } from '../../../environments/environment';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -32,8 +33,11 @@ describe('BannerComponent', () => {
     expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.hero.subtitleKey));
   });
 
-  it('routes meeting to contacto and services to servicios', () => {
-    expect(fixture.debugElement.query(By.css('a[href*="#contacto"]'))).not.toBeNull();
+  it('opens the booking page for meeting and routes services to servicios', () => {
+    const meeting = fixture.debugElement.query(By.css(`a[href="${environment.bookingUrl}"]`));
+    expect(meeting).not.toBeNull();
+    expect(meeting.nativeElement.getAttribute('target')).toBe('_blank');
+    expect(meeting.nativeElement.getAttribute('rel')).toBe('noopener noreferrer');
     expect(fixture.debugElement.query(By.css('a[href*="#servicios"]'))).not.toBeNull();
   });
 
