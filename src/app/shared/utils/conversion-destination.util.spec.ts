@@ -1,4 +1,5 @@
 import { ConversionAction } from '../../feature/pages/home/home-content.models';
+import { environment } from '../../../environments/environment';
 import { resolveConversionAction } from './conversion-destination.util';
 
 describe('resolveConversionAction', () => {
@@ -36,7 +37,7 @@ describe('resolveConversionAction', () => {
 
   it('uses the official WhatsApp number without inventing a message', () => {
     expect(resolveConversionAction({ id: 'wa', labelKey: 'home.actions.whatsapp', intent: 'whatsapp' }).href).toBe(
-      'https://wa.me/50433349211',
+      `https://wa.me/${environment.whatsappNumber}`,
     );
   });
 
@@ -52,7 +53,7 @@ describe('resolveConversionAction', () => {
       },
       'Hola APPLAND',
     );
-    expect(resolved.href).toBe('https://wa.me/50433349211?text=Hola%20APPLAND');
+    expect(resolved.href).toBe(`https://wa.me/${environment.whatsappNumber}?text=Hola%20APPLAND`);
   });
 
   it('uses contacto for a product inquiry without an approved destination', () => {

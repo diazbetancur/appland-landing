@@ -1,5 +1,7 @@
 import { HOME_CONTENT, selectVisibleCases, selectVisibleClients, selectVisibleProducts } from './home-content.config';
+import { environment } from '../../../../environments/environment';
 import { HOME_SECTION_IDS } from './home-content.models';
+import { resolveConversionAction } from '../../../shared/utils/conversion-destination.util';
 
 describe('HOME_CONTENT', () => {
   it('preserves the complete stable section id contract', () => {
@@ -37,6 +39,18 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.contact.meetingAction.intent).toBe('whatsapp');
     expect(HOME_CONTENT.contact.meetingAction.approvedMessageKey).toBe('home.actions.whatsappMeetingMessage');
     expect(HOME_CONTENT.contact.meetingAction.fallbackFragment).toBeUndefined();
+  });
+
+  it('opens the Google Calendar booking page from the hero and menu, and only there', () => {
+    // El hero y el menu abren la agenda; los atajos de las secciones intermedias siguen
+    // bajando a contacto. Si compartieran objeto, todos abririan la agenda.
+    expect(resolveConversionAction(HOME_CONTENT.hero.primaryAction)).toEqual({
+      kind: 'href',
+      href: environment.bookingUrl,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    });
+    expect(resolveConversionAction(HOME_CONTENT.contactAction)).toEqual({ kind: 'router', fragment: 'contacto' });
   });
 
   /**
