@@ -371,7 +371,7 @@ export const HOME_CONTENT: HomeContent = {
     },
     {
       id: 'tengo',
-      name: 'Tengo',
+      name: 'TENGO',
       summaryKey: 'home.cases.tengo.summary',
       descriptionKey: 'home.cases.tengo.description',
       publicationStatus: 'approved',
