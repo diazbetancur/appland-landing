@@ -113,10 +113,10 @@
         "alt": "The home screen of the Dilo finance app showing the available balance.",
         "description": "A digital platform for managing money, payments, top-ups and financial services from a single place.",
         "name": "Dilo",
-        "summary": "Financial application."
+        "summary": "Fintech"
       },
       "espresso": {
-        "summary": "Loyalty app."
+        "summary": "Food & beverage"
       },
       "next": "Next case",
       "previous": "Previous case",
@@ -126,19 +126,19 @@
       "tengo": {
         "alt": "The TENGO app sign-in screen with Ficohsa.",
         "description": "A mobile experience built to handle financial services quickly, simply and securely.",
-        "summary": "Mobile finance application."
+        "summary": "Banking"
       },
       "title": "A selection of <span class=\"cases__highlight\">projects</span> we have built",
       "toyota": {
         "alt": "The home screen of the Toyota mobile app with its services menu.",
         "description": "A mobile platform bringing Toyota’s services, products, promotions and customer support together in one place.",
         "name": "Toyota",
-        "summary": "Mobile app for customers."
+        "summary": "Automotive"
       },
       "tvAzteca": {
         "alt": "The TV Azteca Honduras news portal.",
         "description": "A digital news portal built to deliver national and current affairs coverage in a dynamic, accessible way.",
-        "summary": "Web news platform."
+        "summary": "Media"
       },
       "viewCase": "View case"
     },
