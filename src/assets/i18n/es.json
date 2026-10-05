@@ -113,10 +113,10 @@
         "alt": "Pantalla principal de la app financiera Dilo mostrando el saldo disponible.",
         "description": "Plataforma digital para gestionar dinero, pagos, recargas y servicios financieros desde un solo lugar.",
         "name": "Dilo",
-        "summary": "Aplicación financiera."
+        "summary": "Fintech"
       },
       "espresso": {
-        "summary": "App de fidelización."
+        "summary": "Restaurantes y cafeterías"
       },
       "next": "Caso siguiente",
       "previous": "Caso anterior",
@@ -124,21 +124,21 @@
         "summary": "Unión Europea."
       },
       "tengo": {
-        "alt": "Pantalla de inicio de sesión de la app Tengo con Ficohsa.",
+        "alt": "Pantalla de inicio de sesión de la app TENGO con Ficohsa.",
         "description": "Una experiencia móvil diseñada para gestionar servicios financieros de forma rápida, sencilla y segura.",
-        "summary": "Aplicación móvil financiera."
+        "summary": "Banca"
       },
       "title": "Algunos <span class=\"cases__highlight\">proyectos</span> desarrollados",
       "toyota": {
         "alt": "Pantalla principal de la app móvil de Toyota con menú de servicios.",
         "description": "Plataforma móvil que centraliza servicios, productos, promociones y atención al cliente de Toyota.",
         "name": "Toyota",
-        "summary": "App móvil para clientes."
+        "summary": "Automotriz"
       },
       "tvAzteca": {
         "alt": "Portal de noticias de TV Azteca Honduras.",
         "description": "Portal digital de noticias diseñado para ofrecer contenido nacional y de actualidad de forma dinámica y accesible.",
-        "summary": "Plataforma web de noticias."
+        "summary": "Medios de comunicación"
       },
       "viewCase": "Ver caso"
     },

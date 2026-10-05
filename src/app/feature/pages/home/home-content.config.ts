@@ -152,22 +152,38 @@ const contact = {
   ],
 } as const;
 
-const approvedClients: readonly Client[] = [
-  ['ficohsa', 'Ficohsa', 'banco_ficohsa.png', 480, 173],
-  ['grupo-terra', 'Grupo Terra', 'GrupoTerra.png', 1600, 526],
-  ['tigo', 'Tigo', 'tigo.png', 2560, 1839],
-  ['toyota', 'Toyota', 'logo-Toyota.png', 4128, 2322],
-  ['avianca', 'Avianca', 'Avianca-logo.png', 5000, 3000],
-].map(([id, name, file, width, height]) => ({
-  id: String(id),
-  name: String(name),
-  publicationStatus: 'approved',
+/**
+ * Las marcas pendientes ya tienen logo, pero la tarjeta pide publicar cada una con una linea
+ * que explique que se hizo para ella, y esas lineas aun no estan escritas ni validadas. Hasta
+ * entonces no se muestran: un logo sin su linea es justo lo que la auditoria senalo.
+ */
+const clientCandidates: readonly Client[] = (
+  [
+    ['ficohsa', 'Ficohsa', 'banco_ficohsa.png', 480, 173, 'approved'],
+    ['grupo-terra', 'Grupo Terra', 'GrupoTerra.png', 1600, 526, 'approved'],
+    ['tigo', 'Tigo', 'tigo.png', 2560, 1839, 'approved'],
+    ['toyota', 'Toyota', 'logo-Toyota.png', 4128, 2322, 'approved'],
+    ['avianca', 'Avianca', 'Avianca-logo.png', 5000, 3000, 'approved'],
+    ['pepsi', 'Pepsi', 'pepsi.png', 300, 300, 'pending'],
+    ['dominos', "Domino's Pizza", 'dominos.png', 500, 281, 'pending'],
+    ['movantis', 'Movantis', 'movantis.png', 600, 79, 'pending'],
+    ['inswitch', 'Inswitch', 'inswitch.png', 600, 146, 'pending'],
+    ['atlantida', 'Banco Atlántida', 'atlantida.png', 3134, 1107, 'pending'],
+    ['dilo', 'Dilo', 'LogoDilo.png', 388, 237, 'pending'],
+    ['tengo', 'TENGO', 'logo-tengo.png', 320, 320, 'pending'],
+    ['espresso-americano', 'Espresso Americano', 'espresso_americano.webp', 480, 118, 'pending'],
+  ] as const
+).map(([id, name, file, width, height, publicationStatus]) => ({
+  id,
+  name,
+  publicationStatus,
   logo: {
     src: `assets/images/clients/${file}`,
-    width: Number(width),
-    height: Number(height),
+    width,
+    height,
     altKey: 'home.clients.logoAlt',
     decorative: false,
+    // El logo ya esta entregado; lo que falta es la linea, asi que solo la marca espera.
     publicationStatus: 'approved',
   },
 }));
@@ -212,7 +228,7 @@ export const HOME_CONTENT: HomeContent = {
     },
     whatsappAction,
   },
-  clients: approvedClients,
+  clients: clientCandidates,
   challenges: [
     {
       id: 'manual',
@@ -278,6 +294,8 @@ export const HOME_CONTENT: HomeContent = {
       summaryKey: 'home.services.ai.summary',
       visualKey: 'ai',
       media: approvedAsset('assets/images/home/services/artificial-intelligence.png', 480, 256, '', true),
+      // La pestana resume la IA en cuatro etiquetas; los nueve casos de uso estan en su seccion.
+      sectionFragment: 'ia',
       highlights: [
         { id: 'ai-agents', labelKey: 'home.services.ai.agents', iconKey: 'chip' },
         { id: 'ai-automation', labelKey: 'home.services.ai.automation', iconKey: 'gear' },
@@ -371,7 +389,7 @@ export const HOME_CONTENT: HomeContent = {
     },
     {
       id: 'tengo',
-      name: 'Tengo',
+      name: 'TENGO',
       summaryKey: 'home.cases.tengo.summary',
       descriptionKey: 'home.cases.tengo.description',
       publicationStatus: 'approved',

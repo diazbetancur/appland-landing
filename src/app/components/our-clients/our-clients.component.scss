@@ -48,6 +48,7 @@ h2 {
 
 .clients__track {
   width: max-content;
+  // La duracion la fija el componente segun cuantos logotipos hay; 34 s es la de cinco.
   animation: clients-marquee 34s linear infinite;
 }
 
@@ -84,19 +85,20 @@ img {
  * y admite un logotipo mas sin volver a recortarse.
  *
  * El limite es el mismo que declara `CLIENTS_MARQUEE_VIEWPORT` en el componente, que es quien
- * decide si el control de pausa tiene algo que gobernar.
+ * decide si el control de pausa tiene algo que gobernar. Solo aplica con `clients--fits`, es
+ * decir hasta `CLIENTS_STATIC_LIMIT` logotipos: con mas no caben y la marquesina sigue.
  */
 @media (min-width: 1024px) {
-  .clients__viewport {
+  .clients--fits .clients__viewport {
     mask-image: none;
   }
 
-  .clients__track {
+  .clients--fits .clients__track {
     width: 100%;
     animation: none;
   }
 
-  .clients__group {
+  .clients--fits .clients__group {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
@@ -105,11 +107,11 @@ img {
     padding-right: 0;
   }
 
-  .clients__group[aria-hidden='true'] {
+  .clients--fits .clients__group[aria-hidden='true'] {
     display: none;
   }
 
-  img {
+  .clients--fits img {
     width: 100%;
     max-width: 190px;
   }

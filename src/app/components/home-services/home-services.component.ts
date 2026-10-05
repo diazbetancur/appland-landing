@@ -13,10 +13,11 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SERVICE_QUERY_PARAM } from '../../feature/pages/home/home-content.config';
-import { Service } from '../../feature/pages/home/home-content.models';
+import { HomeSectionId, Service } from '../../feature/pages/home/home-content.models';
 import { TranslatePipe } from '@ngx-translate/core';
 
 /** Intervalo aprobado por el usuario entre un servicio y el siguiente. */
@@ -61,6 +62,7 @@ export class HomeServicesComponent implements OnInit, AfterViewInit, OnChanges, 
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly viewportScroller = inject(ViewportScroller);
   private readonly ngZone = inject(NgZone);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly subscriptions = new Subscription();
@@ -172,12 +174,30 @@ export class HomeServicesComponent implements OnInit, AfterViewInit, OnChanges, 
    * quitarselo unos segundos despues es de las cosas que mas molestan de un carrusel.
    * El avance automatico no pasa por aqui, precisamente para no detenerse a si mismo.
    */
-  select(service: Service): void {
+  select(service: Service, sectionFragment?: HomeSectionId): void {
     this.stoppedPermanently = true;
     this.clearRotation();
     this.activeServiceId = service.id;
     this.keepActiveTabVisible();
-    this.publishSelection(service.id);
+    this.publishSelection(service.id, sectionFragment);
+  }
+
+  /**
+   * Clic en una pestana, o Enter y Espacio sobre ella, que el navegador convierte en clic.
+   *
+   * Si el servicio tiene una seccion propia, ademas de elegirlo se baja a ella: la pestana de
+   * Inteligencia Artificial resume en cuatro etiquetas lo que su seccion desarrolla en nueve
+   * casos de uso, y quien la pulsaba se quedaba con el resumen sin saber que el detalle existe.
+   * Las flechas del teclado no pasan por aqui: recorren pestanas, y bajar de la seccion a mitad
+   * del recorrido sacaria a la persona de donde esta.
+   */
+  open(service: Service): void {
+    this.select(service, service.sectionFragment);
+    if (service.sectionFragment) {
+      // Se desplaza aqui y no solo con el fragmento de la URL: si la direccion ya lleva ese
+      // fragmento, la navegacion es identica a la actual, el router la ignora y no bajaria.
+      this.viewportScroller.scrollToAnchor(service.sectionFragment);
+    }
   }
 
   /**
@@ -195,18 +215,33 @@ export class HomeServicesComponent implements OnInit, AfterViewInit, OnChanges, 
    * una navegacion que nadie espere deshacer con el boton de atras, y apilarlas obligaria a
    * pulsarlo una vez por pestana visitada para salir de la pagina.
    *
-   * El fragmento se conserva para no perder la seccion en la que esta el visitante, y los
-   * demas parametros se fusionan para no pisar los que pudiera haber.
+   * El fragmento se conserva para no perder la seccion en la que esta el visitante, salvo
+   * cuando la pestana baja a su propia seccion: ahi la direccion pasa a nombrar esa. Los demas
+   * parametros se fusionan para no pisar los que pudiera haber.
    */
-  private publishSelection(serviceId: string): void {
+  private publishSelection(serviceId: string, sectionFragment?: HomeSectionId): void {
     this.requestedServiceId = serviceId;
     void this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { [SERVICE_QUERY_PARAM]: serviceId },
       queryParamsHandling: 'merge',
-      preserveFragment: true,
+      ...(sectionFragment ? { fragment: sectionFragment } : this.fragmentForTabOnly()),
       replaceUrl: true,
     });
+  }
+
+  /**
+   * Fragmento para una pestana que no baja a ninguna seccion.
+   *
+   * Se conserva el que hubiera, salvo si es la seccion de otro servicio: tras pulsar la pestana
+   * de IA la direccion termina en `#ia`, y conservarlo hacia que el router, que desplaza a la
+   * ancla en cada navegacion, bajara otra vez a la seccion de IA al elegir cualquier otra
+   * pestana. Medido en el navegador: un salto de 2740 px.
+   */
+  private fragmentForTabOnly(): { preserveFragment: true } | { fragment: undefined } {
+    const current = this.route.snapshot?.fragment;
+    const ownedBySection = this.services.some((service) => service.sectionFragment === current);
+    return current && ownedBySection ? { fragment: undefined } : { preserveFragment: true };
   }
 
   setInView(inView: boolean): void {

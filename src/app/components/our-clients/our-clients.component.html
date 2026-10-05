@@ -1,4 +1,4 @@
-<div class="clients appland-container">
+<div class="clients appland-container" [class.clients--fits]="fitsInOneRow">
   <div class="clients__heading">
     <h2 id="clientes-title">{{ 'home.clients.title' | translate }}</h2>
     @if (pauseControlVisible) {
@@ -26,7 +26,7 @@
     (focusin)="setInteractionPause(true)"
     (focusout)="setInteractionPause(false)"
   >
-    <div class="clients__track" [class.clients__track--paused]="paused">
+    <div class="clients__track" [class.clients__track--paused]="paused" [style.animation-duration.s]="marqueeSeconds">
       <div class="clients__group">
         @for (client of clients; track client) {
           <img
