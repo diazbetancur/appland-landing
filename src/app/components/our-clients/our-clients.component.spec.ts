@@ -3,7 +3,14 @@ import { By } from '@angular/platform-browser';
 import { page } from 'vitest/browser';
 import { Client } from '../../feature/pages/home/home-content.models';
 import { selectVisibleClients } from '../../feature/pages/home/home-content.config';
-import { CLIENTS_MARQUEE_VIEWPORT, OurClientsComponent, REDUCED_MOTION_QUERY } from './our-clients.component';
+import {
+  CLIENTS_MARQUEE_VIEWPORT,
+  CLIENTS_RANDOM,
+  CLIENTS_SECONDS_PER_LOGO,
+  CLIENTS_STATIC_LIMIT,
+  OurClientsComponent,
+  REDUCED_MOTION_QUERY,
+} from './our-clients.component';
 import { provideTranslateService } from '@ngx-translate/core';
 import { useTranslations } from '../../shared/i18n/translations.testing';
 
@@ -20,6 +27,16 @@ const client: Client = {
     publicationStatus: 'approved',
   },
 };
+
+/** Una marca mas de las que caben quietas en la fila de escritorio. */
+function moreClientsThanFit(): readonly Client[] {
+  return Array.from({ length: CLIENTS_STATIC_LIMIT + 1 }, (_, index) => ({
+    ...client,
+    id: `client-${index}`,
+    name: `Cliente ${index}`,
+    logo: { ...client.logo, src: `assets/images/home/clients/client-${index}.png` },
+  }));
+}
 
 interface MediaQueryStub {
   readonly query: MediaQueryList;
@@ -77,7 +94,8 @@ describe('OurClientsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [OurClientsComponent],
-      providers: [provideTranslateService({ fallbackLang: 'es' })],
+      // Azar fijo en todas las pruebas: el orden que pintan deja de cambiar de una ejecucion a otra.
+      providers: [provideTranslateService({ fallbackLang: 'es' }), { provide: CLIENTS_RANDOM, useValue: () => 0 }],
     }).compileComponents();
     await useTranslations();
   });
@@ -211,6 +229,19 @@ describe('OurClientsComponent', () => {
     });
 
     /**
+     * Las columnas se reparten el ancho, asi que con mas marcas de las que caben cada logo se
+     * encogeria hasta volverse ilegible. Ahi la marquesina vuelve tambien en escritorio.
+     */
+    it('runs the marquee on desktop when there are more logos than fit', () => {
+      useMedia({ narrow: false, reducedMotion: false });
+      render(moreClientsThanFit());
+
+      expect(component.fitsInOneRow).toBe(false);
+      expect(component.carouselActive).toBe(true);
+      expect(fixture.debugElement.query(By.css('.clients__pause'))).not.toBeNull();
+    });
+
+    /**
      * Girar la tableta o arrastrar el borde de la ventana cruza el umbral sin recargar. Sin el
      * oyente, el control de pausa se quedaria anunciando una animacion que ya no corre.
      */
@@ -289,6 +320,59 @@ describe('OurClientsComponent', () => {
       // Angular prefija el nombre del fotograma al encapsular los estilos del componente.
       expect(getComputedStyle(track).animationName).toContain('clients-marquee');
       expect(component.carouselActive).toBe(true);
+    });
+
+    /** Mas marcas alargan la pista; si la vuelta durara lo mismo, cada logo pasaria mas rapido. */
+    it('keeps each logo on screen as long however many there are', async () => {
+      await page.viewport(900, 800);
+      render(moreClientsThanFit());
+      await fixture.whenStable();
+
+      const track = fixture.debugElement.query(By.css('.clients__track')).nativeElement as HTMLElement;
+      const seconds = (CLIENTS_STATIC_LIMIT + 1) * CLIENTS_SECONDS_PER_LOGO;
+
+      expect(getComputedStyle(track).animationDuration).toBe(`${seconds}s`);
+    });
+
+    it('scrolls on desktop too once there are more logos than fit', async () => {
+      await page.viewport(1280, 800);
+      render(moreClientsThanFit());
+      await fixture.whenStable();
+
+      const track = fixture.debugElement.query(By.css('.clients__track')).nativeElement as HTMLElement;
+      const viewport = fixture.debugElement.query(By.css('.clients__viewport')).nativeElement as HTMLElement;
+
+      expect(getComputedStyle(track).animationName).toContain('clients-marquee');
+      expect(getComputedStyle(viewport).maskImage).not.toBe('none');
+    });
+  });
+
+  /**
+   * El orden se mezcla en cada visita. Con el azar fijo del modulo la prueba sabe que orden esperar, y lo
+   * que no puede romperse es que falte o se repita una marca, ni que las dos copias de la pista
+   * vayan en orden distinto: la vuelta de la marquesina dejaria una costura.
+   */
+  describe('order', () => {
+    const sources = (selector: string): string[] =>
+      fixture.debugElement.queryAll(By.css(`${selector} img`)).map((img) => img.attributes['src'] ?? '');
+
+    beforeEach(() => {
+      useMedia({ narrow: true, reducedMotion: false });
+    });
+
+    it('shuffles the logos without losing or repeating any', () => {
+      const clients = moreClientsThanFit();
+      render(clients);
+
+      const shown = sources('.clients__group:not([aria-hidden])');
+      expect(shown).not.toEqual(clients.map((item) => item.logo.src));
+      expect([...shown].sort()).toEqual(clients.map((item) => item.logo.src).sort());
+    });
+
+    it('keeps both copies of the track in the same order', () => {
+      render(moreClientsThanFit());
+
+      expect(sources('.clients__group[aria-hidden="true"]')).toEqual(sources('.clients__group:not([aria-hidden])'));
     });
   });
 });

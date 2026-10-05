@@ -27,7 +27,7 @@
           [attr.aria-selected]="service.id === activeServiceId"
           [attr.aria-controls]="'service-panel-' + service.id"
           [attr.tabindex]="service.id === activeServiceId ? 0 : -1"
-          (click)="select(service)"
+          (click)="open(service)"
           (keydown)="onTabKeydown($event, index)"
         >
           {{ service.nameKey | translate }}

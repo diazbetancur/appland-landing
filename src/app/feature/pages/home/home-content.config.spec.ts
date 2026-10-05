@@ -117,7 +117,7 @@ describe('HOME_CONTENT', () => {
 
   it('shows only cases with approved copy and media, in approved order', () => {
     const visible = selectVisibleCases();
-    expect(visible.map((item) => item.name)).toEqual(['Dilo', 'Toyota', 'Tengo', 'TV Azteca Honduras']);
+    expect(visible.map((item) => item.name)).toEqual(['Dilo', 'Toyota', 'TENGO', 'TV Azteca Honduras']);
     expect(visible.every((item) => Boolean(item.media))).toBe(true);
   });
 
@@ -147,7 +147,7 @@ describe('HOME_CONTENT', () => {
   it('names each case the same way its own screenshot describes it', () => {
     const tengo = selectVisibleCases().find((item) => item.id === 'tengo');
 
-    expect(tengo?.name).toBe('Tengo');
+    expect(tengo?.name).toBe('TENGO');
     expect(tengo?.media?.altKey).toBe('home.cases.tengo.alt');
   });
 

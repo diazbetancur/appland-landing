@@ -69,6 +69,8 @@ describe('Translation files', () => {
     const IDENTICAL_ON_PURPOSE = new Set([
       'footer.whatsapp',
       'home.cases.dilo.name',
+      // "Fintech" es el rubro de Dilo y el termino es el mismo en los dos idiomas.
+      'home.cases.dilo.summary',
       'home.cases.toyota.name',
       'home.contact.social.instagram',
       'home.contact.social.linkedin',
