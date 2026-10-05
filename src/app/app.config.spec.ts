@@ -1,0 +1,143 @@
+import { ViewportScroller } from '@angular/common';
+import { provideLocationMocks } from '@angular/common/testing';
+import { ApplicationInitStatus } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
+import { LanguageService } from './components/shared/language.service';
+import { ServiceComponent } from './components/service/service.component';
+import { HomeComponent } from './feature/pages/home/home.component';
+import { IN_MEMORY_SCROLLING, SECTION_SCROLL_OFFSET, appConfig } from './app.config';
+import { routes } from './app.routes';
+
+/**
+ * Contrato de configuracion de la aplicacion.
+ *
+ * Sustituye a app-routing.module.spec.ts, que desaparecio con el NgModule de routing en el
+ * spec 006. Aquella prueba nacio en el spec 005 para reemplazar un falso positivo que
+ * asserteaba contra su propia copia de las rutas.
+ */
+describe('Application configuration contract', () => {
+  it('preserves only the existing Home, About and Service route ownership', () => {
+    TestBed.configureTestingModule({ providers: [...appConfig.providers, provideLocationMocks()] });
+
+    const configured = TestBed.inject(Router).config;
+
+    expect(configured.map((route) => route.path)).toEqual(['', 'about', 'service']);
+    expect(configured[0].component).toBe(HomeComponent);
+    expect(configured[2].component).toBe(ServiceComponent);
+    expect(configured).toEqual(routes);
+  });
+
+  /**
+   * `/about` servia `<p>about works!</p>`, el placeholder del scaffold de Angular, en
+   * produccion. Ninguna plantilla enlazaba a esa ruta: solo se llegaba tecleandola.
+   *
+   * Se conserva la direccion en vez de borrarla, por si alguien la compartio alguna vez, y
+   * pasa a llevar adonde el menu manda su entrada "Nosotros": la seccion por-que-appland de
+   * la Home.
+   */
+  it('sends the leftover About address to the section the menu calls Nosotros', async () => {
+    TestBed.configureTestingModule({ providers: [...appConfig.providers, provideLocationMocks()] });
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/about');
+
+    expect(router.url).toBe('/#por-que-appland');
+  });
+
+  describe('scroll configuration', () => {
+    /**
+     * Este es el guardia fuerte del spec 006.
+     *
+     * `withInMemoryScrolling` no acepta `scrollOffset`, asi que el offset del header fijo
+     * dejo de viajar con la configuracion del router y pasa a aplicarse mediante un
+     * inicializador que llama `ViewportScroller.setOffset`. La prueba ejecuta los
+     * inicializadores de la configuracion real y verifica ese efecto, no la forma de un
+     * objeto de opciones.
+     */
+    it('applies the fixed header offset to the viewport scroller at startup', async () => {
+      const setOffset = vi.fn();
+      // El doble se registra despues de appConfig.providers para sustituir al scroller real:
+      // asi el espia existe antes de que corran los inicializadores, que es cuando se aplica.
+      TestBed.configureTestingModule({
+        providers: [
+          ...appConfig.providers,
+          provideLocationMocks(),
+          { provide: ViewportScroller, useValue: { setOffset } as unknown as ViewportScroller },
+        ],
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+
+      expect(setOffset).toHaveBeenCalledWith(SECTION_SCROLL_OFFSET);
+    });
+
+    it('keeps the fixed header offset at the height the layout expects', () => {
+      expect(SECTION_SCROLL_OFFSET).toEqual([0, 104]);
+    });
+
+    /**
+     * Limitacion declarada: `ROUTER_SCROLLER`, donde `withInMemoryScrolling` deja el scroller
+     * construido con estas opciones, no es un export publico de `@angular/router`. No hay
+     * forma soportada de leer las opciones efectivas desde una prueba.
+     *
+     * Este guardia es por tanto mas debil que el que existia con `RouterModule.forRoot`:
+     * detecta que alguien cambie los valores, pero no detectaria que alguien elimine por
+     * completo `withInMemoryScrolling` de la configuracion.
+     */
+    it('keeps anchor scrolling and scroll position restoration enabled', () => {
+      expect(IN_MEMORY_SCROLLING.anchorScrolling).toBe('enabled');
+      expect(IN_MEMORY_SCROLLING.scrollPositionRestoration).toBe('enabled');
+    });
+  });
+
+  /**
+   * Guardia del spec 009.
+   *
+   * `LanguageService` existia desde antes pero nadie lo inyectaba, asi que su resolucion de
+   * idioma nunca se ejecutaba y el sitio quedaba en el `lang: 'es'` fijado aqui. Estas pruebas
+   * verifican el efecto contrario: que el arranque si lo llama, y que nadie vuelva a fijar el
+   * idioma en la configuracion.
+   */
+  describe('language configuration', () => {
+    it('resolves the visitor language at startup', async () => {
+      const initialize = vi.fn().mockReturnValue(of({}));
+      TestBed.configureTestingModule({
+        providers: [
+          ...appConfig.providers,
+          provideLocationMocks(),
+          { provide: LanguageService, useValue: { initialize } as unknown as LanguageService },
+        ],
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+
+      expect(initialize).toHaveBeenCalled();
+    });
+
+    /**
+     * Un fallo al cargar el archivo de traducciones no debe impedir arrancar: con las claves
+     * crudas el sitio es feo pero legible, y con el arranque roto es una pagina en blanco.
+     */
+    it('starts up even when the translation file fails to load', async () => {
+      const initialize = vi.fn().mockReturnValue(throwError(() => new Error('404')));
+      TestBed.configureTestingModule({
+        providers: [
+          ...appConfig.providers,
+          provideLocationMocks(),
+          { provide: LanguageService, useValue: { initialize } as unknown as LanguageService },
+        ],
+      });
+
+      await expect(TestBed.inject(ApplicationInitStatus).donePromise).resolves.toBeUndefined();
+    });
+
+    it('falls back to Spanish for a key missing in another language', () => {
+      TestBed.configureTestingModule({ providers: [...appConfig.providers, provideLocationMocks()] });
+
+      expect(TestBed.inject(TranslateService).getFallbackLang()).toBe('es');
+    });
+  });
+});

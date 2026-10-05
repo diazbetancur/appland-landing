@@ -1,48 +1,241 @@
-.container {
-  width: 100%;
-  height: auto;
+:host {
+  display: block;
+  background: var(--appland-bg-alt);
+}
+
+.cases__heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: clamp(2rem, 3.5vw, 3rem);
+}
+
+.cases__rule {
+  display: block;
+  width: 96px;
+  height: 2px;
+  margin-top: 1rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--appland-primary), transparent);
+}
+
+.cases__carousel {
+  position: relative;
+}
+
+.cases__control {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--appland-line-strong);
+  border-radius: 50%;
+  background: var(--appland-panel);
+  color: var(--appland-text);
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-50%);
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.cases__control--prev {
+  left: 0.5rem;
+}
+
+.cases__control--next {
+  right: 0.5rem;
+}
+
+.cases__control svg {
+  stroke: currentColor;
+}
+
+.cases__control:not(:disabled):hover {
+  border-color: var(--appland-primary);
+  background: var(--appland-primary-soft);
+}
+
+.cases__control:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cases__track {
+  min-width: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(min(82vw, 300px), 1fr);
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+  overflow-x: auto;
+  padding: 0.25rem clamp(2.5rem, 5vw, 3.5rem) 1rem;
+  /* `proximity`, not `mandatory`: when the last card's start-align position
+     sits past the maximum scroll offset, mandatory snapping drags the track
+     back and the final card can never be reached. */
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.cases__track::-webkit-scrollbar {
+  display: none;
+}
+
+.case-card {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
+  overflow: hidden;
+  border: 1px solid var(--appland-line);
+  border-radius: var(--appland-radius-lg);
+  background: linear-gradient(180deg, var(--appland-panel-2), var(--appland-panel));
+  scroll-snap-align: start;
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
 }
-.success-stories {
-  padding: 4rem 0;
 
-  .grid-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+/* The last card aligns to the end so it has a snap point at the maximum
+   scroll offset; aligned to start its snap point sits beyond it and smooth
+   scrolling springs the track back to the first card. */
+.case-card:last-child {
+  scroll-snap-align: end;
+}
+
+.case-card:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-4px);
+}
+
+/* A landscape frame keeps every card the same shape, while `contain` shows
+   each portrait device mockup whole instead of cropping it. */
+.case-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  border-bottom: 1px solid var(--appland-line);
+  background:
+    radial-gradient(circle at 50% 120%, rgba(20, 184, 196, 0.16), transparent 70%),
+    repeating-linear-gradient(135deg, #171f2a 0 12px, #121a24 12px 24px);
+}
+
+/* Absolute so the image's intrinsic ratio never drives the media box height
+   (a percentage-height img inside a flex+aspect-ratio parent can otherwise
+   stretch that parent to fit tall portrait mockups). Same fix as
+   .challenge__media in home-challenges. */
+.case-card__media img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  max-width: 90%;
+  height: 92%;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+}
+
+.case-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
+}
+
+.case-card__number {
+  margin: 0 0 0.9rem;
+  color: var(--appland-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.case-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.25rem, 1.5vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.case-card__category {
+  margin: 0;
+  color: var(--appland-text);
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.case-card__description {
+  margin: 0.5rem 0 0;
+  color: var(--appland-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.case-card a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  margin-top: 1.1rem;
+  color: var(--appland-secondary);
+  font-weight: 750;
+}
+
+.case-card a svg {
+  stroke: currentColor;
+}
+
+/**
+ * `.cases__position` no lleva estilos: el elemento esta oculto por
+ * `.appland-visually-hidden`, y darle reglas desde aqui las aplicaria por encima de esa
+ * utilidad, porque Angular anade especificidad extra a los estilos de componente.
+ */
+
+/**
+ * Desde 1024 px las fichas dejan de desplazarse y se reparten el ancho.
+ *
+ * Con `calc((100% - 3rem) / 3)` cabian tres, y los proyectos publicados son cuatro: la cuarta
+ * asomaba el 36% a 1024 px y solo el 17% a 1920, lo justo para leerse como un borde y no como
+ * un proyecto, y quien no usaba la flecha se iba con tres de cuatro.
+ *
+ * Las columnas no se cuentan a mano: `minmax(0, 1fr)` las reparte, asi que entran las que haya.
+ * Si entra un quinto proyecto, la fila lo acomoda sin tocar esta regla.
+ *
+ * Tambien se va el desplazamiento. El relleno lateral existia para apartar las fichas de las
+ * flechas, y sumado al ancho de las columnas empujaba el `scrollWidth` por encima del visible:
+ * dejarlo habria mantenido 400 px de scroll fantasma con las cuatro ya visibles.
+ */
+@media (min-width: 1024px) {
+  .cases__track {
+    grid-auto-columns: minmax(0, 1fr);
+    overflow: visible;
+    padding-inline: 0;
+    scroll-snap-type: none;
   }
 
-  .case-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    padding: 1rem;
+  /* With fewer cards than columns the track would leave a large gap on the
+     right, so cap the width and centre what is published. */
+  .cases__track--few {
+    grid-auto-columns: minmax(0, 420px);
+    justify-content: center;
+  }
+}
 
-    img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .case-card,
+  .cases__control {
+    transition: none;
+  }
 
-    h4 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      font-size: 0.95rem;
-      color: #666;
-    }
+  .case-card:hover {
+    transform: none;
   }
 }

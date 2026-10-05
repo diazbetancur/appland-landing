@@ -1,0 +1,16 @@
+# Dependencias y salidas de build
+node_modules
+dist
+tmp
+out-tsc
+.angular
+coverage
+
+# Generados o de referencia: docs/support.js declara en su primera linea que no debe editarse
+docs
+
+# Lockfile: 553 KB que nadie edita a mano
+package-lock.json
+
+# Datos consumidos en tiempo de ejecucion (i18n) e imagenes
+src/assets
