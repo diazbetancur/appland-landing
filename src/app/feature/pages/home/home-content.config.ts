@@ -294,6 +294,8 @@ export const HOME_CONTENT: HomeContent = {
       summaryKey: 'home.services.ai.summary',
       visualKey: 'ai',
       media: approvedAsset('assets/images/home/services/artificial-intelligence.png', 480, 256, '', true),
+      // La pestana resume la IA en cuatro etiquetas; los nueve casos de uso estan en su seccion.
+      sectionFragment: 'ia',
       highlights: [
         { id: 'ai-agents', labelKey: 'home.services.ai.agents', iconKey: 'chip' },
         { id: 'ai-automation', labelKey: 'home.services.ai.automation', iconKey: 'gear' },

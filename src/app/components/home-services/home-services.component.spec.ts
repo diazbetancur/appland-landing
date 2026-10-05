@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, provideRouter } from '@angular/router';
@@ -597,6 +598,80 @@ describe('HomeServicesComponent', () => {
 
       expect(component.activeServiceId).toBe(chosen.id);
       expect(currentParam()).toBe(chosen.id);
+    });
+  });
+
+  /**
+   * La pestana de Inteligencia Artificial resume en cuatro etiquetas lo que la seccion de IA
+   * desarrolla en nueve casos de uso, y nada llevaba de una a la otra. Ahora el clic baja a la
+   * seccion; recorrer las pestanas con las flechas o dejarlas rotar no saca a nadie de aqui.
+   */
+  describe('service with its own section', () => {
+    const ai = HOME_CONTENT.services.find((service) => service.id === 'artificial-intelligence')!;
+    const aiTab = () => fixture.debugElement.query(By.css(`#service-tab-${ai.id}`));
+    const currentFragment = (): string | null => TestBed.inject(Router).parseUrl(TestBed.inject(Router).url).fragment;
+    let scrollToAnchor: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      scrollToAnchor = vi.spyOn(TestBed.inject(ViewportScroller), 'scrollToAnchor').mockImplementation(() => {});
+    });
+
+    it('takes a click on the AI tab down to the AI section', async () => {
+      aiTab().triggerEventHandler('click');
+      await fixture.whenStable();
+
+      expect(ai.sectionFragment).toBe('ia');
+      expect(component.activeServiceId).toBe(ai.id);
+      expect(scrollToAnchor).toHaveBeenCalledWith('ia');
+      expect(currentFragment()).toBe('ia');
+    });
+
+    /** Con el fragmento ya en la direccion el router ignora la navegacion; el clic debe bajar igual. */
+    it('goes down again when the address already names the section', async () => {
+      aiTab().triggerEventHandler('click');
+      await fixture.whenStable();
+      aiTab().triggerEventHandler('click');
+      await fixture.whenStable();
+
+      expect(scrollToAnchor).toHaveBeenCalledTimes(2);
+    });
+
+    it('leaves the other tabs where they are', async () => {
+      const others = fixture.debugElement
+        .queryAll(By.css('[role="tab"]'))
+        .filter((tab) => tab.attributes['id'] !== `service-tab-${ai.id}`);
+
+      for (const tab of others) {
+        tab.triggerEventHandler('click');
+        await fixture.whenStable();
+      }
+
+      expect(scrollToAnchor).not.toHaveBeenCalled();
+      expect(currentFragment()).toBeNull();
+    });
+
+    /**
+     * Tras bajar a IA la direccion termina en `#ia`. Si otra pestana conservara ese fragmento,
+     * el router volveria a desplazar a la seccion de IA: medido, un salto de 2740 px.
+     */
+    it('drops the section fragment when another tab is chosen afterwards', async () => {
+      aiTab().triggerEventHandler('click');
+      await fixture.whenStable();
+      const other = HOME_CONTENT.services.find((service) => !service.sectionFragment)!;
+
+      component.open(other);
+      await fixture.whenStable();
+
+      expect(currentFragment()).toBeNull();
+      expect(scrollToAnchor).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not leave the section while the arrow keys walk through the tabs', () => {
+      const index = HOME_CONTENT.services.indexOf(ai);
+      component.onTabKeydown({ key: 'ArrowRight', preventDefault: vi.fn() } as unknown as KeyboardEvent, index - 1);
+
+      expect(component.activeServiceId).toBe(ai.id);
+      expect(scrollToAnchor).not.toHaveBeenCalled();
     });
   });
 });

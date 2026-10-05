@@ -134,6 +134,11 @@ export interface Service {
   readonly media?: ApprovedAsset;
   /** Derived from the approved summary; never new business copy. */
   readonly highlights?: readonly ServiceHighlight[];
+  /**
+   * Seccion de la Home que desarrolla este servicio. Elegir su pestana con un clic baja a ella:
+   * la pestana es el resumen y la seccion es el detalle.
+   */
+  readonly sectionFragment?: HomeSectionId;
 }
 
 export interface CaseStudy {
