@@ -255,6 +255,35 @@ describe('BannerComponent', () => {
       }
 
       /**
+       * "NUESTRA TECNOLOGIA" entra con aire y nada se le monta encima.
+       *
+       * En QA, con una ventana de escritorio de ~1.900 px y el zoom del sistema, la ultima letra
+       * quedaba pegada al borde derecho y la esfera tapaba la tilde de la I: la frase compartia
+       * banda con la esfera y estaba corrida a la derecha del centro. 1536 es una pantalla de
+       * 1920 al 125%, el caso que se reporto.
+       */
+      for (const width of [768, 1024, 1280, 1536, 1920]) {
+        it(`keeps the bottom phrase off the edge and clear of the sphere at ${width}px`, async () => {
+          await page.viewport(width, 900);
+
+          const hero = rect('.hero');
+          const bottom = rect('.hero__ghost--bottom');
+          const sphere = rect('.hero__sphere');
+          const overlaps =
+            sphere.left < bottom.right &&
+            sphere.right > bottom.left &&
+            sphere.top < bottom.bottom &&
+            sphere.bottom > bottom.top;
+
+          expect(overlaps, 'la esfera vuelve a tapar "NUESTRA TECNOLOGIA"').toBe(false);
+          expect(
+            Math.round(hero.right - bottom.right),
+            '"NUESTRA TECNOLOGIA" vuelve a quedar pegada al borde derecho',
+          ).toBeGreaterThanOrEqual(48);
+        });
+      }
+
+      /**
        * El equipo conserva su tamano: es la pieza que da escala al encabezado. Se probo encogerlo
        * para que las dos frases lo esquivaran y se descarto, asi que la prueba fija el suelo.
        */
