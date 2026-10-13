@@ -49,7 +49,7 @@ describe('HomeChallengesComponent', () => {
   it('exposes one contact action that resolves to the approved destination', () => {
     const cta = fixture.debugElement.query(By.css('.challenges__cta'));
     expect(cta).not.toBeNull();
-    expect(cta.nativeElement.textContent.trim()).toContain('Hablemos de tu proyecto');
+    expect(cta.nativeElement.textContent.trim()).toContain('Conversemos sobre tu proyecto');
     expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
   });
 
@@ -68,7 +68,7 @@ describe('HomeChallengesComponent', () => {
       'Identificamos los retos que frenan tu crecimiento y desarrollamos soluciones tecnológicas a la medida.',
     );
     expect(fixture.debugElement.query(By.css('.challenges__cta')).nativeElement.textContent.trim()).toBe(
-      'Hablemos de tu proyecto',
+      'Conversemos sobre tu proyecto',
     );
   });
 

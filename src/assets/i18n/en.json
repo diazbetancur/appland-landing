@@ -47,7 +47,7 @@
   "contact": "Contact Us",
   "contactDescription": "Let us help you transform your business with innovative technology solutions. Let's talk about how we can work together!",
   "footer": {
-    "brandSummary": "Software development, Artificial Intelligence, Automation and Staff Augmentation for companies looking to grow faster.",
+    "brandSummary": "Software Development, Artificial Intelligence, SaaS, Staff Augmentation, Process Automation and Technology Consulting for companies looking to grow better and faster.",
     "contact": "Contact",
     "navigation": "Navigation",
     "rights": "All rights reserved.",
@@ -143,7 +143,7 @@
       "viewCase": "View case"
     },
     "challenges": {
-      "cta": "Let’s talk about your project",
+      "cta": "Let’s discuss your project",
       "disconnected": {
         "alt": "Server, database, user and settings icons connected to a central cloud.",
         "problem": "Disconnected systems",

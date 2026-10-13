@@ -47,7 +47,7 @@
   "contact": "Contáctanos",
   "contactDescription": "Permítenos ayudarte a transformar tu negocio con soluciones tecnológicas innovadoras. ¡Hablemos sobre cómo podemos trabajar juntos!",
   "footer": {
-    "brandSummary": "Desarrollo de software, Inteligencia Artificial, Automatización y Staff Augmentation para empresas que buscan crecer más rápido.",
+    "brandSummary": "Desarrollo de Software, Inteligencia Artificial, SaaS, Staff Augmentation, Automatización de Procesos y Consultoría Tecnológica para empresas que buscan crecer mejor y más rápido.",
     "contact": "Contacto",
     "navigation": "Navegación",
     "rights": "Todos los derechos reservados.",
@@ -143,7 +143,7 @@
       "viewCase": "Ver caso"
     },
     "challenges": {
-      "cta": "Hablemos de tu proyecto",
+      "cta": "Conversemos sobre tu proyecto",
       "disconnected": {
         "alt": "Íconos de servidores, base de datos, usuarios y configuración conectados a una nube central.",
         "problem": "Sistemas desconectados",

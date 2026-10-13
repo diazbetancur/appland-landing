@@ -6,7 +6,7 @@
  * `ng serve` (ver `fileReplacements` en `angular.json`).
  */
 export const environment = {
-  /** Agenda de citas de Google Calendar que abren el hero y el menu. */
+  /** Agenda de citas de Google Calendar del hero y el menu, hoy desactivada (ver `meetingAction`). */
   bookingUrl: 'https://calendar.app.google/mW7zYayDjc1WvNcu6',
   /** Numero de WhatsApp en formato internacional, sin `+` ni espacios, como lo pide `wa.me`. */
   whatsappNumber: '50433349211',

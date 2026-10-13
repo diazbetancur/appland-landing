@@ -41,15 +41,12 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.contact.meetingAction.fallbackFragment).toBeUndefined();
   });
 
-  it('opens the Google Calendar booking page from the hero and menu, and only there', () => {
-    // El hero y el menu abren la agenda; los atajos de las secciones intermedias siguen
-    // bajando a contacto. Si compartieran objeto, todos abririan la agenda.
-    expect(resolveConversionAction(HOME_CONTENT.hero.primaryAction)).toEqual({
-      kind: 'href',
-      href: environment.bookingUrl,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    });
+  it('keeps the Google Calendar booking page off until it is approved again', () => {
+    // Mario definio no usar agenda por ahora: el hero y el menu bajan a contacto como los
+    // atajos de las secciones intermedias. La URL se conserva para reactivarla.
+    expect(HOME_CONTENT.hero.primaryAction.destination?.value).toBe(environment.bookingUrl);
+    expect(HOME_CONTENT.hero.primaryAction.destination?.publicationStatus).toBe('pending');
+    expect(resolveConversionAction(HOME_CONTENT.hero.primaryAction)).toEqual({ kind: 'router', fragment: 'contacto' });
     expect(resolveConversionAction(HOME_CONTENT.contactAction)).toEqual({ kind: 'router', fragment: 'contacto' });
   });
 

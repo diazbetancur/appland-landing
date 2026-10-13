@@ -17,6 +17,9 @@
 .hero {
   --hero-ghost-size: clamp(3.2rem, 9vw, 8rem);
   --hero-laptop-width: clamp(560px, 57vw, 1000px);
+  /* Cuerpo y hueco de "NUESTRA TECNOLOGIA": tambien los lee la esfera para quedar por encima. */
+  --hero-ghost-bottom-size: min(6.4vw, 5.6rem);
+  --hero-ghost-bottom-offset: clamp(0.75rem, 2.6vw, 3rem);
 
   position: relative;
   z-index: 0;
@@ -291,13 +294,20 @@ h1 {
  * es el quien manda y el `vw` deja de acotar nada, asi que el recorte volvia a 560 px con
  * 2.4rem y a 320 con 2.3rem. Es texto decorativo: en una ventana angosta corresponde que sea
  * pequeno.
+ *
+ * El desplazamiento paso de `-32%` a `-40%`. Con `-32%` la frase quedaba corrida a la derecha
+ * del centro y su final caia a 50 px del filo a 1024 y a 89 a 1440: entraba, pero pegada, y se
+ * leia como desborde. Con `-40%` el margen derecho es de 105 px a 1024 y 163 a 1440.
+ *
+ * La tinta baja de 0.2 a 0.1 y el tramo turquesa de 0.28 a 0.12 (en `styles.scss`): en QA el
+ * turquesa competia con el titulo de la seccion siguiente, que arranca justo debajo.
  */
 .hero__ghost--bottom {
-  bottom: clamp(0.75rem, 2.6vw, 3rem);
+  bottom: var(--hero-ghost-bottom-offset);
   left: 50%;
-  transform: translateX(-32%);
-  color: rgba(245, 247, 250, 0.2);
-  font-size: min(6.4vw, 5.6rem);
+  transform: translateX(-40%);
+  color: rgba(245, 247, 250, 0.1);
+  font-size: var(--hero-ghost-bottom-size);
 }
 
 /**
@@ -355,6 +365,20 @@ h1 {
   width: clamp(72px, 9vw, 132px);
   height: auto;
   pointer-events: none;
+}
+
+/**
+ * La esfera flota por encima de la franja de "NUESTRA TECNOLOGIA", no dentro de ella.
+ *
+ * Se apoyaba a `5vw` del pie, la misma banda que ocupa la frase, y entre 1024 y ~1700 px se
+ * montaba sobre su final: tapaba la tilde de la I. Desde 768 px su base queda por encima de la
+ * frase: el hueco de la frase, su alto (`line-height: 1`, o sea el cuerpo) y un respiro. En
+ * movil no: las tarjetas van en fila justo encima de la frase y subirla la monta sobre ellas.
+ */
+@media (min-width: 768px) {
+  .hero__sphere {
+    bottom: calc(var(--hero-ghost-bottom-offset) + var(--hero-ghost-bottom-size) + clamp(0.75rem, 2vw, 2rem));
+  }
 }
 
 @media (max-width: 1023px) {
@@ -422,8 +446,8 @@ h1 {
   }
 
   /* Misma cota y mismo motivo que la regla base: 8vw dejaba 42 px fuera a 390 px de ancho. */
-  .hero__ghost--bottom {
-    font-size: min(6.4vw, 2.2rem);
+  .hero {
+    --hero-ghost-bottom-size: min(6.4vw, 2.2rem);
   }
 
   .hero__sphere {
