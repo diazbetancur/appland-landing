@@ -11,8 +11,6 @@ describe('HomeSectionDirective', () => {
       registerRegion: vi.fn().mockName('HomeSectionObserverService.registerRegion'),
       unregisterRegion: vi.fn().mockName('HomeSectionObserverService.unregisterRegion'),
       notifyRegionVisibility: vi.fn().mockName('HomeSectionObserverService.notifyRegionVisibility'),
-      activationLinePercent: 25,
-      activationBandPercent: 1,
     };
     // La directiva obtiene sus dependencias con inject() desde el spec 006. Los dobles se
     // registran como proveedores y la instancia se crea en un contexto de inyeccion.
@@ -148,5 +146,29 @@ describe('HomeSectionDirective geometry', () => {
     expect(section.getBoundingClientRect().height).toBeGreaterThan(window.innerHeight);
 
     expect(await activeWhileShowing('casos')).toBe('casos');
+  });
+
+  /**
+   * El caso del punto 06 de la auditoria: una seccion ya ocupa la mayor parte de la pantalla
+   * pero su borde superior todavia no llego a la linea del 25% que usaba la regla anterior. En
+   * QA la barra seguia en "Servicios" con el titulo de "Por que..." en el centro.
+   */
+  const scrollUntilTopAt = async (regionId: string, fraction: number): Promise<string | null> => {
+    const section = fixture.nativeElement.querySelector(`[appHomeSection="${regionId}"]`) as HTMLElement;
+    const destino = window.scrollY + section.getBoundingClientRect().top - window.innerHeight * fraction;
+
+    for (let y = window.scrollY; y < destino; y += 90) {
+      await scrollTo(y);
+    }
+    await scrollTo(destino);
+
+    return service.currentActiveFragment;
+  };
+
+  it('switches as soon as the next section takes up most of the screen', async () => {
+    // arranca en el 60% de la ventana: ocupa el 40% y sigue mandando la de arriba
+    expect(await scrollUntilTopAt('casos', 0.6)).toBe('inicio');
+    // al 40% ya ocupa el 60%; con la linea del 25% seguia marcando la anterior
+    expect(await scrollUntilTopAt('casos', 0.4)).toBe('casos');
   });
 });

@@ -26,11 +26,12 @@ function countryFlag(slug: string): ApprovedAsset {
 }
 
 /**
- * Boton principal del hero y del menu: abre la agenda de citas de Google Calendar.
+ * Boton principal del hero y del menu.
  *
- * Google aloja la pagina de reserva, revisa la disponibilidad y crea el evento con Meet, asi
- * que el sitio no necesita backend. Si el destino dejara de estar aprobado, el boton vuelve a
- * bajar a la seccion de contacto.
+ * La agenda de Google Calendar queda en `pending`: Mario definio no usar herramienta de agenda
+ * por ahora, asi que el boton cae a `fallbackFragment` y baja a la seccion de contacto. Para
+ * volver a abrir la agenda basta con pasar el destino a `approved`; la URL sigue en
+ * `environment.bookingUrl`.
  */
 const meetingAction = {
   id: 'meeting',
@@ -39,7 +40,7 @@ const meetingAction = {
   destination: {
     kind: 'external',
     value: environment.bookingUrl,
-    publicationStatus: 'approved',
+    publicationStatus: 'pending',
     newContext: true,
   },
   fallbackFragment: 'contacto',
@@ -61,7 +62,8 @@ const whatsappAction = {
  *
  * Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee la de aqui.
  *
- * No copia `meetingAction`: ese boton abre la agenda, y estos atajos bajan a contacto.
+ * No copia `meetingAction`: ese boton abre la agenda cuando esta aprobada, y estos atajos
+ * bajan a contacto siempre.
  */
 const contactAction = {
   id: 'contact',

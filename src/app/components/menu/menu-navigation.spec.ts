@@ -65,7 +65,7 @@ describe('MenuComponent navigation', () => {
     router.navigateByUrl('/');
     tick();
     service.registerRegion('casos');
-    service.notifyRegionVisibility('casos', true);
+    service.notifyRegionVisibility('casos', 400);
     fixture.detectChanges();
     const active = fixture.debugElement.queryAll(By.css('.menu__desktop-links [aria-current="location"]'));
     expect(active.length).toBe(1);
@@ -82,10 +82,10 @@ describe('MenuComponent navigation', () => {
   ['/about', '/service'].forEach((url) => {
     it(`removes every fragment-derived aria-current on ${url}`, fakeAsync(() => {
       service.registerRegion('footer');
-      service.notifyRegionVisibility('footer', true);
+      service.notifyRegionVisibility('footer', 400);
       router.navigateByUrl(url);
       tick();
-      service.notifyRegionVisibility('footer', true);
+      service.notifyRegionVisibility('footer', 400);
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('[aria-current="location"]')).length).toBe(0);
     }));

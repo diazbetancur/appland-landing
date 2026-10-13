@@ -224,7 +224,8 @@ textarea {
 
 /* El tramo resaltado del texto decorativo del hero, tenue como el resto de esa frase.
    Estaba en 0.42 contra el 0.16 de su propia linea, dos veces y media mas presente: era el
-   elemento mas fuerte del hero, por delante del titular. */
+   elemento mas fuerte del hero, por delante del titular. Despues bajo a 0.28, y a 0.12 cuando
+   la de su linea paso a 0.1: aun asi competia con el titulo de clientes, que va justo debajo. */
 .hero__ghost--bottom span {
-  color: rgba(20, 184, 196, 0.28);
+  color: rgba(20, 184, 196, 0.12);
 }
