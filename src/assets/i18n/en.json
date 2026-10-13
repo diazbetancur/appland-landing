@@ -142,36 +142,6 @@
       },
       "viewCase": "View case"
     },
-    "challenges": {
-      "cta": "Let’s discuss your project",
-      "disconnected": {
-        "alt": "Server, database, user and settings icons connected to a central cloud.",
-        "problem": "Disconnected systems",
-        "response": "We integrate platforms, ERPs, CRMs and APIs."
-      },
-      "lead": "We pinpoint what is holding your growth back and build technology to match.",
-      "manual": {
-        "alt": "A person working on a laptop showing a task automation dashboard.",
-        "problem": "Manual processes that eat up time",
-        "response": "We automate repetitive tasks to increase productivity."
-      },
-      "overloaded": {
-        "alt": "A developer working at two monitors showing code in an office.",
-        "problem": "Overloaded technology teams",
-        "response": "We bring in specialised talent quickly."
-      },
-      "platform": {
-        "alt": "A laptop and phone showing a platform dashboard with user and sales metrics.",
-        "problem": "A platform waiting to be launched",
-        "response": "We design and build scalable solutions."
-      },
-      "support": {
-        "alt": "A person holding a phone showing a conversation with an AI assistant.",
-        "problem": "Inefficient customer service",
-        "response": "We deploy AI agents that operate 24/7."
-      },
-      "title": "What challenges can we help you <span class=\"challenges__highlight\">solve?</span>"
-    },
     "clients": {
       "logoAlt": "{{name}} logo",
       "pause": "Pause the logo carousel",
@@ -195,6 +165,28 @@
       "subtitle": "Software Development, Artificial Intelligence, SaaS, Staff Augmentation, Process Automation and Technology Consulting for companies looking to grow better and faster.",
       "titleHighlight": "with intelligent technology.",
       "titleLead": "We move your business forward "
+    },
+    "priorities": {
+      "automate": {
+        "body": "We eliminate manual tasks with workflows and artificial intelligence.",
+        "title": "Automate"
+      },
+      "build": {
+        "body": "We develop software, apps and platforms tailored to your business.",
+        "title": "Build"
+      },
+      "closing": "One partner, many ways to execute",
+      "cta": "Let’s discuss your project",
+      "lead": "Build · Modernize · Automate · Scale.",
+      "modernize": {
+        "body": "We update your systems and integrate your platforms so they work as one.",
+        "title": "Modernize"
+      },
+      "scale": {
+        "body": "We add specialists to your team so you can grow at the pace you need.",
+        "title": "Scale"
+      },
+      "title": "Business <span class=\"priorities__highlight\">priorities</span>"
     },
     "products": {
       "clinics": "Clinics",

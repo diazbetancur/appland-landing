@@ -4,7 +4,7 @@ import { HomeSectionDirective } from '../../../shared/directives/home-section.di
 import { BannerComponent } from '../../../components/banner/banner.component';
 import { RevealOnScrollDirective } from '../../../shared/directives/reveal-on-scroll.directive';
 import { OurClientsComponent } from '../../../components/our-clients/our-clients.component';
-import { HomeChallengesComponent } from '../../../components/home-challenges/home-challenges.component';
+import { HomePrioritiesComponent } from '../../../components/home-priorities/home-priorities.component';
 import { HomeServicesComponent } from '../../../components/home-services/home-services.component';
 import { SuccessStoriesComponent } from '../../../components/success-stories/success-stories.component';
 import { AiSolutionComponent } from '../../../components/ai-solution/ai-solution.component';
@@ -22,7 +22,7 @@ import { HomeCtaComponent } from '../../../components/home-cta/home-cta.componen
     BannerComponent,
     RevealOnScrollDirective,
     OurClientsComponent,
-    HomeChallengesComponent,
+    HomePrioritiesComponent,
     HomeServicesComponent,
     SuccessStoriesComponent,
     AiSolutionComponent,

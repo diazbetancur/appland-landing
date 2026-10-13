@@ -64,7 +64,7 @@ describe('AppComponent shell', () => {
   it('binds navigation and meeting inputs to the global Menu', () => {
     const menu = fixture.debugElement.query(By.directive(MenuStubComponent)).componentInstance as MenuStubComponent;
     expect(menu.items.length).toBe(5);
-    expect(menu.meetingAction.fallbackFragment).toBe('contacto');
+    expect(menu.meetingAction.intent).toBe('whatsapp');
   });
 
   it('binds one complete FooterContent object including nested contact', () => {

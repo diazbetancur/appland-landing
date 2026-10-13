@@ -94,20 +94,6 @@ h1 {
   stroke: currentColor;
 }
 
-/**
- * El boton de conversion del hero va en naranja, mientras el del menu principal se mantiene
- * en cyan. Los dos comparten la clase global `.appland-button--primary`, asi que la regla se
- * acota a `.hero__actions`: cambiar la clase global arrastraria tambien al del menu.
- */
-.hero__actions .appland-button--primary {
-  background: var(--appland-secondary);
-  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
-}
-
-.hero__actions .appland-button--primary:hover {
-  background: var(--appland-secondary-hover);
-}
-
 .hero__visual {
   display: flex;
   align-items: center;

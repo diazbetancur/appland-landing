@@ -8,7 +8,7 @@ import {
   ResolvedAction,
 } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService } from '../../shared/services/home-section-observer.service';
-import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { ConversionActionResolver } from '../../shared/services/conversion-action-resolver.service';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService, SUPPORTED_LANGUAGES, SupportedLanguage } from '../shared/language.service';
@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private readonly sectionObserver = inject(HomeSectionObserverService);
   private readonly router = inject(Router);
   private readonly language = inject(LanguageService);
+  private readonly actions = inject(ConversionActionResolver);
 
   /** Los dos idiomas que publica el sitio, en el orden en que los muestra el selector. */
   readonly languages = SUPPORTED_LANGUAGES;
@@ -38,7 +39,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
-    this.meetingDestination = resolveConversionAction(this.meetingAction);
+    this.meetingDestination = this.actions.resolve(this.meetingAction);
+    this.subscriptions.add(
+      this.actions.languageChanges.subscribe(() => {
+        this.meetingDestination = this.actions.resolve(this.meetingAction);
+      }),
+    );
     this.subscriptions.add(
       this.sectionObserver.activeNavigationFragment.subscribe((fragment) => {
         this.activeFragment = fragment;
