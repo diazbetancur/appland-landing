@@ -50,7 +50,7 @@ describe('HomeChallengesComponent', () => {
     const cta = fixture.debugElement.query(By.css('.challenges__cta'));
     expect(cta).not.toBeNull();
     expect(cta.nativeElement.textContent.trim()).toContain('Conversemos sobre tu proyecto');
-    expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+    expect(cta.nativeElement.getAttribute('href')).toContain('https://wa.me/');
   });
 
   it('keeps the decorative graphics out of the accessibility tree', () => {

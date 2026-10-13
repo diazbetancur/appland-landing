@@ -30,24 +30,23 @@ describe('HOME_CONTENT', () => {
     expect(HOME_CONTENT.hero.servicesAction.labelKey).toBe('home.actions.services');
   });
 
-  it('keeps the page-wide contact shortcut separate from the contact section button', () => {
-    // Compartir un solo objeto hacia que el boton de la seccion de contacto enlazara consigo
-    // mismo. Son dos acciones distintas y esta prueba impide que vuelvan a fundirse.
-    expect(HOME_CONTENT.contactAction.intent).toBe('meeting');
-    expect(HOME_CONTENT.contactAction.fallbackFragment).toBe('contacto');
-
-    expect(HOME_CONTENT.contact.meetingAction.intent).toBe('whatsapp');
-    expect(HOME_CONTENT.contact.meetingAction.approvedMessageKey).toBe('home.actions.whatsappMeetingMessage');
-    expect(HOME_CONTENT.contact.meetingAction.fallbackFragment).toBeUndefined();
-  });
-
-  it('keeps the Google Calendar booking page off until it is approved again', () => {
-    // Mario definio no usar agenda por ahora: el hero y el menu bajan a contacto como los
-    // atajos de las secciones intermedias. La URL se conserva para reactivarla.
-    expect(HOME_CONTENT.hero.primaryAction.destination?.value).toBe(environment.bookingUrl);
-    expect(HOME_CONTENT.hero.primaryAction.destination?.publicationStatus).toBe('pending');
-    expect(resolveConversionAction(HOME_CONTENT.hero.primaryAction)).toEqual({ kind: 'router', fragment: 'contacto' });
-    expect(resolveConversionAction(HOME_CONTENT.contactAction)).toEqual({ kind: 'router', fragment: 'contacto' });
+  it('sends every contact button to WhatsApp with the meeting message', () => {
+    // Mario definio en la ronda 5 que no hay agenda: el hero, el menu, los atajos de las
+    // secciones intermedias y el cierre abren el WhatsApp de la empresa.
+    for (const action of [
+      HOME_CONTENT.hero.primaryAction,
+      HOME_CONTENT.contactAction,
+      HOME_CONTENT.contact.meetingAction,
+    ]) {
+      expect(action.intent).toBe('whatsapp');
+      expect(action.approvedMessageKey).toBe('home.actions.whatsappMeetingMessage');
+      expect(resolveConversionAction(action, 'Hola')).toEqual({
+        kind: 'href',
+        href: `https://wa.me/${environment.whatsappNumber}?text=Hola`,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      });
+    }
   });
 
   /**

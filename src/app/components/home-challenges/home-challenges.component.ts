@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Challenge, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
-import { resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { ConversionActionResolver } from '../../shared/services/conversion-action-resolver.service';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -16,9 +17,19 @@ export class HomeChallengesComponent implements OnChanges {
 
   resolvedContactAction!: ResolvedAction;
 
+  private readonly actions = inject(ConversionActionResolver);
+
+  constructor() {
+    this.actions.languageChanges.pipe(takeUntilDestroyed()).subscribe(() => this.resolveActions());
+  }
+
   ngOnChanges(): void {
+    this.resolveActions();
+  }
+
+  private resolveActions(): void {
     this.resolvedContactAction = this.contactAction
-      ? resolveConversionAction(this.contactAction)
+      ? this.actions.resolve(this.contactAction)
       : (undefined as unknown as ResolvedAction);
   }
 }

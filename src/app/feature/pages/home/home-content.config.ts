@@ -26,24 +26,16 @@ function countryFlag(slug: string): ApprovedAsset {
 }
 
 /**
- * Boton principal del hero y del menu.
+ * Boton principal del hero y del menu: abre WhatsApp con el mensaje de reunion ya escrito.
  *
- * La agenda de Google Calendar queda en `pending`: Mario definio no usar herramienta de agenda
- * por ahora, asi que el boton cae a `fallbackFragment` y baja a la seccion de contacto. Para
- * volver a abrir la agenda basta con pasar el destino a `approved`; la URL sigue en
- * `environment.bookingUrl`.
+ * Definido por Mario en la ronda 5: no hay herramienta de agenda, todos los botones de
+ * contacto van al WhatsApp de la empresa. La agenda queda para una etapa futura, con un CRM.
  */
 const meetingAction = {
   id: 'meeting',
   labelKey: 'home.actions.meeting',
-  intent: 'meeting',
-  destination: {
-    kind: 'external',
-    value: environment.bookingUrl,
-    publicationStatus: 'pending',
-    newContext: true,
-  },
-  fallbackFragment: 'contacto',
+  intent: 'whatsapp',
+  approvedMessageKey: 'home.actions.whatsappMeetingMessage',
 } as const;
 
 const whatsappAction = {
@@ -53,23 +45,17 @@ const whatsappAction = {
 } as const;
 
 /**
- * Atajo a la seccion de contacto que usan las secciones intermedias de la Home.
+ * Boton de contacto de las secciones intermedias de la Home.
  *
- * Antes estas secciones compartian objeto con el boton de la propia seccion de contacto.
- * Como ese objeto resuelve al fragmento `contacto`, el boton de la seccion de contacto
- * terminaba enlazando consigo mismo y no llevaba a ninguna parte. Son dos acciones
- * distintas y se declaran por separado.
- *
- * Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee la de aqui.
- *
- * No copia `meetingAction`: ese boton abre la agenda cuando esta aprobada, y estos atajos
- * bajan a contacto siempre.
+ * Hasta la ronda 5 bajaba a la seccion de contacto; ahora abre WhatsApp como el resto, con el
+ * mismo mensaje. Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee
+ * la de aqui.
  */
 const contactAction = {
   id: 'contact',
   labelKey: 'home.actions.meeting',
-  intent: 'meeting',
-  fallbackFragment: 'contacto',
+  intent: 'whatsapp',
+  approvedMessageKey: 'home.actions.whatsappMeetingMessage',
 } as const;
 
 const navigation = [
