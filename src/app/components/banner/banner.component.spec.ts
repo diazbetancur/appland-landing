@@ -33,11 +33,10 @@ describe('BannerComponent', () => {
     expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.hero.subtitleKey));
   });
 
-  it('opens the booking page for meeting and routes services to servicios', () => {
-    const meeting = fixture.debugElement.query(By.css(`a[href="${environment.bookingUrl}"]`));
-    expect(meeting).not.toBeNull();
-    expect(meeting.nativeElement.getAttribute('target')).toBe('_blank');
-    expect(meeting.nativeElement.getAttribute('rel')).toBe('noopener noreferrer');
+  it('routes meeting to contacto, never to the booking page, and services to servicios', () => {
+    expect(fixture.debugElement.query(By.css(`a[href="${environment.bookingUrl}"]`))).toBeNull();
+    const meeting = fixture.debugElement.query(By.css('a.appland-button--primary'));
+    expect(meeting.nativeElement.getAttribute('href')).toContain('#contacto');
     expect(fixture.debugElement.query(By.css('a[href*="#servicios"]'))).not.toBeNull();
   });
 
