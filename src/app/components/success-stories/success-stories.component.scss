@@ -128,8 +128,7 @@
 
 /* Absolute so the image's intrinsic ratio never drives the media box height
    (a percentage-height img inside a flex+aspect-ratio parent can otherwise
-   stretch that parent to fit tall portrait mockups). Same fix as
-   .challenge__media in home-challenges. */
+   stretch that parent to fit tall portrait mockups). */
 .case-card__media img {
   position: absolute;
   top: 50%;

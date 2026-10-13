@@ -142,36 +142,6 @@
       },
       "viewCase": "Ver caso"
     },
-    "challenges": {
-      "cta": "Conversemos sobre tu proyecto",
-      "disconnected": {
-        "alt": "Íconos de servidores, base de datos, usuarios y configuración conectados a una nube central.",
-        "problem": "Sistemas desconectados",
-        "response": "Integramos plataformas, ERPs, CRMs y APIs."
-      },
-      "lead": "Identificamos los retos que frenan tu crecimiento y desarrollamos soluciones tecnológicas a la medida.",
-      "manual": {
-        "alt": "Persona trabajando en una laptop con un panel de automatización de tareas.",
-        "problem": "Procesos manuales que consumen tiempo",
-        "response": "Automatizamos tareas repetitivas para aumentar productividad."
-      },
-      "overloaded": {
-        "alt": "Desarrollador trabajando frente a dos monitores con código en una oficina.",
-        "problem": "Equipos tecnológicos saturados",
-        "response": "Incorporamos talento especializado rápidamente."
-      },
-      "platform": {
-        "alt": "Laptop y teléfono mostrando el panel de una plataforma con métricas de usuarios y ventas.",
-        "problem": "Necesidad de lanzar una plataforma",
-        "response": "Diseñamos y desarrollamos soluciones escalables."
-      },
-      "support": {
-        "alt": "Persona sosteniendo un teléfono con una conversación de asistente de IA en pantalla.",
-        "problem": "Atención al cliente ineficiente",
-        "response": "Implementamos agentes de IA que operan 24/7."
-      },
-      "title": "¿Qué desafíos podemos ayudarte a <span class=\"challenges__highlight\">resolver?</span>"
-    },
     "clients": {
       "logoAlt": "Logo de {{name}}",
       "pause": "Pausar el desplazamiento de logotipos",
@@ -195,6 +165,28 @@
       "subtitle": "Desarrollo de Software, Inteligencia Artificial, SaaS, Staff Augmentation, Automatización de Procesos y Consultoría Tecnológica para empresas que buscan crecer mejor y más rápido.",
       "titleHighlight": "con tecnología inteligente.",
       "titleLead": "Impulsamos tu negocio "
+    },
+    "priorities": {
+      "automate": {
+        "body": "Eliminamos tareas manuales con flujos e inteligencia artificial.",
+        "title": "Automatizar"
+      },
+      "build": {
+        "body": "Desarrollamos software, apps y plataformas a la medida de tu negocio.",
+        "title": "Construir"
+      },
+      "closing": "Un solo socio, múltiples formas de ejecutar",
+      "cta": "Conversemos sobre tu proyecto",
+      "lead": "Construir · Modernizar · Automatizar · Escalar.",
+      "modernize": {
+        "body": "Actualizamos tus sistemas e integramos tus plataformas para que trabajen como una sola.",
+        "title": "Modernizar"
+      },
+      "scale": {
+        "body": "Sumamos especialistas a tu equipo para crecer al ritmo que necesitas.",
+        "title": "Escalar"
+      },
+      "title": "Prioridades del <span class=\"priorities__highlight\">negocio</span>"
     },
     "products": {
       "clinics": "Clínicas",

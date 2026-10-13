@@ -217,46 +217,43 @@ export const HOME_CONTENT: HomeContent = {
     whatsappAction,
   },
   clients: clientCandidates,
-  challenges: [
+  /**
+   * "Prioridades del negocio", que reemplaza a los desafios desde la ronda 5. Cada tarjeta
+   * enlaza a la pestana de su servicio; Modernizar va a Consultoria porque actualizar sistemas e
+   * integrar plataformas es el trabajo de diagnostico y arquitectura que describe esa pestana.
+   */
+  priorities: [
     {
-      id: 'manual',
-      problemKey: 'home.challenges.manual.problem',
-      responseKey: 'home.challenges.manual.response',
-      visualKey: 'automation',
-      media: approvedAsset('assets/images/home/challenges/manual.jpg', 560, 373, 'home.challenges.manual.alt'),
+      id: 'build',
+      titleKey: 'home.priorities.build.title',
+      bodyKey: 'home.priorities.build.body',
+      iconKey: 'build',
+      serviceId: 'software',
+      serviceNameKey: 'home.services.software.name',
     },
     {
-      id: 'disconnected',
-      problemKey: 'home.challenges.disconnected.problem',
-      responseKey: 'home.challenges.disconnected.response',
-      visualKey: 'integration',
-      media: approvedAsset(
-        'assets/images/home/challenges/disconnected.jpg',
-        560,
-        373,
-        'home.challenges.disconnected.alt',
-      ),
+      id: 'modernize',
+      titleKey: 'home.priorities.modernize.title',
+      bodyKey: 'home.priorities.modernize.body',
+      iconKey: 'modernize',
+      serviceId: 'technology-consulting',
+      serviceNameKey: 'home.services.consulting.name',
     },
     {
-      id: 'overloaded',
-      problemKey: 'home.challenges.overloaded.problem',
-      responseKey: 'home.challenges.overloaded.response',
-      visualKey: 'team',
-      media: approvedAsset('assets/images/home/challenges/overloaded.jpg', 560, 280, 'home.challenges.overloaded.alt'),
+      id: 'automate',
+      titleKey: 'home.priorities.automate.title',
+      bodyKey: 'home.priorities.automate.body',
+      iconKey: 'automate',
+      serviceId: 'process-automation',
+      serviceNameKey: 'home.services.automation.name',
     },
     {
-      id: 'support',
-      problemKey: 'home.challenges.support.problem',
-      responseKey: 'home.challenges.support.response',
-      visualKey: 'support',
-      media: approvedAsset('assets/images/home/challenges/support.jpg', 560, 373, 'home.challenges.support.alt'),
-    },
-    {
-      id: 'platform',
-      problemKey: 'home.challenges.platform.problem',
-      responseKey: 'home.challenges.platform.response',
-      visualKey: 'platform',
-      media: approvedAsset('assets/images/home/challenges/platform.jpg', 560, 373, 'home.challenges.platform.alt'),
+      id: 'scale',
+      titleKey: 'home.priorities.scale.title',
+      bodyKey: 'home.priorities.scale.body',
+      iconKey: 'scale',
+      serviceId: 'staff-augmentation',
+      serviceNameKey: 'home.services.staff.name',
     },
   ],
   services: [

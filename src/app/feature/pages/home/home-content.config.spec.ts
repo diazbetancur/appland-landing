@@ -88,7 +88,7 @@ describe('HOME_CONTENT', () => {
   });
 
   it('contains exactly the approved business entity counts', () => {
-    expect(HOME_CONTENT.challenges.length).toBe(5);
+    expect(HOME_CONTENT.priorities.length).toBe(4);
     expect(HOME_CONTENT.services.length).toBe(5);
     expect(HOME_CONTENT.cases.length).toBe(7);
     expect(HOME_CONTENT.aiApplications.length).toBe(9);
@@ -150,7 +150,7 @@ describe('HOME_CONTENT', () => {
   it('contains no testimonial or provisional public copy', () => {
     const visibleCopy = JSON.stringify({
       hero: HOME_CONTENT.hero,
-      challenges: HOME_CONTENT.challenges,
+      priorities: HOME_CONTENT.priorities,
       services: HOME_CONTENT.services,
       cases: selectVisibleCases(),
       ai: HOME_CONTENT.aiApplications,

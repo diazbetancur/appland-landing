@@ -112,12 +112,16 @@ export interface Client {
   readonly publicationStatus: PublicationStatus;
 }
 
-export interface Challenge {
+/** Una de las cuatro tarjetas de "Prioridades del negocio". */
+export interface BusinessPriority {
   readonly id: string;
-  readonly problemKey: string;
-  readonly responseKey: string;
-  readonly visualKey?: string;
-  readonly media?: ApprovedAsset;
+  readonly titleKey: string;
+  readonly bodyKey: string;
+  readonly iconKey: 'build' | 'modernize' | 'automate' | 'scale';
+  /** Pestana de la seccion de servicios que abre el enlace de la tarjeta. */
+  readonly serviceId: string;
+  /** Nombre del servicio, que es tambien el texto del enlace. */
+  readonly serviceNameKey: string;
 }
 
 export interface ServiceHighlight {
@@ -219,7 +223,7 @@ export interface HomeContent {
   readonly contactAction: ConversionAction;
   readonly hero: HeroContent;
   readonly clients: readonly Client[];
-  readonly challenges: readonly Challenge[];
+  readonly priorities: readonly BusinessPriority[];
   readonly services: readonly Service[];
   readonly cases: readonly CaseStudy[];
   readonly aiApplications: readonly AiApplication[];
