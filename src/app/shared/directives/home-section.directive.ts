@@ -2,6 +2,9 @@ import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, inject } from '
 import { ObservedRegionId } from '../../feature/pages/home/home-content.models';
 import { HomeSectionObserverService } from '../services/home-section-observer.service';
 
+/** De 0 a 1 en pasos de 0.01. */
+const VISIBILITY_THRESHOLDS = Array.from({ length: 101 }, (_, step) => step / 100);
+
 @Directive({ selector: '[appHomeSection]' })
 export class HomeSectionDirective implements AfterViewInit, OnDestroy {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -18,26 +21,25 @@ export class HomeSectionDirective implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * La raiz se estrecha hasta dejar una linea, asi que intersectarla es cruzarla.
+     * Se informa cuanto alto se ve de la seccion y el servicio elige la que mas ocupa.
      *
-     * Antes la banda medía unos 130 px y la condicion se comprobaba a mano comparando `top` y
-     * `bottom` contra la linea. Esa comprobacion no se cumplia nunca: con `threshold: 0` el
-     * observador solo avisa al entrar y al salir de la banda, y una seccion mas alta que ella
-     * entra con el borde superior por debajo de la linea y sale con el inferior por encima.
-     * Nunca hay un aviso en el instante en que la cruza, que era el unico que la activaba.
-     *
-     * Con una linea, los dos avisos que interesan llegan solos: uno con `isIntersecting` en
-     * falso para la seccion que deja de cruzarla y otro en cierto para la que empieza.
+     * Los umbrales van de 1% en 1% para que el aviso llegue mientras la seccion se desplaza y no
+     * solo al entrar y salir: con `threshold: 0` el observador callaba todo el tramo intermedio,
+     * que es justo donde una seccion pasa a ocupar la mayor parte de la pantalla. La barra fija
+     * se descuenta con el margen superior, porque lo que queda debajo de ella no se ve.
      */
-    const { activationLinePercent: line, activationBandPercent: band } = this.sectionObserver;
+    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--appland-header-height'));
 
     this.observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          this.sectionObserver.notifyRegionVisibility(this.regionId, entry.isIntersecting);
+          this.sectionObserver.notifyRegionVisibility(
+            this.regionId,
+            entry.isIntersecting ? entry.intersectionRect.height : 0,
+          );
         }
       },
-      { rootMargin: `-${line}% 0px -${100 - line - band}% 0px`, threshold: 0 },
+      { rootMargin: `-${header || 0}px 0px 0px 0px`, threshold: VISIBILITY_THRESHOLDS },
     );
     this.observer.observe(this.elementRef.nativeElement);
   }

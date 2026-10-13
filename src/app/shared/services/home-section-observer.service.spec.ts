@@ -42,21 +42,46 @@ describe('HomeSectionObserverService', () => {
       'servicios',
       'contacto',
     ]);
-    // La linea de activacion es porcentual desde el spec de la ronda 4: en pixeles fijos la
-    // banda quedaba mas baja que cualquier seccion y no se activaba ninguna.
-    expect(service.activationLinePercent).toBe(25);
-    expect(service.activationBandPercent).toBe(1);
   });
 
-  it('keeps only the most recently crossing registered region active on Home', fakeAsync(() => {
+  it('activates the registered region that takes up the most of the screen', fakeAsync(() => {
     router.navigateByUrl('/');
     tick();
     service.registerRegion('desafios');
     service.registerRegion('casos');
-    service.notifyRegionVisibility('desafios', true);
+    service.notifyRegionVisibility('desafios', 600);
+    service.notifyRegionVisibility('casos', 200);
     expect(service.currentActiveFragment).toBe('servicios');
-    service.notifyRegionVisibility('casos', true);
+
+    // la de abajo pasa a ocupar mas: cambia aunque la de arriba siga a la vista
+    service.notifyRegionVisibility('desafios', 390);
+    service.notifyRegionVisibility('casos', 410);
     expect(service.currentActiveFragment).toBe('casos');
+
+    // y vuelve si se sube
+    service.notifyRegionVisibility('desafios', 500);
+    expect(service.currentActiveFragment).toBe('servicios');
+  }));
+
+  it('keeps the last active region while nothing registered is on screen', fakeAsync(() => {
+    router.navigateByUrl('/');
+    tick();
+    service.registerRegion('casos');
+    service.notifyRegionVisibility('casos', 300);
+    service.notifyRegionVisibility('casos', 0);
+    expect(service.currentActiveFragment).toBe('casos');
+  }));
+
+  it('forgets an unregistered region so it cannot win anymore', fakeAsync(() => {
+    router.navigateByUrl('/');
+    tick();
+    service.registerRegion('desafios');
+    service.registerRegion('casos');
+    service.notifyRegionVisibility('casos', 700);
+    service.notifyRegionVisibility('desafios', 100);
+    service.unregisterRegion('casos');
+    service.notifyRegionVisibility('desafios', 100);
+    expect(service.currentActiveFragment).toBe('servicios');
   }));
 
   ['/about', '/service'].forEach((url) => {
@@ -68,7 +93,7 @@ describe('HomeSectionObserverService', () => {
       router.navigateByUrl(url);
       tick();
       expect(service.currentActiveFragment).toBeNull();
-      service.notifyRegionVisibility('footer', true);
+      service.notifyRegionVisibility('footer', 400);
       expect(service.currentActiveFragment).toBeNull();
     }));
   });

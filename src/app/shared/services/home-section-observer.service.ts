@@ -22,24 +22,15 @@ export class HomeSectionObserverService implements OnDestroy {
   private readonly router = inject(Router);
 
   /**
-   * Donde cae la linea que decide que seccion esta activa, como porcentaje del alto de la
-   * ventana contado desde arriba.
+   * Alto visible de cada region, en px, segun el ultimo aviso de su observador.
    *
-   * Antes eran 140 px fijos y la banda observada iba de ahi al 30% del alto, unos 130 px. Con
-   * `threshold: 0` el observador solo avisa al entrar y al salir de la banda, y todas las
-   * secciones de la Home miden entre 308 y 1080 px: ninguna cabia dentro, asi que ninguna
-   * producia el aviso que la habria activado. Medido en Chromium: 26 avisos en un recorrido
-   * completo y uno solo cumplia la condicion, el inicial del hero. Por eso el indicador se
-   * quedaba en "Inicio" toda la pagina.
-   *
-   * Ahora la banda es una linea fina, asi que intersectarla significa cruzarla y ya no hace
-   * falta comparar coordenadas. Es porcentual a proposito: no depende del alto de la ventana
-   * y no hay que rehacer el observador al redimensionar.
+   * La seccion activa es la que mas pantalla ocupa, que es lo que pide el punto 06 de la
+   * auditoria. Antes se activaba cuando su borde superior cruzaba una linea al 25% del alto,
+   * y eso la marcaba tarde: con una seccion ya llenando la pantalla, la barra seguia en la
+   * anterior hasta que el borde llegaba a la linea. Medido a 1440x900, la barra iba atrasada
+   * en 35 de 170 posiciones de un recorrido completo, en todas las transiciones.
    */
-  readonly activationLinePercent = 25;
-
-  /** Grosor de la banda. Lo minimo para que sea una linea y no un punto sin area. */
-  readonly activationBandPercent = 1;
+  private readonly visibleHeights = new Map<ObservedRegionId, number>();
 
   private readonly registeredRegionIds = new Set<ObservedRegionId>();
   private readonly activeRegionSubject = new BehaviorSubject<ObservedRegionId | null>(null);
@@ -77,16 +68,39 @@ export class HomeSectionObserverService implements OnDestroy {
 
   unregisterRegion(regionId: ObservedRegionId): void {
     this.registeredRegionIds.delete(regionId);
+    this.visibleHeights.delete(regionId);
     if (this.activeRegionSubject.value === regionId) {
       this.setActiveRegion(this.homeRouteActive ? 'inicio' : null);
     }
   }
 
-  notifyRegionVisibility(regionId: ObservedRegionId, crossesActivationLine: boolean): void {
-    if (!this.homeRouteActive || !crossesActivationLine || !this.registeredRegionIds.has(regionId)) {
+  /**
+   * @param visibleHeight Alto en px de la parte de la region que se ve, sin la barra fija.
+   *
+   * Con todas las regiones fuera de la pantalla no cambia nada: se queda la ultima activa.
+   * Ante un empate gana la primera registrada, que es la que va antes en la pagina.
+   */
+  notifyRegionVisibility(regionId: ObservedRegionId, visibleHeight: number): void {
+    if (!this.registeredRegionIds.has(regionId)) {
       return;
     }
-    this.setActiveRegion(regionId);
+    this.visibleHeights.set(regionId, visibleHeight);
+    if (!this.homeRouteActive) {
+      return;
+    }
+
+    let mostVisible: ObservedRegionId | null = null;
+    let largest = 0;
+    for (const id of this.registeredRegionIds) {
+      const height = this.visibleHeights.get(id) ?? 0;
+      if (height > largest) {
+        largest = height;
+        mostVisible = id;
+      }
+    }
+    if (mostVisible) {
+      this.setActiveRegion(mostVisible);
+    }
   }
 
   ngOnDestroy(): void {
