@@ -121,14 +121,17 @@ textarea {
     border-color 180ms ease;
 }
 
+/* La accion principal va en naranja en todo el sitio, como los botones de cada seccion. Hasta
+   la ronda 5 esta clase era cyan y el hero la pisaba con naranja, asi que el boton del menu y
+   el del hero llevaban el mismo texto en dos colores. */
 .appland-button--primary {
-  background: var(--appland-primary);
-  color: #080c11;
-  box-shadow: 0 14px 34px rgba(20, 184, 196, 0.25);
+  background: var(--appland-secondary);
+  color: #0c0f14;
+  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
 }
 
 .appland-button--primary:hover {
-  background: var(--appland-primary-hover);
+  background: var(--appland-secondary-hover);
   transform: translateY(-2px);
 }
 
@@ -213,7 +216,7 @@ textarea {
   color: var(--appland-secondary);
 }
 
-.challenges__highlight,
+.priorities__highlight,
 .cases__highlight,
 .ai__highlight,
 .why__highlight,

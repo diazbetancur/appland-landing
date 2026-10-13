@@ -1,0 +1,169 @@
+:host {
+  display: block;
+  background: var(--appland-bg-alt);
+}
+
+.priorities__intro {
+  max-width: 46rem;
+  margin: 0 auto clamp(2rem, 3.5vw, 3rem);
+  text-align: center;
+}
+
+/* `.appland-heading` limita el ancho a 22ch y no se centra solo: sin esto, cuando la caja es
+   mas angosta que el contenedor, el titulo queda a la izquierda de su propia bajada. */
+.priorities__intro .appland-heading {
+  margin-inline: auto;
+}
+
+.priorities__lead {
+  margin: 1.1rem 0 0;
+  color: var(--appland-muted);
+  font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Cuatro en fila en escritorio, dos en tablet y una en movil: con cuatro tarjetas, tres
+   columnas dejarian una sola huerfana abajo. */
+.priorities__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.2vw, 1.25rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.priority {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 1.8vw, 1.75rem);
+  border: 1px solid var(--appland-line);
+  border-radius: var(--appland-radius-lg);
+  background: linear-gradient(160deg, #141b25, #0f151e);
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
+}
+
+.priority:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-4px);
+}
+
+.priority__icon {
+  display: flex;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.15rem;
+  border: 1px solid rgba(20, 184, 196, 0.4);
+  border-radius: 13px;
+  background: rgba(20, 184, 196, 0.09);
+}
+
+.priority__icon svg {
+  stroke: var(--appland-primary);
+}
+
+.priority h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.15rem, 1.4vw, 1.4rem);
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.priority p {
+  flex: 1 1 auto;
+  margin: 0 0 1.25rem;
+  color: var(--appland-muted);
+  font-size: clamp(0.92rem, 1vw, 1rem);
+  line-height: 1.55;
+}
+
+/* El enlace lleva el nombre del servicio y no un "Ver mas": cuatro enlaces con el mismo texto
+   no dicen a donde va ninguno, ni a la vista ni a un lector de pantalla. */
+.priority__link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.4rem;
+  min-height: 44px;
+  color: var(--appland-primary);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.priority__link svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+  transition: transform 200ms ease;
+}
+
+.priority__link:hover svg {
+  transform: translateX(3px);
+}
+
+.priorities__closing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem clamp(1.25rem, 2.5vw, 2rem);
+  margin-top: clamp(2rem, 3.5vw, 3rem);
+  text-align: center;
+}
+
+.priorities__statement {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.priorities__cta {
+  background: var(--appland-secondary);
+  color: #0c0f14;
+  box-shadow: 0 14px 34px rgba(240, 90, 36, 0.25);
+}
+
+.priorities__cta:hover {
+  background: var(--appland-secondary-hover);
+  transform: translateY(-2px);
+}
+
+.priorities__cta svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+@media (max-width: 1099px) {
+  .priorities__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 559px) {
+  .priorities__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .priorities__cta {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .priority,
+  .priority__link svg {
+    transition: none;
+  }
+
+  .priority:hover {
+    transform: none;
+  }
+}

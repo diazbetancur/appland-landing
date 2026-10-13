@@ -35,9 +35,9 @@ describe('AiSolutionComponent', () => {
     expect(descriptions).toEqual(HOME_CONTENT.aiApplications.map((item) => t(item.descriptionKey)));
   });
 
-  it('uses the approved contact fallback', () => {
+  it('opens WhatsApp from the contact action', () => {
     const action = fixture.debugElement.query(By.css('.ai__intro a'));
-    expect(action.attributes['href']).toContain('#contacto');
+    expect(action.attributes['href']).toContain('https://wa.me/');
   });
 
   it('keeps the wave and sphere decorations out of the accessibility tree', () => {

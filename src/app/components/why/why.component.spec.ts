@@ -32,10 +32,10 @@ describe('WhyComponent', () => {
     });
   });
 
-  it('resolves the contact action to the approved destination', () => {
+  it('opens WhatsApp from the contact action', () => {
     const cta = fixture.debugElement.query(By.css('.why__cta'));
     expect(cta.nativeElement.textContent.trim()).toContain('Conversemos sobre tu proyecto');
-    expect(cta.nativeElement.getAttribute('href')).toContain('#contacto');
+    expect(cta.nativeElement.getAttribute('href')).toContain('https://wa.me/');
   });
 
   it('gives every attribute a decorative icon that adds no accessible text', () => {

@@ -1,9 +1,10 @@
 import { Component, DestroyRef, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ContactContent, ResolvedAction } from '../../feature/pages/home/home-content.models';
-import { destinationHref, resolveConversionAction } from '../../shared/utils/conversion-destination.util';
+import { destinationHref } from '../../shared/utils/conversion-destination.util';
+import { ConversionActionResolver } from '../../shared/services/conversion-action-resolver.service';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-cta',
@@ -17,7 +18,7 @@ export class HomeCtaComponent implements OnInit, OnChanges {
   meetingAction!: ResolvedAction;
   readonly destinationHref = destinationHref;
 
-  private readonly translate = inject(TranslateService);
+  private readonly actions = inject(ConversionActionResolver);
   private readonly destroyRef = inject(DestroyRef);
 
   /**
@@ -31,7 +32,7 @@ export class HomeCtaComponent implements OnInit, OnChanges {
    * espanol ya escrito debajo de un boton en ingles.
    */
   ngOnInit(): void {
-    this.translate.onLangChange.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.resolveMeetingAction());
+    this.actions.languageChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.resolveMeetingAction());
   }
 
   ngOnChanges(): void {
@@ -39,15 +40,6 @@ export class HomeCtaComponent implements OnInit, OnChanges {
   }
 
   private resolveMeetingAction(): void {
-    this.meetingAction = resolveConversionAction(this.content.meetingAction, this.approvedMessage());
-  }
-
-  /**
-   * El unico boton de la seccion abre WhatsApp con este mensaje ya escrito, que es lo que
-   * conserva la intencion de reunion que anuncia su etiqueta.
-   */
-  private approvedMessage(): string | undefined {
-    const key = this.content.meetingAction.approvedMessageKey;
-    return key ? this.translate.instant(key) : undefined;
+    this.meetingAction = this.actions.resolve(this.content.meetingAction);
   }
 }

@@ -1,0 +1,126 @@
+<div class="appland-container priorities">
+  <header class="priorities__intro">
+    <h2 id="desafios-title" class="appland-heading" [innerHTML]="'home.priorities.title' | translate"></h2>
+    <p class="priorities__lead">{{ 'home.priorities.lead' | translate }}</p>
+  </header>
+
+  <ul class="priorities__grid">
+    @for (priority of priorities; track priority.id) {
+      <li class="priority">
+        <span class="priority__icon" aria-hidden="true">
+          @switch (priority.iconKey) {
+            @case ('build') {
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"></path>
+              </svg>
+            }
+            @case ('modernize') {
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"></path>
+              </svg>
+            }
+            @case ('automate') {
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M13 3L5 13.5h6L10 21l8-10.5h-6L13 3z"></path>
+              </svg>
+            }
+            @case ('scale') {
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 17l6-6 4 4 8-8M15 7h6v6"></path>
+              </svg>
+            }
+          }
+        </span>
+        <h3>{{ priority.titleKey | translate }}</h3>
+        <p>{{ priority.bodyKey | translate }}</p>
+        <a class="priority__link" [routerLink]="['/']" fragment="servicios" [queryParams]="serviceParams(priority)">
+          {{ priority.serviceNameKey | translate }}
+          <svg
+            aria-hidden="true"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </li>
+    }
+  </ul>
+
+  <div class="priorities__closing">
+    <p class="priorities__statement">{{ 'home.priorities.closing' | translate }}</p>
+
+    @if (resolvedContactAction; as action) {
+      @if (action.kind === 'router') {
+        <a class="appland-button priorities__cta" [routerLink]="['/']" [fragment]="action.fragment">
+          {{ 'home.priorities.cta' | translate }}
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      } @else {
+        <a class="appland-button priorities__cta" [href]="action.href" [target]="action.target" [rel]="action.rel">
+          {{ 'home.priorities.cta' | translate }}
+          <svg
+            aria-hidden="true"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      }
+    }
+  </div>
+</div>

@@ -33,10 +33,13 @@ describe('BannerComponent', () => {
     expect(fixture.nativeElement.textContent).toContain(t(HOME_CONTENT.hero.subtitleKey));
   });
 
-  it('routes meeting to contacto, never to the booking page, and services to servicios', () => {
-    expect(fixture.debugElement.query(By.css(`a[href="${environment.bookingUrl}"]`))).toBeNull();
+  it('opens WhatsApp with the meeting message for meeting and routes services to servicios', () => {
     const meeting = fixture.debugElement.query(By.css('a.appland-button--primary'));
-    expect(meeting.nativeElement.getAttribute('href')).toContain('#contacto');
+    expect(meeting.nativeElement.getAttribute('href')).toBe(
+      `https://wa.me/${environment.whatsappNumber}?text=${encodeURIComponent('Hola, quiero agendar una reunión.')}`,
+    );
+    expect(meeting.nativeElement.getAttribute('target')).toBe('_blank');
+    expect(meeting.nativeElement.getAttribute('rel')).toBe('noopener noreferrer');
     expect(fixture.debugElement.query(By.css('a[href*="#servicios"]'))).not.toBeNull();
   });
 
@@ -66,9 +69,9 @@ describe('BannerComponent', () => {
     });
   });
 
-  it('exposes exactly two hero conversion actions', () => {
+  it('exposes exactly two hero conversion actions, only the primary one to WhatsApp', () => {
     expect(fixture.debugElement.queryAll(By.css('.hero__actions a')).length).toBe(2);
-    expect(fixture.debugElement.query(By.css('.hero__actions a[href*="wa.me"]'))).toBeNull();
+    expect(fixture.debugElement.queryAll(By.css('.hero__actions a[href*="wa.me"]')).length).toBe(1);
   });
 
   it('does not render the capabilities list of icons/labels below the actions', () => {

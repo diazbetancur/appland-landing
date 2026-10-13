@@ -26,24 +26,16 @@ function countryFlag(slug: string): ApprovedAsset {
 }
 
 /**
- * Boton principal del hero y del menu.
+ * Boton principal del hero y del menu: abre WhatsApp con el mensaje de reunion ya escrito.
  *
- * La agenda de Google Calendar queda en `pending`: Mario definio no usar herramienta de agenda
- * por ahora, asi que el boton cae a `fallbackFragment` y baja a la seccion de contacto. Para
- * volver a abrir la agenda basta con pasar el destino a `approved`; la URL sigue en
- * `environment.bookingUrl`.
+ * Definido por Mario en la ronda 5: no hay herramienta de agenda, todos los botones de
+ * contacto van al WhatsApp de la empresa. La agenda queda para una etapa futura, con un CRM.
  */
 const meetingAction = {
   id: 'meeting',
   labelKey: 'home.actions.meeting',
-  intent: 'meeting',
-  destination: {
-    kind: 'external',
-    value: environment.bookingUrl,
-    publicationStatus: 'pending',
-    newContext: true,
-  },
-  fallbackFragment: 'contacto',
+  intent: 'whatsapp',
+  approvedMessageKey: 'home.actions.whatsappMeetingMessage',
 } as const;
 
 const whatsappAction = {
@@ -53,23 +45,17 @@ const whatsappAction = {
 } as const;
 
 /**
- * Atajo a la seccion de contacto que usan las secciones intermedias de la Home.
+ * Boton de contacto de las secciones intermedias de la Home.
  *
- * Antes estas secciones compartian objeto con el boton de la propia seccion de contacto.
- * Como ese objeto resuelve al fragmento `contacto`, el boton de la seccion de contacto
- * terminaba enlazando consigo mismo y no llevaba a ninguna parte. Son dos acciones
- * distintas y se declaran por separado.
- *
- * Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee la de aqui.
- *
- * No copia `meetingAction`: ese boton abre la agenda cuando esta aprobada, y estos atajos
- * bajan a contacto siempre.
+ * Hasta la ronda 5 bajaba a la seccion de contacto; ahora abre WhatsApp como el resto, con el
+ * mismo mensaje. Solo aporta el destino: cada seccion pinta su propia etiqueta y ninguna lee
+ * la de aqui.
  */
 const contactAction = {
   id: 'contact',
   labelKey: 'home.actions.meeting',
-  intent: 'meeting',
-  fallbackFragment: 'contacto',
+  intent: 'whatsapp',
+  approvedMessageKey: 'home.actions.whatsappMeetingMessage',
 } as const;
 
 const navigation = [
@@ -231,46 +217,43 @@ export const HOME_CONTENT: HomeContent = {
     whatsappAction,
   },
   clients: clientCandidates,
-  challenges: [
+  /**
+   * "Prioridades del negocio", que reemplaza a los desafios desde la ronda 5. Cada tarjeta
+   * enlaza a la pestana de su servicio; Modernizar va a Consultoria porque actualizar sistemas e
+   * integrar plataformas es el trabajo de diagnostico y arquitectura que describe esa pestana.
+   */
+  priorities: [
     {
-      id: 'manual',
-      problemKey: 'home.challenges.manual.problem',
-      responseKey: 'home.challenges.manual.response',
-      visualKey: 'automation',
-      media: approvedAsset('assets/images/home/challenges/manual.jpg', 560, 373, 'home.challenges.manual.alt'),
+      id: 'build',
+      titleKey: 'home.priorities.build.title',
+      bodyKey: 'home.priorities.build.body',
+      iconKey: 'build',
+      serviceId: 'software',
+      serviceNameKey: 'home.services.software.name',
     },
     {
-      id: 'disconnected',
-      problemKey: 'home.challenges.disconnected.problem',
-      responseKey: 'home.challenges.disconnected.response',
-      visualKey: 'integration',
-      media: approvedAsset(
-        'assets/images/home/challenges/disconnected.jpg',
-        560,
-        373,
-        'home.challenges.disconnected.alt',
-      ),
+      id: 'modernize',
+      titleKey: 'home.priorities.modernize.title',
+      bodyKey: 'home.priorities.modernize.body',
+      iconKey: 'modernize',
+      serviceId: 'technology-consulting',
+      serviceNameKey: 'home.services.consulting.name',
     },
     {
-      id: 'overloaded',
-      problemKey: 'home.challenges.overloaded.problem',
-      responseKey: 'home.challenges.overloaded.response',
-      visualKey: 'team',
-      media: approvedAsset('assets/images/home/challenges/overloaded.jpg', 560, 280, 'home.challenges.overloaded.alt'),
+      id: 'automate',
+      titleKey: 'home.priorities.automate.title',
+      bodyKey: 'home.priorities.automate.body',
+      iconKey: 'automate',
+      serviceId: 'process-automation',
+      serviceNameKey: 'home.services.automation.name',
     },
     {
-      id: 'support',
-      problemKey: 'home.challenges.support.problem',
-      responseKey: 'home.challenges.support.response',
-      visualKey: 'support',
-      media: approvedAsset('assets/images/home/challenges/support.jpg', 560, 373, 'home.challenges.support.alt'),
-    },
-    {
-      id: 'platform',
-      problemKey: 'home.challenges.platform.problem',
-      responseKey: 'home.challenges.platform.response',
-      visualKey: 'platform',
-      media: approvedAsset('assets/images/home/challenges/platform.jpg', 560, 373, 'home.challenges.platform.alt'),
+      id: 'scale',
+      titleKey: 'home.priorities.scale.title',
+      bodyKey: 'home.priorities.scale.body',
+      iconKey: 'scale',
+      serviceId: 'staff-augmentation',
+      serviceNameKey: 'home.services.staff.name',
     },
   ],
   services: [
