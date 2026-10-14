@@ -50,7 +50,7 @@ describe('HomeCtaComponent', () => {
 
     expect(actions.length).toBe(1);
     expect(actions[0].attributes['href']).toBe(
-      `https://wa.me/${environment.whatsappNumber}?text=Hola%2C%20quiero%20agendar%20una%20reuni%C3%B3n.`,
+      `https://wa.me/${environment.whatsappNumber}?text=${encodeURIComponent('Hola, quiero conversar sobre mi proyecto.')}`,
     );
     expect(actions[0].attributes['target']).toBe('_blank');
     expect(actions[0].attributes['rel']).toBe('noopener noreferrer');
@@ -71,12 +71,12 @@ describe('HomeCtaComponent', () => {
     const mensaje = () =>
       decodeURIComponent(fixture.debugElement.query(By.css('.contact__actions a')).attributes['href'] ?? '');
 
-    expect(mensaje()).toContain('Hola, quiero agendar una reunión.');
+    expect(mensaje()).toContain('Hola, quiero conversar sobre mi proyecto.');
 
     await useTranslations('en');
     fixture.detectChanges();
 
-    expect(mensaje()).toContain('Hello, I would like to book a meeting.');
+    expect(mensaje()).toContain('Hello, I’d like to talk about my project.');
     expect(mensaje()).not.toContain('agendar');
   });
 
@@ -88,6 +88,20 @@ describe('HomeCtaComponent', () => {
    * ningun sitio. Ninguna prueba podia detectarlo porque todas asumian ese fragmento como
    * el destino correcto.
    */
+  /**
+   * Sin agenda, un calendario en el boton promete algo que no pasa. Lleva la flecha de los
+   * demas botones de conversion, despues del texto.
+   */
+  it('shows the arrow of the other buttons, not a calendar', () => {
+    const button = fixture.debugElement.query(By.css('.contact__meeting')).nativeElement as HTMLElement;
+    const icons = button.querySelectorAll('svg');
+
+    expect(icons.length).toBe(1);
+    expect(icons[0].querySelector('rect')).toBeNull();
+    expect(icons[0].querySelector('path')?.getAttribute('d')).toBe('M5 12h13M13 6l6 6-6 6');
+    expect(button.lastElementChild).toBe(icons[0]);
+  });
+
   it('never points a link of the contact section back at the contacto fragment', () => {
     const hrefs = fixture.debugElement.queryAll(By.css('a')).map((link) => link.attributes['href'] ?? '');
 

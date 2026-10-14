@@ -68,7 +68,7 @@ describe('AiSolutionComponent', () => {
       'Soluciones de IA que automatizan procesos, mejoran la experiencia del cliente y potencian resultados.',
     );
     expect(fixture.debugElement.query(By.css('.ai__cta')).nativeElement.textContent.trim()).toBe(
-      'Descubre cómo la IA puede ayudarte',
+      'Conversemos sobre tu proyecto',
     );
   });
 
