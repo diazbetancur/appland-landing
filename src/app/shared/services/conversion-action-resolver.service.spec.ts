@@ -22,14 +22,14 @@ describe('ConversionActionResolver', () => {
   it('preloads the WhatsApp message in the active language', async () => {
     expect(resolver.resolve(HOME_CONTENT.contactAction)).toMatchObject({
       kind: 'href',
-      href: href('Hola, quiero agendar una reunión.'),
+      href: href('Hola, quiero conversar sobre mi proyecto.'),
     });
 
     // Quien cambia a ingles no deberia abrir el chat con un mensaje en espanol ya escrito.
     await useTranslations('en');
     expect(resolver.resolve(HOME_CONTENT.contactAction)).toMatchObject({
       kind: 'href',
-      href: href('Hello, I would like to book a meeting.'),
+      href: href('Hello, I’d like to talk about my project.'),
     });
   });
 

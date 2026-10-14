@@ -115,7 +115,7 @@ describe('HomePrioritiesComponent', () => {
     expect(text('.priorities__lead')).toBe('Build · Modernize · Automate · Scale.');
     expect(text('.priorities__statement')).toBe('One partner, many ways to execute');
     expect(fixture.debugElement.query(By.css('.priorities__cta')).nativeElement.getAttribute('href')).toContain(
-      encodeURIComponent('Hello, I would like to book a meeting.'),
+      encodeURIComponent('Hello, I’d like to talk about my project.'),
     );
   });
 });

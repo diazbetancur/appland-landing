@@ -62,7 +62,7 @@
       "productInquiry": "Solicitar información",
       "services": "Nuestros servicios",
       "whatsapp": "Escribir por WhatsApp",
-      "whatsappMeetingMessage": "Hola, quiero agendar una reunión."
+      "whatsappMeetingMessage": "Hola, quiero conversar sobre mi proyecto."
     },
     "ai": {
       "analytics": {
@@ -81,7 +81,7 @@
         "description": "Asistentes inteligentes que entienden y responden a tus clientes.",
         "label": "Agentes conversacionales"
       },
-      "cta": "Descubre cómo la IA puede ayudarte",
+      "cta": "Conversemos sobre tu proyecto",
       "documents": {
         "description": "Extrae, procesa y organiza documentos sin intervención humana.",
         "label": "Automatización documental"
@@ -256,7 +256,7 @@
         "SV": "El Salvador"
       },
       "countriesLabel": "Países con presencia de APPLAND",
-      "cta": "Conoce nuestro equipo",
+      "cta": "Conversemos sobre tu proyecto",
       "flagAlt": "Bandera de {{country}}",
       "lead": "Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.",
       "title": "Equipo distribuido <span class=\"team__highlight\">internacionalmente</span>"
