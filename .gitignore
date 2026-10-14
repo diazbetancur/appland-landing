@@ -28,6 +28,10 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Vitest: artefactos que el runner deja tras una corrida fallida
+/.vitest-attachments
+__screenshots__/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/

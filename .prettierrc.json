@@ -1,0 +1,18 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "comment": "Prettier solo infiere el parser 'angular' para *.component.html. card-template.html no sigue esa convencion y caeria en el parser 'html' generico. El override por ruta cubre cualquier template bajo src/app sin depender del nombre del archivo. src/index.html queda fuera a proposito: no es un template de Angular.",
+      "files": "src/app/**/*.html",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
+}

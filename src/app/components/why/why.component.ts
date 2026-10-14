@@ -1,10 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Benefit, ConversionAction, ResolvedAction } from '../../feature/pages/home/home-content.models';
+import { ConversionActionResolver } from '../../shared/services/conversion-action-resolver.service';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-why',
   templateUrl: './why.component.html',
-  styleUrls: ['./why.component.scss']
+  styleUrls: ['./why.component.scss'],
+  imports: [RouterLink, TranslatePipe],
 })
-export class WhyComponent {
+export class WhyComponent implements OnChanges {
+  @Input() benefits: readonly Benefit[] = [];
+  @Input() contactAction?: ConversionAction;
 
+  resolvedContactAction?: ResolvedAction;
+
+  private readonly actions = inject(ConversionActionResolver);
+
+  constructor() {
+    this.actions.languageChanges.pipe(takeUntilDestroyed()).subscribe(() => this.resolveActions());
+  }
+
+  ngOnChanges(): void {
+    this.resolveActions();
+  }
+
+  private resolveActions(): void {
+    this.resolvedContactAction = this.contactAction ? this.actions.resolve(this.contactAction) : undefined;
+  }
 }
