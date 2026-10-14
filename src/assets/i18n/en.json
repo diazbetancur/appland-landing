@@ -62,7 +62,7 @@
       "productInquiry": "Request information",
       "services": "Our services",
       "whatsapp": "Message us on WhatsApp",
-      "whatsappMeetingMessage": "Hello, I would like to book a meeting."
+      "whatsappMeetingMessage": "Hello, I’d like to talk about my project."
     },
     "ai": {
       "analytics": {
@@ -81,7 +81,7 @@
         "description": "Intelligent assistants that understand your customers and answer them.",
         "label": "Conversational agents"
       },
-      "cta": "Discover how AI can help you",
+      "cta": "Let’s discuss your project",
       "documents": {
         "description": "Extract, process and organise documents with no human intervention.",
         "label": "Document automation"
@@ -256,7 +256,7 @@
         "SV": "El Salvador"
       },
       "countriesLabel": "Countries where APPLAND operates",
-      "cta": "Meet our team",
+      "cta": "Let’s discuss your project",
       "flagAlt": "Flag of {{country}}",
       "lead": "Specialised talent working from several countries to cover multiple time zones.",
       "title": "An <span class=\"team__highlight\">internationally</span> distributed team"

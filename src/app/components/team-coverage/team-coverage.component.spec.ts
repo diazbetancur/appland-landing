@@ -66,7 +66,7 @@ describe('TeamCoverageComponent', () => {
 
   it('opens WhatsApp from the contact action', () => {
     const cta = fixture.debugElement.query(By.css('.team__cta'));
-    expect(cta.nativeElement.textContent.trim()).toContain('Conoce nuestro equipo');
+    expect(cta.nativeElement.textContent.trim()).toContain('Conversemos sobre tu proyecto');
     expect(cta.nativeElement.getAttribute('href')).toContain('https://wa.me/');
   });
 
@@ -77,7 +77,7 @@ describe('TeamCoverageComponent', () => {
     expect(fixture.debugElement.query(By.css('.team__lead')).nativeElement.textContent.trim()).toBe(
       'Talento especializado trabajando desde diferentes países para ofrecer cobertura en múltiples zonas horarias.',
     );
-    expect(fixture.nativeElement.textContent).toContain('Conoce nuestro equipo');
+    expect(fixture.nativeElement.textContent).toContain('Conversemos sobre tu proyecto');
   });
 
   /**

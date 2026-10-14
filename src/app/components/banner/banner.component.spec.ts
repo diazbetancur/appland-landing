@@ -36,7 +36,7 @@ describe('BannerComponent', () => {
   it('opens WhatsApp with the meeting message for meeting and routes services to servicios', () => {
     const meeting = fixture.debugElement.query(By.css('a.appland-button--primary'));
     expect(meeting.nativeElement.getAttribute('href')).toBe(
-      `https://wa.me/${environment.whatsappNumber}?text=${encodeURIComponent('Hola, quiero agendar una reunión.')}`,
+      `https://wa.me/${environment.whatsappNumber}?text=${encodeURIComponent('Hola, quiero conversar sobre mi proyecto.')}`,
     );
     expect(meeting.nativeElement.getAttribute('target')).toBe('_blank');
     expect(meeting.nativeElement.getAttribute('rel')).toBe('noopener noreferrer');
